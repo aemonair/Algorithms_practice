@@ -44,7 +44,22 @@ struct ListNode {
 };
 class Solution {
 public:
-    bool hasCycle(ListNode *head)
+    bool hasCycle1(ListNode *head)
+    {
+        ListNode * slow = head;
+        ListNode * fast = head;
+        while (fast != NULL && fast->next != NULL)
+        {
+            slow = slow -> next;
+            fast = fast -> next -> next;
+            if (slow == fast)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    bool hasCycle2(ListNode *head)
     {
         if (!head || !(head->next))
         {
@@ -125,25 +140,9 @@ int main()
     p5->next = p2;
 
     Solution a;
-    //a.printList (p1);
-    //a.printList (q1);
 
     std::cout << a.hasCycle(p1);
     std::cout << a.hasCycle(q1);
-    //ListNode * detect = a.detectCycle(p1);
-    //if (detect)
-    //{
-    //    std::cout << detect->val;
-    //}
-    //detect = a.detectCycle(q1);
-    //if (detect)
-    //{
-    //    std::cout << detect->val;
-    //}
-    //else
-    //{
-    //    std::cout << "NULL";
-    //}
-    //std::cout << detect->val;
+
     return 0;
 }
