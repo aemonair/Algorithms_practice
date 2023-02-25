@@ -1,45 +1,42 @@
 /*
- ****************************************************************************** 
- * 3. Longest Substring Without Repeating Characters
+ * 875. Koko Eating Bananas
  * Medium
  ****************************************************************************** 
- * Given a string s, find the length of the longest substring without repeating characters.
+ * 
+ * Koko loves to eat bananas.  There are N piles of bananas, the i-th pile has piles[i] bananas.  The guards have gone and will come back in H hours.
+ * 
+ * Koko can decide her bananas-per-hour eating speed of K.  Each hour, she chooses some pile of bananas, and eats K bananas from that pile.  If the pile has less than K bananas, she eats all of them instead, and won't eat any more bananas during this hour.
+ * 
+ * Koko likes to eat slowly, but still wants to finish eating all the bananas before the guards come back.
+ * 
+ * Return the minimum integer K such that she can eat all the bananas within H hours.
+ * 
  ****************************************************************************** 
  * Example 1:
  * 
- * Input: s = "abcabcbb"
- * Output: 3
- * Explanation: The answer is "abc", with the length of 3.
+ * Input: piles = [3,6,7,11], H = 8
+ * Output: 4
  ****************************************************************************** 
  * Example 2:
  * 
- * Input: s = "bbbbb"
- * Output: 1
- * Explanation: The answer is "b", with the length of 1.
+ * Input: piles = [30,11,23,4,20], H = 5
+ * Output: 30
  ****************************************************************************** 
  * Example 3:
  * 
- * Input: s = "pwwkew"
- * Output: 3
- * Explanation: The answer is "wke", with the length of 3.
- * Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
- ****************************************************************************** 
- * Example 4:
- * 
- * Input: s = ""
- * Output: 0
+ * Input: piles = [30,11,23,4,20], H = 6
+ * Output: 23
  ****************************************************************************** 
  * Constraints:
  * 
- * 0 <= s.length <= 5 * 10^4
- * s consists of English letters, digits, symbols and spaces.
+ * 1 <= piles.length <= 10^4
+ * piles.length <= H <= 10^9
+ * 1 <= piles[i] <= 10^9
  ****************************************************************************** 
  */
 
-#include <unordered_map>
 #include <algorithm>
 #include <iostream>
-#include <climits>
 #include <chrono>
 #include <vector>
 #include <string>
@@ -53,49 +50,31 @@ class Solution
 {
 public:
     // 
-    int lengthOfLongestSubstring0(std::string s)
+    int minEatingSpeed0(
+            std::vector<int>& piles, int H
+            )
     {
-        std::unordered_map<char ,int> umap;
-        int end = 0;
-        int start = 0;
-        int curmax = 0;
-        int size = s.size();
-        for (start = 0; end < size; end++)
-        {
-            char c = s[end];
-            if( umap.count(c) > 0)
-            {
-                while(umap.count(c) > 0 && start < end)
-                {
-                    umap.erase(s[start]);
-                    start ++;
-                }
-            }
-            else
-            {
-                curmax = std::max(curmax, end - start + 1);
-            }
-            umap[c] += 1;
-        }
-        std::cout << "s[ " << start << "] " << s[start] << std::endl;
-        return curmax;
     }
-    int lengthOfLongestSubstring1(std::string s)
+    int minEatingSpeed1(
+            std::vector<int>& piles, int H
+            )
     {
-        int start = 0;
-        int maxlength = 0;
-        std::unordered_map<char ,int> umap;
-        for (int end = 0; end < s.length(); end++)
+    }
+
+    int getmax(std::vector<int>& piles)
+    {
+        int max = piles[0];
+        for(int x: piles)
         {
-            char ch = s[end];
-            if (umap.count(ch) > 0)
-            {
-                start = std::max(start, umap[ch]+1);
-            }
-            umap[ch] = end;
-            maxlength = std::max(maxlength, end - start + 1);
+            max = std::max(x, max);
         }
-        return maxlength;
+        return max;
+    }
+    int timeof(int n, int speed)
+    {
+    }
+    bool canFinish(std::vector<int>& piles, int speed, int H)
+    {
     }
     template <typename T>
     int printstack(std::stack<T> s)
@@ -120,12 +99,11 @@ public:
     int printvector(const std::vector<T> &v)
     {
         std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[   "  ;
         for (auto iter = v.begin(); iter != v.end(); iter++ )
         {
-            std::cout << "'" << *iter << "', ";//<<std::endl;
+            std::cout << *iter << "| ";//<<std::endl;
         }
-        std::cout <<"\b\b  ]" <<  std::endl;
+        std::cout << std::endl;
         return v.size();
     }
 
@@ -140,23 +118,12 @@ public:
         std::cout << std::endl;
         return v.size();
     }
-    template <typename T1, typename T2>
-    int printunordered_map(const std::unordered_map<T1,T2> &v)
-    {
-        std::cout << "unordered_map size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << "(" << iter->first << "," << iter->second<< "), ";//<<std::endl;
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName, 
-        std::string s, 
-        int expected
+        std::vector<int>& piles, int H
+        ,int expected
         )
 {
     if(testName.length() > 0)
@@ -168,11 +135,13 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "s: \"" << s << "\""<< std::endl;
+    std::cout << "piles:" << std::endl;
+    solution.printvector(piles);
 
 const static int TEST_TIME = 1;
-const static int TEST_0    = 0;
+const static int TEST_0    = 1;
 const static int TEST_1    = 1;
+    // getpermutataion
     if (TEST_0)
     {
         std::cout << "Solution0 start.........." << std::endl;
@@ -181,7 +150,7 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.lengthOfLongestSubstring0(s);
+        decltype(expected) result = solution.minEatingSpeed0(piles, H);
         std::cout << "result:" << result << std::endl;
 
         if(result == expected)
@@ -203,7 +172,7 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.lengthOfLongestSubstring1(s);
+        decltype(expected) result = solution.minEatingSpeed1(piles, H);
         std::cout << "result:" << result << std::endl;
 
         if(result == expected)
@@ -220,61 +189,42 @@ const static int TEST_1    = 1;
 }
 void Test1()
 {
-    std::string s = "abcabcbb";
-    int expect = 3;
-    Test("Test1", s, expect);
+    std::vector<int> piles   = {3,6,7,11};
+    int expect = 4;
+    Test("Test1", piles, 8, expect);
 }
 void Test2()
 {
-    std::string s = "bbbbb";
-    int expect = 1;
-    Test("Test2", s, expect);
+    std::vector<int> piles   = {30,11,23,4,20};
+    int expect = 30;
+    Test("Test2", piles, 5, expect);
 }
 
 void Test3()
 {
-    std::string s = "pwwkew";
-    int expect = 3;
-    Test("Test3", s, expect);
+    std::vector<int> piles   = {30,11,23,4,20};
+    int expect = 23;
+    Test("Test3", piles, 6, expect);
 }
 
 void Test4()
 {
-    std::string s = "";
-    int expect = 0;
-    Test("Test4", s, expect);
 }
 
 void Test5()
 {
-    std::string s = "aabccbb";
-    int expect = 3;
-    Test("Test5", s, expect);
-}
-
-void Test6()
-{
-    std::string s = "abccde";
-    int expect = 3;
-    Test("Test6", s, expect);
-}
-
-void Test7()
-{
-    std::string s = "dvdf";
-    int expect = 3;
-    Test("Test6", s, expect);
 }
 
 int main()
 {
+    Solution solution;
+
     Test1();
     Test2();
     Test3();
     Test4();
     Test5();
-    Test6();
-    Test7();
 
     return 0;
+
 }

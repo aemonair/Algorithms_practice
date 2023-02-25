@@ -1,36 +1,40 @@
 /*
  ************************************* 
- * 658. Find K Closest Elements
+ * 260. Single Number III
  * Medium
  ************************************* 
- * Given a sorted integer array arr, two integers k and x, return the k closest integers to x in the array. The result should also be sorted in ascending order.
+ * Given an integer array nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You can return the answer in any order.
  * 
- * An integer a is closer to x than an integer b if:
- * 
- * |a - x| < |b - x|, or
- * |a - x| == |b - x| and a < b
+ * You must write an algorithm that runs in linear runtime complexity and uses only constant extra space.
  ************************************* 
  * Example 1:
  * 
- * Input: arr = [1,2,3,4,5], k = 4, x = 3
- * Output: [1,2,3,4]
+ * Input: nums = [1,2,1,3,2,5]
+ * Output: [3,5]
+ * Explanation:  [5, 3] is also a valid answer.
  ************************************* 
  * Example 2:
  * 
- * Input: arr = [1,2,3,4,5], k = 4, x = -1
- * Output: [1,2,3,4]
+ * Input: nums = [-1,0]
+ * Output: [-1,0]
+ ************************************* 
+ * Example 3:
+ * 
+ * Input: nums = [0,1]
+ * Output: [1,0]
  ************************************* 
  * Constraints:
  * 
- * 1 <= k <= arr.length
- * 1 <= arr.length <= 104
- * arr is sorted in ascending order.
- * -10^4 <= arr[i], x <= 10^4
+ * 2 <= nums.length <= 3 * 10^4
+ * -2^31 <= nums[i] <= 2^31 - 1
+ * Each integer in nums will appear twice, only two integers will appear once.
  ************************************* 
  */
 
+#include <unordered_map>
 #include <algorithm>
 #include <iostream>
+#include <bitset>
 #include <chrono>
 #include <vector>
 #include <string>
@@ -45,11 +49,7 @@
 class Solution {
 public:
     // 
-    std::vector<int> findClosestElements1(std::vector<int>& arr, int k,int x)
-    {
-        return std::vector<int>{};
-    }
-    std::vector<int> findClosestElements(std::vector<int>& arr, int k,int x)
+    std::vector<int> singleNumber(std::vector<int>& nums)
     {
         return std::vector<int>{};
     }
@@ -58,11 +58,12 @@ public:
     int printvector(const std::vector<T> &v)
     {
         //std::cout << "vector size: " << v.size() << std::endl;
+        std::cout << "[  " ;//<< std::endl;
         for (auto iter = v.begin(); iter != v.end(); iter++ )
         {
-            std::cout << *iter << "| ";//<<std::endl;
+            std::cout << *iter << ", ";//<<std::endl;
         }
-        std::cout << std::endl;
+        std::cout << "\b\b]" << std::endl;
         return v.size();
     }
 
@@ -80,7 +81,9 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, std::vector<int> & arr,int k,int x, std::vector<int> expected)
+void Test(const std::string& testName,
+        std::vector<int> & nums, 
+        std::vector<int>   expected)
 {
     if(testName.length() > 0)
     {
@@ -88,8 +91,7 @@ void Test(const std::string& testName, std::vector<int> & arr,int k,int x, std::
     }
 
     Solution solution;
-    std::cout << "k: " << k << ",x:"<< x << " in arr:" << std::endl;
-    solution.printvector(arr);
+    solution.printvector(nums);
 
     auto start = std::chrono::system_clock::now();
     decltype(start) end ;
@@ -105,7 +107,8 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        std::vector<int> && result = solution.findClosestElements(arr, k, x);
+
+        std::vector<int> && result = solution.singleNumber(nums);
         std::cout << "result:" <<  std::endl;
         solution.printvector(result);
 
@@ -127,59 +130,29 @@ const static int TEST_1    = 1;
            std::cout << "Solution0 costs " << elapsed.count() <<"micros" << std::endl;
         }
     }
-    if(TEST_1)
-    {
-        if (TEST_TIME)
-        {
-            start = std::chrono::system_clock::now();
-        }
-
-        std::vector<int> && result = solution.findClosestElements1(arr, k, x);
-        std::cout << "result1:" <<  std::endl;
-        solution.printvector(result);
-
-        if(result == expected)
-        {
-            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
-        }
-        else
-        {
-            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvector(expected);
-            std::cout << RESET << std::endl;
-        }
-        if (TEST_TIME)
-        {
-           end = std::chrono::system_clock::now();
-           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
-        }
-    }
     std::cout << "-----------------------------" << std::endl;
 }
 void Test1()
 {
-    std::vector<int> arr ={1, 2, 3, 4, 5};
-    Test("Test1.1",arr, 4,  3, std::vector<int>{1,2,3,4});
-    Test("Test1.2",arr, 4, -1, std::vector<int>{1,2,3,4});
+    std::vector<int> nums ={1,2,1,3,2,5};
+    Test("Test1",nums, std::vector<int>{3,5});
 }
 void Test2()
 {
-    std::vector<int> arr ={4, 6, 10};
-    Test("Test2.1",arr, 1,  7,std::vector<int> {6});
-    Test("Test2.2",arr, 1,  4,std::vector<int> {4});
-    Test("Test2.3",arr, 1, 17,std::vector<int> {10});
+    std::vector<int> nums ={-1,0};
+    Test("Test2",nums, std::vector<int> {-1,0});
 }
 
 void Test3()
 {
-    std::vector<int> arr ={1, 3, 8, 10, 15};
-    Test("Test3",arr, 1, 12,std::vector<int> {10});
+    std::vector<int> nums ={0, 1};
+    Test("Test3",nums, std::vector<int> {1,0});
 }
 
 void Test4()
 {
+    std::vector<int> nums ={5,7,7,8,8,10};
+    Test("Test4",nums, std::vector<int> {5,10});
 }
 
 void Test5()
