@@ -6,8 +6,6 @@
 [[206.reverseLinkedList 反转链表]]
 [206.reverseLinkedList 反转链表](206.reverseLinkedList%20反转链表.md)
 
-[[206.reverseLinkedList 反转链表]]
-
 ### BM2 链表内指定区间反转
 [链表内指定区间反转](https://www.nowcoder.com/practice/b58434e200a648c589ca2063f1faf58c?tpId=295&tqId=654&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) [[092.reverseBetween 反转链表 II]] 
 找到m，从m反转到n
@@ -58,7 +56,7 @@
 ## 二分查找/排序
 
 ### BM17 二分查找-I
-[二分查找-I](https://www.nowcoder.com/practice/d3df40bd23594118b57554129cadf47b?tpId=295&tqId=1499549&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[二分查找-I](https://www.nowcoder.com/practice/d3df40bd23594118b57554129cadf47b?tpId=295&tqId=1499549&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 704 [[704.binary-search 二分查找]] [704](./704.binary-search%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE.md)
 
 ### BM18 二维数组中的查找
 [二维数组中的查找](https://www.nowcoder.com/practice/abc3fe2ce8e146608e868a70efebf62e?tpId=295&tqId=23256&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
