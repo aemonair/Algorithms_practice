@@ -49,7 +49,7 @@
 
 [[1312.Minimum_Insertion_Steps_to_Make_a_String_Palindrome 让字符串成为回文串的最少插入次数]]
 
-[[005.Longest_Palindromic_Substring 最长回文子串]]
+[[005.Longest_Palindromic_Substring_最长回文子串]]
 
 [[072.Edit_Distance 编辑距离]]
 

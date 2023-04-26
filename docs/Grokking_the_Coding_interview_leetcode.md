@@ -1064,7 +1064,7 @@ public:
 ```
 
 ## Pattern 3: Two Pointers (11)
-[[001.Two_Sum 两数之和]]
+[[001.Two_Sum_两数之和]]
 ### LC 1   (001.Two_Sum)                               Pair with Target Sum                         (easy)  : @20210208
 
 ```cpp
