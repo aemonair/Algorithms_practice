@@ -62,28 +62,8 @@
 [二维数组中的查找](https://www.nowcoder.com/practice/abc3fe2ce8e146608e868a70efebf62e?tpId=295&tqId=23256&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 240 [[240.Search_a_2D_Matrix_II_搜索二维矩阵_II]]
 
 ### BM19 寻找峰值
-[寻找峰值](https://www.nowcoder.com/practice/fcf87540c4f347bcb4cf720b5b350c76?tpId=295&tqId=2227748&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
-```cpp
-class Solution {
-public:
-    int findPeakElement(vector<int>& nums) {
-        int left = 0;
-        int right = nums.size() - 1;
-        //二分法
-        while(left < right){ 
-            int mid = (left + right) / 2;
-            //右边是往下，不一定有坡峰
-            if(nums[mid] > nums[mid + 1])
-                right = mid;
-            //右边是往上，一定能找到波峰
-            else
-                left = mid + 1;
-        }
-        //其中一个波峰
-        return right; 
-    }
-};
-```
+[寻找峰值](https://www.nowcoder.com/practice/fcf87540c4f347bcb4cf720b5b350c76?tpId=295&tqId=2227748&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 162 [[162.Find_Peak_Element_寻找峰值]]
+
 ### BM20 数组中的逆序对
 [数组中的逆序对](https://www.nowcoder.com/practice/96bd6684e04a44eb80e6a68efc0ec6c5?tpId=295&tqId=23260&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
 举个例子：
