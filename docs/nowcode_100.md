@@ -65,17 +65,8 @@
 [寻找峰值](https://www.nowcoder.com/practice/fcf87540c4f347bcb4cf720b5b350c76?tpId=295&tqId=2227748&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 162 [[162.Find_Peak_Element_寻找峰值]]
 
 ### BM20 数组中的逆序对
-[数组中的逆序对](https://www.nowcoder.com/practice/96bd6684e04a44eb80e6a68efc0ec6c5?tpId=295&tqId=23260&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
-举个例子：
-如果两个区间为[4, 3] 和[1, 2]  
-那么逆序数为(4,1),(4,2),(3,1),(3,2)，同样的如果区间变为有序，比如[3,4] 和 [1,2]的结果是一样的，也就是说区间有序和无序结果是一样的。  
-但是如果区间有序会有什么好处吗？当然，如果区间有序，比如[3,4] 和 [1,2]  
-如果3 > 1, 显然3后面的所有数都是大于1， 这里为 4 > 1, 明白其中的奥秘了吧。所以我们可以在合并的时候利用这个规则。
+[数组中的逆序对](https://www.nowcoder.com/practice/96bd6684e04a44eb80e6a68efc0ec6c5?tpId=295&tqId=23260&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) [[051.J_reversePairs_数组中的逆序对]]
 
-
-在合并 {4 ,5} {1 , 2} 的时候，首先我们判断 1 < 4，我们即可统计出逆序对为2，为什么呢？这利用了数组的部分有序性。因为我们知道 {4 ,5} 这个数组必然是有序的，因为是合并上来的。此时当 1比4小的时候，证明4以后的数也都比1大，此时就构成了从4开始到 {4,5}这个数组结束，这么多个逆序对（2个），此时利用一个临时数组，将1存放起来，接着比较2和4的大小，同样可以得到有2个逆序对，于是将2也放进临时数组中，此时右边数组已经完全没有元素了，则将左边剩余的元素全部放进临时元素中，最后将临时数组中的元素放进原数组对应的位置。
-
-最后接着向上合并~
 
 ### BM21 旋转数组的最小数字
 [旋转数组的最小数字](https://www.nowcoder.com/practice/9f3231a991af4f55b95579b44b7a01ba?tpId=295&tqId=23269&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
