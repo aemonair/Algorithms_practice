@@ -69,88 +69,10 @@
 
 
 ### BM21 旋转数组的最小数字
-[旋转数组的最小数字](https://www.nowcoder.com/practice/9f3231a991af4f55b95579b44b7a01ba?tpId=295&tqId=23269&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
-```
-a. rotateArray[mid] > rotateArray[right]时， 那么 最小值一定在 [mid+1,right]区间中；  
-b.rotateArray[mid] < rotateArray[right]时，那么最小值一定在[left,mid]区间内。  
-c. rotateArray[mid] = rotateArray[right]时，无法判断最小值在哪个区间，所以此时只能缩小right的值。
-```
-### BM22 比较版本号
-[比较版本号](https://www.nowcoder.com/practice/2b317e02f14247a49ffdbdba315459e7?tpId=295&tqId=1024572&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[旋转数组的最小数字](https://www.nowcoder.com/practice/9f3231a991af4f55b95579b44b7a01ba?tpId=295&tqId=23269&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 153/154 [[153.Find_Minimum_in_Rotated_Sorted_Array_寻找旋转排序数组中的最小值]] [[154.Find_Minimum_in_Rotated_Sorted_Array_II_寻找旋转排序数组中的最小值_II]]
 
-```cpp
-class Solution {
-public:
-    int compare(string version1, string version2) {
-        int n1 = version1.size();
-        int n2 = version2.size();
-        int i = 0, j = 0;
-        //直到某个字符串结束
-        while(i < n1 || j < n2){
-            long long num1 = 0;
-            //从下一个点前截取数字
-            while(i < n1 && version1[i] != '.'){ 
-                num1 = num1 * 10 + (version1[i] - '0');
-                i++;
-            }
-            //跳过点
-            i++; 
-            long long num2 = 0;
-            //从下一个点前截取数字
-            while(j < n2 && version2[j] != '.'){ 
-                num2 = num2 * 10 + (version2[j] - '0');
-                j++;
-            }
-            //跳过点
-            j++; 
-            //比较数字大小
-            if(num1 > num2) 
-                return 1;
-            if(num1 < num2)
-                return -1;
-        }
-        //版本号相同
-        return 0; 
-    }
-};
-```
-流输入字符串通过.转数字进行比较；
-```cpp
-class Solution {
-public:
-    int compare(string version1, string version2) {
-        vector<string> nums1;
-        vector<string> nums2;
-        istringstream sin1(version1);
-        istringstream sin2(version2);
-        string temp;
-        //流输入分割
-        while(getline(sin1, temp, '.')) 
-            nums1.push_back(temp);
-        while(getline(sin2, temp, '.'))
-            nums2.push_back(temp);
-        for(int i = 0; i < nums1.size() || i < nums2.size(); i++){
-            //较短的版本号取0
-            string s1 = i < nums1.size() ? nums1[i] : "0"; 
-            string s2 = i < nums2.size() ? nums2[i] : "0";
-            long long num1 = 0;
-            //字符串转数字
-            for(int j = 0; j < s1.length(); j++) 
-                num1 = num1 * 10 + (s1[j] - '0');
-            long long num2 = 0;
-            for(int j = 0; j < s2.length(); j++)
-                num2 = num2 * 10 + (s2[j] - '0');
-            //比较数字大小
-            if(num1 > num2) 
-                return 1;
-            if(num1 < num2)
-                return -1;
-        }
-        //版本号相同
-        return 0;
-    }
-};
-```
+### BM22 比较版本号
+[比较版本号](https://www.nowcoder.com/practice/2b317e02f14247a49ffdbdba315459e7?tpId=295&tqId=1024572&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 165 [[165.Compare_Version_Numbers_比较版本号]]
 
 ## 二叉树
 
@@ -1393,7 +1315,7 @@ public:
 
 ### BM47寻找第K大215
 
-[寻找第K大](https://www.nowcoder.com/practice/e016ad9b7f0b45048c58a9f27ba618bf?tpId=295&tqId=44581&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)[[215. Kth_Largest_Element_in_an_Array 数组中的第K个最大元素]]
+[寻找第K大](https://www.nowcoder.com/practice/e016ad9b7f0b45048c58a9f27ba618bf?tpId=295&tqId=44581&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)[[215.Kth_Largest_Element_in_an_Array 数组中的第K个最大元素]]
 #### 快速排序
 -   step 1：进行一次快排，大元素在左，小元素在右，得到的中轴p点。
 -   step 2：如果 p - low + 1 = k ，那么p点就是第K大。
