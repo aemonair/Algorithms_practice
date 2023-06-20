@@ -374,6 +374,7 @@ int main()
     std::cout << "End main" << std::endl;
     return 0;
 }
+
 ```
 ```cpp
 // 运行结果
@@ -383,6 +384,9 @@ Constructor A.4
 Destructor A.3
 End main
 Destructor A.4
+静态对象的构造时机是当程序运行到定义它的位置之时。在这个程序里，静态对象 d 是在 main 函数之前定义的，所以它会最先被构造。
+局部对象的构造时机是当程序运行到定义它的位置之时。在这个程序里，对象 c 是在语句块里定义的，当程序运行到这个语句块时，它才被构造。
+因此，A(3) 的构造先于 A(4) 的构造，A(3) 的析构也先于 A(4) 的析构。
 ```
 
 ### 1.1.3 静态成员函数和普通成员函数的区别
@@ -1265,7 +1269,12 @@ int main()
     instanceb.printvalue(instancea);
     instancea.printvalue(instanceb);
     return 0;
+    // &instancea 和 instancea.get_address() 的值应该是一样的
 }
+this->a:6
+that.a:5
+this->a:5
+that.a:6
 ```
 ### 1.5.1 this 作用？概念？
 #### 1.5.1.1 this不影响sizeof
@@ -1463,6 +1472,7 @@ int main()
     std::cout << "sizeof(empty struct): " << sizeof(B) << std::endl; // 1
     return 0;
 }
+// 在 C++ 中，空类或空结构的大小至少为 1 字节
 ```
 ### 1.7.2 一个类中，虚函数本身、成员函数（包括静态与非静态）和静态数据成员都是不占用类对象的存储空间。
 ```cpp
@@ -1501,9 +1511,10 @@ class C
     }
 };
 int B::b =2;
-// 4 + 8
+// sizeof(C) 在 64 位系统上通常是 16 字节（4 字节用于 a 和 8 字节用于虚表指针）
+// 8 + 4 （ +4）
 // sizeof 16
-
+// 虚函数表指针的位置取决于具体的编译器实现
 ```
 - 多个static变量不影响类的大小；
 
@@ -1547,46 +1558,94 @@ class D
 
 class A
 {
-    int  a; // 4  4
-    char b; // 1  8
-    int  c; // 4  12
-    char e; // 1  16
-
+    int  a; // 4  4   0
+    char b; // 1  8   4 （+3
+    int  c; // 4  12  8
+    char e; // 1  16  12
 };
+
 // 16
 // 4 + 1 (+3) + 4 + 1 (+3) = 16
+Offset of 'a': 0
+Offset of 'b': 4
+Offset of 'c': 8
+Offset of 'e': 12
 
 class A1
 {
-    int  a; // 4
-    char b; // 1
-    int  c; // 4
-    long d; // 8
-    char e; // 1
-
+    int  a; // 4  0
+    char b; // 1  4
+    int  c; // 4  8
+    long d; // 8  16
+    char e; // 1  24
 };
 // 32
-// 4 + 1 (+3) + 4 (+4) + 8 + 1 (+7)
+// int char     int     long char
+// 4 + 1 (+3) + 4 +(+4) + 8 + 1 (+7)
+Offset of 'a': 0
+Offset of 'b': 4
+Offset of 'c': 8
+Offset of 'd': 16
+Offset of 'e': 24
+32
+0-3   : int a  (4 bytes)
+4     : char b (1 byte)
+5-7   : padding (3 bytes for alignment of next int)
+8-11  : int c  (4 bytes)
+12-15 : padding (4 bytes for alignment of next long)
+16-23 : long d (8 bytes)
+24    : char e (1 byte)
+25-31 : padding (7 bytes for alignment of next possible long)
+你可以看到，虽然 A1 实际上只有18个字节的数据，但由于对齐的需求，它的大小实际上是32字节。在这个例子中，对齐是以 long 类型的大小（8字节）为基准的，因此整个对象的大小必须是8的倍数。这就是为什么大小是32而不是28。
 ///////////////////////////////////////////
 // 继承 is-a
 class B: A
 {
     // 4 1 4 1 = 16
-    int  d; // 4
-    char e; // 1
+    int  d1; // 4
+    char e1; // 1
 };
 // 24
 // 16 + 4 + 4
+Offset of 'B.a': 0
+Offset of 'B.b': 4
+Offset of 'B.c': 8
+Offset of 'B.e': 12
+Offset of 'B.d1': 16
+Offset of 'B.e1': 20
+sizeof(B): 24
 
 class B1: A1
 {
-    // 4 1 4 8 1 = 25
-    char a; // 1   26
-    int  b; // 4   32
+    // 4 1 4 8 1
+    char a; // 1
+    int  b; // 4
 };
-// 32
-// 4 + 4 + 4 (+4) + 8 + 1 + 1 (+2) + 4
+// 32/40
+//       int char     int      long    char + char    int
+//index       4        8         16    24     32      36
+//  4       + 1 (+3) + 4 +(+4) + 8    + 1 +7 + 1 (+3) +4
 
+Offset of 'B1.a': 0
+Offset of 'B1.b': 4
+Offset of 'B1.c': 8
+Offset of 'B1.d': 16
+Offset of 'B1.e': 24
+Offset of 'B1.a1': 32
+Offset of 'B1.b1': 36
+sizeof(B1): 40
+
+/* if #pragma pack(1) ,
+Offset of 'B1.a': 0
+Offset of 'B1.b': 4
+Offset of 'B1.c': 8
+Offset of 'B1.d': 12
+Offset of 'B1.e': 20
+Offset of 'B1.a1': 24
+Offset of 'B1.b1': 28
+sizeof(B1): 32
+
+*/
 //////////////////////////////////////////////////
 // 内含has-a A
 class C
@@ -1596,6 +1655,9 @@ class C
 };
 // 20
 // 16 + 1 (+3)
+Offset of 'C.a': 0
+Offset of 'C.b': 16
+sizeof(C): 20
 
 class C1
 {
@@ -1604,49 +1666,77 @@ class C1
 };
 // 20
 // 1 (+3) + 16
+Offset of 'C1.b': 4
+sizeof(C1): 20
 
+sizeof(A): 16
+sizeof(B): 24
+sizeof(A1): 32
+sizeof(B1): 32
+sizeof(C): 20
+sizeof(C1): 20
 ```
 ### 1.7.5 虚函数继承，sizeof
 ```cpp
 class A
 {
+public:
     int a;
     virtual int get_a()
     {
-        return a;
+        return 2;
     }
     virtual int get_normal()
     {
         return 1;
     }
 };
-// 8 + 4
+// 8 + 4 (+4)
 // sizeof 16
+sizeof(A): 8
+Offset of 'B.a': 8
+sizeof(B): 16
+Offset of 'B1.c': 8
+sizeof(B1): 16
 
-class B: A
+class B: public A
 {
-    long a;
+public:
+    long b;
 };
 // 24
-// 8 + 4 + 8
+// 8 + 4 (+4) + 8
 
-class B1: A
+class B1: public A
 {
+public:
     char c;
 };
 // 16
-// 8 + 4 + 1
+// 8 + 4 + 1 (+3)
 
 int main()
 {
-    std::cout << "sizeof(A): " << sizeof(A) << std::endl;  // 16
-    std::cout << "sizeof(B): " << sizeof(B) << std::endl; // 24
+    std::cout << "Offset of 'A.a': " << offsetof(A, a) << '\n';
+    std::cout << "sizeof(A): " << sizeof(A) << std::endl;  // 8
+    std::cout << "Offset of 'B.a': " << offsetof(B, a) << '\n';
+    std::cout << "Offset of 'B.b': " << offsetof(B, b) << '\n';
+    std::cout << "sizeof(B): " << sizeof(B) << std::endl; // 16
+    std::cout << "Offset of 'B1.a': " << offsetof(B1, a) << '\n';
+    std::cout << "Offset of 'B1.c': " << offsetof(B1, c) << '\n';
     std::cout << "sizeof(B1): " << sizeof(B1) << std::endl; // 16
     A instancea;
     std::cout << (char *)&instancea.a - (char *)&instancea;
-
     return 0;
 }
+Offset of 'A.a': 8
+sizeof(A): 16
+Offset of 'B.a': 8
+Offset of 'B.b': 16
+sizeof(B): 24
+Offset of 'B1.a': 8
+Offset of 'B1.c': 12
+sizeof(B1): 16
 ```
 - 不管是单继承还是多继承，都是继承了基类的vptr。(32位操作系统4字节，64位操作系统 8字节)！
 ### 1.7.6 多继承，基类的vptr都+8。
@@ -1666,6 +1756,9 @@ class A
 };
 // 8 + 4
 // sizeof 16
+// struct A {
+//        int ()(void) * *           _vptr.A;              /*     0     8 */
+//        int                        a;                    /*     8     4 */
 
 class B
 {
@@ -1676,6 +1769,8 @@ public:
     }
 };
 // 8 vptr
+// struct B {
+//        int ()(void) * *           _vptr.B;              /*     0     8 */
 
 class C : A, B
 {
@@ -1687,6 +1782,10 @@ public:
 };
 // 24
 // 16 + 8
+// struct C : A, B {
+        /* struct A                   <ancestor>; */     /*     0    16 */
+        /* XXX last struct has 4 bytes of padding */
+        /* struct B                   <ancestor>; */     /*    16     8 */
 
 class D : A, B
 {
@@ -1698,6 +1797,10 @@ public:
 };
 // 24
 // 16 + 8
+// struct D : A, B {
+        /* struct A                   <ancestor>; */     /*     0    16 */
+        /* XXX last struct has 4 bytes of padding */
+        /* struct B                   <ancestor>; */     /*    16     8 */
 
 class E : virtual A, virtual B
 {
@@ -1708,6 +1811,12 @@ public:
     }
 };
 // 24
+//  struct E : virtual A, virtual B {
+        /* --- cacheline 67108863 boundary (4294967232 bytes) was 63 bytes ago --- */
+        /* struct A                   <ancestor>; */     /* 4294967295    16 */
+        /* XXX last struct has 4 bytes of padding */
+        /* struct B                   <ancestor>; */     /* 4294967295     8 */
+
 ```
 ### 1.7.8 内存对齐指定字节
 * `#pragma pack(1)`: 指定 `1` 字节对齐
@@ -1719,6 +1828,28 @@ public:
 ```cpp
 #define NDEBUG          // 加上这行，则 assert 不可用
 ```
+assert 是一种在 C 和 C++ 中常用的宏，它被用来进行条件测试，并在条件不满足（即为 false）时终止程序。
+
+assert 宏的作用是帮助程序员找出程序中的逻辑错误。当 assert 的条件不满足时，程序会立即停止，并输出一条包含文件名和行号信息的错误消息，这对于快速定位和修复问题很有帮助。
+
+以下是使用 assert 的一个例子：
+
+```c++
+#include <cassert>
+
+void foo(int x) {
+    assert(x > 0);  // 如果 x 不大于 0，程序将在此处停止并输出错误消息
+    // ... 其他代码 ...
+}
+
+int main() {
+    foo(-1);  // 这会触发 assert，并终止程序
+    return 0;
+}
+```
+在这个例子中，如果 foo 函数的参数不大于 0，assert 将触发，并导致程序停止运行。这是一种保证函数预期行为的有效方式。
+
+然而，需要注意的是，在发布的最终产品中，一般会禁用 assert。这是通过在包含 cassert 或 assert.h 之前定义 NDEBUG 宏来实现的。因此，你不应该依赖 assert 来进行程序的流程控制，而应该只在调试和开发阶段使用它来捕获和修复错误。
 ## 1.9 位域
 ### 1.9.0 位域
 
@@ -1894,7 +2025,8 @@ int B1()
 ### 1.11.2 struct 和class 数据成员访问权限
 struct默认public，class默认private；
 ### 1.11.3 struct 和class: class还可以定义模板类形参，比如template
-
+在 C++ 中，模板参数可以是类、函数、基本类型或者模板。当你创建模板时，如果要使用某种类型（无论是类、结构、基本类型等）作为模板参数，你只需要写 typename T 或者 class T，并不需要显式写出 struct。
+在这里，T 可以是任何类型，包括 int、std::string 或者其他你定义的结构或类。所以你并不需要在模板声明中写出 struct T，只需要写 typename T 或者 class T 即可。
 ```cpp
 template<class T>
 struct A
@@ -4017,7 +4149,7 @@ Rref&& r4 = Data{};  // r4 is Data&&
 
 ## 2.5 C++强制类型转换
 ### 2.5.0 C++强制类型转换
-static_cast ／ const_cast / dynamic_cast
+static_cast ／ const_cast / dynamic_cast / reinterpret_cast
 ### 2.5.1 为什么需要类型转换:
   * 没有从形式上体现转换功能和风险的不同
   * 将多态基类指针转换成派生类指针时不检查安全性，即无法判断转换后的指针是否确实指向一个派生类对象
@@ -4295,7 +4427,7 @@ delete [] stringptr2;// 删除对象数组
 > 声明普通类型指针时，需要指明指针所指向的数据类型，而声明函数指针时，也就要指明指针所指向的函数类型，即需要指明函数的返回类型和形参类型。
 
 ## 3.4 C++类的访问权限
-
+### 3.4.0 C++类的访问权限
 C++通过 public、protected、private 三个关键字来控制成员变量和成员函数的访问权限，它们分别表示公有的、受保护的、私有的，被称为成员访问限定符。
 在类的内部（定义类的代码内部），无论成员被声明为 public、protected 还是 private，都是可以互相访问的，没有访问权限的限制。
 在类的外部（定义类的代码之外），只能通过对象访问成员，并且通过对象只能访问 public 属性的成员，不能访问 private、protected 属性的成员
@@ -4308,6 +4440,7 @@ C++通过 public、protected、private 三个关键字来控制成员变量和�
 
 
 ## 3.5 析构函数
+### 3.5.0 析构函数
 析构函数与构造函数对应，当对象结束其生命周期，如对象所在的函数已调用完毕时，系统会自动执行析构函数。
 析构函数名也应与类名相同，只是在函数名前面加一个位取反符~，例如~stud( )，以区别于构造函数。它不能带任何参数，也没有返回值（包括void类型）。只能有一个析构函数，不能重载。
 如果用户没有编写析构函数，编译系统会自动生成一个缺省的析构函数（即使自定义了析构函数，编译器也总是会为我们合成一个析构函数，并且如果自定义了析构函数，编译器在执行时会先调用自定义的析构函数再调用合成的析构函数），它也不进行任何操作。所以许多简单的类中没有用显式的析构函数。
@@ -4315,6 +4448,7 @@ C++通过 public、protected、private 三个关键字来控制成员变量和�
 类析构顺序：1）派生类本身的析构函数；2）对象成员析构函数；3）基类析构函数。
 
 ## 3.6 析构函数抛异常
+### 3.6.0 析构函数抛异常
 - 从语法上来说，构造函数和析构函数都可以抛出异常。
 - 但从逻辑上和风险控制上，构造函数可以，析构函数不推荐抛出异常
 - [正常情况下调用析构函数抛出异常导致资源泄露]
@@ -4326,6 +4460,7 @@ C++通过 public、protected、private 三个关键字来控制成员变量和�
   - 2. 如果析构函数中异常非抛不可，那就用try catch来将异常吞下，必须要把这种可能发生的异常完全封装在析构函数内部，决不能让它抛出函数之外。
 
 ## 3.7 复制构造函数
+### 3.7.0 复制构造函数
 - 在linux下，编译器有时会对复制构造函数的调用做优化，避免不必要的复制构造函数调用。
   - 可以使用命令g++ xxx.cpp -fno-elide-constructors命令关闭编译器优化
 - 拷贝赋值函数值传递
@@ -4375,7 +4510,7 @@ C++通过 public、protected、private 三个关键字来控制成员变量和�
 
 
 ## 4.3 派生类赋值相容性
-## 4.3.0 派生类赋值相容性
+### 4.3.0 派生类赋值相容性
 - 基类对象与派生类对象之间存在赋值相容性。
 - 包括以下几种情况：
   * 把派生类对象赋值给基类对象。
@@ -4478,7 +4613,7 @@ D-----5
 - 析构函数的析构顺序与构造相反
 
 ## 4.5 多继承
-## 4.5.0 多继承
+### 4.5.0 多继承
 多个基类继承
 ## 4.6 虚基类 虚继承
 ### 4.6.0 虚基类 虚继承
