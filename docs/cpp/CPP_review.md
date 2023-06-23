@@ -1756,10 +1756,25 @@ class A
 };
 // 8 + 4
 // sizeof 16
+// (gdb) p a
+// $2 = {_vptr.A = 0x555555755ca8 <vtable for A+16>, a = 1431654310}
 // struct A {
 //        int ()(void) * *           _vptr.A;              /*     0     8 */
 //        int                        a;                    /*     8     4 */
-
+/*
+Vtable for A
+A::_ZTV1A: 4 entries
+0     (int (*)(...))0
+8     (int (*)(...))(& _ZTI1A)
+16    (int (*)(...))A::get_a
+24    (int (*)(...))A::get_normal
+                
+Class A         
+   size=16 align=8                                                                                                                                                                                               
+   base size=12 base align=8
+A (0x0x7f6c336008a0) 0
+    vptr=((& A::_ZTV1A) + 16)
+*/
 class B
 {
 public:
@@ -1771,7 +1786,22 @@ public:
 // 8 vptr
 // struct B {
 //        int ()(void) * *           _vptr.B;              /*     0     8 */
+/*
+(gdb) p b
+$3 = {_vptr.B = 0x555555755c90 <vtable for B+16>}
 
+Vtable for B
+B::_ZTV1B: 3 entries
+0     (int (*)(...))0
+8     (int (*)(...))(& _ZTI1B)
+16    (int (*)(...))B::get_b
+                
+Class B         
+   size=8 align=8
+   base size=8 base align=8
+B (0x0x7f6c336009c0) 0 nearly-empty
+    vptr=((& B::_ZTV1B) + 16)
+*/
 class C : A, B
 {
 public:
@@ -1786,7 +1816,29 @@ public:
         /* struct A                   <ancestor>; */     /*     0    16 */
         /* XXX last struct has 4 bytes of padding */
         /* struct B                   <ancestor>; */     /*    16     8 */
-
+/*
+(gdb) p c
+$4 = {<A> = {_vptr.A = 0x555555755c58 <vtable for C+16>, a = 65535}, <B> = {_vptr.B = 0x555555755c78 <vtable for C+48>}, <No data fields>}
+Vtable for C
+C::_ZTV1C: 7 entries
+0     (int (*)(...))0
+8     (int (*)(...))(& _ZTI1C)
+16    (int (*)(...))A::get_a
+24    (int (*)(...))A::get_normal
+32    (int (*)(...))-16
+40    (int (*)(...))(& _ZTI1C)
+48    (int (*)(...))B::get_b
+            
+Class C     
+   size=24 align=8
+   base size=24 base align=8
+C (0x0x7f6c33628230) 0
+    vptr=((& C::_ZTV1C) + 16)
+  A (0x0x7f6c33600a80) 0
+      primary-for C (0x0x7f6c33628230)
+  B (0x0x7f6c33600ae0) 16 nearly-empty
+      vptr=((& C::_ZTV1C) + 48)
+*/
 class D : A, B
 {
 public:
@@ -1801,7 +1853,39 @@ public:
         /* struct A                   <ancestor>; */     /*     0    16 */
         /* XXX last struct has 4 bytes of padding */
         /* struct B                   <ancestor>; */     /*    16     8 */
+/*
+(gdb) p d
+$6 = {<A> = {_vptr.A = 0x555555755c18 <vtable for D+16>, a = 1431654781}, <B> = {_vptr.B = 0x555555755c40 <vtable for D+56>}, <No data fields>}
+(gdb) info vtbl d
+vtable for 'D' @ 0x555555755c18 (subobject @ 0x7fffffffe390):
+[0]: 0x555555554fbe <A::get_a()>
+[1]: 0x555555554fd0 <A::get_normal()>
+[2]: 0x555555554ff0 <D::get_d()>
 
+vtable for 'B' @ 0x555555755c40 (subobject @ 0x7fffffffe3a0):
+[0]: 0x555555554fe0 <B::get_b()>
+
+Vtable for D
+D::_ZTV1D: 8 entries
+0     (int (*)(...))0
+8     (int (*)(...))(& _ZTI1D)
+16    (int (*)(...))A::get_a
+24    (int (*)(...))A::get_normal
+32    (int (*)(...))D::get_d
+40    (int (*)(...))-16
+48    (int (*)(...))(& _ZTI1D)
+56    (int (*)(...))B::get_b
+           
+Class D    
+   size=24 align=8
+   base size=24 base align=8
+D (0x0x7f6c33628310) 0
+    vptr=((& D::_ZTV1D) + 16)
+  A (0x0x7f6c33600ba0) 0
+      primary-for D (0x0x7f6c33628310)
+  B (0x0x7f6c33600c00) 16 nearly-empty
+      vptr=((& D::_ZTV1D) + 56)
+*/
 class E : virtual A, virtual B
 {
 public:
@@ -1811,6 +1895,18 @@ public:
     }
 };
 // 24
+/*
+(gdb) p e
+$7 = {<A> = {_vptr.A = 0x555555755be0 <vtable for E+88>, a = -6992}, <B> = {_vptr.B = 0x555555755bb0 <vtable for E+40>}, <No data fields>}
+(gdb) info vtbl e
+vtable for 'E' @ 0x555555755bb0 (subobject @ 0x7fffffffe3b0):
+[0]: 0x555555554fe0 <B::get_b()>
+[1]: 0x555555555000 <E::get_e()>
+
+vtable for 'A' @ 0x555555755be0 (subobject @ 0x7fffffffe3b8):
+[0]: 0x555555554fbe <A::get_a()>
+[1]: 0x555555554fd0 <A::get_normal()>
+*/
 //  struct E : virtual A, virtual B {
         /* --- cacheline 67108863 boundary (4294967232 bytes) was 63 bytes ago --- */
         /* struct A                   <ancestor>; */     /* 4294967295    16 */
