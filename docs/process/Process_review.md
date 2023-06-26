@@ -184,7 +184,20 @@ mm指向的是进程的虚拟内存，也就是载入资源和可执行文件的
 4. 多进程比多线程程序要健壮。一个线程死掉整个进程就死掉了，但是在保护模式下，一个进程死掉对另一个进程没有直接影响。
 5. 线程的执行与进程是有区别的。每个独立的线程有有自己的一个程序入口，顺序执行序列和程序的出口，但是线程不能独立执行，必须依附与程序之中，由应用程序提供多个线程的并发控制。
 6. linux中进程具有父子关系，形成进程树，但是线程是平等的没有父子关系
+### 1.5.1 什么时候用多进程多线程?
+#### 1.5.1.1 适合使用多进程的情况：
 
+1.CPU密集型任务：当任务主要涉及到大量的计算和CPU运算时，使用多进程可以将任务分配给多个核心进行并行计算，充分利用多核处理器的优势。
+2.独立性要求高：如果任务之间相互独立，不需要频繁的数据共享和通信，那么可以选择多进程，每个进程都有独立的内存空间，避免了数据共享的一些问题。
+
+#### 1.5.1.2 适合使用多线程的情况：
+1.I/O密集型任务：当任务主要涉及到等待I/O操作（如网络请求、文件读写）时，使用多线程可以提高程序的响应性能。因为在一个线程等待I/O时，其他线程可以继续执行，充分利用了等待时间。
+2.资源共享和通信：如果多个任务之间需要频繁的数据共享和通信，使用多线程可以更方便地实现。线程共享同一个进程的内存空间，数据可以直接传递和共享，避免了进程间通信的开销和复杂性。
+
+#### 1.5.1.3 还有一些情况可以考虑综合使用多进程和多线程：
+1.复杂的应用程序：对于复杂的应用程序，可以根据任务的性质灵活地使用多进程和多线程。例如，可以将主要的计算任务放在多进程中进行并行计算，而将I/O操作放在多线程中处理，实现计算和I/O并行。
+2.可扩展性要求高：如果应用程序需要应对大规模的并发请求，而且计算和I/O任务都较为繁重，可以考虑综合使用多进程和多线程来满足可扩展性和性能的需求。
+总的来说，选择使用多进程还是多线程需要综合考虑任务类型、性能需求、数据共享和通信等因素。没有绝对的规则，根据具体情况和需求进行选择，权衡各种因素来获得最佳的性能和并发效果。
 ### 1.6.0 fork进程
 - 一个现有的进程可以通过fork函数来创建一个新的进程，这个进程通常称为子进程。fork函数原型如下：
 ```cpp
@@ -965,6 +978,51 @@ counter2:10000000
 #include <pthread.h>
 #include <thread>
 ```
+pthread 是 POSIX 线程库，提供了在多线程环境下进行线程管理和同步的函数。mutex（互斥量）是 pthread 库中用来实现线程同步的一种机制。
+互斥量用于保护共享资源，确保在任意给定的时间只有一个线程可以访问该资源。它提供了两个主要的操作：lock（加锁）和 unlock（解锁）。
+下面是一个使用 pthread 和互斥量的简单示例代码：
+```cpp
+#include <iostream>
+#include <pthread.h>
+
+// 共享资源
+int sharedVariable = 0;
+
+// 互斥量
+pthread_mutex_t mutex;
+
+// 线程函数
+void* threadFunction(void* arg) {
+    // 加锁
+    pthread_mutex_lock(&mutex);
+
+    // 访问共享资源
+    sharedVariable++;
+    std::cout << "Thread incremented sharedVariable: " << sharedVariable << std::endl;
+
+    // 解锁
+    pthread_mutex_unlock(&mutex);
+
+    return nullptr;
+}
+
+int main() {
+    // 初始化互斥量
+    pthread_mutex_init(&mutex, nullptr);
+
+    // 创建线程
+    pthread_t thread;
+    pthread_create(&thread, nullptr, threadFunction, nullptr);
+
+    // 主线程等待子线程结束
+    pthread_join(thread, nullptr);
+
+    // 销毁互斥量
+    pthread_mutex_destroy(&mutex);
+
+    return 0;
+}
+```
 此外，依据同一线程是否能多次加锁，把互斥量又分为如下两类：
 
 是：称为『递归互斥量』recursive mutex ，也称『可重入锁』reentrant lock
@@ -976,7 +1034,140 @@ pthread则可以通过给mutex添加 PTHREAD_MUTEX_RECURSIVE
 ### 5.2 condition variable（条件变量）
 C++11中也有条件变量的API： std::condition_variable。
 pthread 条件变量 pthread_cond_t
+条件变量（condition variable）是一种线程同步的机制，常用于多个线程之间的等待和通知。它允许一个或多个线程在某个条件满足之前进入等待状态，直到其他线程通过发出信号（signal）或广播（broadcast）来通知它们条件已经满足。
 
+条件变量通常与互斥量一起使用，以实现更复杂的线程同步模式。下面是一个简单的示例代码，展示了条件变量的基本用法：
+
+```cpp
+#include <iostream>
+#include <pthread.h>
+
+// 共享资源
+int sharedVariable = 0;
+
+// 互斥量和条件变量
+pthread_mutex_t mutex;
+pthread_cond_t condition;
+
+// 生产者线程函数
+void* producerThread(void* arg) {
+    // 加锁互斥量
+    pthread_mutex_lock(&mutex);
+
+    // 修改共享资源
+    sharedVariable = 42;
+    std::cout << "Producer thread: Set sharedVariable to 42." << std::endl;
+
+    // 发出信号通知等待的线程
+    pthread_cond_signal(&condition);
+
+    // 解锁互斥量
+    pthread_mutex_unlock(&mutex);
+
+    return nullptr;
+}
+
+// 消费者线程函数
+void* consumerThread(void* arg) {
+    // 加锁互斥量
+    pthread_mutex_lock(&mutex);
+
+    // 等待条件满足
+    while (sharedVariable == 0) {
+        pthread_cond_wait(&condition, &mutex);
+    }
+
+    // 条件满足，处理共享资源
+    std::cout << "Consumer thread: sharedVariable is now " << sharedVariable << std::endl;
+
+    // 解锁互斥量
+    pthread_mutex_unlock(&mutex);
+
+    return nullptr;
+}
+
+int main() {
+    // 初始化互斥量和条件变量
+    pthread_mutex_init(&mutex, nullptr);
+    pthread_cond_init(&condition, nullptr);
+
+    // 创建生产者线程和消费者线程
+    pthread_t producer, consumer;
+    pthread_create(&producer, nullptr, producerThread, nullptr);
+    pthread_create(&consumer, nullptr, consumerThread, nullptr);
+
+    // 等待线程结束
+    pthread_join(producer, nullptr);
+    pthread_join(consumer, nullptr);
+
+    // 销毁互斥量和条件变量
+    pthread_mutex_destroy(&mutex);
+    pthread_cond_destroy(&condition);
+
+    return 0;
+}
+```
+在上述示例中，我们定义了一个共享变量 sharedVariable，并创建了一个互斥量 mutex 和一个条件变量 condition。在生产者线程函数中，它会先修改共享变量为 42，然后通过 pthread_cond_signal 发出信号通知等待的线程。在消费者线程函数中，它会等待条件满足，即共享变量不为 0，如果条件不满足，则调用 pthread_cond_wait 进入等待状态。一旦条件满足，消费者线程就会处理共享资源。
+在 C++11 中，引入了新的标准库 <condition_variable>，其中包含了条件变量的实现。C++11 的条件变量与之前提到的 POSIX 条件变量有一些差异，它们提供了更方便和类型安全的接口。
+
+下面是一个示例代码，展示了如何在 C++11 中使用条件变量：
+
+```cpp
+#include <iostream>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+
+// 共享资源
+int sharedVariable = 0;
+
+// 互斥量和条件变量
+std::mutex mutex;
+std::condition_variable condition;
+
+// 生产者线程函数
+void producerThread() {
+    // 加锁互斥量
+    std::unique_lock<std::mutex> lock(mutex);
+
+    // 修改共享资源
+    sharedVariable = 42;
+    std::cout << "Producer thread: Set sharedVariable to 42." << std::endl;
+
+    // 发出信号通知等待的线程
+    condition.notify_one();
+}
+
+// 消费者线程函数
+void consumerThread() {
+    // 加锁互斥量
+    std::unique_lock<std::mutex> lock(mutex);
+
+    // 等待条件满足
+    condition.wait(lock, [] { return sharedVariable != 0; });
+
+    // 条件满足，处理共享资源
+    std::cout << "Consumer thread: sharedVariable is now " << sharedVariable << std::endl;
+}
+
+int main() {
+    // 创建生产者线程和消费者线程
+    std::thread producer(producerThread);
+    std::thread consumer(consumerThread);
+
+    // 等待线程结束
+    producer.join();
+    consumer.join();
+
+    return 0;
+}
+```
+在这个示例中，我们使用了 std::mutex 作为互斥量，std::condition_variable 作为条件变量。在生产者线程函数中，我们使用 std::unique_lock 对互斥量进行加锁，并修改了共享变量的值，然后通过 condition.notify_one() 发出信号通知等待的线程。在消费者线程函数中，我们使用 std::unique_lock 对互斥量进行加锁，并使用 condition.wait 等待条件满足。
+
+需要注意的是，为了在 condition.wait 中指定等待的条件，我们使用了 lambda 表达式 [] { return sharedVariable != 0; }。这个 lambda 表达式返回一个 bool 值，表示条件是否满足。只有当条件不满足时，消费者线程才会等待。
+
+C++11 的条件变量接口更加便利和类型安全，使用起来更加直观。
+需要注意的是，在使用条件变量时，必须使用互斥量来保护共享资源的访问，并确保线程在等待条件时解锁互斥量。这样可以避免竞态条件和死锁。
 [涛哥 线程间同步互斥（3）条件变量使用](https://zhuanlan.zhihu.com/p/136431212)
 [飞翔的猪 再谈条件变量—从入门到出家](https://zhuanlan.zhihu.com/p/155547997)
 [暗淡了乌云 条件变量 之 稀里糊涂的锁](https://zhuanlan.zhihu.com/p/55123862)
@@ -1005,8 +1196,116 @@ int pthread_rwlock_unlock(pthread_rwlock_t *rwlock);
 // 结束读写锁
 int pthread_rwlock_destroy(pthread_rwlock_t *rwlock);
 ```
+示例：
+```cpp
+#include <pthread.h>
+#include <stdio.h>
+
+// 声明一个读写锁
+pthread_rwlock_t rwlock;
+
+// 全局共享资源
+int shared_data = 0;
+
+// 线程函数A，用于读取共享资源
+void* thread_read(void* arg) {
+    pthread_rwlock_rdlock(&rwlock);  // 获取读锁（共享锁）
+
+    // 读取共享资源
+    printf("Reading data: %d\n", shared_data);
+
+    pthread_rwlock_unlock(&rwlock);  // 释放读锁
+
+    return NULL;
+}
+
+// 线程函数B，用于修改共享资源
+void* thread_write(void* arg) {
+    pthread_rwlock_wrlock(&rwlock);  // 获取写锁（独占锁）
+
+    // 修改共享资源
+    shared_data += 1;
+    printf("Writing data: %d\n", shared_data);
+
+    pthread_rwlock_unlock(&rwlock);  // 释放写锁
+
+    return NULL;
+}
+
+int main() {
+    // 初始化读写锁
+    pthread_rwlock_init(&rwlock, NULL);
+
+    pthread_t t1, t2, t3;
+
+    // 创建线程A、B、C
+    pthread_create(&t1, NULL, thread_read, NULL);
+    pthread_create(&t2, NULL, thread_write, NULL);
+    pthread_create(&t3, NULL, thread_read, NULL);
+
+    // 等待线程执行完毕
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+    pthread_join(t3, NULL);
+
+    // 销毁读写锁
+    pthread_rwlock_destroy(&rwlock);
+
+    return 0;
+}
+```
+我们先声明了一个 `pthread_rwlock_t` 类型的读写锁 rwlock。
+然后创建了两个线程函数：`thread_read` 用于读取共享资源，`thread_write` 用于修改共享资源。在 `main()` 函数中，我们初始化了读写锁，创建了三个线程，并等待它们执行完毕。最后，销毁了读写锁。
+
+注意，在程序中使用读写锁时，需要使用 `pthread_rwlock_rdlock()` 获取读锁（共享锁），`pthread_rwlock_wrlock()` 获取写锁（独占锁），并使用 `pthread_rwlock_unlock()` 释放锁。
 
 [线程间同步互斥（2）读写锁使用 涛哥](https://zhuanlan.zhihu.com/p/135983375)
+在C++11及以后的版本中，你可以使用`std::shared_mutex（共享互斥量）`来实现读写锁。该互斥量允许多个线程以共享方式进行读取，并对写操作进行独占。
+通过使用`std::shared_lock`和`std::unique_lock`可以实现对std::shared_mutex的读写锁操作。
+`std::shared_lock`用于获取共享锁（读锁），允许多个线程同时读取共享资源。多个`std::shared_lock`可以同时获得读锁，提供了共享访问的能力。读锁之间不会互相阻塞，因此多个线程可以并发地读取共享数据。
+`std::unique_lock`用于获取独占锁（写锁），确保只有一个线程可以修改共享资源。在任何时候只能有一个std::unique_lock获得写锁，这样可以避免多个线程同时修改数据造成的竞争条件。
+```cpp
+#include <iostream>
+#include <mutex>
+#include <shared_mutex>
+#include <thread>
+
+std::shared_mutex rwlock;  // 声明一个读写锁
+
+int shared_data = 0;  // 共享资源
+
+void thread_read() {
+    std::shared_lock<std::shared_mutex> lock(rwlock);  // 获取读锁（共享锁）
+
+    // 读取共享资源
+    std::cout << "Reading data: " << shared_data << std::endl;
+
+    // 读锁会自动释放，不需要手动调用unlock()
+}
+
+void thread_write() {
+    std::unique_lock<std::shared_mutex> lock(rwlock);  // 获取写锁（独占锁）
+
+    // 修改共享资源
+    shared_data += 1;
+    std::cout << "Writing data: " << shared_data << std::endl;
+
+    // 写锁会自动释放，不需要手动调用unlock()
+}
+
+int main() {
+    std::thread t1(thread_read);
+    std::thread t2(thread_write);
+    std::thread t3(thread_read);
+
+    t1.join();
+    t2.join();
+    t3.join();
+
+    return 0;
+}
+```
+我们使用了`std::shared_mutex`来实现读写锁的功能。通过`std::shared_lock`获取读锁（共享锁），允许多个线程同时读取共享资源。通过`std::unique_lock`获取写锁（独占锁），确保只有一个线程可以修改共享资源。
 
 ### 5.4 spinlock（自旋锁）
 『忙等待』（busy waiting） 死循环
@@ -1018,6 +1317,129 @@ int pthread_rwlock_destroy(pthread_rwlock_t *rwlock);
 pthread_spin_init 函数的第二个参数名为pshared（int类型）
 - PTHREAD_PROCESS_PRIVATE：仅同进程下读线程可以使用该自旋锁
 - PTHREAD_PROCESS_SHARED：不同进程下的线程可以使用该自旋锁
+pthread库提供了自旋锁（spinlock）机制来实现线程间的互斥访问。自旋锁是一种忙等待的锁，当线程尝试获取锁时，如果锁已经被其他线程占用，该线程会进入一个忙循环，不断地进行自旋等待，直到获取到锁为止。
+
+在pthread库中，自旋锁通过`pthread_spinlock_t`类型的变量来表示。下面是使用自旋锁的简单示例：
+
+```cpp
+#include <iostream>
+#include <pthread.h>
+
+pthread_spinlock_t spinlock;  // 自旋锁
+
+int shared_data = 0;  // 共享资源
+
+void* thread_func(void* arg) {
+    pthread_spin_lock(&spinlock);  // 获取自旋锁
+
+    // 修改共享资源
+    shared_data += 1;
+    std::cout << "Thread ID: " << pthread_self() << ", Writing data: " << shared_data << std::endl;
+
+    pthread_spin_unlock(&spinlock);  // 释放自旋锁
+
+    return nullptr;
+}
+
+int main() {
+    pthread_spin_init(&spinlock, PTHREAD_PROCESS_PRIVATE);  // 初始化自旋锁
+
+    pthread_t tid1, tid2;
+    pthread_create(&tid1, nullptr, thread_func, nullptr);
+    pthread_create(&tid2, nullptr, thread_func, nullptr);
+
+    pthread_join(tid1, nullptr);
+    pthread_join(tid2, nullptr);
+
+    pthread_spin_destroy(&spinlock);  // 销毁自旋锁
+
+    return 0;
+}
+```
+在这个例子中，我们使用pthread_spinlock_t类型的变量spinlock来表示自旋锁。通过调用pthread_spin_lock函数获取锁，并在获取到锁后修改共享资源。最后通过pthread_spin_unlock函数释放锁。
+
+需要注意的是，自旋锁适用于短期占用场景，当占用时间较长或线程数量较多时，自旋锁可能会导致CPU资源的浪费，因为线程会一直自旋等待。在实际使用中，需根据具体情况选择合适的锁机制。
+
+在 C++11 中，并没有直接提供自旋锁（spin lock）的标准库支持。自旋锁是一种非阻塞式的锁，它使用忙等（busy-waiting）的方式来实现线程间的同步，即线程在获取锁失败时会不断循环尝试获取锁。
+
+然而，虽然 C++11 标准库没有提供自旋锁的支持，但可以使用原子操作和条件变量来手动实现自旋锁。
+
+下面是一个简单的示例代码，展示了如何使用原子操作和条件变量来实现自旋锁：
+
+```cpp
+#include <iostream>
+#include <thread>
+#include <atomic>
+#include <condition_variable>
+
+class SpinLock {
+public:
+    void lock() {
+        while (flag.test_and_set(std::memory_order_acquire)) {
+            // 自旋等待
+        }
+    }
+
+    void unlock() {
+        flag.clear(std::memory_order_release);
+    }
+
+private:
+    std::atomic_flag flag = ATOMIC_FLAG_INIT;
+};
+
+// 共享资源
+int sharedVariable = 0;
+
+// 自旋锁
+SpinLock spinLock;
+
+// 生产者线程函数
+void producerThread() {
+    // 获取锁
+    spinLock.lock();
+
+    // 修改共享资源
+    sharedVariable = 42;
+    std::cout << "Producer thread: Set sharedVariable to 42." << std::endl;
+
+    // 释放锁
+    spinLock.unlock();
+}
+
+// 消费者线程函数
+void consumerThread() {
+    // 获取锁
+    spinLock.lock();
+
+    // 处理共享资源
+    std::cout << "Consumer thread: sharedVariable is now " << sharedVariable << std::endl;
+
+    // 释放锁
+    spinLock.unlock();
+}
+
+int main() {
+    // 创建生产者线程和消费者线程
+    std::thread producer(producerThread);
+    std::thread consumer(consumerThread);
+
+    // 等待线程结束
+    producer.join();
+    consumer.join();
+
+    return 0;
+}
+```
+在这个示例中，我们定义了一个简单的自旋锁 SpinLock，它使用了 `std::atomic_flag` 来实现原子的测试和设置操作。在 SpinLock 的 lock 方法中，使用了 `test_and_set` 操作来尝试获取锁，如果获取失败就会一直循环等待。在 SpinLock 的 unlock 方法中，使用了 clear 操作来释放锁。
+
+然后，我们在生产者线程函数和消费者线程函数中使用了自旋锁来保护共享资源的访问。
+
+flag 是一个 `std::atomic_flag` 类型的对象，它用于表示自旋锁的状态。`std::atomic_flag` 是一个原子标志类型，提供了原子的测试和设置操作。
+`test_and_set()` 函数是 `std::atomic_flag` 类型的成员函数，它会原子地将 flag 设置为 true，并返回设置之前的值。在这里，我们使用 `test_and_set()` 函数来尝试获取自旋锁。
+`std::memory_order_acquire` 是一个内存排序参数，它的作用是确保在获取自旋锁时所有的读操作都发生在获取操作之前。这样可以保证获取操作之后对共享数据的读取是正确的。
+当 `test_and_set()` 返回 true，即当前自旋锁已被其他线程占用时，进入 while 循环，执行自旋等待。自旋等待是简单的循环操作，它会一直尝试获取自旋锁直到成功。
+需要注意的是，自旋锁在一些情况下可能会导致高额的 CPU 开销，因为线程会一直处于忙等状态。因此，在实际使用时，需要根据具体情况来判断是否适合使用自旋锁。
 
 ### 5.5 信号量(semaphore)
 ```cp
@@ -1035,5 +1457,123 @@ int sem_getvalue(sem_t *sem, int *sval);
 // 销毁信号量
 int sem_destroy(sem_t *sem);
 ```
-[详解linux多线程——互斥锁、条件变量、读写锁、自旋锁、信号量](https://zhuanlan.zhihu.com/p/161010435)
+```cpp
+#include <iostream>
+#include <thread>
+#include <semaphore.h>
 
+sem_t semaphore; // 信号量
+
+void WorkerTask(int id) {
+    sem_wait(&semaphore); // 等待信号量可用
+
+    std::cout << "Worker " << id << " is working!" << std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+
+    sem_post(&semaphore); // 释放信号量
+    std::cout << "Worker " << id << " finished!" << std::endl;
+}
+
+int main() {
+    sem_init(&semaphore, 0, 3); // 初始化信号量，初始值为3
+
+    std::thread workers[5];
+    for (int i = 0; i < 5; ++i) {
+        workers[i] = std::thread(WorkerTask, i + 1);
+    }
+
+    for (int i = 0; i < 5; ++i) {
+        workers[i].join();
+    }
+
+    sem_destroy(&semaphore); // 销毁信号量
+
+    return 0;
+}
+```
+我们使用了sem_t类型的变量semaphore来表示信号量。通过`sem_init()`函数初始化信号量，其中第二个参数表示是否在进程间共享，最后一个参数表示信号量的初始值。
+
+在WorkerTask()函数中，线程首先调用`sem_wait()`函数等待信号量可用，然后执行任务，最后调用sem_post()函数释放信号量。
+
+在main()函数中，我们创建了5个线程来执行任务。通过sem_init()初始化信号量，并指定初始值为3，表示最多同时有3个线程可以获得信号量。然后，每个线程在开始前调用`sem_wait()`等待信号量，获得信号量后执行任务，最后调用`sem_post()`释放信号量。最后，通过`sem_destroy()`销毁信号量。
+
+semaphore.h头文件提供了一些函数来操作信号量，如`sem_init()`、`sem_wait()`、`sem_post()`和`sem_destroy()`等。
+
+
+[详解linux多线程——互斥锁、条件变量、读写锁、自旋锁、信号量](https://zhuanlan.zhihu.com/p/161010435)
+信号量（Semaphore）是一种经典的同步机制，用于控制对共享资源的访问。它可以用来解决多线程或多进程之间的互斥和同步问题。
+
+在C++中，我们可以使用std::mutex和std::condition_variable来实现信号量。
+
+下面是一个使用信号量的简单示例：
+
+```cpp
+#include <iostream>
+#include <mutex>
+#include <condition_variable>
+#include <thread>
+
+class Semaphore {
+public:
+    explicit Semaphore(int count = 0) : count_(count) {}
+
+    void Acquire() {
+        std::unique_lock<std::mutex> lock(mutex_);
+        while (count_ == 0) {
+            condition_.wait(lock);
+        }
+        --count_;
+    }
+
+    void Release() {
+        std::unique_lock<std::mutex> lock(mutex_);
+        ++count_;
+        condition_.notify_one();
+    }
+
+private:
+    std::mutex mutex_;
+    std::condition_variable condition_;
+    int count_;
+};
+
+Semaphore semaphore(2);  // 信号量，初始值为2
+
+void thread_func(int id) {
+    semaphore.Acquire();  // 获取信号量
+
+    // 访问共享资源
+    std::cout << "Thread " << id << " is accessing the shared resource." << std::endl;
+
+    semaphore.Release();  // 释放信号量
+}
+
+int main() {
+    std::thread t1(thread_func, 1);
+    std::thread t2(thread_func, 2);
+    std::thread t3(thread_func, 3);
+
+    t1.join();
+    t2.join();
+    t3.join();
+
+    return 0;
+}
+```
+在这个例子中，我们定义了一个Semaphore类，其内部包含一个计数器count_、一个互斥量mutex_和一个条件变量condition_。Acquire()方法用于获取信号量，如果计数器为零，则线程会进入等待状态；Release()方法用于释放信号量，将计数器加一，并通知一个正在等待的线程。
+
+在main()函数中创建了三个线程，它们会调用thread_func()函数来访问共享资源。由于信号量的初始值为2，因此前两个线程可以成功获取信号量并访问共享资源，第三个线程需要等待其中之一释放信号量后才能获取。
+
+通过使用信号量，我们可以控制对共享资源的并发访问，实现线程间的同步和互斥。
+### 5.6 python的锁
+Python的锁，常用的有以下几种：
+
+线程锁（Lock）：threading.Lock()函数返回一个普通锁对象，可以使用acquire()方法获取锁，release()方法释放锁。它可以用于线程之间的同步，确保在同一时间只有一个线程可以访问共享资源。
+
+递归锁（RLock）：threading.RLock()函数返回一个可重入锁对象，可以被一个线程多次获取。与普通锁相比，递归锁允许同一个线程多次获取锁而不会导致死锁。需要注意的是，每个acquire()调用都必须有一个对应的release()调用。
+
+条件锁（Condition）：threading.Condition()函数返回一个条件变量对象，可以用于线程之间的协调和通信。它提供了wait()、notify()和notify_all()等方法，用于线程的等待和唤醒。
+
+信号量（Semaphore）：threading.Semaphore()函数返回一个信号量对象，可以控制同时访问某个资源的线程数量。它有一个内部计数器，每次调用acquire()方法时计数器减一，调用release()方法时计数器加一。
+
+事件（Event）：threading.Event()函数返回一个事件对象，可以用于线程之间的通信和同步。它有一个内部标志，默认为False，可以使用set()方法设置为True，使用wait()方法等待事件变为True，使用clear()方法将事件标志重新设置为False。

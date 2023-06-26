@@ -60,7 +60,7 @@
 | -------------- | ------------------------------------------------------------------------ |
 | stack          | 默认用deque来实现数据结构的栈的功能                                         |
 | queue          | 默认用deque来实现数据结构的队列的功能                                       |
-| priority_queue | 默认用vector来实现，其中保存的元素按照某种严格弱序进行排列，队首元素总是值最大的 |
+| priority_queue | 默认用vector来实现，其中保存的元素按照某种严格弱序进行排列，队首元素总是值最大的（默认最大堆，修改为greater为最小堆 |
 
 ## 1.3 空间适配器allocator
 ### 1.3.0 空间适配器allocator
@@ -73,7 +73,7 @@ allocator模板类定义在头文件memory.h中，它帮助我们将内存分配
   - (1) 调用::operator new配置内存;
   - (2) 调用对象构造函数构造对象内容
 - delete运算分两个阶段：
-  - (1) 调用对象希构函数；
+  - (1) 调用对象析构函数；
   - (2) 调用::operator delete释放内存
 
 - 为了精密分工，STL allocator将两个阶段操作区分开来：
@@ -249,6 +249,82 @@ int main() {
     return 0;
 }
 ```   
+### 1.5.9 push_back 和 emplace_back 
+`push_back` 和 `emplace_back` 是C++标准库中用于向容器中添加元素的函数，它们的区别主要体现在两个方面：语义和效率。
+
+1.语义：
+push_back：接受一个已存在的对象作为参数，并将其拷贝（或移动）到容器中。这意味着元素是通过复制或移动构造函数创建的。
+emplace_back：接受构造函数的参数，直接在容器内部构造新的对象。也就是说，元素是在容器内直接构造而不需要拷贝或移动构造。
+2.效率：
+push_back：由于需要进行对象的拷贝（或移动），可能会涉及到额外的内存分配和复制操作，相对而言效率稍低。
+emplace_back：由于直接在容器内部构造对象，避免了拷贝（或移动）的开销，通常比 push_back 更高效。
+
+选择使用哪个函数取决于具体的需求：
+如果你已经有了一个已存在的对象，想将其添加到容器中，那么可以使用 push_back。
+如果你想在容器中直接构造一个新的对象，并且不需要额外的拷贝或移动操作，那么应该使用 emplace_back。
+总之，如果你有已存在的对象，使用 push_back；如果你只有构造函数的参数，直接在容器内构造新对象，使用 emplace_back。这样可以更好地利用语义和效率来达到更优的性能。
+### 1.5.10 为什么不都直接用emplace_back, 它不能解决什么问题么？
+虽然 `emplace_back` 在某些情况下能够提供更高效的性能，但并不是所有情况下都适合使用它。以下是一些情况下不适合使用 `emplace_back` 的原因：
+1.不支持直接构造：
+容器中存储的元素类型没有对应的构造函数，或者构造函数不可用。
+元素类型是抽象类，无法直接创建对象。
+2.无法省略参数：
+构造函数需要传递多个参数，而这些参数是必需的，没有默认值可用。
+参数类型较为复杂，不方便手动指定每个参数的值。
+3.复用已有对象：
+需要使用已存在的对象，并在容器中创建该对象的副本。
+已有对象需要在容器中保留一份独立的拷贝。
+4.容器内存管理：
+需要在元素添加到容器时进行特定的内存管理操作，如自定义内存分配器。
+
+在以上情况下，push_back 更适合使用，它可以灵活地接受已存在的对象，并将其添加到容器中。此外，如果代码已经大量使用了 push_back，改用 emplace_back 可能带来的性能收益可能不那么显著，因为 emplace_back 并不会对现有代码产生影响。
+
+因此，选择使用 emplace_back 还是 push_back 取决于具体的需求和设计考虑。在大多数情况下，首先考虑使用 emplace_back，只有在上述情况下才需要考虑使用 push_back。
+当元素类型为普通指针或没有默认构造函数的类时，`emplace_back` 将无法使用，只能使用 `push_back`。以下是这两种情况的示例：
+
+1.元素类型为普通指针：
+```cpp
+#include <vector>
+
+int main() {
+    std::vector<int*> myVector;
+    
+    int* ptr = new int(10);
+
+    // 无法使用 emplace_back 添加指针对象
+    // myVector.emplace_back(ptr);  // 编译错误
+    
+    // 只能使用 push_back 添加指针对象
+    myVector.push_back(ptr);
+
+    return 0;
+}
+```
+2.元素类型没有默认构造函数：
+```cpp
+#include <vector>
+#include <string>
+
+class MyClass {
+public:
+    MyClass(int value) : data(value) {}
+private:
+    int data;
+};
+
+int main() {
+    std::vector<MyClass> myVector;
+
+    // 无法使用 emplace_back 直接构造对象
+    // myVector.emplace_back(10);  // 编译错误
+
+    // 只能使用 push_back 拷贝构造对象
+    myVector.push_back(MyClass(10));
+
+    return 0;
+}
+```
+在上述示例中，如果尝试使用 emplace_back 添加元素，编译器会报错。因为指针类型无法直接构造，而类 MyClass 没有默认构造函数，只能通过拷贝构造函数添加到容器中。
 ## 1.6 list
 ### 1.6.0 list
 list对于vector对空间运用更精准 动态存储分配一次开辟一个 不会造成浪费和溢出
@@ -429,6 +505,46 @@ public:
 ### 1.11.0 map/multimap容器
 同时拥有键值和实值 可以有两个相同实值不可以相同的键值 multimap可以重复
 其他同set 底层红黑树、
+
+1.元素的唯一性：std::map 中的键是唯一的，每个键只能对应一个值。而 std::multimap 中的键可以对应多个值，允许重复的键。
+2.插入顺序：std::map 会根据键的比较自动进行排序，以保证键的有序性。而 std::multimap 不会自动排序，插入的顺序就是元素的顺序。
+3.检索和删除：在 std::map 中，通过键可以快速进行查找和删除操作，因为键是唯一的。而在 std::multimap 中，由于键可以重复，查找和删除操作需要额外处理重复键的情况。
+```cpp
+#include <iostream>
+#include <map>
+#include <unordered_map>
+
+int main() {
+    std::map<int, std::string> myMap;
+
+    // 插入键值对到 map
+    myMap.insert({2, "apple"});
+    myMap.insert({1, "banana"});
+    myMap.insert({3, "orange"});
+    myMap.insert({2, "grape"});  // 重复的键
+
+    std::cout << "std::map:" << std::endl;
+    for (const auto& pair : myMap) {
+        std::cout << pair.first << ": " << pair.second << std::endl;
+    }
+
+    std::multimap<int, std::string> myMultiMap;
+
+    // 插入键值对到 multimap
+    myMultiMap.insert({2, "apple"});
+    myMultiMap.insert({1, "banana"});
+    myMultiMap.insert({3, "orange"});
+    myMultiMap.insert({2, "grape"});  // 重复的键
+
+    std::cout << "\nstd::multimap:" << std::endl;
+    for (const auto& pair : myMultiMap) {
+        std::cout << pair.first << ": " << pair.second << std::endl;
+    }
+
+    return 0;
+}
+
+```
 ### 1.11.1 map接口
 ```cpp
 map<int ,int> m;
@@ -452,6 +568,65 @@ res.second//upper_bound迭代器 ......
 
 // 指定排序规则
 map<int,int,MyCompare> m;//同set
+```
+### 1.11.1.2 multimap接口
+```cpp
+#include <iostream>
+#include <map>
+
+int main() {
+    std::multimap<int, std::string> myMultiMap;
+
+    myMultiMap.insert({2, "apple"});
+    myMultiMap.insert({1, "banana"});
+    myMultiMap.insert({3, "orange"});
+    myMultiMap.insert({2, "grape"});
+
+    // 使用 equal_range 查找给定键所有的元素
+    auto range = myMultiMap.equal_range(2);
+    for (auto it = range.first; it != range.second; ++it) {
+        std::cout << it->first << ": " << it->second << std::endl;
+    }
+
+    // 使用 find 查找第一个匹配的元素
+    auto it = myMultiMap.find(3);
+    if (it != myMultiMap.end()) {
+        std::cout << "Found: " << it->first << ": " << it->second << std::endl;
+    } else {
+        std::cout << "Not found." << std::endl;
+    }
+
+    return 0;
+}
+2: apple
+2: grape
+Found: 3: orange
+
+#include <iostream>
+#include <map>
+
+int main() {
+    std::multimap<int, std::string> myMultiMap;
+
+    myMultiMap.insert({2, "apple"});
+    myMultiMap.insert({1, "banana"});
+    myMultiMap.insert({3, "orange"});
+    myMultiMap.insert({2, "grape"});
+
+    // 删除键为2的所有元素
+    int keyToDelete = 2;
+    auto range = myMultiMap.equal_range(keyToDelete);
+    myMultiMap.erase(range.first, range.second);
+
+    // 打印删除后的 multimap
+    for (const auto& pair : myMultiMap) {
+        std::cout << pair.first << ": " << pair.second << std::endl;
+    }
+
+    return 0;
+}
+1: banana
+3: orange
 ```
 ### 1.11.2 map底层存储实现
 map以RB-TREE为底层机制。RB-TREE是一种平衡二叉搜索树，自动排序效果不错。map的内部结构是R-B-tree来实现的，所以保证了一个稳定的动态操作时间，查询、插入、删除都是O（logN），最坏和平均都是。
@@ -526,7 +701,7 @@ map和set都是C++的关联容器，其底层实现都是红黑树（RB-Tree）�
 ## 1.14 迭代器作用（STL中迭代器的作用，有指针为何还要迭代器）
 ### 1.14.1 迭代器作用
 - Iterator（迭代器）模式又称Cursor（游标）模式，用于提供一种方法顺序访问一个聚合对象中各个元素, 而又不需暴露该对象的内部表示。
-  - 或者这样说可能更容易理解：Iterator模式是运用于聚合对象的一种模式，通过运用该模式，使得我们可以在不知道对象内部表示的情况下，按照一定顺序（由iterator提供的方法）访问聚合对象中的各个元素。
+  - 或者这样说可能更容易理解：Iterator模式是运用于聚合对象的一种模式，通过运用该模式，使得我们<span style="color:red">可以在不知道对象内部表示的情况下，按照一定顺序（由iterator提供的方法）访问聚合对象中的各个元素</span>。
 - 由于Iterator模式的以上特性：与聚合对象耦合，在一定程度上限制了它的广泛运用，一般仅用于底层聚合支持类，如STL的list、vector、stack等容器类及ostream_iterator等扩展iterator
 ### 1.14.2 迭代器和指针的区别
 - 迭代器不是指针，是类模板，表现的像指针。他只是模拟了指针的一些功能，通过重载了指针的一些操作符，->、*、++、--等。迭代器封装了指针，是一个“可遍历STL（ Standard Template Library）容器内全部或部分元素”的对象， 本质是封装了原生指针，是指针概念的一种提升（lift），提供了比指针更高级的行为，相当于一种智能指针，他可以根据不同类型的数据结构来实现不同的++，--等操作。
@@ -619,11 +794,15 @@ int main() {
     std::for_each(numbers.begin(), numbers.end(), [](int number) {
         std::cout << number << " ";
     });
-
+    
+    // 使用 lambda 表达式
+    std::for_each(numbers.begin(), numbers.end(), [](int& number) {
+        number *= 2;
+    });
     return 0;
 }
 ```
-这段代码会打印出 1 2 3 4 5 。std::for_each 接收了三个参数：一个迭代器指向 numbers 的开始，一个迭代器指向 numbers 的结束，以及一个 lambda 表达式，该表达式对每个元素进行操作（在这个例子中，操作是打印元素）。
+这段代码会打印出 1 2 3 4 5 和 2 4 6 8 10。std::for_each 接收了三个参数：一个迭代器指向 numbers 的开始，一个迭代器指向 numbers 的结束，以及一个 lambda 表达式，该表达式对每个元素进行操作（在这个例子中，操作是打印元素）。
 
 ### 1.17.2 std::transform
 

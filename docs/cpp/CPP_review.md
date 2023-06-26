@@ -1276,7 +1276,9 @@ that.a:5
 this->a:5
 that.a:6
 ```
-### 1.5.1 this 作用？概念？
+### 1.5.1 this 概念？
+#### 1.5.1.0 概念
+this 是一个指向当前对象的指针，它可以在类的成员函数内部使用。this 指针指向调用该成员函数的对象的地址，通过它可以访问当前对象的成员变量和成员函数。
 #### 1.5.1.1 this不影响sizeof
 1. this指针不是对象的一部分，不影响sizeof(对象)的结果。
 #### 1.5.1.2 非静态成员函数隐式传递this
@@ -1334,10 +1336,56 @@ Sales_data::isbn(&total)
 
 get_age函数会被解析成get_age(const A * const this),
 add_age函数会被解析成add_age(A* const this,int a) 常指针，指针不能修改
+### 1.5.5 this 主要有以下几个作用：
 
+区分同名的成员变量和局部变量：当成员变量和局部变量同名时，使用 this 可以明确指出要访问的是成员变量。例如：
+
+```cpp
+class MyClass {
+private:
+    int num;
+public:
+    void setNum(int num) {
+        this->num = num; // 使用 this 指针区分成员变量和局部变量
+    }
+};
+```
+在类的成员函数中返回对象本身：通过在成员函数中返回 *this（解引用 this 指针），可以实现链式调用。这种技术称为方法链（Method Chaining）。例如：
+
+```cpp
+class MyClass {
+private:
+    int value;
+public:
+    MyClass& setValue(int value) {
+        this->value = value;
+        return *this; // 返回对象本身，实现链式调用
+    }
+};
+```
+可以使用链式调用方式设置对象的多个属性，提高代码的可读性和简洁性。
+
+在类的成员函数中传递当前对象：有时候，在类的成员函数中需要将当前对象作为参数传递给其他函数，可以使用 this 来传递当前对象的地址。
+
+```cpp
+class MyClass {
+public:
+    void doSomething() {
+        // 将当前对象的地址传递给其他函数
+        otherFunction(this);
+    }
+
+    void otherFunction(MyClass* obj) {
+        // 使用传递的对象指针访问成员变量或调用成员函数
+        int num = obj->getNum();
+        // ...
+    }
+};
+```
+需要注意的是，this 指针只能在非静态成员函数中使用，因为静态成员函数没有隐式的当前对象。此外，对于常量成员函数（被 const 修饰的成员函数），this 指针的类型是指向常量的指针，即 const ClassName* 类型。这样做是为了确保常量成员函数不会修改对象的状态。
 ## 1.6 inline内联
 [原文链接](https://www.cnblogs.com/fnlingnzb-learner/p/6423917.html)
-### 1.6.1 内连inline
+### 1.6.1 内联inline
 #### 1.6.1.1内联 加inline原因
 - 解决大量消耗栈空间，引入inline
 - 可以替换代码，例如循环中使用内连函数被替换成代码，避免频繁调用函数；
@@ -4186,7 +4234,40 @@ Rref&& r4 = Data{};  // r4 is Data&&
 - 什么是 完美转发 (perfect forwarding)：
   - 如果参数是 左值引用，直接以 左值引用 的形式，转发给下一个函数
   - 如果参数是 右值引用，要先 “还原” 为 右值引用 的形式，再转发给下一个函数
+### 2.1.4 指针和引用参数传递
+指针和引用传参 有什么不同？
+2.1.4.1.语法：指针传参使用指针类型作为函数参数，而引用传参使用引用类型作为函数参数。
+指针传参示例：
+```cpp
+void foo(int* ptr) {
+    // 使用指针操作ptr
+}
+```
+引用传参示例：
+```cpp
+void bar(int& ref) {
+    // 使用引用操作ref
+}
+```
+2.1.4.2.空值（null）的处理：指针可以被赋予空值（nullptr），以表示它不指向任何有效的内存地址。引用必须始终引用到一个有效的对象，不能是空值。
+2.1.4.3.对象的别名：通过引用传参，函数可以直接操作原始对象，因为引用本身就是对象的别名。通过指针传参，需要通过解引用操作符（*）来访问指针所指向的对象。
 
+2.1.4.4.空指针检查：在函数中，可以对指针进行空指针检查，以确保指针的有效性。对于引用，不需要进行空指针检查，因为引用必须在创建时引用一个有效的对象。
+
+2.1.4.5.参数传递的副作用：通过指针传参，函数可以修改指针所指向的对象的值。这是因为指针传递的是对象的地址，函数可以间接地修改对象。通过引用传参，同样也可以修改原始对象的值，因为引用本身就是对象的别名。
+
+选择使用指针传参还是引用传参取决于具体的需求和情况。一般来说，如果函数需要改变传入参数的值或者可能为空，指针传参是一个更好的选择。而引用传参通常用于不需要改变传入参数的值，并且保证了参数不能为空的情况。同时，引用传参可以使代码更易读，并防止了空指针引起的潜在错误。
+### 2.1.5 指针 引用 参数传递
+在C++中，无论是指针传递还是引用传递，实际上都是通过传递参数的内存地址来访问原始对象。但是底层的实现机制是不同的。
+指针和引用本身存储的是地址信息，而不是对象的值。它们只是提供了访问和操作原始对象的方式，而不是存储对象本身的值。
+
+**指针传递**：当使用指针传递参数时，函数接收到的是一个指向原始对象的内存地址的副本。函数内部可以通过解引用操作符（*）来访问指针所指向的原始对象，并可以修改它的值。指针传递需要手动获取和解引用指针才能访问和操作原始对象。
+**引用传递**：当使用引用传递参数时，函数接收到的是原始对象的一个别名，而不是副本。因此，在函数内部可以直接使用引用来访问和操作原始对象，就像在函数外部一样。对引用的修改会直接影响到原始对象。引用传递不需要显式地获取和解引用指针，对原始对象的访问更直观和简洁。
+
+指针参数传递本质上是值传递，它所传递的是一个地址值。值传递过程中，被调函数的形式参数作为被调函数的局部变量处理，会在栈中开辟内存空间以存放由主调函数传递进来的实参值，从而形成了实参的一个副本（替身）。值传递的特点是，被调函数对形式参数的任何操作都是作为局部变量进行的，不会影响主调函数的实参变量的值（形参指针变了，实参指针不会变）。
+引用参数传递过程中，被调函数的形式参数也作为局部变量在栈中开辟了内存空间，但是这时存放的是由主调函数放进来的实参变量的地址。被调函数对形参（本体）的任何操作都被处理成间接寻址，即通过栈中存放的地址访问主调函数中的实参变量（根据别名找到主调函数中的本体）。因此，被调函数对形参的任何操作都会影响主调函数中的实参变量。
+引用传递和指针传递是不同的，虽然他们都是在被调函数栈空间上的一个局部变量，但是任何对于引用参数的处理都会通过一个间接寻址的方式操作到主调函数中的相关变量。而对于指针传递的参数，如果改变被调函数中的指针地址，它将应用不到主调函数的相关变量。如果想通过指针参数传递来改变主调函数中的相关变量（地址），那就得使用指向指针的指针或者指针引用。
+从编译的角度来讲，程序在编译时分别将指针和引用添加到符号表上，符号表中记录的是变量名及变量所对应地址。指针变量在符号表上应的地址值为指针变量的地址值，而引用在符号表上对应的地址值为引用对象的地址值（与实参名字不同，地址相同）。符号表生成之后就不会再改，因此指针可以改变其指向的对象（指针变量中的值可以改），而引用对象则不能修改。
 
 ## 2.2 数组和指针
 ### 2.2.1 数组和指针
@@ -4538,7 +4619,7 @@ C++通过 public、protected、private 三个关键字来控制成员变量和�
 ## 3.5 析构函数
 ### 3.5.0 析构函数
 析构函数与构造函数对应，当对象结束其生命周期，如对象所在的函数已调用完毕时，系统会自动执行析构函数。
-析构函数名也应与类名相同，只是在函数名前面加一个位取反符~，例如~stud( )，以区别于构造函数。它不能带任何参数，也没有返回值（包括void类型）。只能有一个析构函数，不能重载。
+析构函数名也应与类名相同，只是在函数名前面加一个位取反符`~`，例如`~stud()`，以区别于构造函数。它不能带任何参数，也没有返回值（包括void类型）。只能有一个析构函数，不能重载。
 如果用户没有编写析构函数，编译系统会自动生成一个缺省的析构函数（即使自定义了析构函数，编译器也总是会为我们合成一个析构函数，并且如果自定义了析构函数，编译器在执行时会先调用自定义的析构函数再调用合成的析构函数），它也不进行任何操作。所以许多简单的类中没有用显式的析构函数。
 如果一个类中有指针，且在使用的过程中动态的申请了内存，那么最好显示构造析构函数在销毁类之前，释放掉申请的内存空间，避免内存泄漏。
 类析构顺序：1）派生类本身的析构函数；2）对象成员析构函数；3）基类析构函数。
@@ -4557,6 +4638,26 @@ C++通过 public、protected、private 三个关键字来控制成员变量和�
 
 ## 3.7 复制构造函数
 ### 3.7.0 复制构造函数
+复制构造函数（Copy Constructor）是一种特殊的构造函数，用于创建一个对象，其内容与现有对象相同。它通常用于在创建新对象时，以已存在的对象作为初始值。
+
+复制构造函数的语法格式如下：
+```cpp
+类名(const 类名& existingObject)
+{
+    // 构造函数的实现代码
+}
+```
+在复制构造函数中，参数是一个对同类型的对象的引用。通过引用方式传递参数的原因是避免在复制过程中对对象进行不必要的拷贝操作，提高性能和效率。
+
+当满足以下情况之一时，复制构造函数会被调用：
+
+在创建一个新对象时，使用现有对象进行初始化。
+将一个已经创建的对象作为参数传递给函数，并在函数内部创建新对象。
+复制构造函数的目的是创建一个对象的深拷贝（Deep Copy）。深拷贝意味着将现有对象的所有成员变量的值复制到新对象中，而不仅仅是简单地复制指针或引用。
+
+需要注意的是，如果在类中没有定义自己的复制构造函数，编译器会提供一个默认的复制构造函数，该函数会按位拷贝对象的成员变量。但是，如果类中包含指针或动态分配的资源，简单的按位拷贝可能导致问题，需要自定义复制构造函数来正确地复制对象的内容。
+
+复制构造函数在对象的拷贝、传递和赋值过程中起重要作用，确保新对象能够正确地初始化和复制现有对象的状态。
 - 在linux下，编译器有时会对复制构造函数的调用做优化，避免不必要的复制构造函数调用。
   - 可以使用命令g++ xxx.cpp -fno-elide-constructors命令关闭编译器优化
 - 拷贝赋值函数值传递
@@ -4582,17 +4683,153 @@ C++通过 public、protected、private 三个关键字来控制成员变量和�
 #### 4.1.1.2.派生类不可访问基类的private成员
 #### 4.1.1.3.派生类可访问基类的protected成员
 #### 4.1.1.4.派生类可访问基类的public成员
+```cpp
+#include <iostream>
+class A{
+    public:
+        int a;
+    protected:
+        int b;
+    private:
+        int c;
+};
+class B: public A
+{
+    public:
+    int d;
+    int printa(){std::cout << "print a:" << a << std::endl;}
+    int printb(){std::cout << "print b:" << b << std::endl;}
+    // int printc(){std::cout << "print c:" << c << std::endl;}
+    // error: ‘int A::c’ is private within this context
+};
+class C : protected A
+{
+    public:
+    int e;
+    int printa(){std::cout << "print a:" << a << std::endl;}
+    int printb(){std::cout << "print b:" << b << std::endl;}
 
+    // int printc(){std::cout << "print c:" << c << std::endl;}
+    // error: ‘int A::c’ is private within this context
+};
+class D: private A
+{
+    public:
+    int f;
+    int printa(){std::cout << "print a:" << a << std::endl;}
+    // int printb(){std::cout << "print b:" << b << std::endl;}
+
+    // int printc(){std::cout << "print c:" << c << std::endl;}
+    // error: ‘int A::c’ is private within this context
+};
+int main()
+{
+    B b;
+    std::cout << "print a:" << b.a << std::endl;
+    b.printa();
+    b.printb();
+    C c;
+    //std::cout << "print a:" << c.a << std::endl;
+    // error: ‘int A::a’ is inaccessible within this context
+    c.printa();
+    c.printb();
+    D d;
+    // std::cout << "print a:" << d.a << std::endl;
+    //  error: ‘int A::a’ is inaccessible within this context
+    d.printa();
+
+    //b.printc();
+
+    // std::cout << "print b:" << b.b << std::endl;
+    // ‘int A::b’ is protected within this context
+    //
+    // std::cout << "print c:" << b.c << std::endl;
+    //error: ‘int A::c’ is private within this context
+    return 0;
+}
+```
 ### 4.1.2 私有继承
 - 派生类不可访问基类的任何成员与函数
+通过私有继承并使用 using 声明，可以在派生类中使用基类的成员。私有继承意味着基类的公共和保护成员在派生类中变为私有成员，但仍然可以通过 using 声明来提供对这些成员的访问权限。
 
+下面是一个示例代码：
+
+```cpp
+#include <iostream>
+
+class Base {
+public:
+    void publicFunction() {
+        std::cout << "This is a public function in the base class." << std::endl;
+    }
+};
+
+class Derived : private Base {
+public:
+    using Base::publicFunction;   // 使用 using 声明，提供对基类的公共函数的访问权限
+
+    void callBaseFunction() {
+        publicFunction();   // 可以在派生类中调用基类的公共函数
+    }
+};
+
+int main() {
+    Derived derived;
+    derived.callBaseFunction();    // 输出：This is a public function in the base class.
+
+    // 使用 using 声明后，也可以直接调用基类的成员
+    derived.publicFunction();     // 输出：This is a public function in the base class.
+
+    return 0;
+}
+```
+在上述示例中，Derived 类私有继承了 Base 类，并使用 `using` 声明来让 Base 类的 `publicFunction()` 成员在 Derived 类中可见和访问。通过 `callBaseFunction()` 函数和 `derived.publicFunction()` 的调用，我们可以看到基类的公共函数在派生类中仍然可以被访问和使用。
+
+需要注意的是，私有继承意味着基类的公共和保护成员在派生类中变为私有成员，因此除非通过 using 声明提供访问权限，否则这些成员对派生类的外部是不可见的。
 ### 4.1.3 保护继承
 - 派生方式为protected的继承称为保护继承，在这种继承方式下，
   * 基类的public成员在派生类中会变成protected成员，
   * 基类的protected和private成员在派生类中保持原来的访问权限;
 - 注意点：
   * 当采用保护继承的时候，由于public成员变为protected成员，因此类的使用者不可访问！而派生类可访问！
+在保护继承中，基类的公有成员对于外部代码来说是不可访问的，具体派生类对象也不能直接访问。只有派生类内部的成员函数可以访问派生类从基类继承而来的保护成员。
 
+下面是一个示例来说明这个概念：
+
+```cpp
+class Base {
+public:
+    int publicMember;
+
+protected:
+    int protectedMember;
+};
+
+class Derived : protected Base {
+public:
+    void accessBaseMembers(Derived& other) {
+        publicMember = 10;                  // 可以在派生类中进行访问
+        protectedMember = 20;               // 可以在派生类中进行访问
+
+        other.publicMember = 30;            // 可以在同类型的其他派生类对象中进行访问
+        other.protectedMember = 40;         // 可以在同类型的其他派生类对象中进行访问
+
+        // Base baseObj;
+        // baseObj.publicMember = 50;       // 不允许在基类对象或其他非派生类对象中进行访问
+        // baseObj.protectedMember = 60;    // 不允许在基类对象或其他非派生类对象中进行访问
+    }
+};
+
+int main() {
+    Derived derivedObj1;
+    Derived derivedObj2;
+    derivedObj1.accessBaseMembers(derivedObj2);   // 可以在同类型的派生类对象间进行访问
+    return 0;
+}
+```
+在上述示例中，Derived 类使用保护继承从 Base 类继承而来。在 accessBaseMembers 函数中，派生类对象和其他同类型的派生类对象可以访问基类的公有成员和保护成员。但是，在 main 函数中，无法直接在派生类对象以外的地方访问这些成员。
+
+因此，外部代码无法直接访问保护继承所得到的基类成员。只有在派生类内部或相同类型的其他派生类对象中，才能对这些成员进行访问。
 ### 4.1.4 派生类对基类成员的访问形式
 1.通过派生类对象直接访问基类成员
 2.在派生类成员函数中直接访问基类成员
@@ -4714,7 +4951,46 @@ D-----5
 ## 4.6 虚基类 虚继承
 ### 4.6.0 虚基类 虚继承
 虚基类 class A: virtual public B{}
+虚基类（Virtual Base Class）和虚继承（Virtual Inheritance）是 C++ 中用于解决多重继承中的问题的特性。
 
+在多重继承中，如果一个派生类从多个基类继承同名的成员，可能会引发命名冲突和二义性的问题。为了解决这个问题，可以使用虚继承和虚基类。
+
+虚继承使得共享基类成为可能，虚基类是在多重继承结构中被声明为虚基类的基类。它具有以下特点：
+
+虚基类是通过在继承关系中声明 virtual 关键字来定义的。派生类必须使用 virtual 继承关键字来指示对虚基类的继承。
+
+在虚继承中，无论有多少个派生类，只会有一个共享的虚基类子对象。这意味着虚基类的成员在派生类中只存在一份拷贝。
+
+当派生类进行虚继承时，虚基类子对象由最派生类负责初始化，它通过构造函数的初始化列表进行初始化。
+
+如果多个基类都继承自同一个虚基类，则共享该虚基类的成员只有一份拷贝。
+
+虚基类和虚继承的主要目的是解决菱形继承（Diamond Inheritance）中的问题，也就是多条继承路径导致的二义性和冗余拷贝。通过使用虚基类和虚继承，可以确保每个虚基类在派生类中只有一份拷贝，从而消除了二义性，减少了资源的冗余。
+
+虚继承需要谨慎使用，因为它引入了额外的复杂性。同时，在设计多重继承的类层次结构时，需要仔细考虑哪些基类应该声明为虚基类，以及如何组织继承关系，以避免二义性和不必要的复杂性。
+```cpp
+class Base {
+public:
+    int value;
+};
+
+class Derived1 : virtual public Base { /* ... */ };
+class Derived2 : virtual public Base { /* ... */ };
+
+class MostDerived : public Derived1, public Derived2 {
+    // 访问虚基类成员
+    void func() {
+        value = 10;                // 直接访问虚基类成员
+        Derived1::value = 20;      // 使用作用域解析符访问 Derived1 的虚基类成员
+        Derived2::value = 30;      // 使用作用域解析符访问 Derived2 的虚基类成员
+    }
+};
+```
+对于上述示例中的派生类 MostDerived，虚基类 Base 的成员 value 在内存中只有一个拷贝。尽管 MostDerived 继承了两个虚基类 Derived1 和 Derived2，它们都派生自同一个虚基类 Base，但是 Base 类的成员 value 只存在于派生类 MostDerived 的对象中一份。
+这意味着，当我们通过派生类 MostDerived 的对象访问 value 成员变量时，无论是通过 MostDerived 自身的成员函数，还是通过 Derived1 或 Derived2 的成员函数，都是访问同一个 value 成员。
+因此，在示例中的分布中，只有一个 value 成员。
+
+总结起来，虚基类和虚继承是用于解决多重继承中命名冲突和二义性的机制，它们允许在多个派生类中共享同一份基类成员，并且通过在继承关系中使用 virtual 关键字声明。
 ## 4.7 多重继承构造函数和析构函数的执行顺序
 ### 4.7.0 多重继承构造函数和析构函数的执行顺序
 
@@ -6885,7 +7161,7 @@ $136 = (int *) 0x55555576b35c
 name    | == _vptr.VC <VTT for VC>  |  m_data_vc6   |  m_data_vc7  |  m_data_a1   |     m_data_a2|
 value   | == 0x0000555555757bc0     |  6            |7             |    1         |    2         |
 address | == 0x    55555576b350     | 0x55555576b358|0x55555576b35c|0x55555576b360|0x55555576b364|
-
+相比于非虚继承的类C：
         |         base < A >            |              C              |
 name    |   m_data_a1    |  m_data_a2   |  m_data_c4   |  m_data_c5   |
 value   |   1            |     2        |    4         |    5         |
@@ -6905,7 +7181,7 @@ VD:
 name    | == _vptr.VD <VTT for VD>  |  m_data_vd9   |  m_data_a1   |     m_data_a2|
 value   | == 0x0000555555757ba0     |  9            |    1         |    2         |
 address | == 0x    55555576b370     | 0x55555576b378|0x55555576b37c|0x55555576b380|
-
+相比于非虚继承的类D：
 D:
         |         base < A >            |    D         |
 name    |   m_data_a1    |  m_data_a2   |  m_data_d8   |
@@ -7123,6 +7399,12 @@ address | == 0x    55555576b440                 | 0x55555576b448 | 0x55555576b44
 
 ### 4.1.2 运行期多态优点
 
+1.灵活性和扩展性：运行期多态使得代码更加灵活和可扩展。通过基类指针或引用调用虚函数，可以处理不同的派生类对象，而无需更改调用方式。这样，在后续的开发过程中，可以轻松添加新的派生类，而无需修改现有的代码。
+2.高层抽象：运行期多态能够提供高层次的抽象，将对象的特定实现细节与使用对象的代码分离开来。通过基类接口进行编程，可以隐藏对象的具体实现细节，只关注对象能够提供的功能和行为。
+3.代码重用：通过运行期多态，可以利用多态性的特性，编写可复用的代码。一个基类指针可以指向不同的派生类对象，从而共享相同的代码逻辑，减少代码的冗余。
+4.维护性和可读性：运行期多态使得代码更易于维护和理解。通过使用基类指针或引用来调用方法，可以提高代码的可读性，减少了大量的条件语句和类型判断，使得代码更加清晰和简洁。
+
+
 1. OO设计中重要的特性, 对客观世界直觉认识
 2. 能够处理同一个继承体系下的异质类集合
 
@@ -7134,13 +7416,31 @@ address | == 0x    55555576b440                 | 0x55555576b448 | 0x55555576b44
 4. 虚表指针增大了对象体积, 类也多了一张虚函数表, 当然, 这是理所应当值得付出的资源消耗, 列为缺点有点勉强
 
 ### 4.1.4 编译期多态优点
+编译期多态是指在编译期间进行的多态操作，主要通过模板和函数重载来实现。与运行时多态相比，编译期多态具有以下几个优点：
 
+1.性能高效：编译期多态的特点是在编译时就能够确定调用的具体函数或代码实例，不需要在运行时进行动态绑定。这样可以避免虚函数表查找、函数指针调用等运行时开销，提高程序的执行效率。
+
+2.代码整洁：使用编译期多态可以减少手动编写的重复代码。通过函数重载和模板的特性，可以根据不同的参数类型自动生成对应的函数或代码实例，使代码更加简洁、清晰。
+
+3.编译时错误检测：编译期多态可以在编译时进行类型检查，能够及早发现潜在的错误。如果某个函数调用无法匹配到适当的函数或模板实例，编译器会在编译期间报告错误，从而帮助开发人员更快地发现和修复问题。
+
+4.静态类型安全：由于编译期多态是在编译时就确定具体实例的，因此可以对参数类型进行静态类型检查，确保类型的正确性。这可以减少运行时类型相关的错误，提高代码的稳定性和可靠性。
+
+编译期多态具有高效性、简洁性、错误检测和类型安全等优点，适用于需要在编译期间确定函数调用或代码实例的场景.
 1. 它带来了泛型编程的概念, 使得C++拥有泛型编程与STL这样的强大武器
 2. 在编译器完成多态, 提高运行期效率
 3. 具有很强的适配性与松耦合性, 对于特殊类型可由模板偏特化, 全特化来处理
 
 ### 4.1.5 编译期多态缺点
+1.缺乏灵活性：编译期多态在编译时确定函数调用或代码实例，无法根据运行时的条件或动态变化进行适应。这意味着编译期多态无法处理动态创建对象或在运行时决定调用哪个函数的情况。这导致编译期多态对于某些需要在运行时才能确定的场景不够灵活。
 
+2.代码膨胀：编译期多态使用模板和函数重载来生成不同的代码实例，对于每个不同的参数类型组合都会生成对应的函数或代码，这可能导致代码体积的增加。当参数类型组合非常多时，代码的体积可能会急剧增加，造成额外的内存占用和编译时间增长。
+
+3.难以维护：编译期多态生成的大量重载函数或模板实例可能会增加代码的复杂性，使代码更难理解和维护。当需要对原有函数或模板进行修改时，可能需要同时更新多个重载函数或模板实例，这增加了代码维护的难度。
+
+4.可读性差：由于编译期多态主要通过模板和函数重载来实现，代码中可能会出现大量的模板参数、类型推断和函数重载的情况，这可能导致代码变得复杂和晦涩。这可能增加了其他开发人员理解代码的难度。
+
+5.编译时间增加：由于编译期多态需要对多个函数或模板进行生成和匹配，可能会导致编译时间的增加。特别是当参数类型组合较多时，编译器需要处理更多的代码实例，增加了编译时间。
 1. 程序可读性降低, 代码调试带来困难
 2. 无法实现模板的分离编译, 当工程很大时, 编译时间不可小觑
 3. 无法处理异质对象集合
@@ -7233,7 +7533,37 @@ Base::D
 
 ### 5.4 C实现多态
 [C实现多态](https://light-city.club/sc/basic_content/c_poly/)
+```cpp
+#include <stdio.h>
 
+// 定义一个形状结构体
+typedef struct {
+    void (*draw)(void);  // 函数指针，用于绘制形状
+} Shape;
+
+// 矩形的绘制函数
+void drawRectangle(void) {
+    printf("Drawing a rectangle.\n");
+}
+
+// 圆形的绘制函数
+void drawCircle(void) {
+    printf("Drawing a circle.\n");
+}
+
+int main() {
+    Shape rectangle;
+    Shape circle;
+
+    rectangle.draw = drawRectangle;
+    circle.draw = drawCircle;
+
+    rectangle.draw();  // 调用矩形的绘制函数
+    circle.draw();     // 调用圆形的绘制函数
+
+    return 0;
+}
+```
 
 ### 5.5 变长参数实现
 类型`va_list`和三个宏 `va_start`、`va_arg`、`va_end`
@@ -7260,13 +7590,71 @@ int getSum(int num,...)
     return sum;
 }
 ```
+```cpp
+#include <iostream>
 
+template<typename T>
+T sum(T value) {
+    return value;
+}
+
+template<typename T, typename... Args>
+T sum(T value, Args... args) {
+    return value + sum(args...);
+}
+
+int main() {
+    int total = sum(1, 2, 3, 4, 5);
+    std::cout << "Sum: " << total << std::endl;
+
+    double result = sum(1.5, 2.7, 3.3);
+    std::cout << "Sum: " << result << std::endl;
+
+    return 0;
+}
+```
 
 ### 5.6 必须在构造函数初始化式里进行初始化的数据成员有哪些
-- 常量成员，因为常量只能初始化不能赋值，所以必须放在初始化列表里面
+- 常量成员，因为常量只能初始化不能赋值，所以必须放在初始化列表里面,常量成员在创建对象之后就不能再修改。
 - 引用类型，引用必须在定义的时候初始化，并且不能重新赋值，所以也要写在初始化列表里面
 - 没有默认构造函数的类类型，因为使用初始化列表可以不必调用默认构造函数来初始化，而是直接调用拷贝构造函数初始化
+```cpp
+class MyClass {
+private:
+    const int myConst;
 
+public:
+    MyClass(int value) : myConst(value) {
+        // 其他构造逻辑
+    }
+};
+
+class MyClass {
+private:
+    int& myRef;
+
+public:
+    MyClass(int& value) : myRef(value) {
+        // 其他构造逻辑
+    }
+};
+
+class AnotherClass {
+public:
+    AnotherClass(int value) { /* 构造函数实现 */ }
+};
+
+
+class MyClass {
+private:
+    AnotherClass myObject;
+
+public:
+    MyClass(int value) : myObject(value) {
+        // 其他构造逻辑
+    }
+};
+```
 ### 5.7 模板特化
 - 全特化/偏特化
   - 例如，判断相等的模板函数，字符串需要特化出专门供字符串使用的模板参数
@@ -7277,7 +7665,48 @@ int getSum(int num,...)
   - 对于模板类型的进一步限制
   - 对类型的范围的限制，主要的类型基础不变
 
-### 5.8 C++内存泄漏
+### 5.8.1 内存泄漏问题出现
+C++中的内存泄漏问题通常出现在以下几个方面：
+
+1.动态分配内存未释放：在使用 new、malloc 或类似的分配内存的函数时，需要手动调用对应的释放内存的函数，如 delete、free 等。如果忘记或错误地未释放动态分配的内存，就会导致内存泄漏。
+
+2.重复释放内存：当多次释放同一块内存时，会导致不可预测的行为，包括程序崩溃。确保每个动态分配的内存只被释放一次。
+
+3.循环引用：循环引用指的是对象之间存在相互引用关系，导致无法释放的情况。如果某个对象持有其他对象的指针，而被其它对象也持有引用，这样形成了循环引用，即使没有外部引用，这些对象也无法被释放，从而导致内存泄漏。
+
+4.STL容器的使用：STL容器（如vector、map等）会自动管理其元素的内存，但如果容器中存储了指针，并且没有正确地释放这些指针所指向的内存，就可能导致内存泄漏。
+
+5.异常处理不当：在异常处理过程中，如果没有适当地释放已分配的内存，就会导致内存泄漏。应确保在发生异常时可以正确地释放已分配的资源。
+
+为了避免内存泄漏，可以采取以下措施：
+
+1.使用智能指针（如std::shared_ptr、std::unique_ptr）来管理动态分配的内存，以确保在不再需要时自动释放内存。
+2.注意及时释放不再使用的动态分配的内存。
+3.确保对象之间的引用关系不会形成循环引用。
+4.在异常处理中正确处理内存释放。
+5.使用 STL 容器时，注意元素的正确释放。
+6.使用内存泄漏检测工具来帮助发现和调试潜在的内存泄漏问题。
+### 5.8.2 排查和解决内存泄漏问题的过程
+1.确认是否存在内存泄漏：
+ 在怀疑出现内存泄漏时，首先要确认是否真的存在内存泄漏问题。可以借助内存泄漏检测工具（例如Valgrind、Dr. Memory等）进行检查，或者通过代码审查和日志记录分析来确定是否存在内存泄漏。
+2.定位内存泄漏的位置：
+一旦确认存在内存泄漏，接下来需要定位泄漏的具体位置。可以通过以下方式进行定位：
+ 2.1观察代码中可能导致内存泄漏的地方，如动态内存分配、持有资源的对象等。
+ 2.2使用内存调试工具来追踪内存分配和释放的情况，以及跟踪指针的生命周期。
+ 2.3借助日志记录或调试器来跟踪程序执行过程中的内存分配和释放情况。
+3.分析内存泄漏的原因：一旦找到了泄漏的位置，需要分析泄漏的原因。常见的原因包括：
+ 3.1动态分配的内存没有被正确释放。
+ 3.2对象之间存在循环引用，导致无法释放。
+ 3.3异常处理不当，未正确处理内存释放。
+ 3.4容器中存储了指针，但没有正确释放指针所指向的内存。
+4.解决内存泄漏问题：根据泄漏的原因，采取适当的措施进行解决：
+ 4.1手动添加缺失的释放语句，确保动态分配的内存得到正确释放。
+ 4.2检查循环引用的情况，并考虑使用智能指针或改变对象之间的引用关系来解决循环引用。
+ 4.3在异常处理过程中，确保已分配的资源得到正确释放。
+ 4.4确保容器中存储的指针在不需要时正确释放。
+5.进行测试和验证：
+ 在修改代码后，进行全面的测试和验证，确保解决了内存泄漏问题，并且程序的功能不受影响。
+### 5.8.3 内存泄漏工具
 - 释放内存之前，失去对内存的控制，造成浪费
 - 后台消耗越来越多；频繁分配；程序能请求未释放的内存（共享内存）；操作系统内部；系统驱动内部；内存有限；不自动释放的系统；
 - windows下CRT，
@@ -7300,7 +7729,85 @@ int getSum(int num,...)
   - 再使用_CrtMemDifference 比较两个内存状态（s1 和 s2），生成这两个状态之间差异的结果（s3）。 在程序的开始和结尾放置 _CrtMemCheckpoint 调用，并使用_CrtMemDifference 比较结果，是检查内存泄漏的另一种方法。 如果检测到泄漏，则可以使用 _CrtMemCheckpoint 调用通过二进制搜索技术来划分程序和定位泄漏。
 - linux下使用mtrace或valgrind
   - valgrind --leak-check=full ./a.out
+### 5.8.4 valgrind 例子
+假设我们有以下的 C++ 代码：
 
+```cpp
+#include <iostream>
+
+void leakingnew()
+{
+    int *ptr = new int[10];
+}
+void leakingFunction()
+{
+    int* ptr = new int(10);
+}
+
+int main()
+{
+    for (int i = 0; i < 5; i++)
+    {
+        leakingFunction();
+    }
+    leakingnew();
+
+    return 0;
+}
+```
+这段代码中，leakingFunction() 函数在每次被调用时都会动态分配一个 int 类型的内存块，并没有进行释放，导致内存泄漏。
+
+我们可以使用 Valgrind 来检测该程序的内存泄漏。请确保你已经安装了 Valgrind。
+
+在终端中，使用以下命令编译并运行程序：
+
+```shell
+g++ -g -o program program.cpp
+valgrind --leak-check=full ./program
+```
+
+Valgrind 将输出一系列的信息，其中包含了内存泄漏的相关报告。在报告中，找到类似下面的行：
+
+4 bytes in 1 blocks are definitely lost in loss record 1 of 5
+这将告诉你发生了 4 字节内存泄漏。进一步，找到 "lost" 行的上一行，其中包含堆栈跟踪信息：
+
+```shell
+valgrind --leak-check=yes ./newleck
+==17365== Memcheck, a memory error detector
+==17365== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==17365== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==17365== Command: ./newleck
+==17365==
+==17365==
+==17365== HEAP SUMMARY:
+==17365==     in use at exit: 60 bytes in 6 blocks
+==17365==   total heap usage: 7 allocs, 1 frees, 72,764 bytes allocated
+==17365==
+==17365== 20 bytes in 5 blocks are definitely lost in loss record 1 of 2
+==17365==    at 0x4C3217F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17365==    by 0x1087F4: leakingFunction() (newleck.cpp:9)
+==17365==    by 0x10881B: main (newleck.cpp:16)
+==17365==
+==17365== 40 bytes in 1 blocks are definitely lost in loss record 2 of 2
+==17365==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17365==    by 0x1087DB: leakingnew() (newleck.cpp:5)
+==17365==    by 0x108826: main (newleck.cpp:18)
+==17365==
+==17365== LEAK SUMMARY:
+==17365==    definitely lost: 60 bytes in 6 blocks
+==17365==    indirectly lost: 0 bytes in 0 blocks
+==17365==      possibly lost: 0 bytes in 0 blocks
+==17365==    still reachable: 0 bytes in 0 blocks
+==17365==         suppressed: 0 bytes in 0 blocks
+==17365==
+==17365== For counts of detected and suppressed errors, rerun with: -v
+==17365== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+```
+这段信息告诉我们，内存泄漏发生在 leakingFunction() 函数中的第 6 行，由 operator new 所触发。而泄漏最终出现在 main() 函数的第 14 行。
+
+通过这些信息，我们可以找到泄漏发生的具体位置，并进行修复。
+
+希望这个例子能够帮助你理解如何使用 Valgrind 查看具体的内存泄漏位置。
 ### 5.9 i++不是原子操作
 
 **i++分为三个阶段：**
@@ -7375,4 +7882,159 @@ void *memmove(void *dest, const void *src, size_t n)
 考虑重叠时，从后向前拷贝
 memcpy，strcat，strcmp
 https://blog.csdn.net/shanghairuoxiao/java/article/details/72876248
+```cpp
+if (pdest>psrc&&pdest < psrc+size)
+{
+    pdest = pdest + size -1;
+    psrc = psrc + size -1;
+    *pdest-- = *psrc--;
+}
+else
+{
+    *pdest ++ = *psrc++;
+}
+```
+### 5.13 无锁编程
+
+无锁编程时，我们可以使用原子操作和无锁数据结构来实现并发安全性
+#### 5.13.1 `atomic_compare_exchange_weak_explicit`函数
+`std::atomic_compare_exchange_weak_explicit`是C++中的原子操作函数，用于进行比较并交换的操作。它的作用是比较一个原子对象的值与期望值是否相等，如果相等，则将该原子对象的值替换为新值。这个操作是原子的，可以在多线程环境下安全地进行。
+
+函数的签名如下：
+
+```cpp
+bool atomic_compare_exchange_weak_explicit(
+    volatile atomic<T>* obj,
+    T* expected,
+    T desired,
+    memory_order success,
+    memory_order failure
+);
+```
+obj：要进行比较和交换操作的原子对象的地址。
+expected：一个指向预期值的指针。
+desired：要替换的新值。
+success：定义了交换操作成功时内存访问的顺序约束。
+failure：定义了交换操作失败时内存访问的顺序约束。
+该函数的工作方式是，首先检查obj的值是否与*expected相等。如果相等，则将desired的值存储到obj中，并返回true表示操作成功。如果不相等，则将obj的当前值存储到*expected中，并返回false表示操作失败。
+函数中的_weak表示函数可能会在比较时失败，即使没有竞争情况存在.这意味着函数可能不会保证成功地进行比较和交换，因此需要在循环中反复尝试。
+_explicit表示函数使用了显式的内存顺序参数，以在进行比较和交换操作时指定内存访问的顺序约束。这些顺序约束可以控制原子操作对内存的可见性和顺序性。
+`atomic_compare_exchange_weak_explicit`函数允许我们在多线程环境下以原子方式进行条件比较和交换操作，从而实现并发安全性。
+#### 5.13.2 实现无锁队列
+我们使用了`std::atomic`类模板来实现原子操作。`LockFreeQueue`类是一个线程安全的无锁队列，支持在多个线程之间进行enqueue（入队）和dequeue（出队）操作。
+
+enqueue操作使用原子操作`std::atomic_compare_exchange_weak_explicit`来保证对尾节点（tail）的修改是线程安全的。在循环中，我们首先检查尾节点是否与当前已知的尾节点相同。如果是，就尝试通过原子操作将新节点添加到尾节点的next指针上。如果添加成功了，就退出循环；否则，可能有其他线程修改了尾节点，因此我们需要更新当前已知的尾节点，并再次尝试添加。
+
+dequeue操作也使用原子操作`std::atomic_compare_exchange_weak_explicit`来保证对头节点（head）的修改是线程安全的。类似于enqueue操作，我们在循环中检查头节点是否与当前已知的头节点相同。如果是，就尝试修改头节点并返回对应的值，然后删除之前的头节点。否则，可能有其他线程修改了头节点，因此我们需要更新当前已知的头节点，并再次尝试修改。
+```cpp
+#include <atomic>
+
+template <typename T>
+class LockFreeQueue {
+private:
+    struct Node {
+        T data;
+        Node* next;
+
+        Node(const T& value) : data(value), next(nullptr) {}
+    };
+
+    std::atomic<Node*> head;
+    std::atomic<Node*> tail;
+
+public:
+    LockFreeQueue() : head(nullptr), tail(nullptr) {}
+
+    void enqueue(const T& value) {
+        Node* newNode = new Node(value);
+        newNode->next = nullptr;
+
+        Node* currentTail = tail.load(std::memory_order_relaxed);
+        while (true) {
+            Node* actualTail = tail.load(std::memory_order_acquire);
+            if (actualTail == currentTail) {
+                Node* nextTail = actualTail->next;
+                if (nextTail == nullptr) {
+                    if (std::atomic_compare_exchange_weak_explicit(
+                            &actualTail->next, &nextTail, newNode,
+                            std::memory_order_release, std::memory_order_relaxed)) {
+                        break;
+                    }
+                } else {
+                    std::atomic_compare_exchange_weak_explicit(
+                        &tail, &currentTail, nextTail,
+                        std::memory_order_release, std::memory_order_relaxed);
+                }
+            }
+        }
+
+        std::atomic_compare_exchange_weak_explicit(
+            &tail, &currentTail, newNode,
+            std::memory_order_release, std::memory_order_relaxed);
+    }
+
+    bool dequeue(T& value) {
+        Node* currentHead = head.load(std::memory_order_relaxed);
+        while (true) {
+            Node* actualHead = head.load(std::memory_order_acquire);
+            if (actualHead == currentHead) {
+                Node* nextHead = actualHead->next;
+                if (nextHead == nullptr) {
+                    return false;
+                }
+                value = nextHead->data;
+                if (std::atomic_compare_exchange_weak_explicit(
+                        &head, &currentHead, nextHead,
+                        std::memory_order_release, std::memory_order_relaxed)) {
+                    delete actualHead;
+                    break;
+                }
+            }
+        }
+
+        return true;
+    }
+};
+```
+1.创建新节点：首先，我们创建一个新节点newNode，并将需要入队的值value存储在该节点的data成员中。
+
+2.添加新节点到队尾：我们需要保证队列的线程安全性，因此我们使用原子操作来添加新节点到队列的尾部。
+2.1 我们首先通过tail.load(std::memory_order_relaxed)获取当前尾节点（currentTail）。由于这是个松散的加载操作，不需要对内存进行顺序约束。
+2.2 然后，我们进入一个循环，检查已知的尾节点是否与实际的尾节点（actualTail）相同。如果相同，则说明没有其他线程在此期间修改了尾节点。
+2.3 在循环中，我们检查实际尾节点的next指针是否为nullptr。如果是，说明队列为空，我们可以安全地将新节点添加到尾节点的next指针上。
+2.4 使用std::atomic_compare_exchange_weak_explicit原子操作来尝试将新节点设置为尾节点的next指针，拥有“发布”内存顺序约束（std::memory_order_release）。
+2.4.1 如果操作成功（即设置成功），我们退出循环。
+2.4.2 如果操作失败（即有其他线程在此期间修改了尾节点），我们需要更新当前已知的尾节点，并重新尝试添加。
+
+3.更新尾节点：最后，我们使用std::atomic_compare_exchange_weak_explicit原子操作尝试更新尾节点。我们将当前已知的尾节点指针（currentTail）与新节点指针（newNode）进行比较，如果相等，则将新节点设置为新的尾节点。
+### 5.14 C++类重构设计六大原则
+### 5.14.0 C++类重构设计六大原则
+
+一，开闭原则 一个软件实体如类，模块和函数应该对扩展开放，对修改关闭。
+二，单一职责原则 指一个类或者模块应该有且只有一个改变的原因。
+三，依赖倒置原则 **高层模块不应该依赖低层模块，应该依赖抽象。**  **抽象不应该依赖细节；细节应该依赖抽象。**
+四，里氏替换原则 在不影响原功能，而不是不覆盖原方法
+五，接口隔离原则 客户端不应该依赖它不需要的接口
+六，迪米特原则（最小知识原则） **一个软件实体应当尽可能少的与其他实体发生相互作用**。
+合成复用原则（Composite Reuse Principle） 首先使用合成/聚合的方式，而不是使用继承
+### 5.14.1 C++类重构设计六大原则
+1.单一职责原则（Single Responsibility Principle，SRP）：
+一个类应该只有一个引起变化的原因。换句话说，每个类应该只负责完成一个明确定义的职责。这样可以使类的设计更加清晰、简洁，并提高代码的可维护性。
+
+2.开放封闭原则（Open-Closed Principle，OCP）：
+软件实体（类、模块、函数等）应该是可扩展的，但对修改关闭。通过使用抽象、接口、继承等方式，可以使得系统在需求变化时能够进行扩展而不需要修改现有的代码。
+
+3.里氏替换原则（Liskov Substitution Principle，LSP）：
+子类型必须能够替代其基类型。也就是说，如果一个类是某个抽象类型的子类，那么它应该可以替代该抽象类型在任何使用该抽象类型的地方，而不会导致程序逻辑错误或异常。
+
+4.依赖倒置原则（Dependency Inversion Principle，DIP）：
+高层模块不应该依赖于低层模块，两者都应该依赖于抽象。抽象不应该依赖于具体实现细节，而实现细节应该依赖于抽象。通过使用接口和依赖注入等方式，可以降低模块之间的耦合性，提高系统的灵活性和可维护性。
+
+5.接口隔离原则（Interface Segregation Principle，ISP）：
+客户端不应该依赖它不需要的接口。一个类不应该强迫自己的客户端依赖它们不需要的方法。通过将大接口拆分成多个小接口，可以避免对无关方法的依赖，提高代码的可重用性和灵活性。
+
+6.迪米特法则（Law of Demeter，LoD）：
+一个对象应该对其他对象有尽可能少的了解。一个类应该只与其直接的朋友发生交互，而避免与陌生的类发生直接的交互。通过减少类之间的耦合性，可以提高系统的可维护性和可扩展性。
+
+
 
