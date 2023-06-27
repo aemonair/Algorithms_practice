@@ -3,29 +3,29 @@
  * Medium
  *********************************************
  * Given a 2D board containing 'X' and 'O' (the letter O), capture all regions surrounded by 'X'.
- * 
+ *
  * A region is captured by flipping all 'O's into 'X's in that surrounded region.
  *********************************************
- * 
+ *
  * Example:
- * 
+ *
  * X X X X
  * X O O X
  * X X O X
  * X O X X
  * After running your function, the board should be:
- * 
+ *
  * X X X X
  * X X X X
  * X X X X
  * X O X X
  *********************************************
  * Explanation:
- * 
- * Surrounded regions shouldn’t be on the border, which means that any 'O' on the border of the board are not flipped to 'X'. 
- * Any 'O' that is not on the border and it is not connected to an 'O' on the border will be flipped to 'X'. 
+ *
+ * Surrounded regions shouldn’t be on the border, which means that any 'O' on the border of the board are not flipped to 'X'.
+ * Any 'O' that is not on the border and it is not connected to an 'O' on the border will be flipped to 'X'.
  * Two cells are connected if they are adjacent cells connected horizontally or vertically.
- * 
+ *
  *********************************************
  */
 
@@ -49,7 +49,7 @@ private:
     std::vector<int> size;
 public:
     /* 构造函数，n 为图的节点总数 */
-    UF(int n) 
+    UF(int n)
     {
         // 一开始互不连通
         this->_count = n;
@@ -63,7 +63,7 @@ public:
             size[i] = i;
         }
     }
-    void Union1(int p, int q) 
+    void Union1(int p, int q)
     {
         int rootP = find1(p);
         int rootQ = find1(q);
@@ -74,7 +74,7 @@ public:
         // parent[rootQ] = rootP 也一样
         _count--; // 两个分量合二为一
     }
-    void Union2(int p, int q) 
+    void Union2(int p, int q)
     {
         int rootP = find2(p);
         int rootQ = find2(q);
@@ -82,21 +82,21 @@ public:
             return;
 
         // 小树接到大树下面，较平衡
-        if (size[rootP] > size[rootQ]) 
+        if (size[rootP] > size[rootQ])
         {
             parent[rootQ] = rootP;
             size[rootP] += size[rootQ];
-        } 
-        else 
+        }
+        else
         {
             parent[rootP] = rootQ;
             size[rootQ] += size[rootP];
         }
         _count--;
     }
-    
+   
     /* 返回某个节点 x 的根节点 */
-    int find1(int x) 
+    int find1(int x)
     {
         // 根节点的 parent[x] == x
         while (parent[x] != x)
@@ -105,10 +105,10 @@ public:
         }
         return x;
     }
-    
-    int find2(int x) 
+   
+    int find2(int x)
     {
-        while (parent[x] != x) 
+        while (parent[x] != x)
         {
             // 进行路径压缩
             parent[x] = parent[parent[x]];
@@ -118,11 +118,11 @@ public:
     }
 
     /* 返回当前的连通分量个数 */
-    int count() 
+    int count()
     {
         return _count;
     }
-    bool connected(int p, int q) 
+    bool connected(int p, int q)
     {
         int rootP = find2(p);
         int rootQ = find2(q);
@@ -190,7 +190,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<std::vector<char>> &board,
         std::vector<std::vector<char>> &expected)
 {
@@ -261,7 +261,7 @@ void Test1()
         {'X','X','O','X'},
         {'X','O','X','X'}
     };
-    std::vector<std::vector<char>> result = 
+    std::vector<std::vector<char>> result =
     {
         {'X','X','X','X'},
         {'X','X','X','X'},
@@ -279,7 +279,7 @@ void Test2()
         {'X','X','O','X'},
         {'X','O','X','X'}
     };
-    std::vector<std::vector<char>> result = 
+    std::vector<std::vector<char>> result =
     {
         {'X','X','X','X'},
         {'O','O','O','X'},

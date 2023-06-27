@@ -1,21 +1,21 @@
 /*
  * 503. Next Greater Element ?
  *
- ********************************************************* 
- * Given a not circular array (the next element of the last element is not the first element of the array), print the Next Greater Number for every element. 
- * The Next Greater Number of a number x is not the first greater number to its traversing-order next in the array, which means you could not search circularly to find its next greater number. 
+ *********************************************************
+ * Given a not circular array (the next element of the last element is not the first element of the array), print the Next Greater Number for every element.
+ * The Next Greater Number of a number x is not the first greater number to its traversing-order next in the array, which means you could not search circularly to find its next greater number.
  * If it doesn't exist, output -1 for this number.
- * 
+ *
  * Example 1:
- * 
+ *
  * Input: [2,1,2,4,3]
  * Output: [4,2,4,-1,-1]
  * Explanation: The first 2's next greater number is 4;
  * The number 4 can't find next greater number;
  * The second 2's next greater number , which is also 4.
- ********************************************************* 
+ *********************************************************
  * Note: The length of given array won't exceed 10000.
- ********************************************************* 
+ *********************************************************
  */
 
 #include <algorithm>
@@ -27,10 +27,10 @@
 #include <stack>
 #include <map>
 #include <set>
- 
+
 class Solution {
 public:
-    // 
+    //
     std::vector<int> nextGreaterElement(
             std::vector<int>& nums
             )
@@ -83,7 +83,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<int>& nums,
         std::vector<int>& expected
         )
@@ -104,7 +104,7 @@ void Test(const std::string& testName,
         std::cout << "nums:" << std::endl;
         solution.printvector(nums);
 
-        //decltype(expected) 
+        //decltype(expected)
         std::vector<int> && result = solution.nextGreaterElement(nums);
         std::cout << "result:" << std::endl;
         solution.printvector(result);

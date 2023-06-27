@@ -1,14 +1,14 @@
 /*
  *^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
- * Given a set of non-negative integers, and a value sum, determine if there is a subset of the given set with sum equal to given sum. 
- * 
+ * Given a set of non-negative integers, and a value sum, determine if there is a subset of the given set with sum equal to given sum.
+ *
  *^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
- * Example: 
- * 
+ * Example:
+ *
  * Input: set[] = {3, 34, 4, 12, 5, 2}, sum = 9
- * Output: True  
+ * Output: True 
  * There is a subset (4, 5) with sum 9.
- * 
+ *
  * Input: set[] = {3, 34, 4, 12, 5, 2}, sum = 30
  * Output: False
  * There is no subset that add up to 30.
@@ -23,7 +23,7 @@
 #include <queue>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -66,7 +66,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;
@@ -78,7 +78,7 @@ void Test(const std::string& testName,
     std::cout << "sum:" <<  sum << " , nums:";
     printvector(nums);
 
-    const static int TEST_TIME = 1;    
+    const static int TEST_TIME = 1;   
     {
         if (TEST_TIME)
         {

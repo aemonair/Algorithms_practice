@@ -7,7 +7,7 @@
  * Given a string expression of numbers and operators, return all possible results from computing all the different possible ways to group numbers and operators. You may return the answer in any order.
  ******************************************************************
  * Example 1:
- * 
+ *
  * Input: "2-1-1"
  * Output: [0, 2]
  * Explanation:
@@ -15,7 +15,7 @@
  * (2-(1-1)) = 2
  ******************************************************************
  * Example 2:
- * 
+ *
  * Input: "2*3-4*5"
  * Output: [-34, -14, -10, -10, 10]
  * Explanation:
@@ -26,11 +26,11 @@
  * (((2*3)-4)*5) = 10
  ******************************************************************
  * Constraints:
- * 
+ *
  * 1 <= expression.length <= 20
  * expression consists of digits and the operator '+', '-', and '*'.
  ******************************************************************
- * 
+ *
  */
 
 #include <map>
@@ -51,13 +51,13 @@
 
 class Solution {
 public:
-///////////////////////////////////////////////////////////////    
-    std::vector<int> diffWaysToCompute(std::string input) 
+///////////////////////////////////////////////////////////////   
+    std::vector<int> diffWaysToCompute(std::string input)
     {
         std::vector<int> result;
         return result;
     }
-///////////////////////////////////////////////////////////////    
+///////////////////////////////////////////////////////////////   
     template <typename T>
     int printvector(std::vector<T> v)
     {
@@ -98,10 +98,10 @@ public:
         std::cout <<  std::endl;
         return s.size();
     }
-///////////////////////////////////////////////////////////////    
+///////////////////////////////////////////////////////////////   
 };
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::string input,
         std::vector<int>& expected
         )

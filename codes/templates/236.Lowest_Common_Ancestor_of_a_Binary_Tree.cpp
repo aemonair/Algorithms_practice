@@ -3,15 +3,15 @@
  * Medium
  *************************************************************************************
  * Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
- * 
- * According to the definition of LCA on Wikipedia: 
- * “The lowest common ancestor is defined between two nodes p and q as the lowest node in T 
+ *
+ * According to the definition of LCA on Wikipedia:
+ * “The lowest common ancestor is defined between two nodes p and q as the lowest node in T
  *  that has both p and q as descendants (where we allow a node to be a descendant of itself).”
- * 
+ *
  * Given the following binary tree:  root = [3,5,1,6,2,0,8,null,null,7,4]
  *************************************************************************************
  * Example 1:
- * 
+ *
  *        3
  *      /   \
  *     5     1
@@ -19,13 +19,13 @@
  *   6   2 0   8
  *     /  \
  *    7    4
- *          
+ *         
  * Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
  * Output: 3
  * Explanation: The LCA of nodes 5 and 1 is 3.
  *************************************************************************************
  * Example 2:
- * 
+ *
  *        3
  *      /   \
  *     5     1
@@ -43,7 +43,7 @@
  * Output: 1
  *************************************************************************************
  * Constraints:
- * 
+ *
  * The number of nodes in the tree is in the range [2, 10^5].
  * -10^9 <= Node.val <= 10^9
  * All Node.val are unique.
@@ -111,7 +111,7 @@ public:
     }
 };
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         TreeNode *root, TreeNode * p, TreeNode *q,
         TreeNode *expected)
 {
@@ -192,7 +192,7 @@ void Test1()
     TreeNode * p_node5 = new TreeNode(5, p_node6, p_node2);
 
     TreeNode * p_node3 = new TreeNode(3, p_node5, p_node1);
-    
+   
     std::cout << "      3        " << std::endl;
     std::cout << "    /   \\     " << std::endl;
     std::cout << "   5     1     " << std::endl;
@@ -219,7 +219,7 @@ void Test2()
     TreeNode * p_node5 = new TreeNode(5, p_node6, p_node2);
 
     TreeNode * p_node3 = new TreeNode(3, p_node5, p_node1);
-    
+   
     std::cout << "      3        " << std::endl;
     std::cout << "    /   \\     " << std::endl;
     std::cout << "   5     1     " << std::endl;
@@ -239,7 +239,7 @@ void Test3()
     TreeNode * p_node3 = new TreeNode(3, nullptr, p_node2);
     TreeNode * p_node5 = new TreeNode(5, p_node0, nullptr);
     TreeNode * p_node6 = new TreeNode(6, p_node3, p_node5);
-    
+   
     std::cout << "      6         " << std::endl;
     std::cout << "    /   \\      " << std::endl;
     std::cout << "   3     5      " << std::endl;

@@ -1,5 +1,5 @@
 /*
- * 
+ *
  *************************************************************************************
  *  union-Find
  *************************************************************************************
@@ -27,7 +27,7 @@ private:
     std::vector<int> size;
 public:
     /* 构造函数，n 为图的节点总数 */
-    UF(int n) 
+    UF(int n)
     {
         // 一开始互不连通
         this->_count = n;
@@ -41,7 +41,7 @@ public:
             size[i] = i;
         }
     }
-    void Union1(int p, int q) 
+    void Union1(int p, int q)
     {
         int rootP = find1(p);
         int rootQ = find1(q);
@@ -52,7 +52,7 @@ public:
         // parent[rootQ] = rootP 也一样
         _count--; // 两个分量合二为一
     }
-    void Union2(int p, int q) 
+    void Union2(int p, int q)
     {
         int rootP = find2(p);
         int rootQ = find2(q);
@@ -60,21 +60,21 @@ public:
             return;
 
         // 小树接到大树下面，较平衡
-        if (size[rootP] > size[rootQ]) 
+        if (size[rootP] > size[rootQ])
         {
             parent[rootQ] = rootP;
             size[rootP] += size[rootQ];
-        } 
-        else 
+        }
+        else
         {
             parent[rootP] = rootQ;
             size[rootQ] += size[rootP];
         }
         _count--;
     }
-    
+   
     /* 返回某个节点 x 的根节点 */
-    int find1(int x) 
+    int find1(int x)
     {
         // 根节点的 parent[x] == x
         while (parent[x] != x)
@@ -83,10 +83,10 @@ public:
         }
         return x;
     }
-    
-    int find2(int x) 
+   
+    int find2(int x)
     {
-        while (parent[x] != x) 
+        while (parent[x] != x)
         {
             // 进行路径压缩
             parent[x] = parent[parent[x]];
@@ -96,11 +96,11 @@ public:
     }
 
     /* 返回当前的连通分量个数 */
-    int count() 
+    int count()
     {
         return _count;
     }
-    bool connected(int p, int q) 
+    bool connected(int p, int q)
     {
         int rootP = find2(p);
         int rootQ = find2(q);
@@ -108,7 +108,7 @@ public:
     }
 };
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         int expected)
 {
     if(testName.length() > 0)

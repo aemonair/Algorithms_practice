@@ -1,38 +1,38 @@
 /*
  * 295. Find Median from Data Stream
  * Hard
- * Median is the middle value in an ordered integer list. 
- * If the size of the list is even, there is no middle value. 
+ * Median is the middle value in an ordered integer list.
+ * If the size of the list is even, there is no middle value.
  * So the median is the mean of the two middle value.
- * 
+ *
  * For example,
  * [2,3,4], the median is 3
- * 
+ *
  * [2,3], the median is (2 + 3) / 2 = 2.5
- * 
+ *
  * Design a data structure that supports the following two operations:
- * 
- * + void addNum(int num) - 
+ *
+ * + void addNum(int num) -
  *        - Add a integer number from the data stream to the data structure.
  * + double findMedian() -
  *        - Return the median of all elements so far.
- * 
- * 
+ *
+ *
  * Example:
- * 
+ *
  * addNum(1)
  * addNum(2)
  * findMedian() -> 1.5
  * addNum(3)
  * findMedian() -> 2
- * 
- * 
+ *
+ *
  * Follow up:
- * 
+ *
  * If all integer numbers from the stream are between 0 and 100, how would you optimize it?
  * If 99% of all integer numbers from the stream are between 0 and 100, how would you optimize it?
- * 
- * 
+ *
+ *
  */
 
 #include <stack>
@@ -41,7 +41,7 @@
 #include <iostream>
 
 class Solution_1 {
-//class MedianFinder 
+//class MedianFinder
 public:
     template <typename T>
     int printvector(std::vector<T> v)
@@ -111,7 +111,7 @@ public:
     std::priority_queue<int, std::vector<int>, std::greater<int>> small_queue;
     //greater表示按照递增（从小到大）的顺序插入元素
 
-    void addNum(int num) 
+    void addNum(int num)
     {
         if (big_queue.empty())
         {
@@ -173,7 +173,7 @@ public:
         }
     }
 
-    double findMedian() 
+    double findMedian()
     {
         int bsize = big_queue.size();
         int ssize = small_queue.size();
@@ -195,7 +195,7 @@ public:
         if (bsize == ssize)
         {
             return (big+small)/2.0;
-        } 
+        }
         else if (bsize > ssize)
         {
             return big;
@@ -232,7 +232,7 @@ public:
     std::priority_queue<int, std::vector<int>, std::greater<int>> right;
 
     // 使左边最大堆总是多一个
-    void addNum(int num) 
+    void addNum(int num)
     {
         if (left.empty())
         {

@@ -8,18 +8,18 @@
  * You may assume that duplicates do not exist in the tree.
  *************************************************************************************
  * For example, given
- * 
+ *
  * preorder = [3,9,20,15,7]
  * inorder = [9,3,15,20,7]
  * Return the following binary tree:
- * 
+ *
  *     3
  *    / \
  *   9  20
  *     /  \
  *    15   7
  *************************************************************************************
- * 
+ *
  */
 
 #include <algorithm>
@@ -32,7 +32,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -41,10 +41,10 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
+    //
     TreeNode* buildTree(std::vector<int>& preorder, std::vector<int>& inorder)
     {
         return nullptr;
@@ -125,7 +125,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<int>& preorder, std::vector<int>& inorder,
         TreeNode *expected)
 {
@@ -175,7 +175,7 @@ void Test1()
     TreeNode * p_node3 = new TreeNode(3, nullptr, p_node2);
     TreeNode * p_node5 = new TreeNode(5, p_node0, nullptr);
     TreeNode * p_node6 = new TreeNode(6, p_node3, p_node5);
-    
+   
     std::cout << "      6         " << std::endl;
     std::cout << "    /   \\      " << std::endl;
     std::cout << "   3     5      " << std::endl;
@@ -219,7 +219,7 @@ void Test3()
     std::cout << "          2          " << std::endl;
     std::cout << "            \\       " << std::endl;
     std::cout << "             1       " << std::endl;
-    //       
+    //      
     TreeNode * p_node1 = new TreeNode(1, nullptr, nullptr);
     TreeNode * p_node2 = new TreeNode(2, nullptr, p_node1);
     TreeNode * p_node3 = new TreeNode(3, nullptr, p_node2);

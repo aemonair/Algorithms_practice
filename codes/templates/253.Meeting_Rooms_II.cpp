@@ -5,21 +5,21 @@
  * Given an array of meeting time intervals consisting of start and end times[[s1,e1],[s2,e2],...](si< ei), find the minimum number of conference rooms required.
  ******************************************************************
  * Example 1:
- * 
+ *
  * Input:
  * [[0,30],[5,10],[15,20]]
  * Output: 2
  ******************************************************************
  * Example 2:
- * 
+ *
  * Input:[[7,10],[2,4]]
- * 
+ *
  * Output: 1
- *************************************************************** 
+ ***************************************************************
  * Meetings: [[4,5], [2,3], [2,4], [3,5]]
  * Output: 2
  * Explanation: We will need one room for [2,3] and [3,5], and another room for [2,4] and [4,5].
- * 
+ *
  * Here is a visual representation of Example :
  *
  * _1_2_3_4_5_6_7_
@@ -42,7 +42,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -73,8 +73,8 @@ int printstack(std::stack<T> s);
 
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
- 
-struct Interval 
+
+struct Interval
 {
     int start;
     int end;
@@ -93,13 +93,13 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
-          std::vector<Interval>& intervals, 
+void Test(const std::string& testName,
+          std::vector<Interval>& intervals,
           int  expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;
@@ -117,7 +117,7 @@ const static int TEST_1    = 0;
     {
         decltype(expected) result = solution.minMeetingRooms(intervals);
         std::cout << "result:" << std::boolalpha << result << std::endl;
-        
+       
         if(result == expected)
         {
             //10yy

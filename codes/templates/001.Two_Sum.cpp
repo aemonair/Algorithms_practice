@@ -1,36 +1,36 @@
 /*
- ****************************************************************************** 
+ ******************************************************************************
  * 1. Two Sum
  * Easy
- ****************************************************************************** 
- * 
+ ******************************************************************************
+ *
  * Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
  * You may assume that each input would have exactly one solution, and you may not use the same element twice.
  * You can return the answer in any order.
- ****************************************************************************** 
+ ******************************************************************************
  * Example 1:
- * 
+ *
  * Input: nums = [2,7,11,15], target = 9
  * Output: [0,1]
  * Output: Because nums[0] + nums[1] == 9, we return [0, 1].
- ****************************************************************************** 
+ ******************************************************************************
  * Example 2:
- * 
+ *
  * Input: nums = [3,2,4], target = 6
  * Output: [1,2]
- ****************************************************************************** 
+ ******************************************************************************
  * Example 3:
- * 
+ *
  * Input: nums = [3,3], target = 6
  * Output: [0,1]
- ****************************************************************************** 
+ ******************************************************************************
  * Constraints:
- * 
+ *
  * 2 <= nums.length <= 10^3
  * -10^9 <= nums[i] <= 10^9
  * -10^9 <= target <= 10^9
  * Only one valid answer exists.
- ****************************************************************************** 
+ ******************************************************************************
  */
 
 #include <unordered_map>
@@ -44,7 +44,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -75,10 +75,10 @@ int printstack(std::stack<T> s);
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
 
-class Solution 
+class Solution
 {
 public:
-///////////////////////////////////////////////////////////////////////////////////////////////////////    
+///////////////////////////////////////////////////////////////////////////////////////////////////////   
     std::vector<int> twoSum0(std::vector<int>& nums, int target)
     {
         return std::vector<int>();
@@ -87,11 +87,11 @@ public:
     {
         return {};
     }
-///////////////////////////////////////////////////////////////////////////////////////////////////////    
-    int* twoSum(int* nums, int numsSize, int target) 
+///////////////////////////////////////////////////////////////////////////////////////////////////////   
+    int* twoSum(int* nums, int numsSize, int target)
     {
     }
-///////////////////////////////////////////////////////////////////////////////////////////////////////    
+///////////////////////////////////////////////////////////////////////////////////////////////////////   
     static bool sorttmp(std::pair<int,int> &a, std::pair<int,int> &b)
     {
         return a.second < b.second;
@@ -99,14 +99,14 @@ public:
 };
 // ==================== TEST Codes====================
 //std::vector<int> findSubstring(std::string s, std::vector<std::string>& words)
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<int>& nums, int target,
         std::vector<int> expected
         )
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

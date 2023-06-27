@@ -1,21 +1,21 @@
 /*
  * 354. Russian Doll Envelopes
  * Hard
- ******************************************************************* 
- * You have a number of envelopes with widths and heights given as a pair of integers (w, h). 
+ *******************************************************************
+ * You have a number of envelopes with widths and heights given as a pair of integers (w, h).
  * One envelope can fit into another if and only if both the width and height of one envelope is greater than the width and height of the other envelope.
- * 
+ *
  * What is the maximum number of envelopes can you Russian doll? (put one inside other)
- ******************************************************************* 
+ *******************************************************************
  * Note:
  * Rotation is not allowed.
- ******************************************************************* 
+ *******************************************************************
  * Example:
- * 
+ *
  * Input: [[5,4],[6,4],[6,7],[2,3]]
  * Output: 3
  * Explanation: The maximum number of envelopes you can Russian doll is 3 ([2,3] => [5,4] => [6,7]).
- ******************************************************************* 
+ *******************************************************************
  */
 
 #include <algorithm>
@@ -27,7 +27,7 @@
 #include <queue>
 #include <map>
 #include <set>
- 
+
 class Compare_vector
 {
 public:
@@ -72,7 +72,7 @@ public:
         return 0;
     }
 
-    int lengthOfLIS0(std::vector<int>& nums) 
+    int lengthOfLIS0(std::vector<int>& nums)
     {
         int size = nums.size();
         std::vector<int> dp(size, 1);
@@ -87,7 +87,7 @@ public:
                     dp[i] = std::max(dp[i], dp[j]+1);
                 }
             }
-            // error: 
+            // error:
             // dp[i] = nums[i-1] < nums[i] ? dp[i-1] + 1 : dp[i-1];
         }
         printvector(dp);
@@ -97,7 +97,7 @@ public:
         {
             result = std::max(it, result);
         }
-        
+       
         return result;
     }
     //////////////////////////////////////////////////////////////
@@ -146,7 +146,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<std::vector<int>> &envelopes,
         int expected)
 {

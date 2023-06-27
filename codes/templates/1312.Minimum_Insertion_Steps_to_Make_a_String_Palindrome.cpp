@@ -1,47 +1,47 @@
 /*
  * 1312. Minimum Insertion Steps to Make a String Palindrome
  * Hard
- * 
- * Given a string s. 
+ *
+ * Given a string s.
  * In one step you can insert any character at any index of the string.
- * 
+ *
  * Return the minimum number of steps to make s palindrome.
- * 
+ *
  * A Palindrome String is one that reads the same backward as well as forward.
  *********************************************************************
  * Example 1:
- * 
+ *
  * Input: s = "zzazz"
  * Output: 0
  * Explanation: The string "zzazz" is already palindrome we don't need any insertions.
  *******************************************************************
  *  Example 2:
- * 
+ *
  * Input: s = "mbadm"
  * Output: 2
  * Explanation: String can be "mbdadbm" or "mdbabdm".
  *******************************************************************
  *  Example 3:
- * 
+ *
  * Input: s = "leetcode"
  * Output: 5
  * Explanation: Inserting 5 characters the string becomes "leetcodocteel".
- ******************************************************************* 
+ *******************************************************************
  *  Example 4:
- * 
+ *
  * Input: s = "g"
  * Output: 0
- ****************************************************************** 
+ ******************************************************************
  *  Example 5:
- * 
+ *
  * Input: s = "no"
  * Output: 1
- ******************************************************************* 
+ *******************************************************************
  * Constraints:
- * 
+ *
  * 1 <= s.length <= 500
  * All characters of s are lower case English letters.
- ******************************************************************* 
+ *******************************************************************
  */
 
 // 44 yy
@@ -57,7 +57,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -88,7 +88,7 @@ int printstack(std::stack<T> s);
 
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
- 
+
 class Solution {
 public:
     int minInsertions(std::string s)
@@ -98,13 +98,13 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::string s,
         int expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

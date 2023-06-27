@@ -4,10 +4,10 @@
  * Medium
  ************************************************************
  * Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
- * 
+ *
  ************************************************************
  * Example 1:
- * 
+ *
  *      1
  *     / \
  *    2   3
@@ -17,17 +17,17 @@
  * Output: [1,3,4]
  ************************************************************
  * Example 2:
- * 
+ *
  * Input: root = [1,null,3]
  * Output: [1,3]
  ************************************************************
  * Example 3:
- * 
+ *
  * Input: root = []
  * Output: []
  ************************************************************
  * Constraints:
- * 
+ *
  * The number of nodes in the tree is in the range [0, 100].
  * -100 <= Node.val <= 100
  ************************************************************
@@ -48,7 +48,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -57,11 +57,11 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
-    std::vector<int> rightSideView(TreeNode* root) 
+    //
+    std::vector<int> rightSideView(TreeNode* root)
     {
         return std::vector<int>();
     }
@@ -118,8 +118,8 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
-        TreeNode *root, 
+void Test(const std::string& testName,
+        TreeNode *root,
         std::vector<int> expected)
 {
     if(testName.length() > 0)
@@ -231,8 +231,8 @@ void Test3()
     //    1
     //     2
     //    3  4
-    //      5 
-    //       
+    //      5
+    //      
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;

@@ -1,32 +1,32 @@
 /*
- ************************************* 
+ *************************************
  * 658. Find K Closest Elements
  * Medium
- ************************************* 
+ *************************************
  * Given a sorted integer array arr, two integers k and x, return the k closest integers to x in the array. The result should also be sorted in ascending order.
- * 
+ *
  * An integer a is closer to x than an integer b if:
- * 
+ *
  * |a - x| < |b - x|, or
  * |a - x| == |b - x| and a < b
- ************************************* 
+ *************************************
  * Example 1:
- * 
+ *
  * Input: arr = [1,2,3,4,5], k = 4, x = 3
  * Output: [1,2,3,4]
- ************************************* 
+ *************************************
  * Example 2:
- * 
+ *
  * Input: arr = [1,2,3,4,5], k = 4, x = -1
  * Output: [1,2,3,4]
- ************************************* 
+ *************************************
  * Constraints:
- * 
+ *
  * 1 <= k <= arr.length
  * 1 <= arr.length <= 104
  * arr is sorted in ascending order.
  * -10^4 <= arr[i], x <= 10^4
- ************************************* 
+ *************************************
  */
 
 #include <algorithm>
@@ -37,14 +37,14 @@
 #include <queue>
 #include <map>
 #include <set>
- 
+
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
 class Solution {
 public:
-    // 
+    //
     std::vector<int> findClosestElements1(std::vector<int>& arr, int k,int x)
     {
         return std::vector<int>{};
@@ -53,7 +53,7 @@ public:
     {
         return std::vector<int>{};
     }
-    
+   
     template <typename T>
     int printvector(const std::vector<T> &v)
     {

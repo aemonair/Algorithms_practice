@@ -1,26 +1,26 @@
 /*
  * 222. Count Complete Tree Nodes
  * Medium
- * 
+ *
  *************************************************************************************
  * Given a complete binary tree, count the number of nodes.
- * 
+ *
  *************************************************************************************
  * Note:
- * 
+ *
  * Definition of a complete binary tree from Wikipedia:
  * In a complete binary tree every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
- * 
+ *
  *************************************************************************************
  * Example:
- * 
+ *
  * Input:
  *     1
  *    / \
  *   2   3
  *  / \  /
  * 4  5 6
- * 
+ *
  * Output: 6
  *************************************************************************************
  */
@@ -53,7 +53,7 @@ public:
         return 0;
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////
-    int countNodes1(TreeNode* root) 
+    int countNodes1(TreeNode* root)
     {
         return 0;
     }
@@ -85,7 +85,7 @@ public:
     }
 };
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         TreeNode *root,
         int expected)
 {
@@ -162,7 +162,7 @@ void Test1()
     TreeNode * p_node3 = new TreeNode(3, p_node6, nullptr);
 
     TreeNode * p_node1 = new TreeNode(1, p_node2, p_node3);
-    
+   
     std::cout << "      1               " << std::endl;
     std::cout << "     / \\             " << std::endl;
     std::cout << "    2   3             " << std::endl;
@@ -183,7 +183,7 @@ void Test2()
     TreeNode * p_node5 = new TreeNode(5, p_node6, p_node2);
 
     TreeNode * p_node3 = new TreeNode(3, p_node5, p_node1);
-    
+   
     std::cout << "      3        " << std::endl;
     std::cout << "    /   \\     " << std::endl;
     std::cout << "   5     1     " << std::endl;

@@ -4,11 +4,11 @@
  * Easy
  ************************************************************
  * Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
- * 
+ *
  * A leaf is a node with no children.
  ************************************************************
  * Example 1:
- *          5 
+ *          5
  *         / \
  *        4   8
  *       /   / \
@@ -19,7 +19,7 @@
  * Output: true
  ************************************************************
  * Example 2:
- * 
+ *
  *      1
  *     / \
  *    2   3
@@ -27,16 +27,16 @@
  * Output: false
  ************************************************************
  * Example 3:
- * 
+ *
  *      1
  *     /
  *    2
  * Input: root = [1,2], targetSum = 0
  * Output: false
- * 
+ *
  ************************************************************
  * Constraints:
- * 
+ *
  * The number of nodes in the tree is in the range [0, 5000].
  * -1000 <= Node.val <= 1000
  * -1000 <= targetSum <= 1000
@@ -59,7 +59,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -68,15 +68,15 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
-    bool hasPathSum(TreeNode* root, int targetSum) 
+    //
+    bool hasPathSum(TreeNode* root, int targetSum)
     {
         return true;
     }
-    bool hasPathSum1(TreeNode* root, int targetSum) 
+    bool hasPathSum1(TreeNode* root, int targetSum)
     {
         return false;
     }
@@ -169,8 +169,8 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
-        TreeNode *root, 
+void Test(const std::string& testName,
+        TreeNode *root,
         int targetSum,
         bool expected)
 {
@@ -312,8 +312,8 @@ void Test3()
     //    1
     //     2
     //    3  4
-    //      5 
-    //       
+    //      5
+    //      
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;

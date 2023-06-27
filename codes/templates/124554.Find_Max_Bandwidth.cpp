@@ -1,15 +1,15 @@
 /*
  ******************************************************************
- * 124554. Maximum CPU Load 
+ * 124554. Maximum CPU Load
  ******************************************************************
  * We are given a list of Jobs. Each job has a Start time, an End time, and a CPU load when it is running. Our goal is to find the maximum CPU load at any time if all the jobs are running on the same machine.
  ******************************************************************
  * Example 1:
- * 
+ *
  * Input:
  * [[1,4,3], [2,5,4], [7,9,6]]
  * Output: 7
- * Explanation: 
+ * Explanation:
  * Since [1,4,3] and [2,5,4] overlap, their maximum CPU load (3+4=7) will be when both the jobs are running at the same time i.e., during the time interval (2,4).
  * 1_2_3_4_5_6_7_8_9_
  * ___3__
@@ -17,10 +17,10 @@
  *             __6_
  ******************************************************************
  * Example 2:
- * 
+ *
  * Input:
  * [[6,7,10], [2,4,11], [8,12,15]]
- * 
+ *
  * Output: 15
  * Explanation: None of the jobs overlap, therefore we will take the maximum load of any job which is 15.
  *
@@ -28,18 +28,18 @@
  *           _10_
  *   _11_
  *               __15____
- *************************************************************** 
+ ***************************************************************
  * Example 3:
  * Jobs: [[1,4,2], [2,4,1], [3,6,5]]
  * Output: 8
- * Explanation: 
+ * Explanation:
  * Maximum CPU load will be 8 as all jobs overlap during the time interval [3,4].
  * 1_2_3_4_5_6_7_8_9_
  * ___2__
  *   _1__
  *     __5___
  ******************************************************************
- * 
+ *
  */
 
 // 44 yy
@@ -55,7 +55,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -86,7 +86,7 @@ int printstack(std::stack<T> s);
 
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
- 
+
 class Job
 {
 public:
@@ -114,13 +114,13 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
-          std::vector<Job>& jobs, 
+void Test(const std::string& testName,
+          std::vector<Job>& jobs,
           int  expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;
@@ -144,7 +144,7 @@ const static int TEST_1    = 0;
 
         decltype(expected) result = solution.findMaxCPULoad(jobs);
         std::cout << "result:" << std::boolalpha << result << std::endl;
-        
+       
         if(result == expected)
         {
             //10yy

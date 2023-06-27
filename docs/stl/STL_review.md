@@ -1,5 +1,5 @@
 [TOC]
-# 1. STL 
+# 1. STL
 - C++ Standard Library C++标准库
 - Standard Template Library STL标准模板库
 
@@ -248,8 +248,8 @@ int main() {
 
     return 0;
 }
-```   
-### 1.5.9 push_back 和 emplace_back 
+```  
+### 1.5.9 push_back 和 emplace_back
 `push_back` 和 `emplace_back` 是C++标准库中用于向容器中添加元素的函数，它们的区别主要体现在两个方面：语义和效率。
 
 1.语义：
@@ -288,12 +288,12 @@ emplace_back：由于直接在容器内部构造对象，避免了拷贝（或�
 
 int main() {
     std::vector<int*> myVector;
-    
+   
     int* ptr = new int(10);
 
     // 无法使用 emplace_back 添加指针对象
     // myVector.emplace_back(ptr);  // 编译错误
-    
+   
     // 只能使用 push_back 添加指针对象
     myVector.push_back(ptr);
 
@@ -555,7 +555,7 @@ m.insert(map<int,int>::value_type(3,30));
 m[4] = 40;
 //读取
 map<int ,int>::iterator it = m.begin();
-it->first 或者(*it).first 
+it->first 或者(*it).first
 
 m.erase(key)//按照key删除
 map<int ,int>::iterator pos = m.find(key)//返回迭代器 pos != end() 则查到
@@ -688,7 +688,7 @@ N/2 N/4 ... 设置x次找到，N*(1/2)^x = 1，x=log2N
 log2n
 
 ## 1.13 map和set的区别
-### 1.13.0 map和set的区别 
+### 1.13.0 map和set的区别
  - 相同：
 map和set都是C++的关联容器，其底层实现都是红黑树（RB-Tree）。由于 map 和set所开放的各种操作接口，RB-tree 也都提供了，所以几乎所有的 map 和set的操作行为，都只是转调 RB-tree 的操作行为。
 - 区别：
@@ -794,7 +794,7 @@ int main() {
     std::for_each(numbers.begin(), numbers.end(), [](int number) {
         std::cout << number << " ";
     });
-    
+   
     // 使用 lambda 表达式
     std::for_each(numbers.begin(), numbers.end(), [](int& number) {
         number *= 2;

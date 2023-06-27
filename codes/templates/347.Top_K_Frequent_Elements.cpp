@@ -1,27 +1,27 @@
 /*
- ************************************* 
+ *************************************
  * 347. Top K Frequent Elements
  * Medium
- ************************************* 
+ *************************************
  * Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
- ************************************* 
+ *************************************
  * Example 1:
- * 
+ *
  * Input: nums = [1,1,1,2,2,3], k = 2
  * Output: [1,2]
- ************************************* 
+ *************************************
  * Example 2:
- * 
+ *
  * Input: nums = [1], k = 1
  * Output: [1]
- ************************************* 
+ *************************************
  * Constraints:
- * 
+ *
  * 1 <= nums.length <= 10^5
  * k is in the range [1, the number of unique elements in the array].
  * It is guaranteed that the answer is unique.
  * Follow up: Your algorithm's time complexity must be better than O(n log n), where n is the array's size.
- ************************************* 
+ *************************************
  */
 
 #include <unordered_map>
@@ -33,19 +33,19 @@
 #include <queue>
 #include <map>
 #include <set>
- 
+
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
 class Solution {
 public:
-    // 
+    //
     std::vector<int> topKFrequent(std::vector<int>& nums, int k)
     {
         return std::vector<int>{};
     }
-    
+   
     template <typename T>
     int printvector(const std::vector<T> &v)
     {

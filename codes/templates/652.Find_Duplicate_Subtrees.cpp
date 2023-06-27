@@ -1,53 +1,53 @@
 /*
  * 652. Find Duplicate Subtrees
  * Medium
- * 
+ *
  *************************************************************************************
  * Given the root of a binary tree, return all duplicate subtrees.
- * 
+ *
  * For each kind of duplicate subtrees, you only need to return the root node of any one of them.
- * 
+ *
  * Two trees are duplicate if they have the same structure with the same node values.
  *************************************************************************************
- * 
+ *
  * Example 1:
- * 
+ *
  *           1
  *          / \
- *         2   3 
+ *         2   3
  *        /   / \
  *       4   2   4
  *          /
- *         4 
+ *         4
  * Input: root = [1,2,3,4,null,2,4,null,null,4]
  * Output: [[2,4],[4]]
  *************************************************************************************
  * Example 2:
- * 
+ *
  *     2
  *    / \
  *   1   1
- * 
+ *
  * Input: root = [2,1,1]
  * Output: [[1]]
  *************************************************************************************
  * Example 3:
- * 
+ *
  *       2
  *      / \
  *     2   2
  *    /   /
- *   3   3    
- * 
+ *   3   3   
+ *
  * Input: root = [2,2,2,3,null,3,null]
  * Output: [[2,3],[3]]
  *************************************************************************************
  * Constraints:
- * 
+ *
  * The number of the nodes in the tree will be in the range [1, 10^4]
  * -200 <= Node.val <= 200
  *************************************************************************************
- * 
+ *
  */
 
 #include <unordered_map>
@@ -62,7 +62,7 @@
  * Definition for a binary tree node.
  */
 class TreeNode ;
-class TreeNode 
+class TreeNode
 {
     public:
     int val;
@@ -77,10 +77,10 @@ class TreeNode
         return os;
     }
 };
- 
+
 class Solution {
 public:
-    // 
+    //
     std::vector<TreeNode*> res = {};
     std::unordered_map<std::string ,int> memo;
     std::vector<TreeNode*> findDuplicateSubtrees(TreeNode* root)
@@ -174,7 +174,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         TreeNode *root,
         std::vector<TreeNode*> expected)
 {
@@ -223,7 +223,7 @@ void Test1()
     TreeNode * p_node1_2  = new TreeNode(2, p_node2_4, nullptr);
     TreeNode * p_node1_3  = new TreeNode(3, p_node2_2, p_node2_4_);
     TreeNode * p_node0_1  = new TreeNode(1,p_node1_2, p_node1_3);
-    
+   
     std::cout << "        1       " << std::endl;
     std::cout << "       / \\     " << std::endl;
     std::cout << "      2   3     " << std::endl;

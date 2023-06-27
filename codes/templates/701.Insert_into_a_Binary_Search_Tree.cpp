@@ -3,15 +3,15 @@
  * Medium
  *************************************************************************************
  * You are given the root node of a binary search tree (BST) and a value to insert into the tree. Return the root node of the BST after the insertion. It is guaranteed that the new value does not exist in the original BST.
- * 
+ *
  * Notice that there may exist multiple valid ways for the insertion, as long as the tree remains a BST after insertion. You can return any of them.
  *************************************************************************************
  * Example 1:
- *       4              4    
+ *       4              4   
  *      /  \          /   \
- *     2    7        2     7 
+ *     2    7        2     7
  *    / \           / \   /
- *   1   3         1   3 5    
+ *   1   3         1   3 5   
  *
  * Input: root = [4,2,7,1,3], val = 5
  * Output: [4,2,7,1,3,5]
@@ -19,32 +19,32 @@
  *************************************************************************************
  * Example 2:
  *
- *        40              40    
+ *        40              40   
  *      /    \          /    \
  *     20     60       20     60
  *    / \     / \     / \    / \
  *   10  30  50 70   10  30 50  70
- *                      /  
+ *                      / 
  *                     25
  * Input: root = [40,20,60,10,30,50,70], val = 25
  * Output: [40,20,60,10,30,50,70,null,null,25]
  *************************************************************************************
  * Example 3:
- * 
+ *
  * Input: root = [4,2,7,1,3,null,null,null,null,null,null], val = 5
  * Output: [4,2,7,1,3,5]
- * 
+ *
  *************************************************************************************
  * Constraints:
- * 
+ *
  * The number of nodes in the tree will be in the range [0, 104].
  * -108 <= Node.val <= 108
  * All the values Node.val are unique.
  * -108 <= val <= 108
  * It's guaranteed that val does not exist in the original BST.
- * 
+ *
  *************************************************************************************
- * 
+ *
  */
 
 #include <algorithm>
@@ -57,7 +57,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -66,10 +66,10 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
+    //
     TreeNode* insertIntoBST(TreeNode* root, int val)
     {
         return root;
@@ -150,7 +150,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         TreeNode * root, int val,
         TreeNode * expected)
 {
@@ -201,7 +201,7 @@ void Test1()
     TreeNode * p_node1 = new TreeNode(1, nullptr, p_node2);
     TreeNode * p_node8 = new TreeNode(8, p_node7, nullptr);
     TreeNode * p_node6 = new TreeNode(6, p_node1, p_node8);
-    
+   
     std::cout << "      6         " << std::endl;
     std::cout << "    /   \\      " << std::endl;
     std::cout << "   1     8      " << std::endl;
@@ -250,7 +250,7 @@ void Test3()
     std::cout << "   1     4           " << std::endl;
     std::cout << "    \\               " << std::endl;
     std::cout << "     2               " << std::endl;
-    //       
+    //      
     TreeNode * p_node2 = new TreeNode(2);
     TreeNode * p_node4 = new TreeNode(4);
     TreeNode * p_node1 = new TreeNode(1, nullptr, p_node2);

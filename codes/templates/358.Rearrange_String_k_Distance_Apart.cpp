@@ -1,30 +1,30 @@
 /*
- ************************************* 
+ *************************************
  * 358. Rearrange String k Distance Apart
- ************************************* 
+ *************************************
  * Given a non-empty string str and an integer k, rearrange the string such that the same characters are at least distance k from each other.
  * All input strings are given in lowercase letters. If it is not possible to rearrange the string, return an empty string "".
- ************************************* 
+ *************************************
  * Example 1:
- * 
+ *
  * str = "aabbcc", k = 3
  * Result: "abcabc"
  * The same letters are at least distance 3 from each other.
- ************************************* 
+ *************************************
  * Example 2:
- * 
- * str = "aaabc", k = 3 
+ *
+ * str = "aaabc", k = 3
  * Answer: ""
  * It is not possible to rearrange the string.
- ************************************* 
+ *************************************
  * Example 3:
- * 
+ *
  * str = "aaadbbcc", k = 2
  * Answer: "abacabcd"
  * Another possible answer is: "abcabcda"
- ************************************* 
+ *************************************
  * The same letters are at least distance 2 from each other.
- ************************************* 
+ *************************************
  */
 
 #include <unordered_map>
@@ -37,19 +37,19 @@
 #include <queue>
 #include <map>
 #include <set>
- 
+
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
 class Solution {
 public:
-    // 
+    //
     std::string rearrangeString(std::string s, int k)
     {
         return "";
     }
-    
+   
     template <typename T>
     int printvector(const std::vector<T> &v)
     {
@@ -97,7 +97,7 @@ public:
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-        std::string   s  , 
+        std::string   s  ,
         int k,
         std::set<std::string>  expected)
 {

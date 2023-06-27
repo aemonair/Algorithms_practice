@@ -5,19 +5,19 @@
 =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
  * Given a set of positive numbers, partition the set into two subsets with minimum difference between their subset sums.
 -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
- * Example 1: 
+ * Example 1:
  * Input: {1, 2, 3, 9}
  * Output: 3
  * Explanation: We can partition the given set into two subsets where minimum absolute difference
  * between the sum of numbers is '3'. Following are the two subsets: {1, 2, 3} & {9}.
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
- * Example 2: 
+ * Example 2:
  * Input: {1, 2, 7, 1, 5}
  * Output: 0
  * Explanation: We can partition the given set into two subsets where minimum absolute difference
  * between the sum of number is '0'. Following are the two subsets: {1, 2, 5} & {7, 1}.
 ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
- * Example 3: 
+ * Example 3:
  * Input: {1, 3, 100, 4}
  * Output: 92
  * Explanation: We can partition the given set into two subsets where minimum absolute difference
@@ -33,7 +33,7 @@
 #include <queue>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -73,7 +73,7 @@ void Test(const std::string& testName, std::vector<int> & nums,int expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;
@@ -85,7 +85,7 @@ void Test(const std::string& testName, std::vector<int> & nums,int expected)
     std::cout << "nums:";
     printvector(nums);
 
-    const static int TEST_TIME = 1;    
+    const static int TEST_TIME = 1;   
     {
         if (TEST_TIME)
         {

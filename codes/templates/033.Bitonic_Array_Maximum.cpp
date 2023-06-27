@@ -1,30 +1,30 @@
 /*
- ************************************************************** 
- * Bitonic Array Maximum 
- * easy 
- ************************************************************** 
- * Find the maximum value in a given Bitonic array. 
- * An array is considered bitonic if it is monotonically increasing and then monotonically decreasing. 
+ **************************************************************
+ * Bitonic Array Maximum
+ * easy
+ **************************************************************
+ * Find the maximum value in a given Bitonic array.
+ * An array is considered bitonic if it is monotonically increasing and then monotonically decreasing.
  * Monotonically increasing or decreasing means that for any index i in the array arr[i] != arr[i+1].
- * 
+ *
  * Example 1:
- * 
+ *
  * Input: [1, 3, 8, 12, 4, 2]
  * Output: 12
  * Explanation: The maximum number in the input bitonic array is '12'.
  * Example 2:
- * 
+ *
  * Input: [3, 8, 3, 1]
  * Output: 8
  * Example 3:
- * 
+ *
  * Input: [1, 3, 8, 12]
  * Output: 12
  * Example 4:
- * 
+ *
  * Input: [10, 9, 8]
  * Output: 10
- ************************************************************** 
+ **************************************************************
  */
 
 #include <algorithm>
@@ -35,19 +35,19 @@
 #include <queue>
 #include <map>
 #include <set>
- 
+
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
 class Solution {
 public:
-    // 
-    int searchmax(std::vector<int>& nums) 
+    //
+    int searchmax(std::vector<int>& nums)
     {
         return -1;
     }
-    
+   
     template <typename T>
     int printvector(const std::vector<T> &v)
     {
@@ -75,7 +75,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<int> & nums,
         int expected)
 {

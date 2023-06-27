@@ -1,6 +1,6 @@
 /*
  * 92. Reverse Linked List II
- * Medium 
+ * Medium
  ***********************************************************
  * Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.
  ***********************************************************
@@ -8,17 +8,17 @@
  *
  * 1->2->3->4->5->NULL, m = 2, n = 4
  * 1->4->3->2->5->NULL
- * 
+ *
  * Input: head = [1,2,3,4,5], left = 2, right = 4
  * Output: [1,4,3,2,5]
  ***********************************************************
  * Example 2:
- * 
+ *
  * Input: head = [5], left = 1, right = 1
  * Output: [5]
  ***********************************************************
  * Constraints:
- * 
+ *
  * The number of nodes in the list is n.
  * 1 <= n <= 500
  * -500 <= Node.val <= 500
@@ -46,11 +46,11 @@ struct ListNode {
 };
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head) 
+    ListNode* reverseList(ListNode* head)
     {
         return nullptr;
     }
-    ListNode* reverseListre(ListNode* head) 
+    ListNode* reverseListre(ListNode* head)
     {
         return nullptr;
     }
@@ -71,7 +71,7 @@ public:
         return nullptr;
     }
 
-    std::vector<int> printList(ListNode* head) 
+    std::vector<int> printList(ListNode* head)
     {
         std::vector<int> ret ; // = new ArrayList<>();
         ListNode *listNode = head;
@@ -83,7 +83,7 @@ public:
         {
             std::cout << "null" << std::endl;
         }
-        while (listNode != nullptr) // && listNode->next != nullptr) 
+        while (listNode != nullptr) // && listNode->next != nullptr)
         {
             std::cout << listNode->val << " " ; // << std::endl;
             ret.push_back(listNode->val);
@@ -95,7 +95,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         ListNode * head,
         int m, int n,
         ListNode * expected)
@@ -199,7 +199,7 @@ void Test1()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-    
+   
 
     p1->next = p2;
     p2->next = p3;
@@ -243,7 +243,7 @@ void Test2()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-    
+   
 
     p1->next = p2;
     p2->next = p3;
@@ -260,7 +260,7 @@ void Test3()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-    
+   
 
     p1->next = p2;
     p2->next = p3;

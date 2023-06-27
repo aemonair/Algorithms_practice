@@ -15,7 +15,7 @@
  *
  *               head
  *               1    2 -> 3 -> 4
- *            p<-h    n   
+ *            p<-h    n  
  *               1    2 ->3 -> 4
  *               p    h
  *               1    2 ->3 -> 4
@@ -33,7 +33,7 @@ struct ListNode {
 };
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head) 
+    ListNode* reverseList(ListNode* head)
     {
         if (!head || !(head->next))
         {
@@ -41,18 +41,18 @@ public:
         }
 
 /*
- *                 
+ *                
  *   null <- 1 -> 2 -> 3 -> 4
  *                2 <- 3 <- 4
  *
  *                head node
  *                2 -> 3 <- 4
  *        null <- 2 <- 3 <- 4
- *                       
+ *                      
  *                     head
  *                     3 -> 4
  *              null <-3 <- 4
- *                          
+ *                         
  *                          node
  *                          4
  *      head -> next  ==  List tail
@@ -62,7 +62,7 @@ public:
         head -> next = NULL;
         return node;
     }
-    ListNode* reverseList1(ListNode* head) 
+    ListNode* reverseList1(ListNode* head)
     {
         ListNode * cur = NULL;
         while(head)
@@ -99,11 +99,11 @@ public:
  *     NULL<-1 <- 2 <- 3 <- 4
  *                          cur  head
  *     NULL<-1 <- 2 <- 3 <- 4
- *               
+ *              
  *           */
         return cur;
     }
-    ListNode* reverseList2(ListNode* head) 
+    ListNode* reverseList2(ListNode* head)
     {
         ListNode *pre = new ListNode(0);
         ListNode *cur = head;
@@ -180,7 +180,7 @@ public:
         }
         return pre->next;
     }
-    ListNode* reverseList3(ListNode* head) 
+    ListNode* reverseList3(ListNode* head)
     {
         if (head == NULL)
         {
@@ -221,7 +221,7 @@ public:
         head ->next = prev;
         return head;
     }
-    std::vector<int> printList(ListNode* head) 
+    std::vector<int> printList(ListNode* head)
     {
         std::vector<int> ret ; // = new ArrayList<>();
         ListNode *listNode = head;
@@ -233,7 +233,7 @@ public:
         {
             std::cout << "null" << std::endl;
         }
-        while (listNode != nullptr) // && listNode->next != nullptr) 
+        while (listNode != nullptr) // && listNode->next != nullptr)
         {
             std::cout << listNode->val << " " ; // << std::endl;
             ret.push_back(listNode->val);
@@ -251,7 +251,7 @@ int main()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-    
+   
     struct ListNode * q1 = new ListNode(6);
 
     p1->next = p2;

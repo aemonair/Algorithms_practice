@@ -1,28 +1,28 @@
 /*
- ****************************************************************************** 
+ ******************************************************************************
  *18. 4Sum
  * Medium
- ****************************************************************************** 
+ ******************************************************************************
  * Given an array nums of n integers and an integer target, are there elements a, b, c, and d in nums such that a + b + c + d = target? Find all unique quadruplets in the array which gives the sum of target.
- * 
+ *
  * Notice that the solution set must not contain duplicate quadruplets.
- ****************************************************************************** 
+ ******************************************************************************
  * Example 1:
- * 
+ *
  * Input: nums = [1,0,-1,0,-2,2], target = 0
  * Output: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
- ****************************************************************************** 
+ ******************************************************************************
  * Example 2:
- * 
+ *
  * Input: nums = [], target = 0
  * Output: []
- ****************************************************************************** 
+ ******************************************************************************
  * Constraints:
- * 
+ *
  * 0 <= nums.length <= 200
  * -10^9 <= nums[i] <= 10^9
  * -10^9 <= target <= 10^9
- ****************************************************************************** 
+ ******************************************************************************
  */
 
 // 44yy
@@ -38,7 +38,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -69,12 +69,12 @@ int printstack(std::stack<T> s);
 
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
- 
-class Solution 
+
+class Solution
 {
 public:
-///////////////////////////////////////////////////////////////////////////////////////////////////////    
-    std::vector<std::vector<int>> fourSum(std::vector<int>& nums, int target) 
+///////////////////////////////////////////////////////////////////////////////////////////////////////   
+    std::vector<std::vector<int>> fourSum(std::vector<int>& nums, int target)
     {
         return std::vector<std::vector<int>>();
     }
@@ -82,7 +82,7 @@ public:
 
 // ==================== TEST Codes====================
 //std::vector<int> findSubstring(std::string s, std::vector<std::string>& words)
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<int>& nums,
         int target,
         std::vector<std::vector<int>> expected
@@ -90,7 +90,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

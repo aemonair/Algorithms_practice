@@ -1,18 +1,18 @@
 /*
  * 114. Flatten Binary Tree to Linked List
  * Medium
- * 
+ *
  * Given a binary tree, flatten it to a linked list in-place.
- * 
+ *
  * For example, given the following tree:
- * 
+ *
  *     1
  *    / \
  *   2   5
  *  / \   \
  * 3   4   6
  * The flattened tree should look like:
- * 
+ *
  * 1
  *  \
  *   2
@@ -24,8 +24,8 @@
  *         5
  *          \
  *           6
- * 
- * 
+ *
+ *
  */
 
 #include <algorithm>
@@ -38,7 +38,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -47,11 +47,11 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
-    void flatten(TreeNode* root) 
+    //
+    void flatten(TreeNode* root)
     {
         return;
     }
@@ -175,7 +175,7 @@ void Test1()
     TreeNode * pnode3 = new TreeNode(3);
     TreeNode * pnode6 = new TreeNode(6);
     TreeNode * pnode9 = new TreeNode(9);
-    
+   
     TreeNode * pnode2 = new TreeNode(2, pnode1, pnode3);
     TreeNode * pnode7 = new TreeNode(7, pnode6, pnode9);
 
@@ -221,7 +221,7 @@ void Test2()
     pnode3 ->right = pnode20;
     pnode20->left  = pnode15;
     pnode20->right = pnode7 ;
-    //    
+    //   
     //      3
     //    /   \
     //   9     20
@@ -268,8 +268,8 @@ void Test3()
     //    1
     //     2
     //    3  4
-    //      5 
-    //       
+    //      5
+    //      
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;

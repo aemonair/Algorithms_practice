@@ -11,30 +11,30 @@
  *  判断你是否能够到达最后一个位置。
  ******************************************
  *  Example 1:
- *  
+ * 
  *  Input: [2,3,1,1,4]
  *  Output: true
- *  Explanation: 
+ *  Explanation:
  *      Jump 1 step from index 0 to 1, then 3 steps to the last index.
  *      我们可以先跳 1 步，从位置 0 到达 位置 1, 然后再从位置 1 跳 3 步到达最后一个位置。
  ******************************************
  *  Example 2:
- *  
+ * 
  *  Input: [3,2,1,0,4]
  *  Output: false
  *  Explanation:
- *      You will always arrive at index 3 no matter what. 
- *      Its maximum jump length is 0, 
+ *      You will always arrive at index 3 no matter what.
+ *      Its maximum jump length is 0,
  *      which makes it impossible to reach the last index.
  *      无论怎样，你总会到达索引为 3 的位置。
  *      但该位置的最大跳跃长度是 0 ， 所以你永远不可能到达最后一个位置。
  ******************************************
  *  Constraints:
- * 
+ *
  * 1 <= nums.length <= 3 * 10^4
  * 0 <= nums[i][j] <= 10^5
  ******************************************
- * 
+ *
  */
 
 #include <stack>
@@ -79,7 +79,7 @@ public:
         return s.size();
     }
 
-    bool canJump0(std::vector<int>& nums) 
+    bool canJump0(std::vector<int>& nums)
     {
         std::vector<int> index;
         for (int i = 0; i < nums.size(); i++)
@@ -105,7 +105,7 @@ public:
         return false;
     }
 
-    bool canJump1(std::vector<int>& nums) 
+    bool canJump1(std::vector<int>& nums)
     {
         // Get the maximum position nums[i] can achieve
         // If the maximum value does not reach the i position, FALSE
@@ -130,7 +130,7 @@ public:
         }
         return false;
     }
-    bool canJump2(std::vector<int>& nums) 
+    bool canJump2(std::vector<int>& nums)
     {
         int i = 0;
         int n = nums.size();
@@ -157,7 +157,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<int> &nums,
         bool expected)
 {

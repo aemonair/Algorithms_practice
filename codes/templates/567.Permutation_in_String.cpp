@@ -1,26 +1,26 @@
 /*
- ****************************************************************************** 
+ ******************************************************************************
  * 567. Permutation in String
  * Medium
- ****************************************************************************** 
+ ******************************************************************************
  * Given two strings s1 and s2, write a function to return true if s2 contains the permutation of s1. In other words, one of the first string's permutations is the substring of the second string.
- ****************************************************************************** 
+ ******************************************************************************
  * Example 1:
- * 
+ *
  * Input: s1 = "ab" s2 = "eidbaooo"
  * Output: True
  * Explanation: s2 contains one permutation of s1 ("ba").
- ****************************************************************************** 
+ ******************************************************************************
  * Example 2:
- * 
+ *
  * Input:s1= "ab" s2 = "eidboaoo"
  * Output: False
- ****************************************************************************** 
+ ******************************************************************************
  * Constraints:
- * 
+ *
  * 1 <= s1.length, s2.length <= 10^4
  * s1 and s2 consist of lowercase English letters.
- ****************************************************************************** 
+ ******************************************************************************
  */
 
 #include <unordered_map>
@@ -35,7 +35,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -67,7 +67,7 @@ int printstack(std::stack<T> s);
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
 
-class Solution 
+class Solution
 {
 public:
     bool checkInclusion(std::string s1, std::string s2)
@@ -77,14 +77,14 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
-        std::string s1, std::string s2, 
+void Test(const std::string& testName,
+        std::string s1, std::string s2,
         bool expected
         )
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

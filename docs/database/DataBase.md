@@ -136,7 +136,7 @@ CREATE TABLE insect
     -> (
     -> id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     -> PRIMARY KEY (id),
-    -> name VARCHAR(30) NOT NULL, 
+    -> name VARCHAR(30) NOT NULL,
     -> date DATE NOT NULL,
     -> origin VARCHAR(30) NOT NULL
 )engine=innodb auto_increment=100 charset=utf8;
@@ -306,7 +306,7 @@ B 树在提高了磁盘IO性能的同时并没有解决元素遍历的效率低�
 
 3. 让数据组织的更加和谐…什么是存储过程？有哪些优缺点？
 
-  
+
 
   [数据库范式那些事](https://www.cnblogs.com/CareySon/archive/2010/02/16/1668803.html)
 
@@ -488,11 +488,11 @@ T2 读取一个数据，T1 对该数据做了修改。如果 T2 再次读取这�
 - Repeatable Read（可重读）【可避免脏读，不可重复读】
     - 保证在同一个事务中多次读取同样数据的结果是一样的。
     - MVCC实现，只有事务开始时会创建Read View，之后事务里的其他查询都用这个Read View。解决了脏读、不可重复读，快照读（普通查询，读取历史数据）使用MVCC解决了幻读，当前读（读取最新提交数据）通过间隙锁解决幻读（lock in share mode、for update、update、detete、insert），间隙锁在可重复读下才生效。（**默认隔离级别**）
-    
+
 - Read Committed（读取提交内容） 【可避免脏读】
     - 一个事务只能读取已经提交的事务所做的修改。换句话说，一个事务所做的修改在提交之前对其他事务是不可见的。
     - 读操作不加锁，写操作加排他锁，解决了脏读。原理：利用MVCC实现，每一句语句执行前都会生成Read View（一致性视图）
-    
+
 - Read Uncommitted（读取未提交内容）【级别最低，什么都避免不了】
     - 事务中的修改，即使没有提交，对其他事务也是可见的。
 
@@ -509,6 +509,18 @@ T2 读取一个数据，T1 对该数据做了修改。如果 T2 再次读取这�
 | Read commited   | x    | O         | O    |
 | Repeatableread  | x    | x         | O    |
 | Serializable    | x    | x         | x    |
+
+在事务的隔离级别中，"可重读"（Repeatable Read）级别是比较常用的一种级别。Repeatable Read可以避免脏读和不可重复读，但无法完全避免幻读。
+
+脏读是指一个事务读取到了另一个事务未提交的数据，可能会导致不一致的结果。在Repeatable Read级别下，事务会对读取的每一行数据加共享锁（Shared Lock），从而确保其他事务无法修改这些数据，从而避免了脏读。
+
+不可重复读是指一个事务在同一查询中多次读取同一行数据时，得到了不同的结果，这是由于其他事务修改了这些数据。在Repeatable Read级别下，事务会对读取的范围加共享锁，从而保证其他事务无法修改或删除这些数据，从而避免了不可重复读。
+
+然而，Repeatable Read级别无法完全避免幻读。幻读是指一个事务在同一查询中多次读取到了不同数量的行，这是由于其他事务插入了符合查询条件的数据。在Repeatable Read级别下，只对读取的范围加共享锁，并没有锁定整个表，因此其他事务可以在该范围内插入新数据，导致出现幻读。
+
+要解决幻读问题，可以使用更高级别的隔离级别，例如Serializable（串行化）级别，或者使用乐观锁或悲观锁来进行控制。在Serializable级别下，事务会对整个查询的范围加表级锁，避免了幻读的发生。而乐观锁和悲观锁可以通过额外的字段或锁机制来确保数据的一致性，进一步避免幻读的问题。
+
+因此，虽然Repeatable Read级别可以避免脏读和不可重复读，但无法完全避免幻读。根据具体的业务需求，可以选择相应的隔离级别和锁机制来权衡一致性和并发性。
 
 [MySQL 四种隔离级别](https://zhuanlan.zhihu.com/p/76743929)
 [我以为我对Mysql事务很熟，直到我遇到了阿里面试官](https://zhuanlan.zhihu.com/p/148035779)
@@ -655,7 +667,7 @@ MySQL数据库几个基本的索引类型：普通索引、唯一索引、主键
 
 
 ```
-假如执行select * from stu where name=? and age=? 
+假如执行select * from stu where name=? and age=?
 没有索引下推先再存储引擎根据name筛选数据返回给server层，然后server层再根据age过滤
 有索引下推直接根据name和age在存储引擎层就筛选得到结果
 ```
@@ -1090,7 +1102,7 @@ customer_id_selectivity: 0.0373
 
 - 尽量扩展索引，别新建索引，如(a)->(a,b)
 
-    
+
 
 - 字符串字段建立索引方法
 
@@ -1494,7 +1506,7 @@ MySQL是一个传统的RDBM数据库，也就是关系型数据库，广泛应�
 
 **DML**是**数据操作语言**，用于检索或者修改数据。我们平常最常用的增删查改就是DML。**data manipulation language**
 
-**DDL**是**数据定义语言**，用于操作数据结构，比如创建表，删除表，更改索引等都是DDL。**data definition** or **data description language** 
+**DDL**是**数据定义语言**，用于操作数据结构，比如创建表，删除表，更改索引等都是DDL。**data definition** or **data description language**
 
 **DCL**是**数据控制语言**，用于定义数据库用户的权限，比如创建用户，授权用户，删除用户等都是DCL。**data control language**
 
@@ -1644,6 +1656,18 @@ MyIASM引擎，B+树的数据结构中存储的内容实际上是实际数据的
 
 Innodb引擎的索引的数据结构也是B+树，只不过数据结构中存储的都是实际的数据，这种索引有被称为聚集索引。
 
+MyISAM引擎使用B+树作为索引结构，其中叶子节点存储了实际的数据行的指针。每个索引都是一个独立的文件，与数据文件分开存储。而InnoDB引擎使用聚簇索引，将数据行和索引存储在同一个B+树结构中，因此聚簇索引影响了数据的物理存储顺序。
+MyISAM引擎的数据保存在独立的数据文件中。每个表都由至少两个文件组成：.frm文件和.MYD文件。
+
+.frm文件（格式文件）：该文件是存储表的定义和结构的文件，包含了表的字段、类型、索引等信息。它记录了表的元数据，即表的结构定义，但不包含实际的数据。
+
+.MYD文件：该文件是存储实际数据的文件。它以二进制格式保存表的数据行，每一行对应一个数据记录。MYD文件存储了表的所有数据行，包括被删除的数据行。
+
+另外，如果表有索引，每个索引也会有一个单独的文件，文件扩展名为.MYI。索引文件使用B+树结构存储索引信息，包括索引的键值和指向数据行的指针。
+
+在MyISAM引擎中，数据文件和索引文件是分开存储的，这使得备份、恢复和维护更加方便。可以通过拷贝和移动这些文件来进行数据的导入、导出和迁移操作。
+
+
 ## 9.4 MyISAM与InnoDB使用场景
 
 
@@ -1682,7 +1706,7 @@ delete和truncate只删除表的数据不删除表的结构
 速度,一般来说: drop> truncate >delete
 delete语句是dml（data maintain Language),这个操作会放到rollback segement中,事务提交之后才生效;
 如果有相应的trigger,执行的时候将被触发. truncate,drop是ddl(data define language), 操作立即生效,原数据不放到rollback segment中,不能回滚. 操作不触发trigger.
-如果你对这三者的用法还不太熟悉，建议阅读： 
+如果你对这三者的用法还不太熟悉，建议阅读：
 [drop、truncate和delete的区别](https://blog.csdn.net/ws0513/article/details/49980547)
 
 ## 9.3.2 drop、delete与truncate分别在什么场景之下使用？
@@ -1822,7 +1846,7 @@ InnoDB写入磁盘的策略可以通过`innodb_flush_log_at_trx_commit`这个参
 ```mermaid
 graph LR
 
-A[innodb_flush_log_at_trx_commit] 
+A[innodb_flush_log_at_trx_commit]
     A -->|=0| C[该值为0时表示事务提交不写入磁盘,写入过程在master thread中进行]
     A -->|=1| D[该值为1时表示事务提交必须提交一次fsync参数]
     A -->|=2| E[该值为2时表示事务提交时不写入重做日志文件,而是写入文件系统缓冲中]
@@ -2376,7 +2400,7 @@ mysql**正常关闭**之前
 
 
 
-# 
+#
 
 # 11. MySql架构
 
@@ -2546,7 +2570,7 @@ MySQL拿到一个查询请求后，会先到查询缓存看看，之前是不是
 
 - 3、大事务，大事务让主库执行很久，那么到备库也要执行很久，导致延迟很久，比如一次是删很多数据
 
-    
+
 
 ### 11.2.3 **主备切换策略****（**由于有主备延迟，导致有多种切换策略**）**
 
@@ -2578,7 +2602,7 @@ MySQL拿到一个查询请求后，会先到查询缓存看看，之前是不是
 
 - 2、同一个事务不能拆分，需分配到同一个worker
 
-    
+
 
 # 12. 分库分表数据切分
 
@@ -2634,18 +2658,49 @@ MySQL拿到一个查询请求后，会先到查询缓存看看，之前是不是
 事务想要获得一张表中某几行的排他锁
 
 共享锁（Shared Lock）：也称为读锁。多个事务可以同时获取共享锁，用于读取数据。其他事务也可以获取共享锁，但不能获取排它锁，从而保证了并发读取的一致性。
-
+在MySQL中，可以使用SELECT语句的LOCK IN SHARE MODE子句来设置共享锁，使用SELECT ... FOR UPDATE子句来设置排他锁。例如：
+共享锁：
+```sql
+START TRANSACTION;
+SELECT * FROM table_name WHERE condition LOCK IN SHARE MODE;
+-- 读取数据操作
+COMMIT;
+```
 排他锁（Exclusive Lock）：也称为写锁。只有一个事务可以获取排它锁，用于修改数据。其他事务不能获取任何类型的锁，从而确保了数据的独占性和一致性。
+```sql
+START TRANSACTION;
+SELECT * FROM table_name WHERE condition FOR UPDATE;
+-- 修改数据操作
+COMMIT;
+```
 
 行级锁（Row-Level Lock）：在行级别上对数据进行锁定。只锁定被事务访问或修改的特定行，而不是整个表。这种锁定粒度更细，可以提高并发性能。
-
+```sql
+START TRANSACTION;
+SELECT * FROM table_name WHERE condition FOR UPDATE;
+-- 修改数据操作
+COMMIT;
+```
 表级锁（Table-Level Lock）：在表级别上对整个表进行锁定。当一个事务持有表级锁时，其他事务无法对该表进行任何操作，包括读取和修改。
+```sql
+LOCK TABLES table_name WRITE; -- 对整个表进行写锁定
+-- 执行对表的操作
+UNLOCK TABLES;
+```
+自增锁（Auto-Increment Lock）：用于处理自增长字段的并发访问。当多个事务同时插入记录并需要获取下一个自增值时，自增锁会确保每个事务获取唯一且连续的值。自增锁是MySQL内部自动管理的。当多个事务同时插入记录并需要获取下一个自增值时，自增锁会确保每个事务获取唯一且连续的值。
 
-自增锁（Auto-Increment Lock）：用于处理自增长字段的并发访问。当多个事务同时插入记录并需要获取下一个自增值时，自增锁会确保每个事务获取唯一且连续的值。
 
 悲观锁（Pessimistic Locking）：在事务操作之前，显式地获取锁，阻塞其他事务的访问。悲观锁假设会发生并发冲突，因此事务在整个操作期间都持有锁。
+悲观锁的设置取决于事务的隔离级别。在默认的可重复读隔离级别下，使用SELECT ... FOR UPDATE语句获取悲观锁。例如：
 
+```sql
+  START TRANSACTION;
+  SELECT * FROM table_name WHERE condition FOR UPDATE;
+  -- 修改数据操作
+  COMMIT;
+```
 乐观锁（Optimistic Locking）：在事务提交之前，不会显式地获取锁，而是在提交时检查数据是否被其他事务修改过。如果检测到冲突，会回滚事务或者重新尝试。
+乐观锁不需要显式地设置锁。它通常是通过在表中添加一个版本或时间戳字段来实现。事务在提交时会检查该字段是否被其他事务修改过，如果有冲突，则会回滚事务或重新尝试。
 ### 13.1.2 行级锁 表级锁 共享锁 排他锁 意向共享锁 意向排他锁 悲观锁 乐观锁 之间的关系？
 行级锁（Row-Level Lock）和表级锁（Table-Level Lock）：
 行级锁是对数据表中的行进行锁定，只锁定被事务访问或修改的特定行，而不是整个表。表级锁则是对整个表进行锁定。
@@ -2748,7 +2803,7 @@ SELECT c FROM t WHERE c BETWEEN 10 and 20 FOR UPDATE;
 
 ### 14.2.1 （1）数据库中设置SQL慢查询
 
-#### 14.2.1.1 方式一：修改配置文件 在 my.ini 增加几行: 
+#### 14.2.1.1 方式一：修改配置文件 在 my.ini 增加几行:
 
 主要是慢查询的定义时间（超过2秒就是慢查询），以及慢查询log日志记录（ slow_query_log）
 

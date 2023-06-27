@@ -2,37 +2,37 @@
  * 141. Linked List Cycle
  * Given a linked list, determine if it has a cycle in it.
  *
- * To represent a cycle in the given linked list, 
+ * To represent a cycle in the given linked list,
  * we use an integer pos which represents the position (0-indexed) in the linked list where tail connects to.
  * If pos is -1, then there is no cycle in the linked list.
  *
  * Example 1:
- * 
- *     3 -> 2 -> 0 -> -4  
- *          ↖        ↙  
+ *
+ *     3 -> 2 -> 0 -> -4 
+ *          ↖        ↙ 
  *            ← ← ← ←
  *
  * Input: head = [3,2,0,-4], pos = 1
  * Output: true
  * Explanation: There is a cycle in the linked list, where tail connects to the second node.
- * 
+ *
  * Example 2:
  *
- *          1 - > 2   
- *          ↖   ↙  
+ *          1 - > 2  
+ *          ↖   ↙ 
  *            ←
  * Input: head = [1,2], pos = 0
  * Output: true
  * Explanation: There is a cycle in the linked list, where tail connects to the first node.
- * 
+ *
  * Example 3:
  *
  *          1
- * 
+ *
  * Input: head = [1], pos = -1
  * Output: false
  * Explanation: There is no cycle in the linked list.
- * 
+ *
  */
 #include <unordered_map>
 #include <algorithm>
@@ -67,7 +67,7 @@
 #define BOLDRED     "\033[1m\033[31m"      /* Bold Red     */
 
 // Definition for singly-linked list.
-typedef struct ListNode 
+typedef struct ListNode
 {
     int val;
     ListNode *next;
@@ -87,7 +87,7 @@ public:
         return false;
     }
 
-    std::vector<int> printList(ListNode* head) 
+    std::vector<int> printList(ListNode* head)
     {
         std::vector<int> ret ; // = new ArrayList<>();
         ListNode *listNode = head;
@@ -99,7 +99,7 @@ public:
         {
             std::cout << "null" << std::endl;
         }
-        while (listNode != nullptr) // && listNode->next != nullptr) 
+        while (listNode != nullptr) // && listNode->next != nullptr)
         {
             std::cout << listNode->val << " " ; // << std::endl;
             ret.push_back(listNode->val);
@@ -111,14 +111,14 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         struct ListNode * head,
         bool expected,
         int expected_length)
 {
-    if(testName.length() > 0) 
+    if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
     Solution solution;
 
@@ -182,7 +182,7 @@ void Test1()
 {
     /*
      *         1 -> 2 -> 3 -> 4 -> 5
-     *              ↖            ↙  
+     *              ↖            ↙ 
      *                ← ← ← ← ← ←
      */
     struct ListNode * p1 = new ListNode(1);
@@ -190,7 +190,7 @@ void Test1()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-    
+   
     struct ListNode * q1 = new ListNode(6);
     p1->next = p2;
     p2->next = p3;

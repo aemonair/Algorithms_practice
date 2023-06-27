@@ -1,25 +1,25 @@
 /*
- ************************************* 
+ *************************************
  * 767. Reorganize String
  * Medium
- ************************************* 
+ *************************************
  * Given a string s, check if the letters can be rearranged so that two characters that are adjacent to each other are not the same.
  * If possible, output any possible result.  If not possible, return the empty string.
- ************************************* 
+ *************************************
  * Example 1:
- * 
+ *
  * Input: s = "aab"
  * Output: "aba"
- ************************************* 
+ *************************************
  * Example 2:
- * 
+ *
  * Input: s = "aaab"
  * Output: ""
- ************************************* 
+ *************************************
  * Note:
- * 
+ *
  * s will consist of lowercase letters and have length in range [1, 500].
- ************************************* 
+ *************************************
  */
 
 #include <unordered_map>
@@ -32,19 +32,19 @@
 #include <queue>
 #include <map>
 #include <set>
- 
+
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
 class Solution {
 public:
-    // 
+    //
     std::string reorganizeString(std::string s)
     {
         return std::string();
     }
-    
+   
     template <typename T>
     int printvector(const std::vector<T> &v)
     {
@@ -73,7 +73,7 @@ public:
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-        std::string   s  , 
+        std::string   s  ,
         std::set<std::string>  expected)
 {
     if(testName.length() > 0)

@@ -2,12 +2,12 @@
  * 230. Kth Smallest Element in a BST
  * Medium
  *************************************************************************************
- * 
+ *
  * Given a binary search tree, write a function kthSmallest to find the kth smallest element in it.
- * 
+ *
  *************************************************************************************
  * Example 1:
- * 
+ *
  * Input: root = [3,1,4,null,2], k = 1
  *    3
  *   / \
@@ -17,7 +17,7 @@
  * Output: 1
  *************************************************************************************
  * Example 2:
- * 
+ *
  * Input: root = [5,3,6,2,4,null,null,1], k = 3
  *        5
  *       / \
@@ -32,11 +32,11 @@
  * What if the BST is modified (insert/delete operations) often and you need to find the kth smallest frequently? How would you optimize the kthSmallest routine?
  *************************************************************************************
  * Constraints:
- * 
+ *
  * The number of elements of the BST is between 1 to 10^4.
  * You may assume k is always valid, 1 ≤ k ≤ BST's total elements.
  *************************************************************************************
- * 
+ *
  */
 
 #include <algorithm>
@@ -49,7 +49,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -58,10 +58,10 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
+    //
     int kthSmallest(TreeNode* root, int k)
     {
         return 0;
@@ -142,7 +142,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         TreeNode * root, int k,
         int expected)
 {
@@ -189,7 +189,7 @@ void Test1()
     TreeNode * p_node1 = new TreeNode(1, nullptr, p_node2);
     TreeNode * p_node8 = new TreeNode(8, p_node7, nullptr);
     TreeNode * p_node6 = new TreeNode(6, p_node1, p_node8);
-    
+   
     std::cout << "      6         " << std::endl;
     std::cout << "    /   \\      " << std::endl;
     std::cout << "   1     8      " << std::endl;
@@ -224,7 +224,7 @@ void Test3()
     std::cout << "   1     4           " << std::endl;
     std::cout << "    \\               " << std::endl;
     std::cout << "     2               " << std::endl;
-    //       
+    //      
     TreeNode * p_node2 = new TreeNode(2);
     TreeNode * p_node4 = new TreeNode(4);
     TreeNode * p_node1 = new TreeNode(1, nullptr, p_node2);

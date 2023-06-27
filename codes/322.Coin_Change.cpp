@@ -1,19 +1,19 @@
 /*
- * 
+ *
  * 322. Coin Change
  * Medium
  * You are given coins of different denominations and a total amount of money amount.
  * Write a function to compute the fewest number of coins that you need to make up that amount.
  * If that amount of money cannot be made up by any combination of the coins, return -1.
- ******************************************** 
+ ********************************************
  * Example 1:
- * 
+ *
  * Input: coins = [1, 2, 5], amount = 11
  * Output: 3
  * Explanation: 11 = 5 + 5 + 1
  ********************************************
  * Example 2:
- * 
+ *
  * Input: coins = [2], amount = 3
  * Output: -1
  *******************************************
@@ -33,7 +33,7 @@
 class Solution {
 public:
     std::vector<int> dp = std::vector<int>(100,0);
-    int coinChange(std::vector<int>& coins, int amount) 
+    int coinChange(std::vector<int>& coins, int amount)
     {
         if (0 == amount )
             return 0;
@@ -54,7 +54,7 @@ public:
         return (result == maxresult ? -1: result );
     }
     // 使用 dp 保存子问题
-    int coinChange1(std::vector<int>& coins, int amount) 
+    int coinChange1(std::vector<int>& coins, int amount)
     {
         if (amount == 0) return 0;
         if (amount <  0) return -1;
@@ -77,7 +77,7 @@ public:
     //Runtime: 148 ms, faster than 25.40% of C++ online submissions for Coin Change.
     //Memory Usage: 15.3 MB, less than 17.45% of C++ online submissions for Coin Change.
 
-    int coinChange2(std::vector<int>& coins, int amount) 
+    int coinChange2(std::vector<int>& coins, int amount)
     {
         if (amount == 0) return 0;
         std::vector<int> dptable(amount + 1, amount +1);
@@ -87,7 +87,7 @@ public:
         {
             for (auto coin : coins)
             {
-                if (i - coin < 0) 
+                if (i - coin < 0)
                 {
                     continue;
                 }

@@ -49,7 +49,7 @@ class Solution {
 public:
 
 
-    std::vector<std::vector<int>> levelOrderBottom(TreeNode* root) 
+    std::vector<std::vector<int>> levelOrderBottom(TreeNode* root)
     {
         return std::vector<std::vector<int>>();
     }
@@ -132,7 +132,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         TreeNode * root,
         std::vector<std::vector<int>> expected)
 {

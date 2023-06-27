@@ -2,59 +2,59 @@
  * 297. Serialize and Deserialize Binary Tree
  * Hard
  *************************************************************************************
- * Serialization is the process of converting a data structure or object into a sequence of bits so that 
- *  it can be stored in a file or memory buffer, 
+ * Serialization is the process of converting a data structure or object into a sequence of bits so that
+ *  it can be stored in a file or memory buffer,
  * or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
- * 
+ *
  * Design an algorithm to serialize and deserialize a binary tree.
  * There is no restriction on how your serialization/deserialization algorithm should work.
- * You just need to ensure that a binary tree can be serialized to a string and 
+ * You just need to ensure that a binary tree can be serialized to a string and
  *  this string can be deserialized to the original tree structure.
- * 
+ *
  *************************************************************************************
  * Example:
- * 
+ *
  * You may serialize the following tree:
- * 
+ *
  *     1
  *    / \
  *   2   3
  *      / \
  *     4   5
- * 
+ *
  * as "[1,2,3,null,null,4,5]"
- * Clarification: 
+ * Clarification:
  *  The above format is the same as how LeetCode serializes a binary tree.
  *  You do not necessarily need to follow this format, so please be creative and come up with different approaches yourself.
- * 
+ *
  *************************************************************************************
  * Example 1:
- * 
+ *
  *     1
  *    / \
  *   2   3
  *      / \
  *     4   5
- * 
+ *
  * Input: root = [1,2,3,null,null,4,5]
  * Output: [1,2,3,null,null,4,5]
  *************************************************************************************
  * Example 2:
- * 
+ *
  * Input: root = []
  * Output: []
  *************************************************************************************
  * Example 3:
- * 
+ *
  * Input: root = [1]
  * Output: [1]
  *************************************************************************************
  * Example 4:
- * 
+ *
  * Input: root = [1,2]
  * Output: [1,2]
  *************************************************************************************
- * Note: 
+ * Note:
  * Do not use class member/global/static variables to store states. Your serialize and deserialize algorithms should be stateless.
  *************************************************************************************
  * Constraints:
@@ -272,7 +272,7 @@ public:
         //        proot = root;
         //    }
         //    left++;
-        //    
+        //   
         //    if (v[right] != "null")
         //    {
         //        int value2 = std::stoi ( v[right], nullptr, 0 );
@@ -291,8 +291,8 @@ public:
         //    }
         //    right++;
         //}
- 
-///////////////////////////////////////////////////////////////////////////////////////////////////////    
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////   
     std::string serialize1(TreeNode* root)
     {
         return "";
@@ -301,7 +301,7 @@ public:
     {
         return nullptr;
     }
-///////////////////////////////////////////////////////////////////////////////////////////////////////    
+///////////////////////////////////////////////////////////////////////////////////////////////////////   
     std::string serialize2(TreeNode* root)
     {
         return "";
@@ -310,7 +310,7 @@ public:
     {
         return nullptr;
     }
-///////////////////////////////////////////////////////////////////////////////////////////////////////    
+///////////////////////////////////////////////////////////////////////////////////////////////////////   
     template <typename T>
     int printvector(std::vector<T> v)
     {
@@ -347,13 +347,13 @@ public:
             return 0;
         }
         std::cout << "head->val: " << head->val << std::endl;
-        std::cout << "[ preorder]  : " ; 
+        std::cout << "[ preorder]  : " ;
         printtreenodepre(head);
         std::cout << std::endl;
-        std::cout << "[  inorder]  : " ; 
+        std::cout << "[  inorder]  : " ;
         printtreenodein(head);
         std::cout << std::endl;
-        std::cout << "[postorder]  : " ; 
+        std::cout << "[postorder]  : " ;
         printtreenodepost(head);
         std::cout << std::endl;
         return 0;
@@ -427,7 +427,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         TreeNode *root,
         std::string preorder , std::string inorder, std::string postorder, std::string levorder)
 {
@@ -608,7 +608,7 @@ void Test5()
     TreeNode * p_node3 = new TreeNode(3, nullptr, p_node2);
     TreeNode * p_node5 = new TreeNode(5, p_node0, nullptr);
     TreeNode * p_node6 = new TreeNode(6, p_node3, p_node5);
-    
+   
     std::cout << "      6         " << std::endl;
     std::cout << "    /   \\      " << std::endl;
     std::cout << "   3     5      " << std::endl;

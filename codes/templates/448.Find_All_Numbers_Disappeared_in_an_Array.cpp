@@ -4,16 +4,16 @@
  * Easy
  *********************************************
  * Given an numsay of integers where 1 ≤ a[i] ≤ n (n = size of numsay), some elements appear twice and others appear once.
- * 
+ *
  * Find all the elements of [1, n] inclusive that do not appear in this numsay.
- * 
+ *
  * Could you do it without extra space and in O(n) runtime? You may assume the returned list does not count as extra space.
  *********************************************
  * Example:
- * 
+ *
  * Input:
  * [4,3,2,7,8,2,3,1]
- * 
+ *
  * Output:
  * [5,6]
  *********************************************
@@ -32,7 +32,7 @@ class Solution {
 public:
 ////////////////////////////////////////////////////////////////////////
     std::vector<int> res;
-    int missingNumber1(std::vector<int> &nums ) 
+    int missingNumber1(std::vector<int> &nums )
     {
         int n = nums.size();
         int res = 0;
@@ -43,7 +43,7 @@ public:
         }
         return res;
     }
-    int missingNumber2(std::vector<int> &nums ) 
+    int missingNumber2(std::vector<int> &nums )
     {
         int n = nums.size();
         int expect = (0+n)*(n+1)/2;
@@ -52,7 +52,7 @@ public:
             sum += x;
         return expect-sum;
     }
-    int missingNumber3(std::vector<int> &nums ) 
+    int missingNumber3(std::vector<int> &nums )
     {
         int n = nums.size();
         int res = 0;
@@ -61,7 +61,7 @@ public:
             res += i - nums[i];
         return res;
     }
-    std::vector<int> findDisappearedNumbers(std::vector<int> &nums ) 
+    std::vector<int> findDisappearedNumbers(std::vector<int> &nums )
     {
         std::vector<int> results;
         return results;
@@ -115,7 +115,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<int>& nums,
         std::vector<int> expected
         )

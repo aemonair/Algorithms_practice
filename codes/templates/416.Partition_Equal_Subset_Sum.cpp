@@ -7,19 +7,19 @@
  * Given a non-empty array nums containing only positive integers, find if the array can be partitioned into two subsets such that the sum of elements in both subsets is equal.
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
  * Example 1:
- * 
+ *
  * Input: nums = [1,5,11,5]
  * Output: true
  * Explanation: The array can be partitioned as [1, 5, 5] and [11].
 ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
  * Example 2:
- * 
+ *
  * Input: nums = [1,2,3,5]
  * Output: false
  * Explanation: The array cannot be partitioned into equal sum subsets.
 =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
  * Constraints:
- * 
+ *
  * 1 <= nums.length <= 200
  * 1 <= nums[i] <= 100
 +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
@@ -33,7 +33,7 @@
 #include <queue>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -73,7 +73,7 @@ void Test(const std::string& testName, std::vector<int> & nums,bool expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;
@@ -85,7 +85,7 @@ void Test(const std::string& testName, std::vector<int> & nums,bool expected)
     std::cout << "nums:";
     printvector(nums);
 
-    const static int TEST_TIME = 1;    
+    const static int TEST_TIME = 1;   
     {
         if (TEST_TIME)
         {

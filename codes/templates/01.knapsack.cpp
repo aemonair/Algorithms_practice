@@ -1,33 +1,33 @@
 /*
- * int knapsack(int W, int N, std::vector<int>& wt, std::vector<int>& val) 
- ************************************* 
- * Given weights and values of n items, put these items in a knapsack of capacity W to get the maximum total value in the knapsack. 
- * In other words, given two integer arrays val[0..n-1] and wt[0..n-1] which represent values and weights associated with n items respectively. 
- * Also given an integer W which represents knapsack capacity, find out the maximum value subset of val[] such that sum of the weights of this subset is smaller than or equal to W. 
+ * int knapsack(int W, int N, std::vector<int>& wt, std::vector<int>& val)
+ *************************************
+ * Given weights and values of n items, put these items in a knapsack of capacity W to get the maximum total value in the knapsack.
+ * In other words, given two integer arrays val[0..n-1] and wt[0..n-1] which represent values and weights associated with n items respectively.
+ * Also given an integer W which represents knapsack capacity, find out the maximum value subset of val[] such that sum of the weights of this subset is smaller than or equal to W.
  * You cannot break an item, either pick the complete item or don’t pick it (0-1 property)
  *
  * 给你一个可装载重量为W的背包和N个物品，每个物品有重量和价值两个属性。其中第i个物品的重量为wt[i]，价值为val[i]，现在让你用这个背包装物品，最多能装的价值是多少？
- * 
- ************************************* 
+ *
+ *************************************
  * Example 1:
- * 
- * Input: 
+ *
+ * Input:
  * N = 3, W = 4, wt = [2, 1, 3], val = [4, 2, 3]
  *
  * Output: 6
- ************************************* 
+ *************************************
  * Example 2:
- * 
- * Input: 
+ *
+ * Input:
  * N = 3, W = 50, wt = [10, 20, 30],val = [60, 100, 120]
  * Output: 220
- ************************************* 
+ *************************************
  * Example 3:
- * 
- * Input: 
- * N = 4, W = 8, wt = [2, 3, 4, 5],val = [3, 4, 5, 6] 
+ *
+ * Input:
+ * N = 4, W = 8, wt = [2, 3, 4, 5],val = [3, 4, 5, 6]
  * Output: 10
- ************************************* 
+ *************************************
  * N = wt.size() == val.size()
  */
 
@@ -44,7 +44,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -79,11 +79,11 @@ int printunordered_map(const std::unordered_map<T1,T2> &v);
 class Solution {
 public:
 
-    int knapsack(int bagweight, int N, std::vector<int>& weight, std::vector<int>& value) 
+    int knapsack(int bagweight, int N, std::vector<int>& weight, std::vector<int>& value)
     {
         return 0;
     }
-    int knapsack2(int W, int N, std::vector<int>& wt, std::vector<int>& val) 
+    int knapsack2(int W, int N, std::vector<int>& wt, std::vector<int>& val)
     {
         return 0;
     }
@@ -163,7 +163,7 @@ int printvector(std::vector<T> v)
         return 0;
     }
     //for (int i = 0; i< v.size(); i++) {
-        //std::cout << " " << i ; 
+        //std::cout << " " << i ;
     //}
     //std::cout << std::endl;
     std::cout << "[ " ;

@@ -3,26 +3,26 @@
  * 295. Find Median from Data Stream
  * Hard
  ****************************************************************
- * Median is the middle value in an ordered integer list. 
- * If the size of the list is even, there is no middle value. 
+ * Median is the middle value in an ordered integer list.
+ * If the size of the list is even, there is no middle value.
  * So the median is the mean of the two middle value.
- * 
+ *
  * For example,
  * [2,3,4], the median is 3
- * 
+ *
  * [2,3], the median is (2 + 3) / 2 = 2.5
  ****************************************************************
  * Design a data structure that supports the following two operations:
- * 
+ *
  * MedianFinder() initializes the MedianFinder object.
- * + void addNum(int num) - 
+ * + void addNum(int num) -
  *        - Add a integer number from the data stream to the data structure.
  * + double findMedian() -
  *        - Return the median of all elements so far.
  *        - Answers within 10^-5 of the actual answer will be accepted.
  ****************************************************************
  * Example:
- * 
+ *
  * addNum(1)
  * addNum(2)
  * findMedian() -> 1.5
@@ -30,13 +30,13 @@
  * findMedian() -> 2
  ****************************************************************
  * Implement the MedianFinder class:
- * 
+ *
  * Input
  * ["MedianFinder", "addNum", "addNum", "findMedian", "addNum", "findMedian"]
  * [[], [1], [2], [], [3], []]
  * Output
  * [null, null, null, 1.5, null, 2.0]
- * 
+ *
  * Explanation
  * MedianFinder medianFinder = new MedianFinder();
  * medianFinder.addNum(1);    // arr = [1]
@@ -44,21 +44,21 @@
  * medianFinder.findMedian(); // return 1.5 (i.e., (1 + 2) / 2)
  * medianFinder.addNum(3);    // arr[1, 2, 3]
  * medianFinder.findMedian(); // return 2.0
- * 
+ *
  ****************************************************************
  * Constraints:
- * 
+ *
  * -10^5 <= num <= 10^5
  * There will be at least one element in the data structure before calling findMedian.
  * At most 5 * 104 calls will be made to addNum and findMedian.
  ****************************************************************
  * Follow up:
- * 
+ *
  * 1. If all integer numbers from the stream are between 0 and 100, how would you optimize it?
  * 2. If 99% of all integer numbers from the stream are between 0 and 100, how would you optimize it?
  ****************************************************************
- * 
- * 
+ *
+ *
  */
 
 #include <algorithm>
@@ -78,19 +78,19 @@
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
 
-class MedianFinder 
+class MedianFinder
 {
 public:
     /** initialize your data structure here. */
-    MedianFinder() 
+    MedianFinder()
     {
     }
 
-    void addNum(int num) 
+    void addNum(int num)
     {
     }
 
-    double findMedian() 
+    double findMedian()
     {
     }
 public:
@@ -211,7 +211,7 @@ const static int TEST_1    = 0;
         // [null, null, null, 1.5, null, 2.0]
         MedianFinder* obj = nullptr;
         std::vector<double> result(operators.size(), 0);
-        
+       
         for(int i = 0; i< operators.size(); i++)
         {
             auto oper = operators[i];
@@ -322,24 +322,24 @@ int main()
     		tuple_print(std::get<0>(t));
     	}
     };
-    
+   
     template<typename T>
-    void tuple_print(T t) 
+    void tuple_print(T t)
     {
     	tuple_print_helper<std::tuple_size<T>::value, T> tph(t);
         std::cout << ")";
     }
     template<>
-    void tuple_print<int>(int t) 
+    void tuple_print<int>(int t)
     {
         std::cout << t;
     }
-    
+   
     template<>
     void tuple_print<double>(double t) {
         std::cout << t;
     }
-    
+   
     template<>
     void tuple_print<char>(char t) {
         std::cout << t;
@@ -348,12 +348,12 @@ int main()
     void tuple_print<bool>(bool t) {
         std::cout << t;
     }
-    
+   
     template<>
     void tuple_print<const char *>(const char* t) {
         std::cout << t;
     }
-    
+   
     template<>
     void tuple_print<std::string>(std::string t) {
         std::cout << t;

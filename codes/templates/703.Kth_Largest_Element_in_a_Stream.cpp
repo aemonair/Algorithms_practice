@@ -4,20 +4,20 @@
  * Easy
 ///////////////////////////////////////////////////////////////
  * Design a class to find the kth largest element in a stream. Note that it is the kth largest element in the sorted order, not the kth distinct element.
- * 
+ *
  * Implement KthLargest class:
- * 
+ *
  * KthLargest(int k, int[] nums) Initializes the object with the integer k and the stream of integers nums.
  * int add(int val) Returns the element representing the kth largest element in the stream.
 ///////////////////////////////////////////////////////////////
  * Example 1:
- * 
+ *
  * Input
  * ["KthLargest", "add", "add", "add", "add", "add"]
  * [[3, [4, 5, 8, 2]], [3], [5], [10], [9], [4]]
  * Output
  * [null, 4, 5, 5, 8, 8]
- * 
+ *
  * Explanation
  * KthLargest kthLargest = new KthLargest(3, [4, 5, 8, 2]);
  * kthLargest.add(3);   // return 4
@@ -27,7 +27,7 @@
  * kthLargest.add(4);   // return 8
 ///////////////////////////////////////////////////////////////
  * Constraints:
- * 
+ *
  * 1 <= k <= 10^4
  * 0 <= nums.length <= 10^4
  * -10^4 <= nums[i] <= 10^4
@@ -54,11 +54,11 @@
 class KthLargest {
 public:
 ///////////////////////////////////////////////////////////////
-    KthLargest(int k, std::vector<int>& nums) 
+    KthLargest(int k, std::vector<int>& nums)
     {
     }
 
-    int add(int val) 
+    int add(int val)
     {
         return 0;
     }
@@ -131,7 +131,7 @@ void Test1()
     int expected = 0;
     std::cout << "Test1 START:" << std::endl;
     std::vector<int> v{4, 5, 8, 2};
-    KthLargest * kthlargest = new KthLargest(3, v ); 
+    KthLargest * kthlargest = new KthLargest(3, v );
     std::cout << "new KthLargest(3, [4, 5, 8, 2])" << std::endl;
     std::cout << "kthLargest.add(3) " << std::endl;   // return 4
     test(kthlargest, 3, 4);
@@ -146,7 +146,7 @@ void Test2()
     int expected = 0;
     std::cout << "Test1 START:" << std::endl;
     std::vector<int> v{};
-    KthLargest * kthlargest = new KthLargest(1, v ); 
+    KthLargest * kthlargest = new KthLargest(1, v );
     std::cout << "new KthLargest(1, [])" << std::endl;
     test(kthlargest, -3, -3);
     test(kthlargest, -2, -2);
@@ -161,7 +161,7 @@ void Test3()
     int expected = 0;
     std::cout << "Test1 START:" << std::endl;
     std::vector<int> v{0};
-    KthLargest * kthlargest = new KthLargest(2, v ); 
+    KthLargest * kthlargest = new KthLargest(2, v );
     std::cout << "new KthLargest(2, [0])" << std::endl;
     test(kthlargest, -1, -1);
     test(kthlargest,  1,  0);

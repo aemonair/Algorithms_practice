@@ -4,16 +4,16 @@
  * Easy
  *********************************************
  * Write an algorithm to determine if a number n is happy.
- * 
+ *
  * A happy number is a number defined by the following process:
- * 
+ *
  * Starting with any positive integer, replace the number by the sum of the squares of its digits.
  * Repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1.
  * Those numbers for which this process ends in 1 are happy.
  * Return true if n is a happy number, and false if not.
  *********************************************
  * Example 1:
- * 
+ *
  * Input: n = 19
  * Output: true
  * Explanation:
@@ -23,12 +23,12 @@
  * 1² + 0² + 0² = 1
  *********************************************
  * Example 2:
- * 
+ *
  * Input: n = 2
  * Output: false
  *********************************************
  * Constraints:
- * 
+ *
  * 1 <= n <= 2^31 - 1
  *********************************************
  */
@@ -47,7 +47,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -82,7 +82,7 @@ int printunordered_map(const std::unordered_map<T1,T2> &v);
 class Solution {
 public:
 ////////////////////////////////////////////////////////////////////////
-    bool isHappy(int n) 
+    bool isHappy(int n)
     {
         return true;
     }
@@ -90,14 +90,14 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         int n,
         bool expected
         )
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

@@ -1,33 +1,33 @@
 /*
  * 516. Longest Palindromic Subsequence
  * Medium
- * 
+ *
  * Given a string s, find the longest palindromic subsequence's length in s. You may assume that the maximum length of s is 1000.
  ***************************************************************
  *  Example 1:
  * Input:
- * 
+ *
  * "bbbab"
  * Output:
  * 4
  * One possible longest palindromic subsequence is "bbbb".
- *  
- ************************************************************** 
+ * 
+ **************************************************************
  * Example 2:
  * Input:
- * 
+ *
  * "cbbd"
  * Output:
  * 2
  * One possible longest palindromic subsequence is "bb".
  ************************************************************
  *  Constraints:
- * 
+ *
  * 1 <= s.length <= 1000
  * s consists only of lowercase English letters.
- ************************************************************ 
- ************************************************************ 
- * 
+ ************************************************************
+ ************************************************************
+ *
  */
 
 // 44 yy
@@ -43,7 +43,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -74,23 +74,23 @@ int printstack(std::stack<T> s);
 
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
- 
+
 class Solution {
 public:
-    int longestPalindromeSubseq(std::string s) 
+    int longestPalindromeSubseq(std::string s)
     {
         return 0;
     }
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::string s,
         int expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

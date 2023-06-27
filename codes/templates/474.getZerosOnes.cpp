@@ -1,14 +1,14 @@
 /*
  * 474. Ones and Zeroes
- ************************************************************ 
+ ************************************************************
  * You are given an array of binary strings strs and two integers m and n.
- * 
+ *
  * Return the size of the largest subset of strs such that there are at most m 0's and n 1's in the subset.
- * 
+ *
  * A set x is a subset of a set y if all elements of x are also elements of y.
  ************************************************************
  * Example 1:
- * 
+ *
  * Input: strs = ["10","0001","111001","1","0"], m = 5, n = 3
  * Output: 4
  * Explanation: The largest subset with at most 5 0's and 3 1's is {"10", "0001", "1", "0"}, so the answer is 4.
@@ -16,18 +16,18 @@
  * {"111001"} is an invalid subset because it contains 4 1's, greater than the maximum of 3.
  ************************************************************
  * Example 2:
- * 
+ *
  * Input: strs = ["10","0","1"], m = 1, n = 1
  * Output: 2
  * Explanation: The largest subset is {"0", "1"}, so the answer is 2.
  ************************************************************
  * Constraints:
- * 
+ *
  * 1 <= strs.length <= 600
  * 1 <= strs[i].length <= 100
  * strs[i] consists only of digits '0' and '1'.
  * 1 <= m, n <= 100
- ************************************************************ 
+ ************************************************************
  */
 
 // 44 yy
@@ -43,7 +43,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -74,7 +74,7 @@ int printstack(std::stack<T> s);
 
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
- 
+
 class Solution {
 public:
     int findMaxForm(std::vector<std::string>& strs, int m, int n)
@@ -84,7 +84,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<std::string> &strs,
         int m,
         int n,
@@ -92,7 +92,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

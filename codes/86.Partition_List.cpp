@@ -1,7 +1,7 @@
 /*
  * 86. Partition List
- * 
- * Given a linked list and a value x, 
+ *
+ * Given a linked list and a value x,
  * partition it such that all nodes less than x come before nodes greater than or equal to x.
  * You should preserve the original relative order of the nodes in each of the two partitions.
  *
@@ -20,7 +20,7 @@ struct ListNode {
 class Solution {
 public:
 /*
- *         
+ *        
  *           head
  *           1 -> 4 -> 3 -> 2 -> 5 -> 2
  */
@@ -106,7 +106,7 @@ public:
         return left->next;
     }
 
-    std::vector<int> printList(ListNode* head) 
+    std::vector<int> printList(ListNode* head)
     {
         std::vector<int> ret ; // = new ArrayList<>();
         ListNode *listNode = head;
@@ -118,7 +118,7 @@ public:
         {
             std::cout << "null" << std::endl;
         }
-        while (listNode != nullptr) // && listNode->next != nullptr) 
+        while (listNode != nullptr) // && listNode->next != nullptr)
         {
             std::cout << listNode->val << " " ; // << std::endl;
             ret.push_back(listNode->val);
@@ -142,7 +142,7 @@ int main()
     struct ListNode * p4 = new ListNode(2);
     struct ListNode * p5 = new ListNode(5);
     struct ListNode * p6 = new ListNode(2);
-    
+   
     struct ListNode * q1 = new ListNode(1);
 
     p1->next = p2;

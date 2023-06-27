@@ -9,7 +9,7 @@
  * The solution set must not contain duplicate subsets. Return the solution in any order.
  *********************************************
  * Example1:
- * 
+ *
  * Input: nums = [1,2,3]
  * Output:  [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
  * [
@@ -24,20 +24,20 @@
  * ]
  ******************************************
  *  Example 2:
- * 
+ *
  * Input: nums = [0]
  * Output: [[],[0]]
  ******************************************
- * Note: 
+ * Note:
  * The solution set must not contain duplicate subsets.
  ******************************************
  * Constraints:
- * 
+ *
  * 1 <= nums.length <= 10
  * -10 <= nums[i] <= 10
  *  All the numbers of nums are unique.
  ******************************************
- * 
+ *
  */
 
 #include <stack>
@@ -57,27 +57,27 @@
 class Solution {
 public:
 ////////////////////////////////////////////////////////////////////////
-    std::vector<std::vector<int>> subsets0(std::vector<int> nums) 
+    std::vector<std::vector<int>> subsets0(std::vector<int> nums)
     {
         std::vector<std::vector<int>> result;
         return result;
     }
 ////////////////////////////////////////////////////////////////////////
-    std::vector<std::vector<int>> subsets1(std::vector<int>& nums) 
+    std::vector<std::vector<int>> subsets1(std::vector<int>& nums)
     {
         std::vector<std::vector<int>> result;
         return result;
     }
 
 ////////////////////////////////////////////////////////////////////////
-    std::vector<std::vector<int>> subsets2(std::vector<int>& nums) 
+    std::vector<std::vector<int>> subsets2(std::vector<int>& nums)
     {
         std::vector<std::vector<int>> result;
         return result;
     }
 ////////////////////////////////////////////////////////////////////////
     std::vector<std::vector<int>> res3;
-    std::vector<std::vector<int>> subsets3(std::vector<int>& nums) 
+    std::vector<std::vector<int>> subsets3(std::vector<int>& nums)
     {
         return res3;
     }
@@ -130,7 +130,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<int>& numbers,
         std::vector<std::vector<int>> expected
         )

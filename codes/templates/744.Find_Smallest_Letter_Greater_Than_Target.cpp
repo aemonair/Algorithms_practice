@@ -1,54 +1,54 @@
 /*
- ************************************************************** 
+ **************************************************************
  * 744. Find Smallest Letter Greater Than Target
  * Easy
- ************************************************************** 
+ **************************************************************
  * Given a list of sorted characters letters containing only lowercase letters, and given a target letter target, find the smallest element in the list that is larger than the given target.
- * 
+ *
  * Letters also wrap around. For example, if the target is target = 'z' and letters = ['a', 'b'], the answer is 'a'.
- * 
- ************************************************************** 
+ *
+ **************************************************************
  * Examples:
  * Input:
  * letters = ["c", "f", "j"]
  * target = "a"
  * Output: "c"
- ************************************************************** 
- * 
+ **************************************************************
+ *
  * Input:
  * letters = ["c", "f", "j"]
  * target = "c"
  * Output: "f"
- ************************************************************** 
- * 
+ **************************************************************
+ *
  * Input:
  * letters = ["c", "f", "j"]
  * target = "d"
  * Output: "f"
- ************************************************************** 
- * 
+ **************************************************************
+ *
  * Input:
  * letters = ["c", "f", "j"]
  * target = "g"
  * Output: "j"
- ************************************************************** 
- * 
+ **************************************************************
+ *
  * Input:
  * letters = ["c", "f", "j"]
  * target = "j"
  * Output: "c"
- ************************************************************** 
- * 
+ **************************************************************
+ *
  * Input:
  * letters = ["c", "f", "j"]
  * target = "k"
  * Output: "c"
- ************************************************************** 
+ **************************************************************
  * Note:
  * letters has a length in range [2, 10000].
  * letters consists of lowercase letters, and contains at least 2 unique letters.
  * target is a lowercase letter.
- ************************************************************** 
+ **************************************************************
  */
 
 #include <algorithm>
@@ -59,19 +59,19 @@
 #include <queue>
 #include <map>
 #include <set>
- 
+
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
 class Solution {
 public:
-    // 
+    //
     char nextGreatestLetter(std::vector<char>& letters, char target)
     {
         return ' ';
     }
-    
+   
     template <typename T>
     int printvector(const std::vector<T> &v)
     {
@@ -99,9 +99,9 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<char> & letters,
-        char target, 
+        char target,
         char expected)
 {
     if(testName.length() > 0)

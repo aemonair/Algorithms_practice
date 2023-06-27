@@ -3,32 +3,32 @@
  * Medium
  ***********************************************************************************************
  * Given the head of a linked list, remove the nth node from the end of the list and return its head.
- * 
+ *
  * Follow up: Could you do this in one pass?
  ***********************************************************************************************
  * Example 1:
- * 
+ *
  * Input: head = [1,2,3,4,5], n = 2
  * Output: [1,2,3,5]
  ***********************************************************************************************
  * Example 2:
- * 
+ *
  * Input: head = [1], n = 1
  * Output: []
  ***********************************************************************************************
  * Example 3:
- * 
+ *
  * Input: head = [1,2], n = 1
  * Output: [1]
  ***********************************************************************************************
  * Constraints:
- * 
+ *
  * The number of nodes in the list is sz.
  * 1 <= sz <= 30
  * 0 <= Node.val <= 100
  * 1 <= n <= sz
  ***********************************************************************************************
- * 
+ *
  */
 #include <algorithm>
 #include <iostream>
@@ -38,7 +38,7 @@
 #include <queue>
 #include <map>
 #include <set>
- 
+
 struct ListNode {
     int val;
     ListNode *next;
@@ -54,7 +54,7 @@ public:
         return nullptr;
     }
 
-    std::vector<int> printList(ListNode* head) 
+    std::vector<int> printList(ListNode* head)
     {
         std::vector<int> ret ; // = new ArrayList<>();
         ListNode *listNode = head;
@@ -66,7 +66,7 @@ public:
         {
             std::cout << "null" << std::endl;
         }
-        while (listNode != nullptr) // && listNode->next != nullptr) 
+        while (listNode != nullptr) // && listNode->next != nullptr)
         {
             std::cout << listNode->val << " " ; // << std::endl;
             ret.push_back(listNode->val);
@@ -97,7 +97,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         ListNode * head, int n,
         ListNode * expected )
 {
@@ -110,7 +110,7 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "head:" << std::boolalpha << std::endl; 
+    std::cout << "head:" << std::boolalpha << std::endl;
     solution.printList(head);
     // getpermutataion
     {

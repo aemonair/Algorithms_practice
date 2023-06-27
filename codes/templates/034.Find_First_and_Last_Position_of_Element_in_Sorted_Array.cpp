@@ -1,38 +1,38 @@
 /*
- ************************************* 
+ *************************************
  * 34. Find First and Last Position of Element in Sorted Array
  * Medium
- ************************************* 
+ *************************************
  * Given an array of integers nums sorted in ascending order, find the starting and ending position of a given target value.
- * 
+ *
  * Your algorithm's runtime complexity must be in the order of O(log n).
  * If the target is not found in the array, return [-1, -1]. @20200925
  *
  * If target is not found in the array, return [-1, -1].
  * Follow up: Could you write an algorithm with O(log n) runtime complexity? @20210426
- ************************************* 
+ *************************************
  * Example 1:
- * 
+ *
  * Input: nums = [5,7,7,8,8,10], target = 8
  * Output: [3,4]
- ************************************* 
+ *************************************
  * Example 2:
- * 
+ *
  * Input: nums = [5,7,7,8,8,10], target = 6
  * Output: [-1,-1]
- ************************************* 
+ *************************************
  * Example 3:
- * 
+ *
  * Input: nums = [], target = 0
  * Output: [-1,-1]
- ************************************* 
+ *************************************
  * Constraints:
- * 
+ *
  * *0 <= nums.length <= 10^5
  * * -10^9 <= nums[i] <= 10^9
  * *nums is a non decreasing array.
  * *-10^9 <= target <= 10^9
- ************************************* 
+ *************************************
  */
 
 #include <algorithm>
@@ -43,20 +43,20 @@
 #include <queue>
 #include <map>
 #include <set>
- 
+
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
 class Solution {
 public:
-    // 
+    //
     std::vector<int> searchRange(std::vector<int>& nums, int target)
     {
         int left  = 0;
         return std::vector<int>{left_bound(nums,target),right_bound(nums,target)};
     }
-    
+   
     int left_bound(std::vector<int>& nums, int target)
     {
         return 0;

@@ -3,11 +3,11 @@
  * Easy
  ***********************************************************************************************
  * Given a non-empty, singly linked list with head node head, return a middle node of linked list.
- * 
+ *
  * If there are two middle nodes, return the second middle node.
  ***********************************************************************************************
  * Example 1:
- * 
+ *
  * Input: [1,2,3,4,5]
  * Output: Node 3 from this list (Serialization: [3,4,5])
  * The returned node has value 3.  (The judge's serialization of this node is [3,4,5]).
@@ -15,16 +15,16 @@
  * ans.val = 3, ans.next.val = 4, ans.next.next.val = 5, and ans.next.next.next = NULL.
  ***********************************************************************************************
  * Example 2:
- * 
+ *
  * Input: [1,2,3,4,5,6]
  * Output: Node 4 from this list (Serialization: [4,5,6])
  * Since the list has two middle nodes with values 3 and 4, we return the second one.
  ***********************************************************************************************
  * Note:
- * 
+ *
  * The number of nodes in the given list will be between 1 and 100.
  ***********************************************************************************************
- * 
+ *
  */
 // 44 yy
 #include <unordered_map>
@@ -39,7 +39,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -70,7 +70,7 @@ int printstack(std::stack<T> s);
 
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
- 
+
 struct ListNode {
     int val;
     ListNode *next;
@@ -86,7 +86,7 @@ public:
         return nullptr;
     }
 
-    std::vector<int> printList(ListNode* head) 
+    std::vector<int> printList(ListNode* head)
     {
         std::vector<int> ret ; // = new ArrayList<>();
         ListNode *listNode = head;
@@ -98,7 +98,7 @@ public:
         {
             std::cout << "null" << std::endl;
         }
-        while (listNode != nullptr) // && listNode->next != nullptr) 
+        while (listNode != nullptr) // && listNode->next != nullptr)
         {
             std::cout << listNode->val << " -> " ; // << std::endl;
             ret.push_back(listNode->val);
@@ -110,13 +110,13 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         ListNode * head,
         ListNode * expected )
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;
@@ -125,7 +125,7 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    //std::cout << "head:" << std::boolalpha << std::endl; 
+    //std::cout << "head:" << std::boolalpha << std::endl;
     solution.printList(head);
 
 const static int TEST_TIME = 1;

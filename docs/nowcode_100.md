@@ -1,13 +1,13 @@
 ## 1.list链表
 ### BM1 反转链表 206
 
-[nowcoder反转链表](https://www.nowcoder.com/practice/75e878df47f24fdc9dc3e400ec6058ca?tpId=295&tqId=23286&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 
+[nowcoder反转链表](https://www.nowcoder.com/practice/75e878df47f24fdc9dc3e400ec6058ca?tpId=295&tqId=23286&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
 栈／双链表／递归
 [[206.reverseLinkedList_反转链表]]
 [206.reverseLinkedList_反转链表](206.reverseLinkedList_反转链表.md)
 
 ### BM2 链表内指定区间反转
-[链表内指定区间反转](https://www.nowcoder.com/practice/b58434e200a648c589ca2063f1faf58c?tpId=295&tqId=654&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) [[092.reverseBetween_反转链表 II]] 
+[链表内指定区间反转](https://www.nowcoder.com/practice/b58434e200a648c589ca2063f1faf58c?tpId=295&tqId=654&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) [[092.reverseBetween_反转链表_II]]
 找到m，从m反转到n
 
 ### BM3 链表中的节点每k个一组翻转
@@ -27,7 +27,7 @@
 [链表中环的入口结点](https://www.nowcoder.com/practice/253d2c59ec3e4bc68da16833f79a38e4?tpId=295&tqId=23449&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 142 [[142.Linked_List_Cycle_II_环形链表_II]]
 
 ### BM8 链表中倒数最后k个结点
-[链表中倒数最后k个结点](https://www.nowcoder.com/practice/886370fe658f41b498d40fb34ae76ff9?tpId=295&tqId=1377477&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 
+[链表中倒数最后k个结点](https://www.nowcoder.com/practice/886370fe658f41b498d40fb34ae76ff9?tpId=295&tqId=1377477&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
 
 ### BM9 删除链表(倒数第n个节点
 [删除链表的倒数第n个节点](https://www.nowcoder.com/practice/f95dcdafbde44b22a6d741baf71653f6?tpId=295&tqId=727&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 19 [[019.Remove_Nth_Node_From_End_of_List_删除链表的倒数第N个结点]]
@@ -94,20 +94,20 @@ public:
     vector<int> inorderTraversal(TreeNode* root) {
         vector<int> res;
         //辅助栈
-        stack<TreeNode*> s; 
+        stack<TreeNode*> s;
         //当树节点不为空或栈中有节点时
-        while(root != NULL || !s.empty()){ 
+        while(root != NULL || !s.empty()){
             //每次找到最左节点
-            while(root != NULL){ 
+            while(root != NULL){
                 s.push(root);
                 root = root->left;
             }
             //访问该节点
-            TreeNode* node = s.top(); 
+            TreeNode* node = s.top();
             s.pop();
-            res.push_back(node->val); 
+            res.push_back(node->val);
             //进入右节点
-            root = node->right; 
+            root = node->right;
         }
         return res;
     }
@@ -129,28 +129,28 @@ public:
     vector<int> postorderTraversal(TreeNode* root) {
         vector<int> res;
         //辅助栈
-        stack<TreeNode*> s; 
-        TreeNode* pre = NULL; 
-        while(root != NULL || !s.empty()){ 
+        stack<TreeNode*> s;
+        TreeNode* pre = NULL;
+        while(root != NULL || !s.empty()){
             //每次先找到最左边的节点
-            while(root != NULL){ 
+            while(root != NULL){
                 s.push(root);
                 root = root->left;
             }
             //弹出栈顶
-            TreeNode* node = s.top(); 
+            TreeNode* node = s.top();
             s.pop();
             //如果该元素的右边没有或是已经访问过
-            if(node->right == NULL || node->right == pre){ 
+            if(node->right == NULL || node->right == pre){
                 //访问中间的节点
-                res.push_back(node->val); 
+                res.push_back(node->val);
                 //且记录为访问过了
-                pre = node; 
+                pre = node;
             }else{
                 //该节点入栈
                 s.push(node);
                 //先访问右边
-                root = node->right; 
+                root = node->right;
             }
         }
         return res;
@@ -171,7 +171,7 @@ public:
  *    struct TreeNode *right;
  * };
  */
- 
+
 class Solution {
 public:
     /**
@@ -189,9 +189,9 @@ public:
         while(!q.empty()){
             vector temp;//设立容器
             int n = q.size();//队列中容器的大小
-            for(int i = 0; i < n;i++){ 
-                TreeNode* node = q.front();//第一个元素 
-                q.pop(); 
+            for(int i = 0; i < n;i++){
+                TreeNode* node = q.front();//第一个元素
+                q.pop();
                 temp.push_back(node->val);//将第一层的值存放到容器当中
                 if(node->left != NULL)
                     q.push(node->left);//将左子树放进去
@@ -220,7 +220,7 @@ public:
 ### BM29二叉树中和为某一值的路径(一)
 
 [二叉树中和为某一值的路径(一)](https://www.nowcoder.com/practice/508378c0823c423baa723ce448cbfd0c?tpId=295&tqId=634&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
-dfs 
+dfs
 ```cpp
 class Solution {
 public:
@@ -245,22 +245,22 @@ public:
 class Solution {
 public:
     //返回的第一个指针，即为最小值，先定为NULL
-    TreeNode* head = NULL;  
+    TreeNode* head = NULL; 
     //中序遍历当前值的上一位，初值为最小值，先定为NULL
-    TreeNode* pre = NULL;   
+    TreeNode* pre = NULL;  
     TreeNode* Convert(TreeNode* pRootOfTree) {
         if(pRootOfTree == NULL)
             //中序递归，叶子为空则返回
-            return NULL;     
-        //首先递归到最左最小值   
-        Convert(pRootOfTree->left); 
+            return NULL;    
+        //首先递归到最左最小值  
+        Convert(pRootOfTree->left);
         //找到最小值，初始化head与pre
-        if(pre == NULL){       
+        if(pre == NULL){      
             head = pRootOfTree;
             pre = pRootOfTree;
         }
         //当前节点与上一节点建立连接，将pre设置为当前值
-        else{       
+        else{      
             pre->right = pRootOfTree;
             pRootOfTree->left = pre;
             pre = pRootOfTree;
@@ -279,26 +279,26 @@ public:
             return NULL;
         }
         //设置栈用于遍历
-        stack<TreeNode*> s; 
+        stack<TreeNode*> s;
         TreeNode* head = NULL;
         TreeNode* pre = NULL;
         //确认第一个遍历到最左，即为首位
-        bool isFirst = true; 
+        bool isFirst = true;
         while(pRootOfTree != NULL || !s.empty()){
             //直到没有左节点
-            while(pRootOfTree != NULL){   
+            while(pRootOfTree != NULL){  
                 s.push(pRootOfTree);
                 pRootOfTree = pRootOfTree->left;
             }
             pRootOfTree = s.top();
             s.pop();
             //首位
-            if(isFirst){  
+            if(isFirst){ 
                 head = pRootOfTree;
                 pre = head;
                 isFirst = false;
             //当前节点与上一节点建立连接，将pre设置为当前值
-            }else{          
+            }else{         
                 pre->right = pRootOfTree;
                 pRootOfTree->left = pre;
                 pre = pRootOfTree;
@@ -310,7 +310,7 @@ public:
 };
 ```
 //Morris Traversal
-```cpp 
+```cpp
 //Morris Traversal
 public class Solution {
     public TreeNode Convert(TreeNode pRootOfTree) {
@@ -350,7 +350,7 @@ class Solution {
 public:
     bool recursion(TreeNode* root1, TreeNode* root2){
         //可以两个都为空
-        if(root1 == NULL && root2 == NULL) 
+        if(root1 == NULL && root2 == NULL)
             return true;
         //只有一个为空或者节点值不同，必定不对称
         if(root1 == NULL || root2 == NULL || root1->val != root2->val)
@@ -370,16 +370,16 @@ class Solution {
 public:
     bool isSymmetrical(TreeNode* pRoot) {
         //空树为对称的
-        if(pRoot == NULL) 
+        if(pRoot == NULL)
             return true;
         //辅助队列用于从两边层次遍历
-        queue<TreeNode*> q1; 
+        queue<TreeNode*> q1;
         queue<TreeNode*> q2;
         q1.push(pRoot->left);
         q2.push(pRoot->right);
-        while(!q1.empty() && !q2.empty()){ 
+        while(!q1.empty() && !q2.empty()){
             //分别从左边和右边弹出节点
-            TreeNode* left = q1.front(); 
+            TreeNode* left = q1.front();
             q1.pop();
             TreeNode* right = q2.front();
             q2.pop();
@@ -390,14 +390,14 @@ public:
             if(left == NULL || right == NULL || left->val != right->val)
                 return false;
             //从左往右加入队列
-            q1.push(left->left); 
+            q1.push(left->left);
             q1.push(left->right);
             //从右往左加入队列
-            q2.push(right->right); 
+            q2.push(right->right);
             q2.push(right->left);
         }
         //都检验完都是对称的
-        return true; 
+        return true;
     }
 };
 ```
@@ -410,7 +410,7 @@ class Solution {
 public:
     TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) {
         //若只有一个节点返回另一个，两个都为NULL自然返回NULL
-        if (t1 == NULL) 
+        if (t1 == NULL)
             return t2;
         if (t2 == NULL)
             return t1;
@@ -434,14 +434,14 @@ public:
         if (t2 == NULL)
             return t1;
         //合并根节点
-        TreeNode* head = new TreeNode(t1->val + t2->val); 
+        TreeNode* head = new TreeNode(t1->val + t2->val);
         //连接后的树的层次遍历节点
-        queue<TreeNode*> q; 
+        queue<TreeNode*> q;
         //分别存两棵树的层次遍历节点
-        queue<TreeNode*> q1; 
+        queue<TreeNode*> q1;
         queue<TreeNode*> q2;
         q.push(head);
-        q1.push(t1);  
+        q1.push(t1); 
         q2.push(t2);
         while (!q1.empty() && !q2.empty()) {
             TreeNode *node = q.front(), *node1 = q1.front(), *node2 = q2.front();
@@ -450,33 +450,33 @@ public:
             q2.pop();
             TreeNode *left1 = node1->left, *left2 = node2->left, *right1 = node1->right, *right2 = node2->right;
             //两个左节点都存在
-            if (left1 || left2) { 
+            if (left1 || left2) {
                 if (left1 && left2) {
                     TreeNode* left = new TreeNode(left1->val + left2->val);
-                    node->left = left; 
+                    node->left = left;
                     //新节点入队列
-                    q.push(left); 
+                    q.push(left);
                     q1.push(left1);
                     q2.push(left2);
                 //只连接一个节点
-                } else if (left1) 
+                } else if (left1)
                     node->left = left1;
-                  else if (left2) 
+                  else if (left2)
                     node->left = left2;
             }
             if (right1 || right2) {
                 //两个右节点都存在
-                if (right1 && right2) { 
+                if (right1 && right2) {
                     TreeNode* right = new TreeNode(right1->val + right2->val);
                     node->right = right;
                     //新节点入队列
-                    q.push(right); 
+                    q.push(right);
                     q1.push(right1);
                     q2.push(right2);
                 //只连接一个节点
-                } else if (right1)  
+                } else if (right1) 
                     node->right = right1;
-                  else 
+                  else
                     node->right = right2;
             }
         }
@@ -513,20 +513,20 @@ class Solution {
 public:
     TreeNode* Mirror(TreeNode* pRoot) {
         //空树
-        if(pRoot == NULL)  
+        if(pRoot == NULL) 
             return NULL;
         //辅助栈
-        stack<TreeNode*> s; 
+        stack<TreeNode*> s;
         //根节点先进栈
-        s.push(pRoot); 
+        s.push(pRoot);
         while (!s.empty()){
             TreeNode* node = s.top();
             s.pop();
             //左右节点入栈
-            if (node->left != NULL) s.push(node->left); 
+            if (node->left != NULL) s.push(node->left);
             if (node->right != NULL) s.push(node->right);
-            //交换左右 
-            TreeNode* temp = node->left;  
+            //交换左右
+            TreeNode* temp = node->left; 
             node->left = node->right;
             node->right = temp;
         }
@@ -553,14 +553,14 @@ public:
         if(root == NULL)
             return true;
         //先进入左子树
-        if(!isValidBST(root->left)) 
+        if(!isValidBST(root->left))
             return false;
         if(root->val <= pre)
             return false;
         //更新最值
-        pre = root->val;  
+        pre = root->val; 
         //再进入右子树
-        if(!isValidBST(root->right))  
+        if(!isValidBST(root->right)) 
             return false;
         return true;
     }
@@ -602,21 +602,21 @@ public boolean isCompleteTree (TreeNode root) {
 class Solution {
 public:
     bool IsBalanced_Solution(TreeNode* root) {
-        if (!root) 
+        if (!root)
             return true;
         // 分别求左子树和右子树高度
         int leftHeight = getHeight(root->left), rightHeight = getHeight(root->right);
         // 若子树高度之差大于1，返回false
-        if (abs(leftHeight - rightHeight) > 1) 
+        if (abs(leftHeight - rightHeight) > 1)
             return false;
         // 递归地判断左右子树是否平衡
         return IsBalanced_Solution(root->left) && IsBalanced_Solution(root->right);
     }
     // 求子树高度
     int getHeight(TreeNode* root) {
-        if (!root) 
+        if (!root)
             return 0;
-        if (!root->left && !root->right) 
+        if (!root->left && !root->right)
             return 1; // 叶子结点
         return 1 + max(getHeight(root->left), getHeight(root->right));
     }
@@ -627,21 +627,21 @@ public:
 class Solution {
 public:
     bool IsBalanced_Solution(TreeNode* root) {
-        if (!root) 
+        if (!root)
             return true;
         // 分别求左子树和右子树高度
         int leftHeight = getHeight(root->left), rightHeight = getHeight(root->right);
         // 若子树高度之差大于1，返回false
-        if (abs(leftHeight - rightHeight) > 1) 
+        if (abs(leftHeight - rightHeight) > 1)
             return false;
         // 递归地判断左右子树是否平衡
         return IsBalanced_Solution(root->left) && IsBalanced_Solution(root->right);
     }
     // 求子树高度
     int getHeight(TreeNode* root) {
-        if (!root) 
+        if (!root)
             return 0;
-        if (!root->left && !root->right) 
+        if (!root->left && !root->right)
             return 1; // 叶子结点
         return 1 + max(getHeight(root->left), getHeight(root->right));
     }
@@ -666,29 +666,29 @@ public:
         vector<int> path;
         TreeNode* node = root;
         //节点值都不同，可以直接用值比较
-        while(node->val != target){ 
+        while(node->val != target){
             path.push_back(node->val);
             //小的在左子树
-            if(target < node->val) 
+            if(target < node->val)
                 node = node->left;
             //大的在右子树
-            else 
+            else
                 node = node->right;
         }
         path.push_back(node->val);
         return path;
     }
-    
+   
     int lowestCommonAncestor(TreeNode* root, int p, int q) {
         //求根节点到两个节点的路径
-        vector<int> path_p = getPath(root, p); 
+        vector<int> path_p = getPath(root, p);
         vector<int> path_q = getPath(root, q);
         int res;
         //比较两个路径，找到第一个不同的点
-        for(int i = 0; i < path_p.size() && i < path_q.size(); i++){ 
+        for(int i = 0; i < path_p.size() && i < path_q.size(); i++){
             if(path_p[i] == path_q[i])
                 //最后一个相同的节点就是最近公共祖先
-                res = path_p[i]; 
+                res = path_p[i];
             else
                 break;
         }
@@ -703,19 +703,19 @@ class Solution {
 public:
     int lowestCommonAncestor(TreeNode* root, int p, int q) {
         //空树找不到公共祖先
-        if(root == NULL) 
+        if(root == NULL)
             return -1;
         //pq在该节点两边说明这就是最近公共祖先
-        if((p >= root->val && q <= root->val) || (p <= root->val && q >= root->val)) 
+        if((p >= root->val && q <= root->val) || (p <= root->val && q >= root->val))
             return root->val;
         //pq都在该节点的左边
-        else if(p <= root->val && q <= root->val) 
+        else if(p <= root->val && q <= root->val)
             //进入左子树
-            return lowestCommonAncestor(root->left, p, q); 
+            return lowestCommonAncestor(root->left, p, q);
         //pq都在该节点的右边
-        else 
+        else
             //进入右子树
-            return lowestCommonAncestor(root->right, p, q); 
+            return lowestCommonAncestor(root->right, p, q);
     }
 };
 ```
@@ -773,7 +773,7 @@ public:
         //寻找最后一个相等节点
         for(int i = 1; i < leng; ++i) {
             if(load1[i] != load2[i]) {
-                return load1[i - 1]; 
+                return load1[i - 1];
             }
         }
         return load1[leng - 1];
@@ -809,23 +809,23 @@ class Solution {
 public:
     int lowestCommonAncestor(TreeNode* root, int o1, int o2) {
         //该子树没找到，返回-1
-        if(root == NULL) 
+        if(root == NULL)
             return -1;
         //该节点是其中某一个节点
-        if(root->val == o1 || root->val == o2) 
+        if(root->val == o1 || root->val == o2)
             return root->val;
         //左子树寻找公共祖先
-        int left = lowestCommonAncestor(root->left, o1, o2); 
+        int left = lowestCommonAncestor(root->left, o1, o2);
         //右子树寻找公共祖先
-        int right = lowestCommonAncestor(root->right, o1, o2); 
+        int right = lowestCommonAncestor(root->right, o1, o2);
         //左子树为没找到，则在右子树中
-        if(left == -1) 
+        if(left == -1)
             return right;
         //右子树没找到，则在左子树中
-        if(right == -1) 
+        if(right == -1)
             return left;
         //否则是当前节点
-        return root->val; 
+        return root->val;
     }
 };
 ```
@@ -843,16 +843,16 @@ public:
             return;
         }
         //根节点
-        string temp = to_string(root->val); 
-        str += temp + '!';// 加!，区分节点 
+        string temp = to_string(root->val);
+        str += temp + '!';// 加!，区分节点
         //左子树
-        SerializeFunction(root->left, str); 
+        SerializeFunction(root->left, str);
         //右子树
         SerializeFunction(root->right, str);
     }
-    char* Serialize(TreeNode *root) { 
-        //处理空树   
-        if(root == NULL) 
+    char* Serialize(TreeNode *root) {
+        //处理空树  
+        if(root == NULL)
             return "#";
         string res;
         SerializeFunction(root, res);
@@ -866,7 +866,7 @@ public:
     TreeNode* DeserializeFunction(char** str){
         //到达叶节点时，构建完毕，返回继续构建父节点
         //双**表示取值
-        if(**str == '#'){ 
+        if(**str == '#'){
             (*str)++;
             return NULL;
         }
@@ -878,18 +878,18 @@ public:
         }
         TreeNode* root = new TreeNode(val);
         //序列到底了，构建完成
-        if(**str == '\0') 
+        if(**str == '\0')
             return root;
         else
             (*str)++;
         //反序列化与序列化一致，都是前序
-        root->left = DeserializeFunction(str);  
+        root->left = DeserializeFunction(str); 
         root->right = DeserializeFunction(str);
         return root;
     }
     TreeNode* Deserialize(char *str) {
         //空序列对应空树
-        if(str == "#"){ 
+        if(str == "#"){
             return NULL;
         }
         TreeNode* res = DeserializeFunction(&str);
@@ -993,25 +993,25 @@ public:
         int n = pre.size();
         int m = vin.size();
         //每个遍历都不能为0
-        if(n == 0 || m == 0) 
+        if(n == 0 || m == 0)
             return NULL;
         //构建根节点
-        TreeNode *root = new TreeNode(pre[0]); 
+        TreeNode *root = new TreeNode(pre[0]);
         for(int i = 0; i < vin.size(); i++){
             //找到中序遍历中的前序第一个元素
-            if(pre[0] == vin[i]){ 
+            if(pre[0] == vin[i]){
                 //左子树的前序遍历
-                vector<int> leftpre(pre.begin() + 1, pre.begin() + i + 1);  
+                vector<int> leftpre(pre.begin() + 1, pre.begin() + i + 1); 
                 //左子树的中序遍历
-                vector<int> leftvin(vin.begin(), vin.begin() + i); 
+                vector<int> leftvin(vin.begin(), vin.begin() + i);
                 //构建左子树
-                root->left = reConstructBinaryTree(leftpre, leftvin); 
+                root->left = reConstructBinaryTree(leftpre, leftvin);
                 //右子树的前序遍历
-                vector<int> rightpre(pre.begin() + i + 1, pre.end()); 
+                vector<int> rightpre(pre.begin() + i + 1, pre.end());
                 //右子树的中序遍历
-                vector<int> rightvin(vin.begin() + i + 1, vin.end()); 
+                vector<int> rightvin(vin.begin() + i + 1, vin.end());
                 //构建右子树
-                root->right = reConstructBinaryTree(rightpre, rightvin); 
+                root->right = reConstructBinaryTree(rightpre, rightvin);
                 break;
             }
         }
@@ -1028,9 +1028,9 @@ public:
 
 [输出二叉树的右视图](https://www.nowcoder.com/practice/c9480213597e45f4807880c763ddd5f0?tpId=295&tqId=1073834&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
 
-**哈希表优化的递归建树+层次遍历**  
-**具体做法：**  
-对于方法一中每次要寻找中序遍历中的根节点很浪费时间，我们可以利用一个哈希表直接将中序遍历的元素与下标做一个映射，后续查找中序根结点便可以直接访问了。  
+**哈希表优化的递归建树+层次遍历** 
+**具体做法：** 
+对于方法一中每次要寻找中序遍历中的根节点很浪费时间，我们可以利用一个哈希表直接将中序遍历的元素与下标做一个映射，后续查找中序根结点便可以直接访问了。 
 同时除了深度优先搜索可以找最右结点，我们也可以利用层次遍历，借助队列，找到每一层的最右。值得注意的是：**每进入一层，队列中的元素个数就是该层的结点数。**因为在上一层他们的父节点将它们加入队列中的，父节点访问完之后，刚好就是这一层的所有结点。因此我们可以用一个size变量，每次进入一层的时候记录当前队列大小，等到size为0时，便到了最右边，记录下该结点元素。
 ```cpp
 class Solution {
@@ -1039,7 +1039,7 @@ public:
     //建树函数
     //四个int参数分别是先序最左结点下标，先序最右结点下标
     //中序最左结点下标，中序最右结点坐标
-    TreeNode* buildTree(vector<int>& xianxu, int l1, int r1, vector<int>& zhongxu, int l2, int r2) 
+    TreeNode* buildTree(vector<int>& xianxu, int l1, int r1, vector<int>& zhongxu, int l2, int r2)
     {
         if(l1 > r1 || l2 > r2)
             return NULL;
@@ -1062,10 +1062,10 @@ public:
             while(size--)
             {
                 TreeNode* temp = q.front();
-                q.pop();              
-                if(temp->left) 
+                q.pop();             
+                if(temp->left)
                     q.push(temp->left);
-                if(temp->right) 
+                if(temp->right)
                     q.push(temp->right);
                 if(size == 0) //最右元素
                     res.push_back(temp->val);
@@ -1100,7 +1100,7 @@ public:
 
 队列，先进先出；栈先进后出；
 push -> |abc
-pop(a)  |cb 
+pop(a)  |cb
 push de |de |cb
 pop(b)  |de |c
 push f  |def|c
@@ -1156,7 +1156,7 @@ bool isValid(string s) {
             case '{':
                 stk.push(s[i]);     //当前字符为'(','{','['时，元素入栈
                 break;
-            case ')':        
+            case ')':       
                 if(stk.empty() || stk.top() != '(')    //栈空或者括号栈顶字符与当前字符不匹配，则序列为不合法序列
                     return false;
                 stk.pop();                   //匹配的栈顶元素出栈
@@ -1235,7 +1235,7 @@ public:
             int maxn = -1;
             for(int i = l; i <= r; i ++ ) maxn = max(maxn, num[i]); //暴力求出每个区间内部的最值
             if(maxn != -1) ans.push_back(maxn);            //将每个区间的最值存入结果数组
-        } 
+        }
         return ans;
     }
 };
@@ -1248,12 +1248,12 @@ public:
     {
         vector<int> ans;
         deque<int> que;
-        for(int i = 0; i < num.size(); i ++ ) {  //枚举窗口右端 
+        for(int i = 0; i < num.size(); i ++ ) {  //枚举窗口右端
             //队头是否出队 和 更新队头
             while(!que.empty() && i - que.front() + 1 > size)  que.pop_front();
             //保证队列的单调性
             while(!que.empty() && num[que.back()] <= num[i])  que.pop_back();
-            //新元素入队    
+            //新元素入队   
             que.push_back(i);
             //当前遍历的长度大于等于窗口窗口长度才开始存储答案
             if(size && i >= size - 1)  ans.push_back(num[que.front()]);
@@ -1276,7 +1276,7 @@ public:
         vector<int> ret;
         if (k==0 || k>input.size()) return ret;
         sort(input.begin(), input.end());
-        return vector<int>({input.begin(), input.begin()+k});   
+        return vector<int>({input.begin(), input.begin()+k});  
     }
 };
 ```
@@ -1366,7 +1366,7 @@ public:
         int l = i * 2 + 1, r = i * 2 + 2, largest = i;
         if (l < heapSize && a[l] > a[largest]) {
             largest = l;
-        } 
+        }
         if (r < heapSize && a[r] > a[largest]) {
             largest = r;
         }
@@ -1379,7 +1379,7 @@ public:
     void buildMaxHeap(vector<int>& a, int heapSize) {
         for (int i = heapSize / 2; i >= 0; --i) {
             maxHeapify(a, i, heapSize);
-        } 
+        }
     }
 
     int findKthLargest(vector<int>& nums, int k) {
@@ -1491,7 +1491,7 @@ public:
         } else {
             return maxq.top();
         }
-    } 
+    }
 };
 ```
 

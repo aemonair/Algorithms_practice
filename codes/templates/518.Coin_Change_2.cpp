@@ -1,14 +1,14 @@
 /*
  * 518. Coin Change 2
  * Medium
- * 
- * You are given coins of different denominations and a total amount of money. 
- * Write a function to compute the number of combinations that make up that amount. 
+ *
+ * You are given coins of different denominations and a total amount of money.
+ * Write a function to compute the number of combinations that make up that amount.
  * You may assume that you have infinite number of each kind of coin.
- * 
- ****************************************************** 
+ *
+ ******************************************************
  * Example 1:
- * 
+ *
  * Input: amount = 5, coins = [1, 2, 5]
  * Output: 4
  * Explanation: there are four ways to make up the amount:
@@ -16,22 +16,22 @@
  * 5=2+2+1
  * 5=2+1+1+1
  * 5=1+1+1+1+1
- ****************************************************** 
+ ******************************************************
  * Example 2:
- * 
+ *
  * Input: amount = 3, coins = [2]
  * Output: 0
  * Explanation: the amount of 3 cannot be made up just with coins of 2.
- ****************************************************** 
+ ******************************************************
  * Example 3:
- * 
+ *
  * Input: amount = 10, coins = [10]
  * Output: 1
- ****************************************************** 
+ ******************************************************
  * Note:
- * 
+ *
  * You can assume that
- * 
+ *
  * 0 <= amount <= 5000
  * 1 <= coin <= 5000
  * the number of coins is less than 500
@@ -51,7 +51,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -82,10 +82,10 @@ int printstack(std::stack<T> s);
 
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
- 
+
 class Solution {
 public:
-    // 
+    //
     int change(int amount, std::vector<int>& coins)
     {
         return 0;
@@ -93,13 +93,13 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         int amount, std::vector<int> & coins,
         int expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

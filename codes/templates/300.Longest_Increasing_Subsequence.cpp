@@ -1,23 +1,23 @@
 /*
  * 300. Longest Increasing Subsequence
  * Medium
- * 
+ *
  * Given an unsorted array of integers, find the length of longest increasing subsequence.
- * 
+ *
  *********************************************************
  * Example:
- * 
+ *
  * Input: [10,9,2,5,3,7,101,18]
  * Output: 4
  * Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
- ********************************************************* 
+ *********************************************************
  * Note:
- * 
+ *
  * There may be more than one LIS combination, it is only necessary for you to return the length.
  * Your algorithm should run in O(n2) complexity.
  * Follow up: Could you improve it to O(n log n) time complexity?
  *********************************************************
- ********************************************************* 
+ *********************************************************
  */
 
 // 44 yy
@@ -33,7 +33,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -64,27 +64,27 @@ int printstack(std::stack<T> s);
 
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
- 
+
 class Solution {
 public:
-    int lengthOfLIS1(std::vector<int>& nums) 
+    int lengthOfLIS1(std::vector<int>& nums)
     {
         return 0;
     }
-    int lengthOfLIS0(std::vector<int>& nums) 
+    int lengthOfLIS0(std::vector<int>& nums)
     {
         return 0;
     }
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<int>& nums,
         int expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

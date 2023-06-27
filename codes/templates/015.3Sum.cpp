@@ -1,32 +1,32 @@
 /*
- ****************************************************************************** 
+ ******************************************************************************
  * 15. 3Sum
  * Medium
- ****************************************************************************** 
+ ******************************************************************************
  * Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.
- * 
+ *
  * Notice that the solution set must not contain duplicate triplets.
- ****************************************************************************** 
+ ******************************************************************************
  * Example 1:
- * 
+ *
  * Input: nums = [-1,0,1,2,-1,-4]
  * Output: [[-1,-1,2],[-1,0,1]]
- ****************************************************************************** 
+ ******************************************************************************
  * Example 2:
- * 
+ *
  * Input: nums = []
  * Output: []
- ****************************************************************************** 
+ ******************************************************************************
  * Example 3:
- * 
+ *
  * Input: nums = [0]
  * Output: []
- ****************************************************************************** 
+ ******************************************************************************
  * Constraints:
- * 
+ *
  * 0 <= nums.length <= 3000
  * -10^5 <= nums[i] <= 10^5
- ****************************************************************************** 
+ ******************************************************************************
  */
 
 #include <unordered_map>
@@ -41,7 +41,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -73,10 +73,10 @@ int printstack(std::stack<T> s);
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
 
-class Solution 
+class Solution
 {
 public:
-///////////////////////////////////////////////////////////////////////////////////////////////////////    
+///////////////////////////////////////////////////////////////////////////////////////////////////////   
     std::vector<std::vector<int>> threeSum(std::vector<int>& nums)
     {
 
@@ -148,14 +148,14 @@ public:
 
 // ==================== TEST Codes====================
 //std::vector<int> findSubstring(std::string s, std::vector<std::string>& words)
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<int>& nums,
         std::vector<std::vector<int>> expected
         )
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

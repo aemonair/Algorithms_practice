@@ -1,26 +1,26 @@
 /*
  * 76. Minimum Window Substring
  * Hard
- ****************************************************************************** 
+ ******************************************************************************
  * Given two strings s and t, return the minimum window in s which will contain all the characters in t. If there is no such window in s that covers all characters in t, return the empty string "".
- * 
+ *
  * Note that If there is such a window, it is guaranteed that there will always be only one unique minimum window in s.
- ****************************************************************************** 
+ ******************************************************************************
  * Example 1:
- * 
+ *
  * Input: s = "ADOBECODEBANC", t = "ABC"
  * Output: "BANC"
- ****************************************************************************** 
+ ******************************************************************************
  * Example 2:
- * 
+ *
  * Input: s = "a", t = "a"
  * Output: "a"
- ****************************************************************************** 
+ ******************************************************************************
  * Constraints:
- * 
+ *
  * 1 <= s.length, t.length <= 10^5
  * s and t consist of English letters.
- ****************************************************************************** 
+ ******************************************************************************
  */
 
 #include <unordered_map>
@@ -34,7 +34,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -53,10 +53,10 @@
 #define BOLDBLUE    "\033[1m\033[34m"      /* Bold Blue    */
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan    */
 #define BOLDRED     "\033[1m\033[31m"      /* Bold Red     */
-class Solution 
+class Solution
 {
 public:
-    // 
+    //
     std::string minWindow0(std::string s, std::string t)
     {
         return std::string();
@@ -80,14 +80,14 @@ template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::string s, std::string t,
         std::string expected
         )
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;
@@ -173,7 +173,7 @@ void Test1()
     /*
      * s:ADOBECODEBANC
      * t:ABC
-     * 
+     *
      * unordered_map size: 3
      * (C,1), (A,1), (B,1),
      * right:0 A window[A]++ valid++ == 1

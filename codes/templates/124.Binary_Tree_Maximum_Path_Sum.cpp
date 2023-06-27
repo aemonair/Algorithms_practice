@@ -4,35 +4,35 @@
  * Hard
  ************************************************************
  * A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence at most once. Note that the path does not need to pass through the root.
- * 
+ *
  * The path sum of a path is the sum of the node's values in the path.
- * 
+ *
  * Given the root of a binary tree, return the maximum path sum of any path.
  ************************************************************
  * Example 1:
- * 
+ *
  *      1
  *     / \
  *    2   3
- * 
+ *
  * Input: root = [1,2,3]
  * Output: 6
  * Explanation: The optimal path is 2 -> 1 -> 3 with a path sum of 2 + 1 + 3 = 6.
  ************************************************************
  * Example 2:
- * 
+ *
  *     -10
  *     /  \
  *    9    20
  *        / \
  *       15  7
- * 
+ *
  * Input: root = [-10,9,20,null,null,15,7]
  * Output: 42
  * Explanation: The optimal path is 15 -> 20 -> 7 with a path sum of 15 + 20 + 7 = 42.
  ************************************************************
  * Constraints:
- * 
+ *
  * The number of nodes in the tree is in the range [1, 3 * 104].
  * -1000 <= Node.val <= 1000
  ************************************************************
@@ -56,7 +56,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -65,15 +65,15 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
-    int maxPathSum(TreeNode* root) 
+    //
+    int maxPathSum(TreeNode* root)
     {
         return 0;
     }
-    int maxPathSum1(TreeNode* root) 
+    int maxPathSum1(TreeNode* root)
     {
         return 0;
     }
@@ -189,8 +189,8 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
-        TreeNode *root, 
+void Test(const std::string& testName,
+        TreeNode *root,
         int expected)
 {
     if(testName.length() > 0)
@@ -320,8 +320,8 @@ void Test3()
     //    1
     //     2
     //    3  4
-    //      5 
-    //       
+    //      5
+    //      
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;
@@ -346,7 +346,7 @@ void Test4()
     TreeNode * p1 = new TreeNode(1, p2, p3);
 
     std::cout << "The path with maximum sum is: [4, 2, 1, 3, 6]" << std::endl;
-    int expected = 16; 
+    int expected = 16;
     Test("Test1", p1, expected);
 }
 void Test5()
@@ -393,7 +393,7 @@ void Test6()
     struct TreeNode * p_4= new TreeNode(-4 , p3 , nullptr);
     struct TreeNode * p8 = new TreeNode(-8, p9 , p4 );
     struct TreeNode * p5 = new TreeNode(-5 ,p_4, p8);
-    int expected = 10; 
+    int expected = 10;
     Test("Test6", p5, expected );
 }
 void Test7()
@@ -413,7 +413,7 @@ void Test7()
     struct TreeNode * p3 = new TreeNode(-3 );
     struct TreeNode * p2 = new TreeNode(-2, p4, p5);
     struct TreeNode * p1 = new TreeNode(1 ,p2, p3);
-    int expected = 7 ; 
+    int expected = 7 ;
     Test("Test7", p1, expected );
 }
 void Test8()
@@ -424,7 +424,7 @@ void Test8()
 
     struct TreeNode * p1 = new TreeNode(-1 );
     struct TreeNode * p2 = new TreeNode(-2, p1, nullptr);
-    int expected = -1; 
+    int expected = -1;
     Test("Test8", p2, expected );
 }
 int main()

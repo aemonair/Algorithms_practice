@@ -1,18 +1,18 @@
 /*
  * int countSubsets(std::vector<int>& nums, int sum)
  *^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
- * Count of Subset Sum (hard) 
+ * Count of Subset Sum (hard)
  * Given a set of positive numbers, find the total number of subsets whose sum is equal to a given number ‘S’.
  *^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
- * Example 1: 
- * 
+ * Example 1:
+ *
  * Input: {1, 1, 2, 3}, S=4
  * Output: 3
  * The given set has '3' subsets whose sum is '4': {1, 1, 2}, {1, 3}, {1, 3}
  * Note that we have two similar sets {1, 3}, because we have two '1' in our input.
  *^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
- * Example 2: 
- * 
+ * Example 2:
+ *
  * Input: {1, 2, 7, 1, 5}, S=9
  * Output: 3
  * The given set has '3' subsets whose sum is '9': {2, 7}, {1, 7, 1}, {1, 2, 1, 5}
@@ -27,7 +27,7 @@
 #include <queue>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -71,7 +71,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;
@@ -83,7 +83,7 @@ void Test(const std::string& testName,
     std::cout << "sum:" <<  sum << " , nums:";
     printvector(nums);
 
-    const static int TEST_TIME = 1;    
+    const static int TEST_TIME = 1;   
     {
         if (TEST_TIME)
         {

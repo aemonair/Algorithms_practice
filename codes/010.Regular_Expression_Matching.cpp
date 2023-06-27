@@ -3,58 +3,58 @@
  * Hard
  *
  * Given an input string (s) and a pattern (p), implement regular expression matching with support for '.' and '*'.
- * 
+ *
  * '.' Matches any single character.
  * '*' Matches zero or more of the preceding element.
  * The matching should cover the entire input string (not partial).
- * 
- ************************************* 
+ *
+ *************************************
  * Note:
- * 
+ *
  * s could be empty and contains only lowercase letters a-z.
  * p could be empty and contains only lowercase letters a-z, and characters like . or *.
- ************************************* 
+ *************************************
  * Example 1:
- * 
+ *
  * Input:
  * s = "aa"
  * p = "a"
  * Output: false
  * Explanation: "a" does not match the entire string "aa".
- ************************************* 
+ *************************************
  * Example 2:
- * 
+ *
  * Input:
  * s = "aa"
  * p = "a*"
  * Output: true
  * Explanation: '*' means zero or more of the preceding element, 'a'. Therefore, by repeating 'a' once, it becomes "aa".
- ************************************* 
+ *************************************
  * Example 3:
- * 
+ *
  * Input:
  * s = "ab"
  * p = ".*"
  * Output: true
  * Explanation: ".*" means "zero or more (*) of any character (.)".
- ************************************* 
+ *************************************
  * Example 4:
- * 
+ *
  * Input:
  * s = "aab"
  * p = "c*a*b"
  * Output: true
  * Explanation: c can be repeated 0 times, a can be repeated 1 time. Therefore, it matches "aab".
- ************************************* 
+ *************************************
  * Example 5:
- * 
+ *
  * Input:
  * s = "mississippi"
  * p = "mis*is*p*."
  * Output: false
- * 
- ************************************* 
- * 
+ *
+ *************************************
+ *
  */
 
 #include <algorithm>
@@ -66,16 +66,16 @@
 #include <map>
 #include <set>
 #include <unordered_map>
- 
+
 class Solution {
 public:
-    // 
-    bool isMatch(std::string s, std::string p) 
+    //
+    bool isMatch(std::string s, std::string p)
     {
         return dp(s,0,p,0);
     }
     std::unordered_map<std::string, bool> memo;
-    bool dp(std::string& s,int i, std::string &p, int j) 
+    bool dp(std::string& s,int i, std::string &p, int j)
     {
         int m = s.size();
         int n = p.size();
@@ -83,17 +83,17 @@ public:
         {
             return i == m; // j匹配结束
         }
-        if (i == m) 
+        if (i == m)
         {
             // 如果能匹配空串，一定是字符和 * 成对儿出现
-            if ((n - j) % 2 == 1) 
+            if ((n - j) % 2 == 1)
             {
                 return false;
             }
             // 检查是否为 x*y*z* 这种形式
-            for (; j + 1 < n; j += 2) 
+            for (; j + 1 < n; j += 2)
             {
-                if (p[j + 1] != '*') 
+                if (p[j + 1] != '*')
                 {
                     return false;
                 }
@@ -104,7 +104,7 @@ public:
 
         // 记录状态 (i, j)，消除重叠子问题
         std::string key = std::to_string(i) + "," + std::to_string(j);
-        if (memo.count(key)) 
+        if (memo.count(key))
         {
             return memo[key];
         }
@@ -114,7 +114,7 @@ public:
             if(j < p.size() -1 && p[j+1] == '*')
             {
                 // 有 * 通配符，可以匹配 0 次或多次
-                res =  dp(s, i, p, j+2) 
+                res =  dp(s, i, p, j+2)
                     || dp(s, i+1, p, j);
             }
             else
@@ -140,7 +140,7 @@ public:
         return res;
 
     }
-    bool isMatch2_point(std::string s, std::string p) 
+    bool isMatch2_point(std::string s, std::string p)
     {
         int i =0;
         int j =0;
@@ -174,7 +174,7 @@ public:
             return true;
         }
     }
-    bool isMatch1_onlypoint(std::string s, std::string p) 
+    bool isMatch1_onlypoint(std::string s, std::string p)
     {
         int i = 0;
         int j = 0;

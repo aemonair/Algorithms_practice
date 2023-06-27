@@ -4,20 +4,20 @@
  * Medium
  ************************************************************
  * You are given the root of a binary tree containing digits from 0 to 9 only.
- * 
+ *
  * Each root-to-leaf path in the tree represents a number.
- * 
+ *
  * For example, the root-to-leaf path 1 -> 2 -> 3 represents the number 123.
  * Return the total sum of all root-to-leaf numbers.
- * 
+ *
  * A leaf node is a node with no children.
  ************************************************************
  * Example 1:
- * 
+ *
  *      1
  *     / \
  *    2   3
- * 
+ *
  * Input: root = [1,2,3]
  * Output: 25
  * Explanation:
@@ -26,8 +26,8 @@
  * Therefore, sum = 12 + 13 = 25.
  ************************************************************
  * Example 2:
- * 
- * 
+ *
+ *
  *      4
  *     / \
  *    9   0
@@ -42,7 +42,7 @@
  * Therefore, sum = 495 + 491 + 40 = 1026.
  ************************************************************
  * Constraints:
- * 
+ *
  * The number of nodes in the tree is in the range [1, 1000].
  * 0 <= Node.val <= 9
  * The depth of the tree will not exceed 10.
@@ -66,7 +66,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -75,11 +75,11 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
-    int sumNumbers(TreeNode* root) 
+    //
+    int sumNumbers(TreeNode* root)
     {
         if(root==nullptr)
         {
@@ -94,7 +94,7 @@ public:
     {
         return 0;
     }
-    int sumNumbers1(TreeNode* root) 
+    int sumNumbers1(TreeNode* root)
     {
         return 0;
     }
@@ -210,8 +210,8 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
-        TreeNode *root, 
+void Test(const std::string& testName,
+        TreeNode *root,
         int expected)
 {
     if(testName.length() > 0)
@@ -353,8 +353,8 @@ void Test3()
     //    1
     //     2
     //    3  4
-    //      5 
-    //       
+    //      5
+    //      
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;
@@ -380,7 +380,7 @@ void Test4()
     TreeNode * p2 = new TreeNode(2, p4, p5);
     TreeNode * p1 = new TreeNode(1, p2, p3);
 
-    int expected = 124+125+136+137; 
+    int expected = 124+125+136+137;
     Test("Test4", p1, expected);
 }
 void Test5()
@@ -421,7 +421,7 @@ void Test6()
     struct TreeNode * p_4= new TreeNode(4 , p3 , nullptr);
     struct TreeNode * p8 = new TreeNode(8, p9 , p4 );
     struct TreeNode * p5 = new TreeNode(5 ,p_4, p8);
-    int expected = 5437+5432+589+5845+5841; 
+    int expected = 5437+5432+589+5845+5841;
     Test("Test2", p5, expected );
 }
 int main()

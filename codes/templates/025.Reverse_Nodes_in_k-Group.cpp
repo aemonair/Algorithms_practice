@@ -1,17 +1,17 @@
 /*
  * 25. Reverse Nodes in k-Group
  * Hard
- * 
+ *
  * Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.
- * 
+ *
  * k is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of k then left-out nodes, in the end, should remain as it is.
- * 
+ *
  ************************************************************
  * Follow up:
- * 
+ *
  * Could you solve the problem in O(1) extra memory space?
  * You may not alter the values in the list's nodes, only nodes itself may be changed.
- * 
+ *
  ************************************************************
  * Example 1:
  *   1 -> 2 -> 3 -> 4 -> 5
@@ -25,22 +25,22 @@
  *   1 -> 2 -> 3 -> 4 -> 5
  *            |
  *   3 -> 2 -> 1 -> 4 -> 5
- * 
+ *
  * Input: head = [1,2,3,4,5], k = 3
  * Output: [3,2,1,4,5]
  ************************************************************
  * Example 3:
- * 
+ *
  * Input: head = [1,2,3,4,5], k = 1
  * Output: [1,2,3,4,5]
  ************************************************************
  * Example 4:
- * 
+ *
  * Input: head = [1], k = 1
  * Output: [1]
  ************************************************************
  * Constraints:
- * 
+ *
  * The number of nodes in the list is in the range sz.
  * 1 <= sz <= 5000
  * 0 <= Node.val <= 1000
@@ -79,12 +79,12 @@ public:
     {
         return nullptr;
     }
-    ListNode* reverseKGroup(ListNode* head, int k) 
+    ListNode* reverseKGroup(ListNode* head, int k)
     {
         return nullptr;
     }
 
-    std::vector<int> printList(ListNode* head) 
+    std::vector<int> printList(ListNode* head)
     {
         std::vector<int> ret ; // = new ArrayList<>();
         ListNode *listNode = head;
@@ -96,7 +96,7 @@ public:
         {
             std::cout << "null" << std::endl;
         }
-        while (listNode != nullptr) // && listNode->next != nullptr) 
+        while (listNode != nullptr) // && listNode->next != nullptr)
         {
             std::cout << listNode->val << " " ; // << std::endl;
             ret.push_back(listNode->val);
@@ -108,7 +108,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         ListNode * head,
         int k,
         ListNode * expected)
@@ -212,7 +212,7 @@ void Test1()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-    
+   
 
     p1->next = p2;
     p2->next = p3;
@@ -229,7 +229,7 @@ void Test2()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-    
+   
 
     p1->next = p2;
     p2->next = p3;
@@ -246,7 +246,7 @@ void Test3()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-    
+   
 
     p1->next = p2;
     p2->next = p3;

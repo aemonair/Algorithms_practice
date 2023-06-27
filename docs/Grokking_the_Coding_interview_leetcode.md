@@ -14,7 +14,7 @@ Questions
 > **Example 1:**
 >
 > ```
-> Input: [2, 1, 5, 1, 3, 2], k=3 
+> Input: [2, 1, 5, 1, 3, 2], k=3
 > Output: 9
 > Explanation: Subarray with maximum sum is [5, 1, 3].
 > ```
@@ -22,7 +22,7 @@ Questions
 > **Example 2:**
 >
 > ```
-> Input: [2, 3, 4, 1, 5], k=2 
+> Input: [2, 3, 4, 1, 5], k=2
 > Output: 7
 > Explanation: Subarray with maximum sum is [3, 4].
 > ```
@@ -99,7 +99,7 @@ int findMaxSumSubArray(int k, std::vector<int> &arr)
            1 2 4   - 7
              2 4 3 - 9
                4 3 - 7
-         
+        
     int minSubArrayLen(int s, std::vector<int> &nums)
     {
         int i =0;
@@ -155,7 +155,7 @@ result:2
 >  * Explanation: The longest substrings with no more than '3' distinct characters are "cbbeb" & "bbebi".
 >
 
-```cpp 
+```cpp
 K = 2
 a r a a c i
      a  r  a  a  c  i
@@ -163,7 +163,7 @@ a r a a c i
     _a__r_ a  a  c  i max length =2
     _a__r__a_ a  c  i max length =3
     _a__r__a__a_ c  i max length =4
-    _a__r__a__a__c_ i 
+    _a__r__a__a__c_ i
                       number of distinct characters > 2(arc),shrink the sliding window
                       max length =4
      a _r__a__a__c_ i
@@ -176,7 +176,7 @@ a r a a c i
                       max length =4
      a  r  a  a _c__i
                       max length =4
-        
+       
 ```
 
 
@@ -259,7 +259,7 @@ int LongestSubstringDistinct0(std::string & s, int k)
 >
 > Given the integer array `fruits`, return *the **maximum** number of fruits you can pick*.
 >
->  
+> 
 >
 > **Example 1:**
 >
@@ -295,7 +295,7 @@ int LongestSubstringDistinct0(std::string & s, int k)
 > Explanation: We can pick from trees [1,2,1,1,2].
 > ```
 >
->  
+> 
 >
 > **Constraints:**
 >
@@ -365,7 +365,7 @@ result:5
 >
 > Given a string `s`, find the length of the **longest substring** without repeating characters.
 >
->  
+> 
 >
 > **Example 1:**
 >
@@ -399,7 +399,7 @@ result:5
 > Output: 0
 > ```
 >
->  
+> 
 >
 > **Constraints:**
 >
@@ -454,11 +454,11 @@ result:3
    _p_ w  w  k  e  w   [{p0}]         start=0,end = 0,maxlength = 1
    _p__w_ w  k  e  w   [{p0}{w1}]     start=0,end = 1,maxlength = 2
    _p__w__w_ k  e  w   [{p0}{w2}]     start=0,end = 2
-    p  w _w_ k  e  w                  start=2,end = 2,maxlength = 2 
+    p  w _w_ k  e  w                  start=2,end = 2,maxlength = 2
     p  w _w__k_ e  w   [{p0}{w2}{k3}] start=2,end = 3,maxlength = 3
     p  w _w__k__e_ w   [{p0}{w2}{k3}{e4}] start=2,end = 4,maxlength = 3
     p  w _w__k__e__w   [{p0}{w2}{k3}{e4}] start=2,end = 5
-    p  w  w _k__e__w   [{p0}{w5}{k3}{e4}] start=3,end = 5,maxlength = 3    
+    p  w  w _k__e__w   [{p0}{w5}{k3}{e4}] start=3,end = 5,maxlength = 3   
     int lengthOfLongestSubstring1(std::string s)
     {
         int start = 0;
@@ -509,7 +509,7 @@ Solution1 passed.
 >
 > Return *the length of the longest substring containing the same letter you can get after performing the above operations*.
 >
-> 
+>
 >
 > **Example 1:**
 >
@@ -528,7 +528,7 @@ Solution1 passed.
 > The substring "BBBB" has the longest repeating letters, which is 4.
 > ```
 >
-> 
+>
 >
 > **Constraints:**
 >
@@ -562,7 +562,7 @@ currentmax 记录重复字符,
 
 ```cpp
     int characterReplacement(std::string s, int k)
-    {   
+    {  
         int start = 0;
         int end = 0;
         int size = s.size();
@@ -576,16 +576,16 @@ currentmax 记录重复字符,
             currentmax = std::max(currentmax, umap[ch]);
             std::cout << "umap[ch]:"<< umap[ch] << " , currentmax:" <<currentmax << std::endl;
             if(end - start - currentmax >= k)
-            {   
+            {  
                 umap[s[start]]--;
                 start++;
-            }   
-            maxlength = std::max(maxlength, end - start + 1); 
+            }  
+            maxlength = std::max(maxlength, end - start + 1);
             std::cout << ", maxlength:" <<maxlength << " "; //std::endl;
             printunordered_map(umap);
-        }   
+        }  
         return maxlength;
-    }   
+    }  
 ```
 
 
@@ -595,25 +595,25 @@ s:AABABBA ,k: 1
 Solution0 start..........
 umap[A]:1 , currentmax:1
 , maxlength:1 unordered_map size: 1
-(A,1), 
+(A,1),
 umap[A]:2 , currentmax:2
 , maxlength:2 unordered_map size: 1
-(A,2), 
+(A,2),
 umap[B]:1 , currentmax:2
 , maxlength:3 unordered_map size: 2
-(B,1), (A,2), 
+(B,1), (A,2),
 umap[A]:3 , currentmax:3
 , maxlength:4 unordered_map size: 2
-(B,1), (A,3), 
+(B,1), (A,3),
 umap[B]:2 , currentmax:3
 , maxlength:4 unordered_map size: 2
-(B,2), (A,2), 
+(B,2), (A,2),
 umap[B]:3 , currentmax:3
 , maxlength:4 unordered_map size: 2
-(B,3), (A,1), 
+(B,3), (A,1),
 umap[A]:2 , currentmax:3
 , maxlength:4 unordered_map size: 2
-(B,2), (A,2), 
+(B,2), (A,2),
 result:4
 Solution0 passed.
 ```
@@ -626,7 +626,7 @@ Solution0 passed.
 >
 > Given a binary array `nums` and an integer `k`, return *the maximum number of consecutive* `1`*'s in the array if you can flip at most* `k` `0`'s.
 >
-> 
+>
 >
 > **Example 1:**
 >
@@ -646,7 +646,7 @@ Solution0 passed.
 > Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.
 > ```
 >
-> 
+>
 >
 > **Constraints:**
 >
@@ -657,7 +657,7 @@ Solution0 passed.
 ```cpp
 K: 2;[ 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0 ]
 
-[ 1_ 1, 1, 0, 0, 0, 1, 1, 1, 1, 0 ] end:0 , value:1 ,currentmax:1,end-start+1:1,maxlength :1 
+[ 1_ 1, 1, 0, 0, 0, 1, 1, 1, 1, 0 ] end:0 , value:1 ,currentmax:1,end-start+1:1,maxlength :1
 end:0 , A[0](value):1 end-start-currentmax:-1 end-start+1:1 maxlength :1
 end:1 , A[1](value):1 end-start-currentmax:-1 end-start+1:2 maxlength :2
 end:2 , A[2](value):1 end-start-currentmax:-1 end-start+1:3 maxlength :3
@@ -675,34 +675,34 @@ end:10 , A[10](value):0 end-start-currentmax:2 start++:5 end-start+1:6 maxlength
 
 
 ```cpp
-    int longestOnes(std::vector<int> &A, int K)                            
-    {                                                                      
-        int start = 0;                                                     
-        int end = 0;                                                       
-        int currentmax = 0;                                                
-        int maxlength = 0;                                                 
-        for(end = 0; end < A.size(); end++)                                
-        {                                                                  
-            int value = A[end];                                            
+    int longestOnes(std::vector<int> &A, int K)                           
+    {                                                                     
+        int start = 0;                                                    
+        int end = 0;                                                      
+        int currentmax = 0;                                               
+        int maxlength = 0;                                                
+        for(end = 0; end < A.size(); end++)                               
+        {                                                                 
+            int value = A[end];                                           
             std::cout << "start:" << start << " , A[" << start << "]:" << value << " ";
-            if(value == 1)                                                 
-            {                                                              
-                currentmax++;                                              
-            }                                                              
+            if(value == 1)                                                
+            {                                                             
+                currentmax++;                                             
+            }                                                             
             std::cout << "end:" << end << ",start:" << start << ",currentmax:" << currentmax << " ";
-            if(end  - start - currentmax >= K)                             
-            {                                                              
-                if(A[start]==1)                                            
-                {                                                          
-                    currentmax--;                                          
-                }                                                          
-                start++;                                                   
-            }                                                              
-            maxlength = std::max(maxlength, end - start+1);                
-            std::cout << "maxlength :" << maxlength  << " "  <<std::endl;                                                                    
-        }                                                                  
-        return maxlength;                                                  
-    }    
+            if(end  - start - currentmax >= K)                            
+            {                                                             
+                if(A[start]==1)                                           
+                {                                                         
+                    currentmax--;                                         
+                }                                                         
+                start++;                                                  
+            }                                                             
+            maxlength = std::max(maxlength, end - start+1);               
+            std::cout << "maxlength :" << maxlength  << " "  <<std::endl;                                                                   
+        }                                                                 
+        return maxlength;                                                 
+    }   
 ```
 
 
@@ -710,17 +710,17 @@ end:10 , A[10](value):0 end-start-currentmax:2 start++:5 end-start+1:6 maxlength
 ```
 K: 2;[ 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0 ]
 Solution0 start..........
-start:0 , A[0]:1 end:0,start:0,currentmax:1 maxlength :1 
-start:0 , A[0]:1 end:1,start:0,currentmax:2 maxlength :2 
-start:0 , A[0]:1 end:2,start:0,currentmax:3 maxlength :3 
-start:0 , A[0]:0 end:3,start:0,currentmax:3 maxlength :4 
-start:0 , A[0]:0 end:4,start:0,currentmax:3 maxlength :5 
-start:0 , A[0]:0 end:5,start:0,currentmax:3 maxlength :5 
-start:1 , A[1]:1 end:6,start:1,currentmax:3 maxlength :5 
-start:2 , A[2]:1 end:7,start:2,currentmax:3 maxlength :5 
-start:3 , A[3]:1 end:8,start:3,currentmax:3 maxlength :5 
-start:4 , A[4]:1 end:9,start:4,currentmax:4 maxlength :6 
-start:4 , A[4]:0 end:10,start:4,currentmax:4 maxlength :6 
+start:0 , A[0]:1 end:0,start:0,currentmax:1 maxlength :1
+start:0 , A[0]:1 end:1,start:0,currentmax:2 maxlength :2
+start:0 , A[0]:1 end:2,start:0,currentmax:3 maxlength :3
+start:0 , A[0]:0 end:3,start:0,currentmax:3 maxlength :4
+start:0 , A[0]:0 end:4,start:0,currentmax:3 maxlength :5
+start:0 , A[0]:0 end:5,start:0,currentmax:3 maxlength :5
+start:1 , A[1]:1 end:6,start:1,currentmax:3 maxlength :5
+start:2 , A[2]:1 end:7,start:2,currentmax:3 maxlength :5
+start:3 , A[3]:1 end:8,start:3,currentmax:3 maxlength :5
+start:4 , A[4]:1 end:9,start:4,currentmax:4 maxlength :6
+start:4 , A[4]:0 end:10,start:4,currentmax:4 maxlength :6
 result:6
 Solution0 passed.
 ```
@@ -732,8 +732,8 @@ Solution0 passed.
 
 [[567.Permutation_in_Sring  字符串的排列]]
 ```cpp
-   bool checkInclusion(std::string s1, std::string s2) 
-    {           
+   bool checkInclusion(std::string s1, std::string s2)
+    {          
         if(s1.size() > s2.size())
         {
             return false;
@@ -742,50 +742,50 @@ Solution0 passed.
         std::unordered_map<char, int> umap2;
         int i = 0;
         for(i = 0; i < s1.size(); i++)
-        {       
+        {      
             umap1[s1[i]]++;
             umap2[s2[i]]++;
-        }       
+        }      
         printunordered_map(umap1);
         int start = 0;
         int end = i;
-        do   
-        {       
+        do  
+        {      
             printunordered_map(umap2);
             if(umap2 == umap1)
-            {   
+            {  
                 return true;
-            }   
+            }  
             umap2[s2[end]]++;
             umap2[s2[start]]--;
             if(umap2[s2[start]] == 0)
-            {   
+            {  
                 umap2.erase(s2[start]);
-            }   
+            }  
             start++;
             end++;
-        }       
+        }      
         while(end < s2.size());
             if(umap2 == umap1)
-            {   
+            {  
                 return true;
-            }   
+            }  
         return false;
         return false;
-    }        
+    }       
 s1: "ab"
 s2: "eidbaooo"
 Solution0 start..........
 unordered_map size: 2
-(b,1), (a,1), 
+(b,1), (a,1),
 unordered_map size: 2
-(i,1), (e,1), 
+(i,1), (e,1),
 unordered_map size: 2
-(d,1), (i,1), 
+(d,1), (i,1),
 unordered_map size: 2
-(d,1), (b,1), 
+(d,1), (b,1),
 unordered_map size: 2
-(a,1), (b,1), 
+(a,1), (b,1),
 true
 Solution0 passed.
 ```
@@ -793,44 +793,44 @@ Solution0 passed.
 
 
 ```cpp
-    bool checkInclusion(std::string s1, std::string s2) 
-    {   
+    bool checkInclusion(std::string s1, std::string s2)
+    {  
         std::unordered_map<char ,int> umap1;
         for (int i = 0; i < s1.size(); i++)
-        {   
+        {  
             umap1[s1[i]]++;
-        }   
+        }  
         for (int match=0,end = 0, start =0; end < s2.size(); end++)
-        {   
+        {  
             char ch = s2[end];
             if( umap1.count ( ch ) > 0)
-            {   
+            {  
                 umap1[ch]--;
                 if(umap1[ch] == 0)
                 {
-                    match ++; 
-                }   
-            }   
+                    match ++;
+                }  
+            }  
             if(match == umap1.size())
-            {   
+            {  
                 return true;
-            }   
+            }  
             if(end >= s1.size() - 1)
-            {   
+            {  
                 char left = s2[start];
                 start++;
                 if(umap1.count(left) > 0)
-                {   
+                {  
                     if(umap1[left] == 0)
-                    {   
+                    {  
                         match--;
-                    }   
+                    }  
                     umap1[left]++;
-                }   
-            }   
-        }   
+                }  
+            }  
+        }  
         return false;
-    }   
+    }  
 ```
 
 
@@ -845,7 +845,7 @@ Solution0 passed.
 >
 > An **Anagram** is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
 >
->  
+> 
 >
 > **Example 1:**
 >
@@ -868,7 +868,7 @@ Solution0 passed.
 > The substring with start index = 2 is "ab", which is an anagram of "ab".
 > ```
 >
->  
+> 
 >
 > **Constraints:**
 >
@@ -877,55 +877,55 @@ Solution0 passed.
 
 ```cpp
     std::vector<int> findAnagrams(std::string s, std::string p)
-    {            
+    {           
         std::vector<int> result;
         std::unordered_map<char,int> umap1;
         std::unordered_map<char,int> umap2;
         for(int c=0; c< p.size(); c++)
-        {        
-            umap2[p[c]]++; 
-            umap1[s[c]]++; 
-        }        
+        {       
+            umap2[p[c]]++;
+            umap1[s[c]]++;
+        }       
         printunordered_map(umap1);
         printunordered_map(umap2);
         for(int x=p.size(); x<= s.size(); x++)
-        {        
+        {       
             if(umap1==umap2)
-            {    
+            {   
                 result.push_back(x-p.size());
-                printvector(result); 
-            }    
+                printvector(result);
+            }   
             umap1[s[x-p.size()]]--;
             umap1[s[x]]++;
             if(umap1[s[x-p.size()]] == 0)
-            {    
+            {   
                 umap1.erase(s[x-p.size()]);
-            }    
+            }   
         printunordered_map(umap1);
-        }        
+        }       
         return result;
         return std::vector<int>{};
-    } 
+    }
 s: "abbcabc"
 p: "abc"
 Solution0 start..........
 unordered_map size: 2
-(b,2), (a,1), 
+(b,2), (a,1),
 unordered_map size: 3
-(c,1), (a,1), (b,1), 
+(c,1), (a,1), (b,1),
 unordered_map size: 2
-(c,1), (b,2), 
+(c,1), (b,2),
 unordered_map size: 3
-(a,1), (c,1), (b,1), 
+(a,1), (c,1), (b,1),
 [ 2 ]
 unordered_map size: 3
-(a,1), (c,1), (b,1), 
+(a,1), (c,1), (b,1),
 [ 2, 3 ]
 unordered_map size: 3
-(a,1), (c,1), (b,1), 
+(a,1), (c,1), (b,1),
 [ 2, 3, 4 ]
 unordered_map size: 3
-(c,1), (,1), (b,1), 
+(c,1), (,1), (b,1),
 [ 2, 3, 4 ]
 Solution0 passed.
 ```
@@ -938,7 +938,7 @@ Solution0 passed.
 ```cpp
 class Solution {
 public:
-    string minWindow(string s, string t) 
+    string minWindow(string s, string t)
     {
         std::unordered_map<char,int> umap;
         for(auto x:t)
@@ -962,7 +962,7 @@ public:
                     match ++;
                 }
             }
-            
+           
             while(match == umap.size())
             {
                 char a = s[left];
@@ -1070,7 +1070,7 @@ public:
 ```cpp
 class Solution {
 public:
-    vector<int> twoSum(vector<int>& nums, int target) 
+    vector<int> twoSum(vector<int>& nums, int target)
     {
         std::vector<std::pair<int,int>> records;
         for(int i =0; i< nums.size(); i++)
@@ -1322,7 +1322,7 @@ Permutations (medium): LC 46
 >     将该选择再加入选择列表
 > ```
 >
-> 
+>
 
 ```cpp
 // [ 1 2 5 ]
@@ -1380,7 +1380,7 @@ void backtrack(int[] nums, LinkedList<Integer> track) {
         res.add(new LinkedList(track));
         return;
     }
-    
+   
     for (int i = 0; i < nums.length; i++) {
         // 排除不合法的选择
         if (track.contains(nums[i]))

@@ -293,12 +293,126 @@ Python对协程的支持还非常有限，用在generator中的yield可以一定
 2. 它只能用于具有亲缘关系的进程之间的通信（也是**父子进程**或者兄弟进程之间）
 3. 它可以看成是一种特殊的文件，对于它的读写也可以使用普通的read、write等函数。但是它不是普通的文件，并不属于其他任何文件系统，并且只存在于内存中。
 4. 使用popen函数和pclose函数结合来执行系统命令，就用到了管道
+```cpp
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
+int main() {
+    // 创建无名管道
+    int pipefd[2];
+    if (pipe(pipefd) == -1) {
+        printf("无法创建无名管道\n");
+        return 1;
+    }
+
+    pid_t pid = fork();
+
+    if (pid == -1) {
+        printf("无法创建子进程\n");
+        return 1;
+    }
+    else if (pid == 0) {
+        // 子进程 - 写入数据到无名管道
+        close(pipefd[0]); // 关闭读取端
+
+        char *data = "Hello, Parent Process!";
+        write(pipefd[1], data, strlen(data) + 1);
+
+        close(pipefd[1]);
+        exit(0);
+    }
+    else {
+        // 父进程 - 从无名管道读取数据
+        close(pipefd[1]); // 关闭写入端
+
+        char data[100];
+        read(pipefd[0], data, sizeof(data));
+
+        printf("收到的数据：%s\n", data);
+
+        close(pipefd[0]);
+    }
+
+    return 0;
+}
+```
 ### 2.1.2 命名管道FIFO：
 1. FIFO可以在无关的进程之间交换数据
 2. FIFO有路径名与之相关联，它以一种特殊设备文件形式存在于文件系统中。
 3. `int mkfifo(const char *path, mode_t mode);`
 
+示例- 进程1 - 写入数据到命名管道
+```cpp
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main() {
+    // 创建命名管道
+    mkfifo("myfifo", 0666);
+
+    // 打开命名管道以进行写入
+    int fd = open("myfifo", O_WRONLY);
+
+    if (fd == -1) {
+        printf("无法打开命名管道\n");
+        return 1;
+    }
+
+    // 写入数据到命名管道
+    char *data = "Hello, Process 2!";
+    write(fd, data, strlen(data)+1);
+
+    // 关闭命名管道
+    close(fd);
+
+    return 0;
+}
+```
+进程2 - 读取数据从命名管道
+
+```cpp
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main() {
+    // 打开命名管道以进行读取
+    int fd = open("myfifo", O_RDONLY);
+
+    if (fd == -1) {
+        printf("无法打开命名管道\n");
+        return 1;
+    }
+
+    // 读取数据从命名管道
+    char data[100];
+    read(fd, data, sizeof(data));
+
+    // 显示读取到的数据
+    printf("收到的数据：%s\n", data);
+
+    // 关闭命名管道
+    close(fd);
+
+    // 删除命名管道
+    unlink("myfifo");
+
+    return 0;
+}
+```
+在这个例子中，进程1创建了一个命名管道 "myfifo" 并向其中写入数据。进程2打开同一个命名管道并从中读取数据。
+通过命名管道，这两个进程实现了简单的进程间通信。请注意，在使用命名管道进行通信之前，需要确保命名管道已被创建（可以使用 mkfifo 函数创建），并且两个进程都有权限访问该命名管道。
 ### 2.1.3 系统IPC 消息队列
 1. 消息队列，是消息的链表，存放在内核中。一个消息队列由一个标识符（即队列ID）来标记。进程可以从中读写数据。
 (消息队列克服了信号传递信息少，管道只能承载无格式字节流以及缓冲区大小受限等特点)
@@ -310,6 +424,89 @@ Python对协程的支持还非常有限，用在generator中的yield可以一定
 1. 消息队列是面向记录的，其中的消息具有特定的格式以及特定的优先级。
 2. 消息队列独立于发送与接收进程。进程终止时，消息队列及其内容并不会被删除。
 3. 消息队列可以实现消息的随机查询,消息不一定要以先进先出的次序读取,也可以按消息的类型读取。
+
+进程1 - 发送消息到消息队列
+
+```cpp
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+
+struct msgbuf {
+    long mtype;
+    char mtext[100];
+};
+
+int main() {
+    // 创建消息队列
+    key_t key = ftok(".", 'q');
+    int msgid = msgget(key, IPC_CREAT | 0666);
+    if (msgid == -1) {
+        printf("无法创建消息队列\n");
+        return 1;
+    }
+
+    // 发送消息到消息队列
+    struct msgbuf message;
+    message.mtype = 1;  // 消息类型，可以自定义
+    strcpy(message.mtext, "Hello, Process 2!");
+
+    if (msgsnd(msgid, &message, sizeof(message.mtext), 0) == -1) {
+        printf("无法发送消息到消息队列\n");
+        return 1;
+    }
+
+    return 0;
+}
+```
+进程2 - 从消息队列接收消息
+
+```cpp
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+
+struct msgbuf {
+    long mtype;
+    char mtext[100];
+};
+
+int main() {
+    // 获取消息队列的标识符
+    key_t key = ftok(".", 'q');
+    int msgid = msgget(key, 0666);
+    if (msgid == -1) {
+        printf("无法获取消息队列\n");
+        return 1;
+    }
+
+    // 接收消息队列中的消息
+    struct msgbuf message;
+    if (msgrcv(msgid, &message, sizeof(message.mtext), 1, 0) == -1) {
+        printf("无法接收消息队列中的消息\n");
+        return 1;
+    }
+
+    printf("收到的消息：%s\n", message.mtext);
+
+    // 删除消息队列
+    if (msgctl(msgid, IPC_RMID, NULL) == -1) {
+        printf("无法删除消息队列\n");
+        return 1;
+    }
+
+    return 0;
+}
+```
+在这个示例中，进程1通过调用 msgget() 来创建或获取一个已经存在的消息队列。然后，它使用 msgsnd() 向消息队列发送一条消息，消息类型为1。进程2使用 msgget() 获取同一个消息队列，并使用 msgrcv() 从队列中接收类型为1的消息。最后，进程2通过 msgctl() 删除消息队列。
+
+请注意，消息队列是一种进程间通信的方式，可以进行多对多的通信。不同于无名管道，消息队列可以在没有父子关系的进程之间进行通信，并且消息可以按照类型进行区分。
 
 ### 2.2.4 系统IPC 信号量semaphore
 信号量（semaphore）与已经介绍过的 IPC 结构不同，它是一个计数器，可以用来控制多个进程对共享资源的访问。信号量用于实现进程间的互斥与同步，而不是用于存储进程间通信数据。
@@ -348,7 +545,7 @@ socket也是一种进程间通信机制，与其他通信机制不同的是，�
   - 为控制具有有限数量的用户资源而设计的，它允许多个线程在同一时刻去访问同一个资源，但一般需要限制同一时刻访问此资源的最大线程数目。
 * 事件(信号)，Wait/Notify：
   - 通过通知操作的方式来保持多线程同步，还可以方便的实现多线程优先级的比较操作;线程可以设置或等待事件。当事件被设置时，等待该事件的一个或多个线程将被唤醒。
-  
+
 原子操作：使用原子操作可以在不使用锁的情况下对共享数据进行操作，这样可以避免竞态条件。
 屏障（Barriers）：允许多个线程在某个点上同步。当所有线程都到达屏障时，它们将同时继续执行。
 
@@ -494,7 +691,7 @@ mutex rwlock spinlock RCU
 
 互斥锁：当获取锁操作失败时，线程会进入睡眠，等待锁释放时被唤醒。
 
-读写锁：rwlock，可以允许多个线程同时获得读操作。但是同一时刻只能有一个线程可以获得写锁。其它获取写锁失败的线程都会进入睡眠状态，直到写锁释放时被唤醒。 
+读写锁：rwlock，可以允许多个线程同时获得读操作。但是同一时刻只能有一个线程可以获得写锁。其它获取写锁失败的线程都会进入睡眠状态，直到写锁释放时被唤醒。
 
 1）读写锁区分读者和写者，而互斥锁不区分
 2）互斥锁同一时间只允许一个线程访问该对象，无论读写；读写锁同一时间内只允许一个写者，但是允许多个读者同时读对象。

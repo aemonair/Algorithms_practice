@@ -1,12 +1,12 @@
 /*
  * 538. Convert BST to Greater Tree
  * Medium
- * 
+ *
  *************************************************************************************
  * Given the root of a Binary Search Tree (BST), convert it to a Greater Tree such that every key of the original BST is changed to the original key plus sum of all keys greater than the original key in BST.
- * 
+ *
  * As a reminder, a binary search tree is a tree that satisfies these constraints:
- * 
+ *
  * - The left subtree of a node contains only nodes with keys less than the node's key.
  * - The right subtree of a node contains only nodes with keys greater than the node's key.
  * - Both the left and right subtrees must also be binary search trees.
@@ -39,7 +39,7 @@
  *Input: root = [3,2,4,1]
  *Output: [7,9,4,10]
  *************************************************************************************
- * 
+ *
  */
 
 #include <algorithm>
@@ -52,7 +52,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -61,10 +61,10 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
+    //
     int current = 0;
     TreeNode* convertBST(TreeNode* root)
     {
@@ -154,7 +154,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         TreeNode * root,
         TreeNode * expected)
 {
@@ -210,7 +210,7 @@ void Test1()
     TreeNode * p_node6 = new TreeNode(6, p_node5, p_node7);
 
     TreeNode * p_node4 = new TreeNode(4, p_node1, p_node6);
-    
+   
     std::cout << "     4          " << std::endl;
     std::cout << "    / \\        " << std::endl;
     std::cout << "   1    6       " << std::endl;
@@ -284,7 +284,7 @@ void Test4()
     std::cout << "   2     4           " << std::endl;
     std::cout << "  /                  " << std::endl;
     std::cout << " 1                   " << std::endl;
-    //       
+    //      
     TreeNode * p_node1 = new TreeNode(1);
     TreeNode * p_node4 = new TreeNode(4);
     TreeNode * p_node2 = new TreeNode(2, p_node1, nullptr);
@@ -295,7 +295,7 @@ void Test4()
     std::cout << "   2(9)  4(4)        " << std::endl;
     std::cout << "  /                  " << std::endl;
     std::cout << " 1(10)                " << std::endl;
-    //       
+    //      
     TreeNode * r_node1 = new TreeNode(10);
     TreeNode * r_node4 = new TreeNode(4);
     TreeNode * r_node2 = new TreeNode(9, r_node1, nullptr);

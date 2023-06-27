@@ -1,42 +1,42 @@
 /*
  * 337. House Robber III
  * Medium
- * 
- ********************************************************* 
- * The thief has found himself a new place for his thievery again. 
- * There is only one entrance to this area, called the "root." Besides the root, each house has one and only one parent house. 
- * After a tour, the smart thief realized that "all houses in this place forms a binary tree". 
+ *
+ *********************************************************
+ * The thief has found himself a new place for his thievery again.
+ * There is only one entrance to this area, called the "root." Besides the root, each house has one and only one parent house.
+ * After a tour, the smart thief realized that "all houses in this place forms a binary tree".
  * It will automatically contact the police if two directly-linked houses were broken into on the same night.
- * 
+ *
  * Determine the maximum amount of money the thief can rob tonight without alerting the police.
- * 
+ *
  *********************************************************
  * Example 1:
- * 
+ *
  * Input: [3,2,3,null,3,null,1]
- * 
+ *
  *      3
  *     / \
  *    2   3
- *     \   \ 
+ *     \   \
  *      3   1
- * 
- * Output: 7 
+ *
+ * Output: 7
  * Explanation: Maximum amount of money the thief can rob = 3 + 3 + 1 = 7.
  *********************************************************
  * Example 2:
- * 
+ *
  * Input: [3,4,5,1,3,null,1]
- * 
+ *
  *      3
  *     / \
  *    4   5
- *   / \   \ 
+ *   / \   \
  *  1   3   1
- * 
+ *
  * Output: 9
  * Explanation: Maximum amount of money the thief can rob = 4 + 5 = 9.
- ********************************************************* 
+ *********************************************************
  */
 
 #include <algorithm>
@@ -47,11 +47,11 @@
 #include <queue>
 #include <map>
 #include <set>
- 
+
 /*
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -62,13 +62,13 @@ struct TreeNode
 };
 class Solution {
 public:
-    int rob(TreeNode* root) 
+    int rob(TreeNode* root)
     {
         if(root == nullptr)
         {
             return 0;
         }
-        int do_it = root->val 
+        int do_it = root->val
             + (root->left  == nullptr? 0: rob(root->left->left ) + rob(root->left->right))
             + (root->right == nullptr? 0: rob(root->right->left) + rob(root->right->right))
             ;
@@ -104,7 +104,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         TreeNode * root,
         int expected)
 {
@@ -156,7 +156,7 @@ void Test2()
     TreeNode * pnode2_4 = new TreeNode(4, pnode3_1, pnode3_3);
     TreeNode * pnode2_5 = new TreeNode(5, nullptr , pnode3_I);
     TreeNode * pnode1_3 = new TreeNode(1, pnode2_4, pnode2_5);
-    
+   
     std::cout << "     3       " << std::endl;
     std::cout << "    / \\     " << std::endl;
     std::cout << "   4   5     " << std::endl;

@@ -2,9 +2,9 @@
  * 116. Populating Next Right Pointers in Each Node
  * Medium
  ******************************************************************************
- * You are given a perfect binary tree where all leaves are on the same level, and every parent has two children. 
+ * You are given a perfect binary tree where all leaves are on the same level, and every parent has two children.
  * The binary tree has the following definition:
- * 
+ *
  * struct Node {
  *   int val;
  *   Node *left;
@@ -12,23 +12,23 @@
  *   Node *next;
  * }
  * Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.
- * 
+ *
  * Initially, all next pointers are set to NULL.
- ****************************************************************************** 
+ ******************************************************************************
  * Follow up:
- * 
+ *
  * You may only use constant extra space.
  * Recursive approach is fine, you may assume implicit stack space does not count as extra space for this problem.
  * *****************************************************************************
- * 
+ *
  * Example 1:
- * 
+ *
  *       1
  *    /     \
  *   2       3
  *  / \     / \
  * 4   5   6   7
- * 
+ *
  *       1 -> NULL
  *    /     \
  *   2  ---> 3 -> NULL
@@ -38,13 +38,13 @@
  * Input: root = [1,2,3,4,5,6,7]
  * Output: [1,#,2,3,#,4,5,6,7,#]
  * Explanation: Given the above perfect binary tree (Figure A), your function should populate each next pointer to point to its next right node, just like in Figure B. The serialized output is in level order as connected by the next pointers, with '#' signifying the end of each level.
- * 
+ *
  * *****************************************************************************
  * Constraints:
- * 
+ *
  * The number of nodes in the given tree is less than 4096.
  * -1000 <= node.val <= 1000
- * 
+ *
  */
 
 #include <algorithm>
@@ -57,7 +57,7 @@
 /**
  * Definition for a node.
  */
-class Node 
+class Node
 {
 public:
     int val;
@@ -66,13 +66,13 @@ public:
     Node *next ;
     Node() : val(0), left(nullptr), right(nullptr),next(nullptr) {}
     Node(int x) : val(x), left(nullptr), right(nullptr),next(nullptr) {}
-    Node(int x, Node *_left, Node *_right, Node *_next) 
+    Node(int x, Node *_left, Node *_right, Node *_next)
         : val(x), left(_left), right(_right),next(_next) {}
 };
- 
+
 class Solution {
 public:
-    // 
+    //
     Node* connect0(Node* root)
     {
         return root;
@@ -266,7 +266,7 @@ void Test1()
     Node * pnode3 = new Node(3);
     Node * pnode6 = new Node(6);
     Node * pnode9 = new Node(9);
-    
+   
     Node * pnode2 = new Node(2, pnode1, pnode3,nullptr);
     Node * pnode7 = new Node(7, pnode6, pnode9,nullptr);
 
@@ -281,7 +281,7 @@ void Test1()
     Node * p_node6 = new Node(6,nullptr,nullptr,p_node9);
     Node * p_node3 = new Node(3,nullptr,nullptr,p_node6);
     Node * p_node1 = new Node(1,nullptr,nullptr,p_node3);
-    
+   
     Node * p_node7 = new Node(7, p_node6, p_node9,nullptr);
     Node * p_node2 = new Node(2, p_node1, p_node3,p_node7);
 
@@ -305,7 +305,7 @@ void Test2()
     pnode3 ->right = pnode20;
     pnode20->left  = pnode15;
     pnode20->right = pnode7 ;
-    //    
+    //   
     //      3
     //    /   \
     //   9     20
@@ -350,8 +350,8 @@ void Test3()
     //    1
     //     2
     //    3  4
-    //      5 
-    //       
+    //      5
+    //      
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;
@@ -385,7 +385,7 @@ void Test4()
     Node * pnode5 = new Node(5);
     Node * pnode6 = new Node(6);
     Node * pnode7 = new Node(7);
-    
+   
     Node * pnode3 = new Node(3, pnode6, pnode7, nullptr);
     Node * pnode2 = new Node(2, pnode4, pnode5, nullptr);
 
@@ -398,7 +398,7 @@ void Test4()
     Node * p_node6 = new Node(6,nullptr, nullptr,p_node7);
     Node * p_node5 = new Node(5,nullptr, nullptr,p_node6);
     Node * p_node4 = new Node(4,nullptr, nullptr,p_node5);
-    
+   
     Node * p_node3 = new Node(3, p_node6, p_node7, nullptr);
     Node * p_node2 = new Node(2, p_node4, p_node5, p_node3);
 

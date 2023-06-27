@@ -1,30 +1,30 @@
 /*
  * 56. Merge Intervals
  * Medium
- * 
+ *
  * Given a collection of intervals, merge all overlapping intervals.
- * 
+ *
  ******************************************************************
  *  Example 1:
- * 
+ *
  * Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
  * Output: [[1,6],[8,10],[15,18]]
  * Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
- ****************************************************************** 
+ ******************************************************************
  *  Example 2:
- * 
+ *
  * Input: intervals = [[1,4],[4,5]]
  * Output: [[1,5]]
  * Explanation: Intervals [1,4] and [4,5] are considered overlapping.
  ****************************************************************
- *  NOTE: 
+ *  NOTE:
  *  input types have been changed on April 15, 2019. Please reset to default code definition to get new method signature.
- **************************************************************** 
+ ****************************************************************
  *  Constraints:
- * 
+ *
  * intervals[i][0] <= intervals[i][1]
- *************************************************************** 
- * 
+ ***************************************************************
+ *
  */
 
 // 44 yy
@@ -40,7 +40,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -71,24 +71,24 @@ int printstack(std::stack<T> s);
 
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
- 
+
 class Solution {
 public:
     std::vector<std::vector<int>> merge(
-            std::vector<std::vector<int>>& intervals) 
+            std::vector<std::vector<int>>& intervals)
     {
         return std::vector<std::vector<int>>();
     }
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<std::vector<int>> & intervals,
         std::vector<std::vector<int>> & expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;
@@ -112,7 +112,7 @@ const static int TEST_1    = 0;
         std::vector<std::vector<int>>&& result = solution.merge(intervals);
         std::cout << "result:" << std::boolalpha << std::endl;
         printvector(result );
-        
+       
         if(result == expected)
         {
             //10yy

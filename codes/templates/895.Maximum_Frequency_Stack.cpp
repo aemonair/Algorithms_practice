@@ -4,22 +4,22 @@
  * Hard
  ******************************************************************************************************
  * Design a stack-like data structure to push elements to the stack and pop the most frequent element from the stack.
- * 
+ *
  * Implement the FreqStack class:
- * 
+ *
  * FreqStack() constructs an empty frequency stack.
  * void push(int val) pushes an integer val onto the top of the stack.
  * int pop() removes and returns the most frequent element in the stack.
  * If there is a tie for the most frequent element, the element closest to the stack's top is removed and returned.
  ******************************************************************************************************
  * Example 1:
- * 
+ *
  * Input
  * ["FreqStack", "push", "push", "push", "push", "push", "push", "pop", "pop", "pop", "pop"]
  * [[], [5], [7], [5], [7], [4], [5], [], [], [], []]
  * Output
  * [null, null, null, null, null, null, null, 5, 7, 5, 4]
- * 
+ *
  * Explanation
  * FreqStack freqStack = new FreqStack();
  * freqStack.push(5); // The stack is [5]
@@ -34,7 +34,7 @@
  * freqStack.pop();   // return 4, as 4, 5 and 7 is the most frequent, but 4 is closest to the top. The stack becomes [5,7].
  ******************************************************************************************************
  * Constraints:
- * 
+ *
  * 0 <= val <= 10^9
  * At most 2 * 10^4 calls will be made to push and pop.
  * It is guaranteed that there will be at least one element in the stack before calling pop.
@@ -60,15 +60,15 @@
 class FreqStack {
 public:
     std::deque<int> deq;
-    FreqStack() 
+    FreqStack()
     {
     }
 
-    void push(int val) 
+    void push(int val)
     {
     }
 
-    int pop() 
+    int pop()
     {
     }
     template <typename T>
@@ -156,7 +156,7 @@ void Test1()
     int result = 0;
     int expected = 0;
     std::cout << "Test1 START:" << std::endl;
-    FreqStack * freqStack = new FreqStack(); 
+    FreqStack * freqStack = new FreqStack();
     std::cout << "new FreqStack()" << std::endl;
     //std::cout << "freqStack.push(5) " << std::endl;   // return 4
     test(freqStack, "push", 5, {5});
@@ -175,7 +175,7 @@ void Test2()
     //["FreqStack","push","push","push","push","push","push","pop","push","pop","push","pop","push","pop","push","pop","pop","pop","pop","pop","pop"]
     //[[],[4],[0],[9],[3],[4],[2],[],[6],[],[1],[],[1],[],[4],[],[],[],[],[],[]]
     std::cout << "Test2 START:" << std::endl;
-    FreqStack * freqStack = new FreqStack(); 
+    FreqStack * freqStack = new FreqStack();
     std::cout << "new FreqStack()" << std::endl;
     //std::cout << "freqStack.push(5) " << std::endl;   // return 4
     test(freqStack, "push", 4, {4});
@@ -202,7 +202,7 @@ void Test2()
 void Test3()
 {
     std::cout << "Test3 START:" << std::endl;
-    FreqStack * freqStack = new FreqStack(); 
+    FreqStack * freqStack = new FreqStack();
     std::cout << "new FreqStack()" << std::endl;
     test(freqStack, "push", 4, {4});
     test(freqStack, "push", 0, {4,0});

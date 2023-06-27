@@ -3,51 +3,51 @@
  * 986. Interval List Intersections
  * Medium
  ******************************************************************
- * 
+ *
  * You are given two lists of closed intervals, firstList and secondList, where firstList[i] = [starti, endi] and secondList[j] = [startj, endj]. Each list of intervals is pairwise disjoint and in sorted order.
- * 
+ *
  * Return the intersection of these two interval lists.
- * 
- * (Formally, a closed interval [a, b] (with a <= b) denotes the set of real numbers x with a <= x <= b.  
- * The intersection of two closed intervals is a set of real numbers that is either empty, or can be represented as a closed interval.  
+ *
+ * (Formally, a closed interval [a, b] (with a <= b) denotes the set of real numbers x with a <= x <= b. 
+ * The intersection of two closed intervals is a set of real numbers that is either empty, or can be represented as a closed interval. 
  * For example, the intersection of [1, 3] and [2, 4] is [2, 3].)
- * 
+ *
  ******************************************************************
  * Example 1:
  *  A  [ ]  [    ]  [         ][]
  *  B   [   ]  [   ]  [        ][]
  *
- *ans   []  |  [ ]    [       ]||  
+ *ans   []  |  [ ]    [       ]|| 
  *     0   4   8   C   16      24
- * 
+ *
  * Input: A = [[0,2],[5,10],[13,23],[24,25]], B = [[1,5],[8,12],[15,24],[25,26]]
  * Output: [[1,2],[5,5],[8,10],[15,23],[24,24],[25,25]]
- ****************************************************************** 
+ ******************************************************************
  * Example 2:
- * 
+ *
  * Input: firstList = [[1,3],[5,9]], secondList = []
  * Output: []
- ****************************************************************** 
+ ******************************************************************
  * Example 3:
- * 
+ *
  * Input: firstList = [], secondList = [[4,8],[10,12]]
  * Output: []
- ****************************************************************** 
+ ******************************************************************
  * Example 4:
- * 
+ *
  * Input: firstList = [[1,7]], secondList = [[3,10]]
  * Output: [[3,7]]
- ****************************************************************** 
+ ******************************************************************
  * Constraints:
- * 
+ *
  * 0 <= firstList.length, secondList.length <= 1000
  * firstList.length + secondList.length >= 1
  * 0 <= start[i] < endi <= 10^9
  * end[i] < start[i+1]
  * 0 <= start[j] < end[j] <= 10^9
  * end[j] < start[j+1]
- *************************************************************** 
- * 
+ ***************************************************************
+ *
  */
 
 // 44 yy
@@ -63,7 +63,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -98,7 +98,7 @@ int printunordered_map(const std::unordered_map<T1,T2> &v);
 class Solution {
 public:
     std::vector<std::vector<int>> intervalIntersection(
-            std::vector<std::vector<int>>& firstList, 
+            std::vector<std::vector<int>>& firstList,
             std::vector<std::vector<int>>& secondList)
     {
         return std::vector<std::vector<int>>();
@@ -109,14 +109,14 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
-            std::vector<std::vector<int>>& firstList, 
+void Test(const std::string& testName,
+            std::vector<std::vector<int>>& firstList,
             std::vector<std::vector<int>>& secondList,
         std::vector<std::vector<int>> & expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;
@@ -134,11 +134,11 @@ const static int TEST_0    = 1;
 const static int TEST_1    = 0;
     if (TEST_0)
     {
-        std::vector<std::vector<int>>&& result = 
+        std::vector<std::vector<int>>&& result =
             solution.intervalIntersection(firstList, secondList);
         std::cout << "result:" << std::boolalpha << std::endl;
         printvector(result);
-        
+       
         if(result == expected)
         {
             //10yy
@@ -240,7 +240,7 @@ void Test1()
 {
     std::vector<std::vector<int>> firstList  = {{0,2},{5,10},{13,23},{24,25}};
     std::vector<std::vector<int>> secondList = {{1,5},{8,12},{15,24},{25,26}};
-    std::vector<std::vector<int>> result     = 
+    std::vector<std::vector<int>> result     =
     {{1,2},{5,5},{8,10},{15,23},{24,24},{25,25}};
     Test("Test1", firstList, secondList, result);
 }

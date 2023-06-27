@@ -1,40 +1,40 @@
 /*
- ****************************************************************************** 
+ ******************************************************************************
  * 438. Find All Anagrams in a String
  * Medium
- ****************************************************************************** 
+ ******************************************************************************
  * Given a string s and a non-empty string p, find all the start indices of p's anagrams in s.
- * 
+ *
  * Strings consists of lowercase English letters only and the length of both strings s and p will not be larger than 20,100.
- * 
+ *
  * The order of output does not matter.
- ****************************************************************************** 
- * 
+ ******************************************************************************
+ *
  * Example 1:
- * 
+ *
  * Input:
  * s: "cbaebabacd" p: "abc"
- * 
+ *
  * Output:
  * [0, 6]
- * 
+ *
  * Explanation:
  * The substring with start index = 0 is "cba", which is an anagram of "abc".
  * The substring with start index = 6 is "bac", which is an anagram of "abc".
- ****************************************************************************** 
+ ******************************************************************************
  * Example 2:
- * 
+ *
  * Input:
  * s: "abab" p: "ab"
- * 
+ *
  * Output:
  * [0, 1, 2]
- * 
+ *
  * Explanation:
  * The substring with start index = 0 is "ab", which is an anagram of "ab".
  * The substring with start index = 1 is "ba", which is an anagram of "ab".
  * The substring with start index = 2 is "ab", which is an anagram of "ab".
- ****************************************************************************** 
+ ******************************************************************************
  */
 
 #include <unordered_map>
@@ -49,7 +49,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -69,7 +69,7 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan    */
 #define BOLDRED     "\033[1m\033[31m"      /* Bold Red     */
 
-class Solution 
+class Solution
 {
 public:
     std::vector<int> findAnagrams(std::string s, std::string p)
@@ -91,14 +91,14 @@ int printunordered_map(const std::unordered_map<T1,T2> &v);
 
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
-        std::string s, std::string p, 
+void Test(const std::string& testName,
+        std::string s, std::string p,
         std::vector<int> & expected
         )
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

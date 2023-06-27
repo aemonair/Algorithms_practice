@@ -3,45 +3,45 @@
  * 142. Linked List Cycle II
  * Medium
  ***********************************************************************
- * Given a linked list, return the node where the cycle begins. 
+ * Given a linked list, return the node where the cycle begins.
  * If there is no cycle, return null.
- * To represent a cycle in the given linked list, 
- * we use an integer pos which represents the position (0-indexed) in the linked list where tail connects to. 
+ * To represent a cycle in the given linked list,
+ * we use an integer pos which represents the position (0-indexed) in the linked list where tail connects to.
  * If pos is -1, then there is no cycle in the linked list.
  * Note: Do not modify the linked list.
  ***********************************************************************
  *
  * Example 1:
- * 
- *     3 -> 2 -> 0 -> -4  
- *          ↖        ↙  
+ *
+ *     3 -> 2 -> 0 -> -4 
+ *          ↖        ↙ 
  *            ← ← ← ←
  *
  * Input: head = [3,2,0,-4], pos = 1
  * Output: tail connects to node index 1
  * Explanation: There is a cycle in the linked list, where tail connects to the second node.
  ***********************************************************************
- * 
+ *
  * Example 2:
  *
- *          1 - > 2   
- *          ↖   ↙  
+ *          1 - > 2  
+ *          ↖   ↙ 
  *            ←
  * Input: head = [1,2], pos = 0
  * Output: tail connects to node index 0
  * Explanation: There is a cycle in the linked list, where tail connects to the first node.
  ***********************************************************************
- * 
+ *
  * Example 3:
  *
  *          1
- * 
+ *
  * Input: head = [1], pos = -1
  * Output: no cycle
  * Explanation: There is no cycle in the linked list.
  ***********************************************************************
  * Constraints:
- * 
+ *
  * The number of the nodes in the list is in the range [0, 10^4].
  * -10^5 <= Node.val <= 10^5
  * pos is -1 or a valid index in the linked-list.
@@ -93,8 +93,8 @@ class Solution {
 public:
 /*
  * 17 找到带环链表的环入口节点
- * 
- *    - - - 、  
+ *
+ *    - - - 、 
  *           \    - - - - 、
  *            \ /          |
  *             \          /
@@ -107,90 +107,90 @@ public:
  *  我们设整个链表长L，入口点与相遇点长x，起点到入口点长度为a;
  *  快指针走的长度是慢指针的2倍，由于快指针可能不止走了一圈;
  *  慢指针走了s步，即快指针走了2s步。
- * 
+ *
  *  ∵ 2s = s + nr ;
  *  ∴ s = nr;
- * 
+ *
  *    a + x = nr
  *    a + x = nr = (n-1)r + r =  (n-1)r + L -a
  *    a = (n-1)r + (L -a -x)
  *    链表从头到环入口点长度 = (n -1)环长 + 相遇点到环入口长度
  *    所以， 从链表头和相遇点各设一个一步长的指针，必定会在相遇点回合。
- * 
+ *
  *              l    f
- *         1 -> 2 -> 3 -> 4 -> 5 
- *                   ↖       ↙  
+ *         1 -> 2 -> 3 -> 4 -> 5
+ *                   ↖       ↙ 
  *                     ← 6 ←
  *
  *                   l         f
- *         1 -> 2 -> 3 -> 4 -> 5 
- *                   ↖       ↙  
+ *         1 -> 2 -> 3 -> 4 -> 5
+ *                   ↖       ↙ 
  *                     ← 6 ←
  *
  *                   f    l
  *         1 -> 2 -> 3 -> 4 -> 5
- *                   ↖       ↙  
+ *                   ↖       ↙ 
  *                     ← 6 ←
  *
  *                             lf         Found
  *         1 -> 2 -> 3 -> 4 -> 5
- *                   ↖       ↙  
+ *                   ↖       ↙ 
  *                     ← 6 ←
  *
  *         |     a   |    b    |
  *         l                   f
- *         1 -> 2 -> 3 -> 4 -> 5 
- *                   ↖       ↙  
+ *         1 -> 2 -> 3 -> 4 -> 5
+ *                   ↖       ↙ 
  *                     ← 6 ←
- *                    |  c  |  
- *                    
+ *                    |  c  | 
+ *                   
  *
  *         |     a   |    b    |
- *              l              
- *         1 -> 2 -> 3 -> 4 -> 5 
- *                   ↖       ↙  
+ *              l             
+ *         1 -> 2 -> 3 -> 4 -> 5
+ *                   ↖       ↙ 
  *                     ← 6 ←
  *                       f
- *                    |  c  |  
+ *                    |  c  | 
  *
  *         |     a   |    b    |
- *                  lf         
- *         1 -> 2 -> 3 -> 4 -> 5 
- *                   ↖       ↙  
+ *                  lf        
+ *         1 -> 2 -> 3 -> 4 -> 5
+ *                   ↖       ↙ 
  *                     ← 6 ←
- *                    |  c  |  
+ *                    |  c  | 
  *
  * * * * * * * * * * * * *
- *              l    f          
+ *              l    f         
  *         1 -> 2 -> 3 -> 4 -> 5
- *                   ↖        ↙  
+ *                   ↖        ↙ 
  *                     ← ← ← ←
  *
  *                   l         f
  *         1 -> 2 -> 3 -> 4 -> 5
- *                   ↖        ↙  
+ *                   ↖        ↙ 
  *                     ← ← ← ←
  *
- *                        lf         
+ *                        lf        
  *         1 -> 2 -> 3 -> 4 -> 5
- *                   ↖        ↙  
+ *                   ↖        ↙ 
  *                     ← ← ← ←
  *
  *                        lf             Found
  *         1 -> 2 -> 3 -> 4 -> 5
- *                   ↖        ↙  
+ *                   ↖        ↙ 
  *                     ← ← ← ←
  *
- *         a             b                    
+ *         a             b                   
  *                        lf             Found
  *         1 -> 2 -> 3 -> 4 -> 5
  *                   ↖        ↙     c
  *                     ← ← ← ←
  *
  *         | a       |    b    |
- *         l              f              
+ *         l              f             
  *         1 -> 2 -> 3 -> 4 -> 5
- *                   ↖        ↙     
+ *                   ↖        ↙    
  *                     ← ← ← ←
  *                   |   c     |
  *
@@ -199,7 +199,7 @@ public:
  *                   ↖        ↙     c
  *                     ← ← ← ←
  *
- *                   lf        
+ *                   lf       
  *         1 -> 2 -> 3 -> 4 -> 5
  *                   ↖        ↙     c
  *                     ← ← ← ←
@@ -222,17 +222,17 @@ public:
  *           x     (b+c)      = a + b
  *           a                = x * (b+c) - b
  *           a                = (x-1) * (b+c) + b + c - b
- *           a                = (x-1) * (b+c) + c 
+ *           a                = (x-1) * (b+c) + c
  *           a                = c
  *
- *         
+ *        
  */
     ListNode *detectCycle(ListNode *head)
     {
         return nullptr;
     }
 
-    std::vector<int> printList(ListNode* head) 
+    std::vector<int> printList(ListNode* head)
     {
         std::vector<int> ret ; // = new ArrayList<>();
         ListNode *listNode = head;
@@ -244,7 +244,7 @@ public:
         {
             std::cout << "null" << std::endl;
         }
-        while (listNode != nullptr) // && listNode->next != nullptr) 
+        while (listNode != nullptr) // && listNode->next != nullptr)
         {
             std::cout << listNode->val << " " ; // << std::endl;
             ret.push_back(listNode->val);
@@ -256,14 +256,14 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         ListNode * head,
         ListNode * target
         )
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;
@@ -331,7 +331,7 @@ void Test1()
     /*
      *
      *         1 -> 2 -> 3 -> 4 -> 5
-     *              ↖            ↙  
+     *              ↖            ↙ 
      *                ← ← ← ← ← ←
      *
      *
@@ -341,7 +341,7 @@ void Test1()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-    
+   
     p1->next = p2;
     p2->next = p3;
     p3->next = p4;

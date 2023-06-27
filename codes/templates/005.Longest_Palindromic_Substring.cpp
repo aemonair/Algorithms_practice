@@ -1,35 +1,35 @@
 /*
  * 5. Longest Palindromic Substring
  * Medium
- * 
+ *
  * Given a string s, return the longest palindromic substring in s.
  ************************************************************
  *  Example 1:
- * 
+ *
  * Input: s = "babad"
  * Output: "bab"
  * Note: "aba" is also a valid answer.
- ************************************************************ 
+ ************************************************************
  *  Example 2:
- * 
+ *
  * Input: s = "cbbd"
  * Output: "bb"
  ************************************************************
  *  Example 3:
- * 
+ *
  * Input: s = "a"
  * Output: "a"
- ************************************************************ 
+ ************************************************************
  *  Example 4:
- * 
+ *
  * Input: s = "ac"
  * Output: "a"
- ************************************************************ 
+ ************************************************************
  *  Constraints:
- * 
+ *
  * 1 <= s.length <= 1000
  * s consist of only digits and English letters (lower-case and/or upper-case),
- * 
+ *
  */
 
 // 44 yy
@@ -45,7 +45,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -76,7 +76,7 @@ int printstack(std::stack<T> s);
 
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
- 
+
 class Solution {
 public:
     std::string longestPalindrome(std::string s)
@@ -87,13 +87,13 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::string s,
         std::string expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

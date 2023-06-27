@@ -1,27 +1,27 @@
 /*
- ****************************************************************************** 
+ ******************************************************************************
  * 340. Longest Substring with K Distinct Characters
- ****************************************************************************** 
+ ******************************************************************************
  * Given a string, find the length of the longest substring in it with no more than K distinct characters.
- ****************************************************************************** 
+ ******************************************************************************
  * Example 1:
  *
  * Input: String="araaci", K=2
  * Output: 4
  * Explanation: The longest substring with no more than '2' distinct characters is "araa".
- ****************************************************************************** 
+ ******************************************************************************
  * Example 2:
- * 
+ *
  * Input: String="araaci", K=1
  * Output: 2
  * Explanation: The longest substring with no more than '1' distinct characters is "aa".
- ****************************************************************************** 
+ ******************************************************************************
  * Example 3:
- * 
+ *
  * Input: String="cbbebi", K=3
  * Output: 5
  * Explanation: The longest substrings with no more than '3' distinct characters are "cbbeb" & "bbebi".
- ****************************************************************************** 
+ ******************************************************************************
  */
 
 #include <unordered_map>
@@ -36,7 +36,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -55,10 +55,10 @@
 #define BOLDBLUE    "\033[1m\033[34m"      /* Bold Blue    */
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan    */
 #define BOLDRED     "\033[1m\033[31m"      /* Bold Red     */
-class Solution 
+class Solution
 {
 public:
-    // 
+    //
     int LongestSubstringDistinct0(std::string & s, int k)
     {
     }
@@ -74,14 +74,14 @@ template<typename T>
 int printvector(std::vector<T> v);
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::string s, int k,
         int expected
         )
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

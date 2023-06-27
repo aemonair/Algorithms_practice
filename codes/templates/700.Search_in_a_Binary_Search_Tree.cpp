@@ -5,27 +5,27 @@
  * Given the root node of a binary search tree (BST) and a value. You need to find the node in the BST that the node's value equals the given value. Return the subtree rooted with that node. If such node doesn't exist, you should return NULL.
  *************************************************************************************
  * For example,
- * 
+ *
  * Given the tree:
  *         4
  *        / \
  *       2   7
  *      / \
  *     1   3
- * 
+ *
  * And the value to search: 2
  * You should return this subtree:
- * 
+ *
  *       2
  *      / \
  *     1   3
  * In the example above, if we want to search the value 5, since there is no node with value 5, we should return NULL.
- * 
+ *
  *************************************************************************************
  * Note that an empty tree is represented by NULL, therefore you would see the expected output (serialized tree format) as [], not null.
- * 
+ *
  *************************************************************************************
- * 
+ *
  */
 
 #include <algorithm>
@@ -38,7 +38,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -47,10 +47,10 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
+    //
     TreeNode* searchBST(TreeNode* root, int val)
     {
         return nullptr;
@@ -131,7 +131,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         TreeNode * root, int k,
         TreeNode * expected)
 {
@@ -179,7 +179,7 @@ void Test1()
     TreeNode * p_node1 = new TreeNode(1, nullptr, p_node2);
     TreeNode * p_node8 = new TreeNode(8, p_node7, nullptr);
     TreeNode * p_node6 = new TreeNode(6, p_node1, p_node8);
-    
+   
     std::cout << "      6         " << std::endl;
     std::cout << "    /   \\      " << std::endl;
     std::cout << "   1     8      " << std::endl;
@@ -214,7 +214,7 @@ void Test3()
     std::cout << "   1     4           " << std::endl;
     std::cout << "    \\               " << std::endl;
     std::cout << "     2               " << std::endl;
-    //       
+    //      
     TreeNode * p_node2 = new TreeNode(2);
     TreeNode * p_node4 = new TreeNode(4);
     TreeNode * p_node1 = new TreeNode(1, nullptr, p_node2);

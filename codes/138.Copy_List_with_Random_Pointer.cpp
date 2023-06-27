@@ -1,41 +1,41 @@
 /*
  * 138. Copy List with Random Pointer
  *
- * A linked list is given such that each node contains an additional random pointer 
+ * A linked list is given such that each node contains an additional random pointer
  * which could point to any node in the list or null.
  *
  * Return a deep copy of the list.
  * Example 1:
- * 
+ *
  *     ---------              ---------
  *    | val: 1  |            | val: 2  |
  *    |  next---|----------> |  next---|
  *    |random---|----------> |random---|----
  *     ---------              ---------      |
- *                                ↖        ↙  
+ *                                ↖        ↙ 
  *                                  ← ← ← ←
- *                                
+ *                               
  * Input:
  * {"$id":"1","next":{"$id":"2","next":null,"random":{"$ref":"2"},"val":2},"random":{"$ref":"2"},"val":1}
  *
  * {
-    $id: "1", 
-    next: 
+    $id: "1",
+    next:
     {
-        $id: "2", 
-        next: null, 
-        random: 
+        $id: "2",
+        next: null,
+        random:
         {
             $ref: "2"
-        }, 
+        },
         val: 2
-    }, 
+    },
     random: {
         $ref: "2"
-    }, 
+    },
     val: 1
 }
- * 
+ *
  * Explanation:
  * Node 1's value is 1, both of its next and random pointer points to Node 2.
  * Node 2's value is 2, its next pointer points to null and its random pointer points to itself.
@@ -69,7 +69,7 @@ public:
 class Solution {
 public:
 /*
- *         
+ *        
  */
     std::unordered_map<Node *, Node *> hmap;
     Node* copyRandomList(Node* head)
@@ -134,7 +134,7 @@ public:
         Node *next = NULL;
 
         //1. copy node
-        //   and linked 
+        //   and linked
         while (iter != NULL)
         {
             next = iter->next;
@@ -174,7 +174,7 @@ public:
             iter->next = next;
 
             iter = next;
-        } 
+        }
         return psHead->next;
 
     }
@@ -226,7 +226,7 @@ public:
         p2head->next = NULL;
         return newhead;
     }
-    std::vector<int> printList(Node* head) 
+    std::vector<int> printList(Node* head)
     {
         std::vector<int> ret ; // = new ArrayList<>();
         Node *node = head;
@@ -238,7 +238,7 @@ public:
         {
             std::cout << "null" << std::endl;
         }
-        while (node != nullptr) // && listNode->next != nullptr) 
+        while (node != nullptr) // && listNode->next != nullptr)
         {
             std::cout << node << ":"<< node->val << " " ; // << std::endl;
             if (node->random)
@@ -255,7 +255,7 @@ public:
         std::cout << std::endl;
         return ret;
     }
-    std::vector<int> printList(ListNode* head) 
+    std::vector<int> printList(ListNode* head)
     {
         std::vector<int> ret ; // = new ArrayList<>();
         ListNode *listNode = head;
@@ -267,7 +267,7 @@ public:
         {
             std::cout << "null" << std::endl;
         }
-        while (listNode != nullptr) // && listNode->next != nullptr) 
+        while (listNode != nullptr) // && listNode->next != nullptr)
         {
             std::cout << listNode->val << " " ; // << std::endl;
             ret.push_back(listNode->val);
@@ -285,7 +285,7 @@ int main()
      */
     struct Node * p1 = new Node(1, NULL, NULL);
     struct Node * p2 = new Node(2, NULL, NULL);
-    
+   
     struct Node * q1 = new Node(1, NULL, NULL);
 
     p1->next = p2;

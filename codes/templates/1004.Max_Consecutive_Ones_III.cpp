@@ -1,33 +1,33 @@
 /*
- ****************************************************************************** 
+ ******************************************************************************
  * 1004. Max Consecutive Ones III
  * Medium
- ****************************************************************************** 
+ ******************************************************************************
  * Given an array A of 0s and 1s, we may change up to K values from 0 to 1.
- * Return the length of the longest (contiguous) subarray that contains only 1s. 
- ****************************************************************************** 
+ * Return the length of the longest (contiguous) subarray that contains only 1s.
+ ******************************************************************************
  * Example 1:
- * 
+ *
  * Input: A = [1,1,1,0,0,0,1,1,1,1,0], K = 2
  * Output: 6
- * Explanation: 
+ * Explanation:
  * [1,1,1,0,0,1,1,1,1,1,1]
  * Bolded numbers were flipped from 0 to 1.  The longest subarray is underlined.
- ****************************************************************************** 
+ ******************************************************************************
  * Example 2:
- * 
+ *
  * Input: A = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], K = 3
  * Output: 10
- * Explanation: 
+ * Explanation:
  * [0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1]
  * Bolded numbers were flipped from 0 to 1.  The longest subarray is underlined.
- ****************************************************************************** 
+ ******************************************************************************
  * Note:
- * 
+ *
  * 1 <= A.length <= 20000
  * 0 <= K <= A.length
  * A[i] is 0 or 1
- ****************************************************************************** 
+ ******************************************************************************
  */
 
 #include <unordered_map>
@@ -42,7 +42,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -75,24 +75,24 @@ template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
 
 // ==================== TEST Codes====================
-class Solution 
+class Solution
 {
 public:
-    // 
+    //
     int longestOnes(std::vector<int> &A, int K)
     {
         return 0;
     }
 };
 
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<int> &A, int K,
         int expected
         )
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

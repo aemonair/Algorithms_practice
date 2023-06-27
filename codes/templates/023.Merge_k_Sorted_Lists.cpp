@@ -6,11 +6,11 @@
  * You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
  * Merge all the linked-lists into one sorted linked-list and return it.
  *
- * >> Merge k sorted linked lists and return it as one sorted list. 
+ * >> Merge k sorted linked lists and return it as one sorted list.
  * >> Analyze and describe its complexity. (@20200504)
  ******************************************************************************************
  * Example 1:
- * 
+ *
  * Input: lists = [[1,4,5],[1,3,4],[2,6]]
  * Output: [1,1,2,3,4,4,5,6]
  * Explanation: The linked-lists are:
@@ -23,17 +23,17 @@
  * 1->1->2->3->4->4->5->6
  ******************************************************************************************
  * Example 2:
- * 
+ *
  * Input: lists = []
  * Output: []
  ******************************************************************************************
  * Example 3:
- * 
+ *
  * Input: lists = [[]]
  * Output: []
  ******************************************************************************************
  * Constraints:
- * 
+ *
  * k == lists.length
  * 0 <= k <= 10^4
  * 0 <= lists[i].length <= 500
@@ -59,7 +59,7 @@
 #include <queue>
 
 
-struct ListNode 
+struct ListNode
 {
     int val;
     ListNode *next;
@@ -122,7 +122,7 @@ public:
     {
         return nullptr;
     }
-    
+   
     ListNode* mergeKLists0(std::vector<ListNode*>& lists)
     {
     }
@@ -133,7 +133,7 @@ public:
     {
     }
 
-    int printList(std::vector<ListNode*>& head) 
+    int printList(std::vector<ListNode*>& head)
     {
         for(auto h : head)
         {
@@ -141,9 +141,9 @@ public:
         }
         return 0;
     }
-    std::vector<int> printList(ListNode* head) 
+    std::vector<int> printList(ListNode* head)
     {
-        std::vector<int> ret ; 
+        std::vector<int> ret ;
         ListNode *listNode = head;
         if (head)
         {
@@ -153,7 +153,7 @@ public:
         {
             std::cout << "null" << std::endl;
         }
-        while (listNode != nullptr) // && listNode->next != nullptr) 
+        while (listNode != nullptr) // && listNode->next != nullptr)
         {
             std::cout << listNode->val << " " ; // << std::endl;
             ret.push_back(listNode->val);
@@ -221,7 +221,7 @@ int Test1()
     ListNode * q4 = new ListNode(4);
     ListNode * q3 = new ListNode(3, q4);
     ListNode * q1 = new ListNode(1, q3);
-    
+   
     ListNode * r6 = new ListNode(6);
     ListNode * r2 = new ListNode(2, r6);
 

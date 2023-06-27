@@ -1,48 +1,48 @@
 /*
- ************************************************************************************************* 
+ *************************************************************************************************
  * 206. Reverse Linked List
  * Easy
- ************************************************************************************************* 
+ *************************************************************************************************
  * Given the head of a singly linked list, reverse the list, and return the reversed list.
- ************************************************************************************************* 
+ *************************************************************************************************
  * Example1:
  *   1->2->3->4->5->NULL
  *      |
  *   5->4->3->2->1->NULL
- * Input: head = [1,2,3,4,5] 
+ * Input: head = [1,2,3,4,5]
  * Output: [5,4,3,2,1]
- ************************************************************************************************* 
+ *************************************************************************************************
  *  Example 2:
- * 
+ *
  * Input: head = [1,2]
  * Output: [2,1]
- ************************************************************************************************* 
+ *************************************************************************************************
  * Example 3:
- * 
+ *
  * Input: head = []
  * Output: []
- ************************************************************************************************* 
+ *************************************************************************************************
  * Constraints:
- * 
+ *
  * The number of nodes in the list is the range [0, 5000].
  * -5000 <= Node.val <= 5000
- ************************************************************************************************* 
+ *************************************************************************************************
  * Follow up: A linked list can be reversed either iteratively or recursively. Could you implement both?
- ************************************************************************************************* 
+ *************************************************************************************************
  *
  *
  *               1 -> 2 -> 3 -> 4
  *
  *               head
  *               1    2 -> 3 -> 4
- *            p<-h    n   
+ *            p<-h    n  
  *               1    2 ->3 -> 4
  *               p    h
  *               1    2 ->3 -> 4
  *                        n
  *               1 <- 2   3 -> 4
  *               p    h   n
- ************************************************************************************************* 
+ *************************************************************************************************
  */
 #include <iostream>
 #include <chrono>
@@ -59,7 +59,7 @@ class ListNode {
     ListNode *next;
     ListNode(int x) : val(x), next(NULL) {}
     ListNode(int x, ListNode *next) : val(x), next(next) {}
-    bool operator == (//const ListNode *head1, 
+    bool operator == (//const ListNode *head1,
             ListNode & hhead2)
     {
         ListNode *head1= this;
@@ -82,13 +82,13 @@ class ListNode {
 };
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head) 
+    ListNode* reverseList(ListNode* head)
     {
         ListNode * prev = nullptr;
         ListNode * next = nullptr;
-     
+    
         while(head)
-        {   
+        {  
             next = head->next;
             head->next = prev;
             prev = head;
@@ -96,7 +96,7 @@ public:
         }
         return prev;
     }
-    ListNode* reverseList1(ListNode* head) 
+    ListNode* reverseList1(ListNode* head)
     {
         if(head == nullptr || head ->next == nullptr)
         {
@@ -107,13 +107,13 @@ public:
         head->next = nullptr;
         return next;
     }
-    ListNode* reverseList2(ListNode* head) 
+    ListNode* reverseList2(ListNode* head)
     {
     }
-    ListNode* reverseList3(ListNode* head) 
+    ListNode* reverseList3(ListNode* head)
     {
     }
-    std::vector<int> printList(ListNode* head) 
+    std::vector<int> printList(ListNode* head)
     {
         std::vector<int> ret ; // = new ArrayList<>();
         ListNode *listNode = head;
@@ -125,7 +125,7 @@ public:
         {
             std::cout << "null" << std::endl;
         }
-        while (listNode != nullptr) // && listNode->next != nullptr) 
+        while (listNode != nullptr) // && listNode->next != nullptr)
         {
             std::cout << listNode->val << " " ; // << std::endl;
             ret.push_back(listNode->val);
@@ -137,7 +137,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         ListNode * phead ,
         ListNode * expected
         )
@@ -234,7 +234,7 @@ void Test1()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-    
+   
     p1->next = p2;
     p2->next = p3;
     p3->next = p4;
@@ -252,7 +252,7 @@ void Test2()
 {
     struct ListNode * p1 = new ListNode(1);
     struct ListNode * p2 = new ListNode(2);
-    
+   
     p1->next = p2;
 
     ListNode *q1 = new ListNode (1);
@@ -264,7 +264,7 @@ void Test2()
 void Test3()
 {
     struct ListNode * p1 = nullptr ;
-    
+   
     ListNode * expect = nullptr;
     Test("Test3", p1, expect);
 }

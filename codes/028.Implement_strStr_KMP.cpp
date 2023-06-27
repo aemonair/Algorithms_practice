@@ -1,37 +1,37 @@
 /*
  * 28. Implement strStr()
  * Easy
- * 
- ************************************** 
+ *
+ **************************************
  * Implement strStr().
- * 
- * Return the index of the first occurrence of needle in haystack, 
+ *
+ * Return the index of the first occurrence of needle in haystack,
  * or -1 if needle is not part of haystack.
- * 
+ *
  * Example 1:
- * 
+ *
  * Input: haystack = "hello", needle = "ll"
  * Output: 2
- ************************************* 
+ *************************************
  * Example 2:
- * 
+ *
  * Input: haystack = "aaaaa", needle = "bba"
  * Output: -1
- ************************************* 
+ *************************************
  * Clarification:
- * 
- * What should we return when needle is an empty string? 
+ *
+ * What should we return when needle is an empty string?
  * This is a great question to ask during an interview.
- * 
- * For the purpose of this problem, 
- * we will return 0 when needle is an empty string. 
+ *
+ * For the purpose of this problem,
+ * we will return 0 when needle is an empty string.
  * This is consistent to C's strstr() and Java's indexOf().
- * 
- ************************************* 
+ *
+ *************************************
  * Constraints:
- * 
+ *
  * haystack and needle consist only of lowercase English characters.
- ************************************* 
+ *************************************
  */
 
 #include <algorithm>
@@ -44,7 +44,7 @@
 #include <map>
 #include <set>
 #include <unordered_map>
- 
+
     template <typename T>
     int printvector(const std::vector<T> &v)
     {
@@ -139,7 +139,7 @@ private:
 class Solution {
 public:
     friend class KMP;
-    // 
+    //
     int strStr(std::string haystack, std::string needle)
     {
         KMP *kmp = new KMP(needle);
@@ -204,7 +204,7 @@ void Test(const std::string& testName, std::string  &haystack, std::string & nee
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    // 
+    //
     {
         start = std::chrono::system_clock::now();
 
@@ -245,7 +245,7 @@ void Test2()
     //       b        b       a
     //    0 ----> 1 ----> 2 ----> 3
     //                   / \
-    //                   \ / 
+    //                   \ /
     //                    b
 }
 
@@ -257,7 +257,7 @@ void Test3()
     //       a        a       a      b
     //    0 ----> 1 ----> 2 ----> 3 ---> 4
     //                           / \
-    //                           \ / 
+    //                           \ /
     //                            a
 }
 

@@ -3,14 +3,14 @@
  * 90. Subsets II
  * Medium
  *********************************************
- * Given a collection of integers that might contain duplicates, nums, 
+ * Given a collection of integers that might contain duplicates, nums,
  * return all possible subsets (the power set). @20200410
  *
  * Given an integer array nums that may contain duplicates, return all possible subsets (the power set).
  * The solution set must not contain duplicate subsets. Return the solution in any order. @20210412
  *********************************************
  * Example 1:
- * 
+ *
  * Input: nums = [1,2,2]
  * Output: [[],[1],[1,2],[1,2,2],[2],[2,2]]
  * [
@@ -23,19 +23,19 @@
  * ]
  *********************************************
  * Example 2:
- * 
+ *
  * Input: nums = [0]
  * Output: [[],[0]]
  *********************************************
  * Constraints:
- * 
+ *
  * 1 <= nums.length <= 10
  * -10 <= nums[i] <= 10
  *********************************************
- * Note: 
+ * Note:
  * The solution set must not contain duplicate subsets. // @20200410
  ******************************************
- * 
+ *
  */
 
 #include <set>
@@ -55,12 +55,12 @@
 
 class Solution {
 public:
-    std::vector<std::vector<int>> subsetsWithDup0(std::vector<int>& nums) 
+    std::vector<std::vector<int>> subsetsWithDup0(std::vector<int>& nums)
     {
         std::vector<std::vector<int>> result;
         return result;
     }
-    std::vector<std::vector<int>> subsetsWithDup1(std::vector<int>& nums) 
+    std::vector<std::vector<int>> subsetsWithDup1(std::vector<int>& nums)
     {
         std::vector<std::vector<int>> result;
         return result;
@@ -114,7 +114,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<int>& numbers,
         std::vector<std::vector<int>> expected
         )

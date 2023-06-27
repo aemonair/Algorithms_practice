@@ -51,7 +51,7 @@ public:
         auto next=[&](int x){return((x+nums[x])%n+n)%n;};
         auto same=[&](int&x,int y){return nums[x]*nums[y]>0;};
         for(int i=0;i<n;i++){
-            if(!nums[i])continue;            
+            if(!nums[i])continue;           
             int slow=i,fast=next(i);
             while(same(slow,fast)&&same(slow,next(fast))){
                 if(slow==fast){

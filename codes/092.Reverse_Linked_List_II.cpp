@@ -1,11 +1,11 @@
 /*
  * 92. Reverse Linked List II
  * Reverse a linked list from position m to n. Do it in one-pass.
- * 
+ *
  * Note: 1 ≤ m ≤ n ≤ length of list.
- * 
+ *
  * Example:
- * 
+ *
  * Input: 1->2->3->4->5->NULL, m = 2, n = 4
  * Output: 1->4->3->2->5->NULL
  */
@@ -19,7 +19,7 @@ struct ListNode {
 };
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head) 
+    ListNode* reverseList(ListNode* head)
     {
         ListNode * cur = NULL;
         while(head)
@@ -44,7 +44,7 @@ public:
  *      pre  head
  *      0 -> 1 -> 2 -> 3 -> 4 -> 5
  *
- *           pre 
+ *           pre
  *      0 -> 1 -> 2 -> 3 -> 4 -> 5
  *
  *           pre  pstart
@@ -123,7 +123,7 @@ public:
  *     cur   head
  *     -1 -> 1 -> 2 -> 3 -> 4 -> 5
  *
- *           cur 
+ *           cur
  *     -1 -> 1 -> 2 -> 3 -> 4 -> 5
  *
  *           pre
@@ -131,91 +131,91 @@ public:
  *     -1 -> 1 -> 2 -> 3 -> 4 -> 5
  *
  * for( i = 2, 2 <= 4)
- *           pre  cur 
+ *           pre  cur
  *     -1 -> 1 -> 2 -> 3 -> 4 -> 5
  *
- *           pre  cur 
+ *           pre  cur
  *     -1 -> 1    2 -> 3 -> 4 -> 5
  *            ------->
  *
  *                front
- *           pre  cur 
+ *           pre  cur
  *     -1 -> 1    2    3 -> 4 -> 5
  *                ->NULL
  *            ------->
  * for( i = 3, 3 <= 4)
  *                front
- *           pre       cur 
+ *           pre       cur
  *     -1 -> 1    2    3 -> 4 -> 5
  *                ->NULL
  *            ------->
  *
  *                front
- *           pre       cur 
+ *           pre       cur
  *     -1 -> 1    2    3 -> 4 -> 5
  *                ->NULL
  *            ------------->
  *
  *                front
- *           pre       cur 
+ *           pre       cur
  *     -1 -> 1    2 <- 3    4 -> 5
  *                ->NULL
  *            ------------->
  *
  *                     front
- *           pre       cur 
+ *           pre       cur
  *     -1 -> 1    2 <- 3    4 -> 5
  *                ->NULL
  *            ------------->
  *
  * for( i = 4, 4 <= 4)
  *                     front
- *           pre            cur 
+ *           pre            cur
  *     -1 -> 1    2 <- 3    4 -> 5
  *                ->NULL
  *            ------------->
  *
  *                     front
- *           pre            cur 
+ *           pre            cur
  *     -1 -> 1    2 <- 3    4 -> 5
  *                ->NULL
  *            ------------------>
  *
  *                     front
- *           pre            cur 
+ *           pre            cur
  *     -1 -> 1    2 <- 3 <- 4    5
  *                ->NULL
  *            ------------------>
  *
  *                          front
- *           pre            cur 
+ *           pre            cur
  *     -1 -> 1    2 <- 3 <- 4    5
  *                ->NULL
  *            ------------------>
  *
  * end for
  *                          front
- *           pre                 cur 
+ *           pre                 cur
  *     -1 -> 1    2 <- 3 <- 4    5
  *                ->NULL
  *            ------------------>
  *
  *                          front
- *           pre                 cur 
+ *           pre                 cur
  *     -1 -> 1    2 <- 3 <- 4    5
  *                ->NULL
  *            ------------->
  *
  *                          front
- *           pre  last           cur 
+ *           pre  last           cur
  *     -1 -> 1    2 <- 3 <- 4    5
  *                -------------->
  *            ------------->
  *
- *           pre  front     last cur 
+ *           pre  front     last cur
  *     -1 -> 1 -> 4 -> 3 -> 2 -> 5
  *
- *     dummy pre  front     last cur 
+ *     dummy pre  front     last cur
  *     -1 -> 1 -> 4 -> 3 -> 2 -> 5
  */
         ListNode * dummy = new ListNode(-1);
@@ -327,8 +327,8 @@ public:
         }
         ListNode * oldhead = head;
         ListNode * cur = NULL;
-        ListNode * next = NULL; 
-        ListNode * prev = NULL; 
+        ListNode * next = NULL;
+        ListNode * prev = NULL;
         int mm = m;
         while (mm-- > 1)
         {
@@ -374,7 +374,7 @@ public:
         }
     }
 
-    std::vector<int> printList(ListNode* head) 
+    std::vector<int> printList(ListNode* head)
     {
         std::vector<int> ret ; // = new ArrayList<>();
         ListNode *listNode = head;
@@ -386,7 +386,7 @@ public:
         {
             std::cout << "null" << std::endl;
         }
-        while (listNode != nullptr) // && listNode->next != nullptr) 
+        while (listNode != nullptr) // && listNode->next != nullptr)
         {
             std::cout << listNode->val << " " ; // << std::endl;
             ret.push_back(listNode->val);
@@ -404,7 +404,7 @@ int main()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-    
+   
     struct ListNode * q1 = new ListNode(6);
 
     p1->next = p2;

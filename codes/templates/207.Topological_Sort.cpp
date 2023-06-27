@@ -1,24 +1,24 @@
 /*
  **********************************************************************
  * Topological Sort of a directed graph (a graph with unidirectional edges) is a linear ordering of its vertices such that for every directed edge (U, V) from vertex U to vertex V, U comes before V in the ordering.
- * 
+ *
  * Given a directed graph, find the topological ordering of its vertices.
  **********************************************************************
- * 
+ *
  * Example 1:
- * 
+ *
  * Input: Vertices=4, Edges=[3, 2], [3, 0], [2, 0], [2, 1]
  * Output: Following are the two valid topological sorts for the given graph:
  * 1) 3, 2, 0, 1
  * 2) 3, 2, 1, 0
- *      3  
+ *      3 
  *      | \
- *      |  2  
+ *      |  2 
  *      |/   \
- *      0     1  
+ *      0     1 
  **********************************************************************
  * Example 2:
- * 
+ *
  * Input: Vertices=5, Edges=[4, 2], [4, 3], [2, 0], [2, 1], [3, 1]
  * Output: Following are all valid topological sorts for the given graph:
  * 1) 4, 2, 3, 0, 1
@@ -26,14 +26,14 @@
  * 3) 4, 3, 2, 1, 0
  * 4) 4, 2, 3, 1, 0
  * 5) 4, 2, 0, 3, 1
- *   4  
+ *   4 
  *   | \
  *   2  3
  *   | \|
  *   0  1
  **********************************************************************
  * Example 3:
- * 
+ *
  * Input: Vertices=7, Edges=[6, 4], [6, 2], [5, 3], [5, 4], [3, 0], [3, 1], [3, 2], [4, 1]
  * Output: Following are all valid topological sorts for the given graph:
  * 1) 5, 6, 3, 4, 0, 1, 2
@@ -49,7 +49,7 @@
  *     0 1      2
  *
  * There are other valid topological ordering of the graph too.
- ******************************************************************* 
+ *******************************************************************
  */
 
 #include <unordered_map>
@@ -63,7 +63,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -85,7 +85,7 @@
 
 class TopologicalSort{
 public:
-    std::vector<int> sort(int vertices, std::vector<std::vector<int>>& edges) 
+    std::vector<int> sort(int vertices, std::vector<std::vector<int>>& edges)
     {
         //return {};
         std::vector<int> sortedOrder;
@@ -218,7 +218,7 @@ InputIterator find(InputIterator first, InputIterator last, const T& val);
 */
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<std::vector<int>>& edges,
         int vertices,
         std::vector<std::vector<int>> expected)
@@ -276,7 +276,7 @@ void Test1()
 {
     std::vector<std::vector<int>> edges= {
         {3, 2}, {3, 0}, {2, 0}, {2, 1}
-    }; 
+    };
     int vertices = 4;
     std::vector<std::vector<int>> expected = {
         {3, 2, 0, 1},
@@ -289,7 +289,7 @@ void Test2()
 {
     std::vector<std::vector<int>> edges= {
         {4, 2}, {4, 3}, {2, 0}, {2, 1}, {3, 1}
-    }; 
+    };
     int vertices = 5;
     std::vector<std::vector<int>> expected = {
         { 4, 2, 3, 0, 1},
@@ -305,7 +305,7 @@ void Test3()
 {
     std::vector<std::vector<int>> edges= {
         {6, 4}, {6, 2}, {5, 3}, {5, 4}, {3, 0}, {3, 1}, {3, 2}, {4, 1}
-    }; 
+    };
     int vertices = 7;
     std::vector<std::vector<int>> expected = {
         {5, 6, 3, 4, 0, 1, 2},

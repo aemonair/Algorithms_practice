@@ -1,26 +1,26 @@
 /*
  * 146. LRU Cache
  * Medium
- ************************************************************************************ 
+ ************************************************************************************
  * Design a data structure that follows the constraints of a Least Recently Used (LRU) cache.
- * 
+ *
  * Implement the LRUCache class:
- * 
+ *
  * LRUCache(int capacity) Initialize the LRU cache with positive size capacity.
  * int get(int key) Return the value of the key if the key exists, otherwise return -1.
  * void put(int key, int value) Update the value of the key if the key exists. Otherwise, add the key-value pair to the cache. If the number of keys exceeds the capacity from this operation, evict the least recently used key.
- ************************************************************************************ 
+ ************************************************************************************
  * Follow up:
  * Could you do get and put in O(1) time complexity?
- ************************************************************************************ 
+ ************************************************************************************
  * Example 1:
- * 
+ *
  * Input
  * ["LRUCache", "> put", "> put", "get", "> put", "get", "> put", "get", "get", "get"]
  * [[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]]
  * Output
  * [null, null, null, 1, null, -1, null, -1, 3, 4]
- * 
+ *
  * Explanation
  * LRUCache lRUCache = new LRUCache(2);
  * lRUCache.put(1, 1); // cache is {1=1}
@@ -32,10 +32,10 @@
  * lRUCache.get(1);    // return -1 (not found)
  * lRUCache.get(3);    // return 3
  * lRUCache.get(4);    // return 4
- * 
- ************************************************************************************ 
+ *
+ ************************************************************************************
  * Constraints:
- * 
+ *
  * 1 <= capacity <= 3000
  * 0 <= key <= 3000
  * 0 <= value <= 104
@@ -58,15 +58,15 @@
 class LRUCache0
 {
 public:
-    LRUCache0(int capacity) 
+    LRUCache0(int capacity)
     {
     }
 
-    int get(int key) 
+    int get(int key)
     {
     }
 
-    void put(int key, int value) 
+    void put(int key, int value)
     {
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ public:
 
 class LRUCache1
 {
-public:    
+public:   
     LRUCache1(size_t capacity)
     {
     }
@@ -107,7 +107,7 @@ public:
     }
     int get(int key)
     {
-    }    
+    }   
     void put(int key, int value)
     {
     }
@@ -131,24 +131,24 @@ void Test1(T *cache)
     // 假设左边是队头，右边是队尾
     // 最近使用的排在队头，久未使用的排在队尾
     // 圆括号表示键值对 (key, val)
-    
+   
     std::cout << "> put(1, 1)" << std::endl;
     cache->put(1, 1);
     cache->printcache();
     // cache = [(1, 1)]
-    
+   
     std::cout << "> put(2, 2)" << std::endl;
     cache->put(2, 2);
     cache->printcache();
     // cache = [(2, 2), (1, 1)]
-    
+   
     int get1 = cache->get(1);       // 返回 1
     std::cout << "get1:" << get1 << std::endl;
     cache->printcache();
     // cache = [(1, 1), (2, 2)]
     // 解释：因为最近访问了键 1，所以提前至队头
     // 返回键 1 对应的值 1
-    
+   
     std::cout << "> put(3, 3)" << std::endl;
     cache->put(3, 3);
     cache->printcache();
@@ -156,13 +156,13 @@ void Test1(T *cache)
     // 解释：缓存容量已满，需要删除内容空出位置
     // 优先删除久未使用的数据，也就是队尾的数据
     // 然后把新的数据插入队头
-    
+   
     int get2 = cache->get(2);       // 返回 -1 (未找到)
     std::cout << "get2:" << get2 << std::endl;
     cache->printcache();
     // cache = [(3, 3), (1, 1)]
     // 解释：cache 中不存在键为 2 的数据
-    
+   
     std::cout << "> put(1, 4)" << std::endl;
     cache->put(1, 4);
     cache->printcache();

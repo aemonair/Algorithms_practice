@@ -1,20 +1,20 @@
 /*
  * 226. Invert Binary Tree
  * Easy
- * 
+ *
  * Invert a binary tree.
- * 
+ *
  * Example:
- * 
+ *
  * Input:
- * 
+ *
  *      4
  *    /   \
  *   2     7
  *  / \   / \
  * 1   3 6   9
  * Output:
- * 
+ *
  *      4
  *    /   \
  *   7     2
@@ -22,10 +22,10 @@
  * 9   6 3   1
  * Trivia:
  * This problem was inspired by this original tweet by Max Howell:
- * 
- * Google: 90% of our engineers use the software you wrote (Homebrew), 
+ *
+ * Google: 90% of our engineers use the software you wrote (Homebrew),
  * but you can’t invert a binary tree on a whiteboard so f*** off.
- * 
+ *
  */
 
 #include <algorithm>
@@ -38,7 +38,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -47,10 +47,10 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
+    //
     TreeNode* invertTree(TreeNode* root)
     {
         return nullptr;
@@ -175,7 +175,7 @@ void Test1()
     TreeNode * pnode3 = new TreeNode(3);
     TreeNode * pnode6 = new TreeNode(6);
     TreeNode * pnode9 = new TreeNode(9);
-    
+   
     TreeNode * pnode2 = new TreeNode(2, pnode1, pnode3);
     TreeNode * pnode7 = new TreeNode(7, pnode6, pnode9);
 
@@ -190,7 +190,7 @@ void Test1()
     TreeNode * p_node3 = new TreeNode(3);
     TreeNode * p_node6 = new TreeNode(6);
     TreeNode * p_node9 = new TreeNode(9);
-    
+   
     TreeNode * p_node2 = new TreeNode(2, p_node3, p_node1);
     TreeNode * p_node7 = new TreeNode(7, p_node9, p_node6);
 
@@ -214,7 +214,7 @@ void Test2()
     pnode3 ->right = pnode20;
     pnode20->left  = pnode15;
     pnode20->right = pnode7 ;
-    //    
+    //   
     //      3
     //    /   \
     //   9     20
@@ -259,8 +259,8 @@ void Test3()
     //    1
     //     2
     //    3  4
-    //      5 
-    //       
+    //      5
+    //      
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;

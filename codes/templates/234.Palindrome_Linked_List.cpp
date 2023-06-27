@@ -1,25 +1,25 @@
 /*
  * 234. Palindrome Linked List
  * Easy
- * 
+ *
  ****************************************************************
  * Given a singly linked list, determine if it is a palindrome.
- * 
- **************************************************************** 
+ *
+ ****************************************************************
  * Example 1:
- * 
+ *
  * Input: 1->2
  * Output: false
  ****************************************************************
  * Example 2:
- * 
+ *
  * Input: 1->2->2->1
  * Output: true
- **************************************************************** 
+ ****************************************************************
  * Follow up:
  * Could you do it in O(n) time and O(1) space?
- **************************************************************** 
- * 
+ ****************************************************************
+ *
  */
 
 // 44 yy
@@ -35,7 +35,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -56,7 +56,7 @@
 #define BOLDRED     "\033[1m\033[31m"      /* Bold Red     */
 
 // Definition for singly-linked list.
-typedef struct ListNode 
+typedef struct ListNode
 {
     int val;
     ListNode *next;
@@ -68,27 +68,27 @@ typedef struct ListNode
 class Solution {
 public:
     /////////////////////////////////////////////////////////////////
-    bool isPalindrome3(struct ListNode* head) 
+    bool isPalindrome3(struct ListNode* head)
     {
         return true;
     }
     /////////////////////////////////////////////////////////////////
-    bool isPalindrome2(struct ListNode* head) 
+    bool isPalindrome2(struct ListNode* head)
     {
         return true;
     }
     /////////////////////////////////////////////////////////////////
-    bool isPalindrome1(struct ListNode* head) 
+    bool isPalindrome1(struct ListNode* head)
     {
         return true;
     }
     /////////////////////////////////////////////////////////////////
-    bool isPalindrome0(struct ListNode* head) 
+    bool isPalindrome0(struct ListNode* head)
     {
         return false;
     }
     /////////////////////////////////////////////////////////////////
-    std::vector<int> printList(ListNode* head) 
+    std::vector<int> printList(ListNode* head)
     {
         std::vector<int> ret ; // = new ArrayList<>();
         ListNode *listNode = head;
@@ -100,7 +100,7 @@ public:
         {
             std::cout << "null" << std::endl;
         }
-        while (listNode != nullptr) // && listNode->next != nullptr) 
+        while (listNode != nullptr) // && listNode->next != nullptr)
         {
             std::cout << listNode->val << " " ; // << std::endl;
             ret.push_back(listNode->val);
@@ -112,13 +112,13 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         struct ListNode * head,
         bool expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

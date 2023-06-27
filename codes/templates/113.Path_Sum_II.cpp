@@ -7,7 +7,7 @@
  * A leaf is a node with no children.
  ************************************************************
  * Example 1:
- *          5 
+ *          5
  *         / \
  *        4   8
  *       /   / \
@@ -18,7 +18,7 @@
  * Output: [[5,4,11,2],[5,8,4,5]]
  ************************************************************
  * Example 2:
- * 
+ *
  *      1
  *     / \
  *    2   3
@@ -26,16 +26,16 @@
  * Output: []
  ************************************************************
  * Example 3:
- * 
+ *
  *      1
  *     /
  *    2
  * Input: root = [1,2], targetSum = 0
  * Output: []
- * 
+ *
  ************************************************************
  * Constraints:
- * 
+ *
  * The number of nodes in the tree is in the range [0, 5000].
  * -1000 <= Node.val <= 1000
  * -1000 <= targetSum <= 1000
@@ -59,7 +59,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -68,16 +68,16 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
-    std::vector<std::vector<int>>  pathSum(TreeNode* root, int targetSum) 
+    //
+    std::vector<std::vector<int>>  pathSum(TreeNode* root, int targetSum)
     {
         std::vector<std::vector<int>> result;
         return result;
     }
-    std::vector<std::vector<int>>  pathSum1(TreeNode* root, int targetSum) 
+    std::vector<std::vector<int>>  pathSum1(TreeNode* root, int targetSum)
     {
         std::vector<std::vector<int>> result;
         return result;
@@ -194,8 +194,8 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
-        TreeNode *root, 
+void Test(const std::string& testName,
+        TreeNode *root,
         int targetSum,
         std::vector<std::vector<int>>  expected)
 {
@@ -347,8 +347,8 @@ void Test3()
     //    1
     //     2
     //    3  4
-    //      5 
-    //       
+    //      5
+    //      
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;

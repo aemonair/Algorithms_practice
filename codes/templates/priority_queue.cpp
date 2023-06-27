@@ -16,17 +16,17 @@ class MAXPQ
 {
 public:
     // 父节点的索引
-    int parent(int root) 
+    int parent(int root)
     {
         return root / 2;
     }
     // 左孩子的索引
-    int left(int root) 
+    int left(int root)
     {
         return root * 2;
     }
     // 右孩子的索引
-    int right(int root) 
+    int right(int root)
     {
         return root * 2 + 1;
     }
@@ -42,32 +42,32 @@ public:
     }
 
     /* 插入元素 e */
-    void insert(T e) 
+    void insert(T e)
     {
     }
 
     /* 删除并返回当前队列中最大元素 */
-    T delMax() 
+    T delMax()
     {
     }
 
     /* 上浮第 k 个元素，以维护最大堆性质 */
-    void swim(int k) 
+    void swim(int k)
     {
     }
 
     /* 下沉第 k 个元素，以维护最大堆性质 */
-    void sink(int k) 
+    void sink(int k)
     {
     }
 
     /* 交换数组的两个元素 */
-    void exch(int i, int j) 
+    void exch(int i, int j)
     {
     }
 
     /* pq[i] 是否比 pq[j] 小？ */
-    bool less(int i, int j) 
+    bool less(int i, int j)
     {
     }
 };

@@ -1,15 +1,15 @@
-/* 
+/*
  * 155. Min Stack
- * 
+ *
  * Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
- * 
+ *
  * push(x) -- Push element x onto stack.
  * pop() -- Removes the element on top of the stack.
  * top() -- Get the top element.
  * getMin() -- Retrieve the minimum element in the stack.
- * 
+ *
  * Example:
- * 
+ *
  * MinStack minStack = new MinStack();
  * minStack.push(-2);
  * minStack.push(0);
@@ -18,7 +18,7 @@
  * minStack.pop();
  * minStack.top();      --> Returns 0.
  * minStack.getMin();   --> Returns -2.
- * 
+ *
  */
 
 #include <stack>
@@ -32,10 +32,10 @@ public:
 
     /** initialize your data structure here. */
     MinStack() {
-        
+       
     }
-    
-    void push(int x) 
+   
+    void push(int x)
     {
         //std::cout << "Push - min: " << min.top() <<  ", x: " << x << std::endl;
         if (!min.empty() && min.top() < x)
@@ -49,14 +49,14 @@ public:
         }
         s.push(x);
     }
-    
-    void pop() 
+   
+    void pop()
     {
         min.pop();
         s.pop();
     }
-    
-    int top() 
+   
+    int top()
     {
         if (!s.empty())
         {
@@ -67,8 +67,8 @@ public:
             return -1;
         }
     }
-    
-    int getMin() 
+   
+    int getMin()
     {
         if (!min.empty())
             return min.top();

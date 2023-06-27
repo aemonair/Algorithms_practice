@@ -1,32 +1,32 @@
 /*
  * 209. Minimum Size Subarray Sum
  * Medium
- ****************************************************************************** 
+ ******************************************************************************
  * Given an array of positive integers nums and a positive integer target, return the minimal length of a contiguous subarray [numsl, numsl+1, ..., numsr-1, numsr] of which the sum is greater than or equal to target. If there is no such subarray, return 0 instead.
- ****************************************************************************** 
+ ******************************************************************************
  * Example 1:
- * 
+ *
  * Input: target = 7, nums = [2,3,1,2,4,3]
  * Output: 2
  * Explanation: The subarray [4,3] has the minimal length under the problem constraint.
- ****************************************************************************** 
+ ******************************************************************************
  * Example 2:
- * 
+ *
  * Input: target = 4, nums = [1,4,4]
  * Output: 1
- ****************************************************************************** 
+ ******************************************************************************
  * Example 3:
- * 
+ *
  * Input: target = 11, nums = [1,1,1,1,1,1,1,1]
  * Output: 0
- ****************************************************************************** 
+ ******************************************************************************
  * Constraints:
- * 
+ *
  * 1 <= target <= 10^9
  * 1 <= nums.length <= 10^5
  * 1 <= nums[i] <= 10^5
  * Follow up: If you have figured out the O(n) solution, try coding another solution of which the time complexity is O(n log(n)).
- ****************************************************************************** 
+ ******************************************************************************
  */
 
 #include <unordered_map>
@@ -41,7 +41,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 // 19yy
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
@@ -61,10 +61,10 @@
 #define BOLDBLUE    "\033[1m\033[34m"      /* Bold Blue    */
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan    */
 #define BOLDRED     "\033[1m\033[31m"      /* Bold Red     */
-class Solution 
+class Solution
 {
 public:
-    // 
+    //
     int minSubArrayLen(int s, std::vector<int> nums)
     {
         return 0;
@@ -78,14 +78,14 @@ template<typename T>
 int printvector(std::vector<T> v);
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         int s, std::vector<int> &nums,
         int expected
         )
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

@@ -1,28 +1,28 @@
 /*
  * 460. LFU Cache
  * Hard
- * 
- ************************************************************************************ 
+ *
+ ************************************************************************************
  * Design and implement a data structure for Least Frequently Used (LFU) cache.
- * 
- ************************************************************************************ 
+ *
+ ************************************************************************************
  * Implement the LFUCache class:
- * 
+ *
  * - LFUCache(int capacity) Initializes the object with the capacity of the data structure.
  * - int get(int key) Gets the value of the key if the key exists in the cache. Otherwise, returns -1.
  * - void put(int key, int value) Sets or inserts the value if the key is not already present. When the cache reaches its capacity, it should invalidate the least frequently used item before inserting a new item. For this problem, when there is a tie (i.e., two or more keys with the same frequency), the least recently used key would be evicted.
  *
  * Notice that the number of times an item is used is the number of calls to the get and put functions for that item since it was inserted. This number is set to zero when the item is removed.
- * 
- ************************************************************************************ 
+ *
+ ************************************************************************************
  * Example 1:
- * 
+ *
  * Input
  * ["LFUCache", "put", "put", "get", "put", "get", "get", "put", "get", "get", "get"]
  * [[2], [1, 1], [2, 2], [1], [3, 3], [2], [3], [4, 4], [1], [3], [4]]
  * Output
  * [null, null, null, 1, null, -1, 3, null, -1, 3, 4]
- * 
+ *
  * Explanation
  * LFUCache lfu = new LFUCache(2);
  * lfu.put(1, 1);
@@ -35,15 +35,15 @@
  * lfu.get(1);      // return -1 (not found)
  * lfu.get(3);      // return 3
  * lfu.get(4);      // return 4
- * 
- ************************************************************************************ 
+ *
+ ************************************************************************************
  * Constraints:
- * 
+ *
  * 0 <= capacity, key, value <= 104
  * At most 105 calls will be made to get and put.
- ************************************************************************************ 
+ ************************************************************************************
  * Follow up: Could you do both operations in O(1) time complexity?
- ************************************************************************************ 
+ ************************************************************************************
  */
 
 #include <unordered_map>
@@ -61,15 +61,15 @@
 class LFUCache0{
 private:
 public:
-    LFUCache0(int capacity) 
+    LFUCache0(int capacity)
     {
     }
 
-    int get(int key) 
+    int get(int key)
     {
     }
 
-    void put(int key, int value) 
+    void put(int key, int value)
     {
     }
 
@@ -83,7 +83,7 @@ public:
 
 class LFUCache1
 {
-// https://leetcode.com/problems/lfu-cache/discuss/94516/Concise-C++-O(1)-solution-using-3-hash-maps-with-explanation/237210    
+// https://leetcode.com/problems/lfu-cache/discuss/94516/Concise-C++-O(1)-solution-using-3-hash-maps-with-explanation/237210   
 private:
     int capacity , size, lfu = 0;
     std::unordered_map <int, std::list<int>> keys; // freq  -> list(key)
@@ -105,11 +105,11 @@ public:
         return values.size();
 
     }
-    int get(int key) 
+    int get(int key)
     {
     }
 
-    void put(int key, int value) 
+    void put(int key, int value)
     {
     }
 };
@@ -141,23 +141,23 @@ void Test1(T *cache)
     // 假设左边是队头，右边是队尾
     // 最近使用的排在队头，久未使用的排在队尾
     // 圆括号表示键值对 (key, val)
-    
+   
     std::cout << "> put(1, 1)" << std::endl;
     cache->put(1, 1);
     cache->printcache();
     // cache = [(1, 1)]
-    
+   
     std::cout << "> put(2, 2)" << std::endl;
     cache->put(2, 2);
     cache->printcache();
     // cache = [(2, 2), (1, 1)]
-    
+   
     int get1 = cache->get(1);       // 返回 1
     std::cout << "get1:" << get1 << std::endl;
     // cache = [(1, 1), (2, 2)]
     // 解释：因为最近访问了键 1，所以提前至队头
     // 返回键 1 对应的值 1
-    
+   
     std::cout << "> put(3, 3)" << std::endl;
     cache->put(3, 3);
     cache->printcache();
@@ -165,12 +165,12 @@ void Test1(T *cache)
     // 解释：缓存容量已满，需要删除内容空出位置
     // 优先删除久未使用的数据，也就是队尾的数据
     // 然后把新的数据插入队头
-    
+   
     int get2 = cache->get(2);       // 返回 -1 (未找到)
     std::cout << "get2:" << get2 << std::endl;
     // cache = [(3, 3), (1, 1)]
     // 解释：cache 中不存在键为 2 的数据
-    
+   
     std::cout << "> put(1, 4)" << std::endl;
     cache->put(1, 4);
     cache->printcache();

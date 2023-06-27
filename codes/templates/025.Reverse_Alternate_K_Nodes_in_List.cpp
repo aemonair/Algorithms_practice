@@ -1,12 +1,12 @@
 /*
  * 25. Reverse alternate K nodes in a Singly Linked List
  * medium
- * 
+ *
  * Given a linked list, write a function to reverse every alternate k nodes (where k is an input to the function) in an efficient way. Give the complexity of your algorithm.
  ************************************************************
  * Example :
  *   1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> NULL and k = 3
- *   3 -> 2 -> 1 -> 4 -> 5 -> 6 -> 9 -> 8 -> 7 -> NULL. 
+ *   3 -> 2 -> 1 -> 4 -> 5 -> 6 -> 9 -> 8 -> 7 -> NULL.
  *
  ************************************************************
  */
@@ -42,7 +42,7 @@ public:
     {
         return nullptr;
     }
-    ListNode* reversealternateK(ListNode* head, int k) 
+    ListNode* reversealternateK(ListNode* head, int k)
     {
         if(head == nullptr || head->next == nullptr || k <= 1)
         {
@@ -92,7 +92,7 @@ public:
         return head;
     }
 
-    std::vector<int> printList(ListNode* head) 
+    std::vector<int> printList(ListNode* head)
     {
         std::vector<int> ret ; // = new ArrayList<>();
         ListNode *listNode = head;
@@ -104,7 +104,7 @@ public:
         {
             std::cout << "null" << std::endl;
         }
-        while (listNode != nullptr) // && listNode->next != nullptr) 
+        while (listNode != nullptr) // && listNode->next != nullptr)
         {
             std::cout << listNode->val << " " ; // << std::endl;
             ret.push_back(listNode->val);
@@ -116,7 +116,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         ListNode * head,
         int k,
         ListNode * expected)
@@ -235,7 +235,7 @@ void Test2()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-    
+   
 
     p1->next = p2;
     p2->next = p3;
@@ -252,7 +252,7 @@ void Test3()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-    
+   
 
     p1->next = p2;
     p2->next = p3;

@@ -38,9 +38,9 @@ int func()
 // slocal1 :2(& 0x55bca240e018),    slocal2 :5(& 0x55bca240e010),
 ```
 
-#####  1.1.1.1.1. 存储位置 
+#####  1.1.1.1.1. 存储位置
 - 存储在静态区，生命周期与程序相同，main函数之前初始化，在程序退出时销毁（在全局存储区.data不在.bss)
-##### 1.1.1.1.2. 作用域 
+##### 1.1.1.1.2. 作用域
 - 作用域仍为**局部作用域**，当定义它的函数或者语句块结束的时候，作用域结束。但是当局部静态变量离开作用域后，**并没有销毁**，而是仍然驻留在内存当中，只不过我们不能再对它进行访问，直到该函数再次被调用，并且值不变
 ##### 1.1.1.1.3. 访问权限
 - 静态局部变量只能被其作用域内的变量或函数访问。也就是说虽然它会在程序的整个生命周期中存在，由于它是static的，它不能被其他的函数和源文件访问。
@@ -48,9 +48,9 @@ int func()
 - 静态局部变量如果没有被用户初始化，者编译器自动赋值为0；以后每次调用仍是从全局存储区读出的就是上次修改后的值。
 
 #### 1.1.1.2 静态全局变量
-#####  1.1.1.2.1. 存储位置 
+#####  1.1.1.2.1. 存储位置
 - 存储在静态区，被static修饰的全局变量只能被该包含该定义的文件访问。静态全局变量可以分别定义；在全局数据区分配存储空间，且编译器会自动对其初始化.
-##### 1.1.1.2.2. 作用域 
+##### 1.1.1.2.2. 作用域
 
 
 ```cpp test_static_extern.cpp
@@ -123,7 +123,7 @@ static int printstatic2()
     return 0;
 }
 ```
-```cpp 
+```cpp
 #include <iostream>
 
 #include "test_static_extern.h"
@@ -143,7 +143,7 @@ int main()
 }
 ```
 ```cpp
-Compiling ...test_static_func.cpp test_static_extern.cpp 
+Compiling ...test_static_func.cpp test_static_extern.cpp
 In file included from test_static_func.cpp:3:0:
 test_static_extern.h:9:12: warning: ‘int printstatic2()’ used but never defined
  static int printstatic2();
@@ -395,8 +395,8 @@ Destructor A.4
 - 普通成员函数有 this 指针，可以访问类中的任意成员；而静态成员函数没有 this 指针
 
 ### 1.1.4 类的静态成员变量初始化问题
- - 静态数据成员存储在全局数据区，静态数据成员在定义时分配存储空间，所以不能在类声明中定义, 
- - 类的静态成员变量最好在源文件中初始化，而不能在头文件初始化，否则，编译的时候就会报错"symbol multiply defined", 
+ - 静态数据成员存储在全局数据区，静态数据成员在定义时分配存储空间，所以不能在类声明中定义,
+ - 类的静态成员变量最好在源文件中初始化，而不能在头文件初始化，否则，编译的时候就会报错"symbol multiply defined",
  - 头文件被多次include, 如果在头文件中初始化则可能会导致变量被多次声明， 因此不可行
 
 
@@ -432,7 +432,7 @@ int A::b = 0;
     const std::string s = "helloworld";
 
 ```
-1. 必须初始化 
+1. 必须初始化
 2. 不能修改
 
 #### 1.2.1.2 作用域(默认为文件局部变量)
@@ -442,7 +442,7 @@ const对象默认为文件局部变量（详见#1.2.5.3 const对象默认为文�
 
 * const位于*左侧：
   * 指向常量的指针，不能修改值，数据
-  * const就是用来修饰指针所指向的变量，即指针指向为常量 
+  * const就是用来修饰指针所指向的变量，即指针指向为常量
   - 指针常量：不能通过指针修改变量
 * const位于*右侧 ：
   * 指针本身，常指针，数据可以改变；
@@ -457,7 +457,7 @@ const对象默认为文件局部变量（详见#1.2.5.3 const对象默认为文�
     const int* const d; //指向const对象的const指针。
 
   ```
-  
+ 
   ```cpp
 
     int a = 10;
@@ -485,7 +485,7 @@ const对象默认为文件局部变量（详见#1.2.5.3 const对象默认为文�
 
     *const_p0 = 50; // 不能通过指针修改常量
     // error: assignment of read-only location ‘* const_p0’
-    *const_p1 = 50; // 不能通过 *const_p1 赋值给常量对象 
+    *const_p1 = 50; // 不能通过 *const_p1 赋值给常量对象
     // error: assignment of read-only location ‘* const_p1’
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -547,7 +547,7 @@ const对象默认为文件局部变量（详见#1.2.5.3 const对象默认为文�
     const_p1 = &b;
     std::cout << "const_p1->" << *const_p1 << std::endl; // 20
 
-    *const_p1 = 50; // 不能通过 *const_p1 赋值给常量对象 
+    *const_p1 = 50; // 不能通过 *const_p1 赋值给常量对象
     // error: assignment of read-only location ‘* const_p0’
 ```
     将非const对象的地址赋给const对象的指针:**允许把非const对象的地址赋给指向const对象的指针。**
@@ -790,7 +790,7 @@ const函数承诺，不会修改数据成员，能访问const和非const数据�
 - this指针是某个具体对象的地址，因此**static成员函数没有this指针**。
 - 而函数中的const其实就是用来**修饰this指针**的，意味this指向的内容不可变，所以const不能用来修饰static成员函数
 - 静态成员函数不含有 this 指针，即不能实例化，const 成员函数必须具体到某一实例。
-  
+ 
 ### 1.2.8 构造析构函数不能是const
 ```cpp
     A() const:b(0){};
@@ -828,7 +828,7 @@ class A
 ### 1.3.1 条件编译
  - `#ifdef _cplusplus/#endif _cplusplus` 避免重复包含头文件
 
-### 1.3.2 extern关键字作用 
+### 1.3.2 extern关键字作用
 * extern置于变量或者函数前，提示编译器遇到此变量和函数时在其他模块中寻找其定义
 * extern声明不是定义，即不分配存储空间
 
@@ -1061,7 +1061,7 @@ thread1()
     return;
 }
 
-thread2(Type* value) 
+thread2(Type* value)
 {
     // do some evaluations
     value->update(/* parameters */);
@@ -1141,11 +1141,11 @@ thread2(volatile Type* value) {
 - 因此 (2) 处对两个 volatile-qualified 变量进行访问时，编译器不会交换他们的顺序。看起来就万事大吉了。
 - 然而，volatile 只作用在编译器上，但我们的代码最终是要运行在 CPU 上的。尽管编译器不会将 (2) 处换序，但 CPU 的乱序执行（out-of-order execution）已是几十年的老技术了；
   - 在 CPU 执行时，value 和 flag 的赋值仍有可能是被换序了的（store-store）。
-  
+ 
 #### 1.4.3.4 分析多线程
 - 一是 flag 相关的代码块不能被轻易优化消失，二是要保证线程同步的 happens-before 语义。
 - 但本质上，设计使用 flag 本身也就是为了构建 happens-before 语义。
-- 这也就是说，两个问题，后者才是核心；如有其他不用 flag 的办法解决问题，那么 flag 就不重要。 
+- 这也就是说，两个问题，后者才是核心；如有其他不用 flag 的办法解决问题，那么 flag 就不重要。
 - 最简单的办法是使用原子操作。
 
 ```cpp
@@ -1192,7 +1192,7 @@ thread1() {
     apply(value);
     lk.unlock();
     thread2.join();
-    if (nullptr != value) 
+    if (nullptr != value)
         { delete value; }
     return;
 }
@@ -1209,7 +1209,7 @@ thread2(Type* value) {
 - 这样一来，由线程之间的同步由互斥量和条件变量来保证，同时也避免了 while (true) 死循环空耗 CPU 的情况;
 
 - std::atomic<bool> 和原生的 bool 不同之处不仅在于对 std::atomic<bool> 的读写操作是有原子性保证的，还在于 std::atomic<bool> 提供了内存屏障。
-- 其中 std::atomic<bool> 的 operator= 运算符，相当于 
+- 其中 std::atomic<bool> 的 operator= 运算符，相当于
 - std::atomic<bool>::store(bool flag, std::memory_order_seq_cst)。这里保证了不会乱序
 
 ### 1.4.4 volatile问题( 一个参数既是const还可以是volatile吗?一个指针可以是volatile吗?square(volatile int *ptr))
@@ -1816,9 +1816,9 @@ A::_ZTV1A: 4 entries
 8     (int (*)(...))(& _ZTI1A)
 16    (int (*)(...))A::get_a
 24    (int (*)(...))A::get_normal
-                
-Class A         
-   size=16 align=8                                                                                                                                                                                               
+               
+Class A        
+   size=16 align=8                                                                                                                                                                                              
    base size=12 base align=8
 A (0x0x7f6c336008a0) 0
     vptr=((& A::_ZTV1A) + 16)
@@ -1843,8 +1843,8 @@ B::_ZTV1B: 3 entries
 0     (int (*)(...))0
 8     (int (*)(...))(& _ZTI1B)
 16    (int (*)(...))B::get_b
-                
-Class B         
+               
+Class B        
    size=8 align=8
    base size=8 base align=8
 B (0x0x7f6c336009c0) 0 nearly-empty
@@ -1876,8 +1876,8 @@ C::_ZTV1C: 7 entries
 32    (int (*)(...))-16
 40    (int (*)(...))(& _ZTI1C)
 48    (int (*)(...))B::get_b
-            
-Class C     
+           
+Class C    
    size=24 align=8
    base size=24 base align=8
 C (0x0x7f6c33628230) 0
@@ -1923,8 +1923,8 @@ D::_ZTV1D: 8 entries
 40    (int (*)(...))-16
 48    (int (*)(...))(& _ZTI1D)
 56    (int (*)(...))B::get_b
-           
-Class D    
+          
+Class D   
    size=24 align=8
    base size=24 base align=8
 D (0x0x7f6c33628310) 0
@@ -1964,7 +1964,7 @@ vtable for 'A' @ 0x555555755be0 (subobject @ 0x7fffffffe3b8):
 ```
 ### 1.7.8 内存对齐指定字节
 * `#pragma pack(1)`: 指定 `1` 字节对齐
-  
+ 
 ## 1.8 assert
 ### 1.8.0 assert
 
@@ -2450,7 +2450,7 @@ int main()
 ```
 - 因为友元函数没有this指针，则参数要有三种情况：
   * 要访问非static成员时，需要对象做参数；
-  * 要访问static成员或全局变量时，则不需要对象做参数； 
+  * 要访问static成员或全局变量时，则不需要对象做参数；
   * 如果做参数的对象是全局对象，则不需要对象做参数.
 - 可以直接调用友元函数，不需要通过对象或指针
 
@@ -4223,7 +4223,7 @@ Rref&& r4 = Data{};  // r4 is Data&&
 - X& &、X& &&、X&& & 可折叠成 X&
 - X&& && 可折叠成 X&&
  C++的引用在减少了程序员自由度的同时提升了内存操作的安全性和语义的优美性。
- 
+
 #### 2.1.3.5 移动语义
 > 对象的资源所有权转移
 > 一个对象的移动语义的实现是通过移动构造函数与移动赋值运算符来实现的。
@@ -4303,13 +4303,13 @@ void bar(int& ref) {
   - 全局/静态。
   - 常量。不允许修改。
   - 栈。编译器管理。堆。程序员决定。
-  
+ 
 ### 2.4.2 C语言是怎么进行函数调用的
   - call函数调用，ret返回
   - 记录 被调用函数下一地址压入栈；
   - 参数由右向左依次入栈；
   - 64位前六个参数可以通过寄存器；
-  
+ 
 ### 2.4.3 C++函数返回值
   - 生成一个临时变量，把它的引用作为函数参数传入函数内。
   - 1.保存当前执行函数的状态（执行到了哪里，各个参数的值等）；
@@ -4336,7 +4336,7 @@ static_cast ／ const_cast / dynamic_cast / reinterpret_cast
   - 首先，对于内置类型，低精度的变量给高精度变量赋值会发生隐式类型转换，
   - 其次，对于只存在单个参数的构造函数的对象构造来说，函数调用可以直接使用该参数传入，编译器会自动调用其构造函数生成临时对象。
 
-### 2.5.3 **static_cast\<type\>(expr):** 
+### 2.5.3 **static_cast\<type\>(expr):**
 - 用于各种隐式转换，比如非const转const，void*转指针等, static_cast能用于多态向上转化，如果向下转能成功但是不安全，结果未知；
 - 进行强制数据类型转换时，将想要转换成的数据类型放到尖括号中，将待转换的变量或表达式放在元括号中：static_cast <类型说明符> （变量或表达式）：可以实现C++中内置基本数据类型之间的相互转换,
 - 用于进行比较“自然”和低风险的转换，如整型和浮点型、字符型之间的互相转换
@@ -4359,30 +4359,30 @@ static_cast ／ const_cast / dynamic_cast / reinterpret_cast
 ```cpp
 #include <iostream>
 using namespace std;
- 
+
 class A
 {
 public:
     operator int() { return 1; }
     operator char*() { return NULL; }
 };
- 
+
 int main()
 {
     A a;
     int n;
     char* p = "New Dragon Inn";
- 
+
     n = static_cast <int> (3.14);  // n 的值变为 3
     n = static_cast <int> (a);     // 调用 a.operator int，n 的值变为 1
     p = static_cast <char*> (a);   // 调用 a.operator char*，p 的值变为 NULL
     n = static_cast <int> (p);     // 编译错误，static_cast不能将指针转换成整型
     p = static_cast <char*> (n);   // 编译错误，static_cast 不能将整型转换成指针
- 
+
     return 0;
 }
 ```
-### 2.5.4 **const_cast\<type\>(expr):** 
+### 2.5.4 **const_cast\<type\>(expr):**
 - 运算符仅用于进行去除 const 属性的转换,不是用于去除变量的常量性，而是去除指向常数对象的指针或引用的常量性，其去除常量性的对象必须为指针或引用：const_cast<type_id> (expression)：
 - 将 const 引用转换为同类型的非 const 引用，将 const 指针转换为同类型的非 const 指针时可以使用 const_cast 运算符
 
@@ -4410,7 +4410,7 @@ reinterpret_cast意图执行低级转型，从底层对数据进行重新解释;
 ```cpp
 #include <iostream>
 using namespace std;
- 
+
 class A
 {
 public:
@@ -4418,29 +4418,29 @@ public:
     int j;
     A(int n):i(n),j(n) { }
 };
- 
+
 int main()
 {
     A a(100);
     int &r = reinterpret_cast<int&>(a); // 强行让 r 引用 a
- 
+
     r = 200;                            // 把 a.i 变成了 200
     cout << a.i << "," << a.j << endl;  // 输出 200,100
- 
+
     int n = 300;
     A *pa = reinterpret_cast<A*> (&n);  // 强行让 pa 指向 n
     pa->i = 400;                        // n 变成 400
     pa->j = 500;                        // 此条语句不安全，很可能导致程序崩溃
     cout << n << endl;                  // 输出 400
- 
+
     long long la = 0x12345678abcdLL;
     pa = reinterpret_cast<A*>(la);     // la太长，只取低32位0x5678abcd拷贝给pa
     unsigned int u = reinterpret_cast<unsigned int>(pa);   // pa逐个比特拷贝到u
     cout << hex << u << endl;          // 输出 5678abcd
- 
+
     typedef void (* PF1) (int);
     typedef int (* PF2) (int,char *);
-    PF1 pf1;  
+    PF1 pf1; 
     PF2 pf2;
     pf2 = reinterpret_cast<PF2>(pf1);  // 两个不同类型的函数指针之间可以互相转换
 }
@@ -4448,14 +4448,14 @@ class A {
     public:
     int m_a;
 };
- 
+
 class B {
     public:
     int m_b;
 };
- 
+
 class C : public A, public B {};
- 
+
 C c;
 printf("%p, %p, %p", &c, reinterpret_cast<B*>(&c), static_cast <B*>(&c));
 ```
@@ -4514,7 +4514,7 @@ Runtime Type IdentificationI
 - 右值引用是C++11中引入的新特性 , 它实现了转移语义和精确传递。它的主要目的有两个方面：
 - 消除两个对象交互时不必要的对象拷贝，节省运算存储资源，提高效率。
 - 能够更简洁明确地定义泛型函数。
-  
+ 
 - 左值和右值的概念：
   - 左值：能对表达式取地址、或具名对象/变量。一般指表达式结束后依然存在的持久对象。
   - 右值：不能对表达式取地址，或匿名对象。一般指表达式结束就不再存在的临时对象。
@@ -4579,20 +4579,20 @@ Runtime Type IdentificationI
 [释放对象数组:delete与delete[]](https://blog.csdn.net/kate19930802/article/details/10300793)
 
 ``` c++
-string *stringptr1 = new string; 
-string *stringptr2 = new string[100]; 
-... 
-delete stringptr1;// 删除一个对象 
-delete [] stringptr2;// 删除对象数组 
+string *stringptr1 = new string;
+string *stringptr2 = new string[100];
+...
+delete stringptr1;// 删除一个对象
+delete [] stringptr2;// 删除对象数组
 ```
 
-如果你在stringptr1前加了"[]"会怎样呢？答案是：那将是不可预测的； 
+如果你在stringptr1前加了"[]"会怎样呢？答案是：那将是不可预测的；
 如果你没在stringptr2前没加上"[]"又会怎样呢？答案也是：不可预测
 
-方括号的存在会使编译器获取数组大小（size）然后析构函数再被依次应用在每个元素上，一共size次。否则，只有一个元素被析构。 
+方括号的存在会使编译器获取数组大小（size）然后析构函数再被依次应用在每个元素上，一共size次。否则，只有一个元素被析构。
 无论哪种情况，分配的全部空间被返还给自由存储区。
 
-为什么无论哪种情况，分配的全部空间被返还给自由存储区? 
+为什么无论哪种情况，分配的全部空间被返还给自由存储区?
 
 * 空间释放(肯定有个log记录分配的大小)和调用析构函数(类型识别,不同的编译器实现不同)采用不同的机制.
 
@@ -6426,7 +6426,7 @@ $24 = {<A> = {_vptr.A = 0x555555756c70 <vtable for C+16>, m_data1 = 0, m_data2 =
 $25 = {<A> = {_vptr.A = 0x555555756bb8 <vtable for CD+16>, m_data1 = 0, m_data2 = 0}, m_data1 = 0, m_data4 = 0}
 (gdb) p *pdd
 $26 = {<A> = {_vptr.A = 0x555555756be0 <vtable for CD+56>, m_data1 = 0, m_data2 = 0}, m_data5 = 0}
-               
+              
                                                                   0x555555756ba8 <_ZTV2CD>:          +----------------------------------------+
                                                                                                      |       offset   :   0x0                 |
                                                                   0x555555756bb0 <_ZTV2CD+8>:        +----------------------------------------+

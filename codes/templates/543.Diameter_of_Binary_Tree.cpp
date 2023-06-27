@@ -4,13 +4,13 @@
  * Easy
  ************************************************************
  * Given the root of a binary tree, return the length of the diameter of the tree.
- * 
+ *
  * The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
- * 
+ *
  * The length of a path between two nodes is represented by the number of edges between them.
  ************************************************************
  * Example 1:
- * 
+ *
  *      1
  *     / \
  *    2   3
@@ -21,15 +21,15 @@
  * Explanation: 3is the length of the path [4,2,1,3] or [5,2,1,3].
  ************************************************************
  * Example 2:
- * 
+ *
  *      1
- *     /  
- *    2    
+ *     / 
+ *    2   
  * Input: root = [1,2]
  * Output: 1
  ************************************************************
  * Constraints:
- * 
+ *
  * The number of nodes in the tree is in the range [1, 104].
  * -100 <= Node.val <= 100
  ************************************************************
@@ -52,7 +52,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -61,16 +61,16 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
-    int diameterOfBinaryTree(TreeNode* root) 
+    //
+    int diameterOfBinaryTree(TreeNode* root)
     {
         int result = 0;
         return result;
     }
-    int diameterOfBinaryTree1(TreeNode* root) 
+    int diameterOfBinaryTree1(TreeNode* root)
     {
         return 0;
     }
@@ -186,8 +186,8 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
-        TreeNode *root, 
+void Test(const std::string& testName,
+        TreeNode *root,
         int expected)
 {
     if(testName.length() > 0)
@@ -330,8 +330,8 @@ void Test3()
     //    1
     //     2
     //    3  4
-    //      5 
-    //       
+    //      5
+    //      
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;
@@ -355,7 +355,7 @@ void Test4()
     TreeNode * p2 = new TreeNode(2, p4, nullptr);
     TreeNode * p1 = new TreeNode(1, p2, p3);
 
-    int expected = 4; 
+    int expected = 4;
     Test("Test1", p1, expected);
 }
 void Test5()
@@ -403,7 +403,7 @@ void Test6()
     struct TreeNode * p_4= new TreeNode(4 , p3 , nullptr);
     struct TreeNode * p8 = new TreeNode(8, p9 , p4 );
     struct TreeNode * p5 = new TreeNode(5 ,p_4, p8);
-    int expected = 6; 
+    int expected = 6;
     Test("Test6", p5, expected );
 }
 int main()

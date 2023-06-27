@@ -1,12 +1,12 @@
 /*
 ///////////////////////////////////////////////////////////////
- * Sum of elements between k1'th and k2'th smallest elements 
- * Easy 
+ * Sum of elements between k1'th and k2'th smallest elements
+ * Easy
 ///////////////////////////////////////////////////////////////
  * Given an array of positive integers and two positive integers K1 and K2. Find sum of all elements greater tha K1th and smaller than K2th smallest elements of array.
 ///////////////////////////////////////////////////////////////
  * Example 1:
- * 
+ *
  * Input:
  * 7
  * 20 8 22 4 12 10 14
@@ -20,7 +20,7 @@
  * K1 & K2 is 12 + 14 = 26
 ///////////////////////////////////////////////////////////////
  * Example 2:
- * 
+ *
  * Input
  * 6
  * 10 2 50 12 48 13
@@ -28,7 +28,7 @@
  * Output:
  * 73
 ///////////////////////////////////////////////////////////////
- * Your Task:  
+ * Your Task: 
  * You don't need to read input or print anything. Your task is to complete the function sumBetweenTwoKth() which takes the array A[], its size N and two integers K1 and K2 as inputs and returns the sum of all the elements between K1th and K2th smallest elements.
  * Expected Time Complexity: O(N. log(N))
  * Expected Auxiliary Space: O(N)

@@ -1,28 +1,28 @@
 /*
  * 341. Flatten Nested List Iterator
  * Medium
- * 
+ *
  *************************************************************************************
  * Given a nested list of integers, implement an iterator to flatten it.
- * 
+ *
  * Each element is either an integer, or a list -- whose elements may also be integers or other lists.
  *************************************************************************************
- * 
+ *
  * Example 1:
- * 
+ *
  * Input: [[1,1],2,[1,1]]
  * Output: [1,1,2,1,1]
  * Explanation: By calling next repeatedly until hasNext returns false,
  *              the order of elements returned by next should be: [1,1,2,1,1].
  *************************************************************************************
  * Example 2:
- * 
+ *
  * Input: [1,[4,[6]]]
  * Output: [1,4,6]
  * Explanation: By calling next repeatedly until hasNext returns false,
  *              the order of elements returned by next should be: [1,4,6].
  *************************************************************************************
- * 
+ *
  */
 
 #include <algorithm>
@@ -38,11 +38,11 @@
  * // This is the interface that allows for creating nested lists.
  * // You should not implement it, or speculate about its implementation
  **/
-class NestedInteger 
+class NestedInteger
 {
 private:
     int val;
-    std::vector<NestedInteger> list;    
+    std::vector<NestedInteger> list;   
 public:
     NestedInteger(int val)
     {
@@ -74,20 +74,20 @@ public:
     }
 };
 
-class NestedIterator 
+class NestedIterator
 {
 private:
 public:
-    NestedIterator(std::vector<NestedInteger> &nestedList) 
+    NestedIterator(std::vector<NestedInteger> &nestedList)
     {
     }
 
-    int next() 
+    int next()
     {
         return 0;
     }
 
-    bool hasNext() 
+    bool hasNext()
     {
         return false;
     }
@@ -118,7 +118,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<NestedInteger> vnest,
         std::vector<int> expected)
 {

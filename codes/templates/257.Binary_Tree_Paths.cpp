@@ -20,7 +20,7 @@
  * Output: ["1"]
  ************************************************************
  * Constraints:
- * 
+ *
  * The number of nodes in the tree is in the range [1, 100].
  * -100 <= Node.val <= 100
  ************************************************************
@@ -43,7 +43,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -52,11 +52,11 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
-    std::vector<std::string>  binaryTreePaths(TreeNode* root) 
+    //
+    std::vector<std::string>  binaryTreePaths(TreeNode* root)
     {
         std::vector<std::string> result;
         if(root==nullptr)
@@ -67,7 +67,7 @@ public:
         binaryTreePaths(root, curr, result);
         return result;
     }
-    int binaryTreePaths(TreeNode* root, std::string &curr, std::vector<std::string> &result) 
+    int binaryTreePaths(TreeNode* root, std::string &curr, std::vector<std::string> &result)
     {
         std::string oldstring = curr;
         if(!curr.empty())
@@ -202,8 +202,8 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
-        TreeNode *root, 
+void Test(const std::string& testName,
+        TreeNode *root,
         std::vector<std::string>  expected)
 {
     if(testName.length() > 0)
@@ -326,8 +326,8 @@ void Test3()
     //    1
     //     2
     //    3  4
-    //      5 
-    //       
+    //      5
+    //      
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;

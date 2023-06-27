@@ -3,35 +3,35 @@
  * Medium
  *************************************************************************************
  * Given a binary tree, determine if it is a valid binary search tree (BST).
- * 
+ *
  * Assume a BST is defined as follows:
- * 
+ *
  * The left subtree of a node contains only nodes with keys less than the node's key.
  * The right subtree of a node contains only nodes with keys greater than the node's key.
  * Both the left and right subtrees must also be binary search trees.
  *************************************************************************************
  * Example 1:
- * 
+ *
  *     2
  *    / \
  *   1   3
- * 
+ *
  * Input: [2,1,3]
  * Output: true
  *************************************************************************************
  * Example 2:
- * 
+ *
  *     5
  *    / \
  *   1   4
  *      / \
  *     3   6
- * 
+ *
  * Input: [5,1,4,null,null,3,6]
  * Output: false
  * Explanation: The root node's value is 5 but its right child's value is 4.
  *************************************************************************************
- * 
+ *
  */
 
 #include <algorithm>
@@ -44,7 +44,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -53,10 +53,10 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
+    //
     bool isValidBST(TreeNode* root)
     {
         return true;
@@ -137,7 +137,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         TreeNode * root,
         bool expected)
 {
@@ -184,7 +184,7 @@ void Test1()
     TreeNode * p_node1 = new TreeNode(1, nullptr, p_node2);
     TreeNode * p_node8 = new TreeNode(8, p_node7, nullptr);
     TreeNode * p_node6 = new TreeNode(6, p_node1, p_node8);
-    
+   
     std::cout << "      6         " << std::endl;
     std::cout << "    /   \\      " << std::endl;
     std::cout << "   1     8      " << std::endl;
@@ -219,7 +219,7 @@ void Test3()
     std::cout << "   1     4           " << std::endl;
     std::cout << "    \\               " << std::endl;
     std::cout << "     2               " << std::endl;
-    //       
+    //      
     TreeNode * p_node2 = new TreeNode(2);
     TreeNode * p_node4 = new TreeNode(4);
     TreeNode * p_node1 = new TreeNode(1, nullptr, p_node2);

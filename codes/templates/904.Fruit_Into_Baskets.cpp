@@ -1,8 +1,8 @@
 /*
- ****************************************************************************** 
+ ******************************************************************************
  * 904. Fruit Into Baskets
  * Medium
- ****************************************************************************** 
+ ******************************************************************************
  * You are visiting a farm that has a single row of fruit trees arranged from left to right. The trees are represented by an integer array fruits where fruits[i] is the type of fruit the ith tree produces.
  *
  * You want to collect as much fruit as possible. However, the owner has some strict rules that you must follow:
@@ -11,41 +11,41 @@
  * Starting from any tree of your choice, you must pick exactly one fruit from every tree (including the start tree) while moving to the right. The picked fruits must fit in one of your baskets.
  * Once you reach a tree with fruit that cannot fit in your baskets, you must stop.
  * Given the integer array fruits, return the maximum number of fruits you can pick.
- ****************************************************************************** 
+ ******************************************************************************
  * Example 1:
- * 
+ *
  * Input: [1,2,1]
  * Output: 3
  * Explanation: We can pick from all 3 trees.
- ****************************************************************************** 
+ ******************************************************************************
  * Example 2:
- * 
+ *
  * Input: [0,1,2,2]
  * Output: 3
- * Explanation: 
+ * Explanation:
  * We can pick from trees [1,2,2].
  * If we had started at the first tree, we would only pick from trees [0,1].
- ****************************************************************************** 
+ ******************************************************************************
  * Example 3:
- * 
+ *
  * Input: [1,2,3,2,2]
  * Output: 4
- * Explanation: 
+ * Explanation:
  * We can pick from trees [2,3,2,2].
  * If we had started at the first tree, we would only pick from trees [1,2].
- ****************************************************************************** 
+ ******************************************************************************
  * Example 4:
- * 
+ *
  * Input: [3,3,3,1,2,1,1,2,3,3,4]
  * Output: 5
  * Explanation: We can pick from trees [1,2,1,1,2].
  * If we started at the first tree or the eighth tree, we would only collect 4 fruits.
- ****************************************************************************** 
+ ******************************************************************************
  * Note:
- * 
+ *
  * 1 <= fruits.length <= 105
  * 0 <= fruits[i] < fruits.length
- ****************************************************************************** 
+ ******************************************************************************
  */
 
 #include <unordered_map>
@@ -60,7 +60,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -80,7 +80,7 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan    */
 #define BOLDRED     "\033[1m\033[31m"      /* Bold Red     */
 
-class Solution 
+class Solution
 {
 public:
     template <typename T>
@@ -104,14 +104,14 @@ int printunordered_map(const std::unordered_map<T1,T2> &v);
 
 // ==================== TEST Codes====================
 template <typename T>
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<T> &nums,
         int expected
         )
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

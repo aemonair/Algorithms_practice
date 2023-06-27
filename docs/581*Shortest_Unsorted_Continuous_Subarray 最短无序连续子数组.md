@@ -1,4 +1,4 @@
-#TwoPointers 
+#TwoPointers
 #### [581. 最短无序连续子数组](https://leetcode.cn/problems/shortest-unsorted-continuous-subarray/)
 
 难度中等
@@ -74,7 +74,7 @@ Explanation: The whole array needs to be sorted.
         int size = nums.size();
 
         int low = 0, high = size -1;
-        
+       
         // 从前向后找到，是否存在不连续递增的位置，记录low
         while ( low < size -1 && nums[low] <= nums[low+1]){
 

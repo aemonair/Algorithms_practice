@@ -2,8 +2,8 @@
  * 72. Edit Distance
  * Hard
  *
- ****************************************************** 
- * Given two words word1 and word2, 
+ ******************************************************
+ * Given two words word1 and word2,
  * find the minimum number of operations required to convert word1 to word2.
  *
  * You have the following 3 operations permitted on a word:
@@ -11,8 +11,8 @@
  * Insert a character
  * Delete a character
  * Replace a character
- * 
- ****************************************************** 
+ *
+ ******************************************************
  Example 1:
 
 Input: word1 = "horse", word2 = "ros"
@@ -22,7 +22,7 @@ horse -> rorse (replace 'h' with 'r')
 rorse -> rose (remove 'r')
 rose -> ros (remove 'e')
 
- ****************************************************** 
+ ******************************************************
  Example 2:
 
 Input: word1 = "intention", word2 = "execution"
@@ -33,7 +33,7 @@ inention -> enention (replace 'i' with 'e')
 enention -> exention (replace 'n' with 'x')
 exention -> exection (replace 'n' with 'c')
 exection -> execution (insert 'u')
- ****************************************************** 
+ ******************************************************
  */
 
 // 44 yy
@@ -49,7 +49,7 @@ exection -> execution (insert 'u')
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -80,10 +80,10 @@ int printstack(std::stack<T> s);
 
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
- 
+
 class Solution {
 public:
-    // 
+    //
     int dp(std::string word1, std::string word2, int i , int j)
     {
         return 0;
@@ -94,13 +94,13 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::string word1, std::string word2,
         int expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;

@@ -1,22 +1,22 @@
 /*
- ******************************************************************* 
+ *******************************************************************
  * 143. Reorder List
  * Medium
- ******************************************************************* 
+ *******************************************************************
  * Given a singly linked list L: L0→L1→…→Ln-1→Ln,
  * reorder it to: L0→Ln→L1→Ln-1→L2→Ln-2→…
- * 
+ *
  * You may not modify the values in the list's nodes, only nodes itself may be changed.
- * 
- ******************************************************************* 
+ *
+ *******************************************************************
  * Example 1:
- * 
+ *
  * Given 1->2->3->4, reorder it to 1->4->2->3.
- ******************************************************************* 
+ *******************************************************************
  * Example 2:
- * 
+ *
  * Given 1->2->3->4->5, reorder it to 1->5->2->4->3.
- ******************************************************************* 
+ *******************************************************************
  */
 // 45 yy
 #include <unordered_map>
@@ -32,7 +32,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -53,7 +53,7 @@
 #define BOLDRED     "\033[1m\033[31m"      /* Bold Red     */
 
 // Definition for singly-linked list.
-typedef struct ListNode 
+typedef struct ListNode
 {
     int val;
     ListNode *next;
@@ -65,7 +65,7 @@ typedef struct ListNode
 class Solution {
 public:
     /////////////////////////////////////////////////////////////////
-    void reorderList(ListNode* head) 
+    void reorderList(ListNode* head)
     {
         return;
     }
@@ -98,15 +98,15 @@ public:
         //           half 6
         //                 next null
         //                 3-> 6
-        //                 6-> 
+        //                 6->
         //                    null null
         //                 6->null
         //             2-> 6->null
-        //          4-> 2->6   
+        //          4-> 2->6  
             ListNode * next = head->next;
             head->next = halfhead;
             printList(head);
-            //halfhead -> next; halfhead->next = head->next 
+            //halfhead -> next; halfhead->next = head->next
             ListNode * newhead = merge(next, halfhead->next);
             halfhead ->next = newhead;
             // 1 2 3
@@ -115,23 +115,23 @@ public:
             // 1 4 5 6
             // 1 4 ?
             //     2 3
-            // 1 
+            // 1
             // 2
             // n null
             // 1->2
             //    2->?
-            //       null , null       
+            //       null , null      
             printList(head);
             return head;
     }
-    void reorderList0(ListNode* head) 
+    void reorderList0(ListNode* head)
     {
         ListNode * slow = head;
         ListNode * fast = head;
         while (fast && fast->next) {
             fast = fast->next->next;
             if (fast == nullptr) {
-                ListNode * old = slow; 
+                ListNode * old = slow;
                 slow = slow->next;
                 old->next = nullptr;
             } else {
@@ -188,7 +188,7 @@ public:
         }
         ListNode * prev = nullptr;
         ListNode * next = head->next;
-        
+       
         while(head)
         {
             next = head->next;
@@ -199,7 +199,7 @@ public:
         return prev;
 
     }
-    std::vector<int> printList(ListNode* head) 
+    std::vector<int> printList(ListNode* head)
     {
         std::vector<int> ret ; // = new ArrayList<>();
         std::unordered_set<int> set ; // = new ArrayList<>();
@@ -212,7 +212,7 @@ public:
         {
             std::cout << "null" << std::endl;
         }
-        while (listNode != nullptr) // && listNode->next != nullptr) 
+        while (listNode != nullptr) // && listNode->next != nullptr)
         {
             std::cout << listNode->val << " -> " ; // << std::endl;
             ret.push_back(listNode->val);
@@ -228,14 +228,14 @@ public:
     }
 };
 
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         ListNode * head,
         ListNode * target
         )
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;        
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;
@@ -294,7 +294,7 @@ void Test1()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-    
+   
     p1->next = p2;
     p2->next = p3;
     p3->next = p4;
@@ -378,7 +378,7 @@ int main()
 /*
  *
  *         1 -> 2 -> 3 -> 4 -> 5
- *              ↖            ↙  
+ *              ↖            ↙ 
  *                ← ← ← ← ← ←
  *
  */
@@ -387,7 +387,7 @@ int main()
  *  1->2->3->4
  *  1->2->4->3
  *  p pn  q   qn
- *  1->4<->2 
+ *  1->4<->2
  *     3
  *  1->4->2->3
  * */

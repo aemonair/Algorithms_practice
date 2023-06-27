@@ -11,17 +11,17 @@ For example, if nums = [2, 1], you can add a '+' before 2 and a '-' before 1 and
 Return the number of different expressions that you can build, which evaluates to target.
  ************************************************************************
  * Example 1:
- * 
+ *
  * Input: nums is [1, 1, 1, 1, 1], target is 3.
  * Output: 5
  * Explanation:
- * 
+ *
  * -1+1+1+1+1 = 3
  * +1-1+1+1+1 = 3
  * +1+1-1+1+1 = 3
  * +1+1+1-1+1 = 3
  * +1+1+1+1-1 = 3
- * 
+ *
  * There are 5 ways to assign symbols to make the sum of nums be target 3.
  **********************************************************************
  * Example 2:
@@ -29,12 +29,12 @@ Return the number of different expressions that you can build, which evaluates t
  * Output: 1
  **********************************************************************
  * Constraints:
- * 
+ *
  * 1 <= nums.length <= 20
  * 0 <= nums[i] <= 1000
  * 0 <= sum(nums[i]) <= 1000
  * -1000 <= target <= 1000
- ******************************************************************* 
+ *******************************************************************
  */
 
 #include <algorithm>
@@ -45,7 +45,7 @@ Return the number of different expressions that you can build, which evaluates t
 #include <queue>
 #include <map>
 #include <set>
- 
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define     RESET   "\033[0m"
 #define     RED     "\033[31m"             /*      Red     */
@@ -67,13 +67,13 @@ Return the number of different expressions that you can build, which evaluates t
 
 class Solution {
 public:
-    int findTargetSumWays0(std::vector<int>& nums, int S) 
+    int findTargetSumWays0(std::vector<int>& nums, int S)
     {
         int result = 0;
         return result;
     }
     //////////////////////////////////////////////////////////////
-    int findTargetSumWays1(std::vector<int>& nums, int S) 
+    int findTargetSumWays1(std::vector<int>& nums, int S)
     {
         return 0;
     }
@@ -88,7 +88,7 @@ template<typename T>
 int printvector(std::vector<T> v);
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<int>& nums,
         int target,
         int expected)
@@ -168,7 +168,7 @@ const static int TEST_1    = 0;
 
 void Test1()
 {
-    std::vector<int> nums = {1, 1, 1, 1, 1}; 
+    std::vector<int> nums = {1, 1, 1, 1, 1};
     int target= 3;
     int result = 5;
     Test("Test1", nums, target, result);
@@ -176,7 +176,7 @@ void Test1()
 
 void Test2()
 {
-    std::vector<int> nums = {1}; 
+    std::vector<int> nums = {1};
     int target= 1;
     int result = 1;
     Test("Test2", nums, target, result);
@@ -184,7 +184,7 @@ void Test2()
 
 void Test3()
 {
-    std::vector<int> nums = {1, 1, 2, 3}; 
+    std::vector<int> nums = {1, 1, 2, 3};
     int target= 1;
     int result = 3;
     Test("Test3", nums, target, result);
@@ -192,7 +192,7 @@ void Test3()
 
 void Test4()
 {
-    std::vector<int> nums = {1, 2, 7, 1}; 
+    std::vector<int> nums = {1, 2, 7, 1};
     int target= 9;
     int result = 2;
     Test("Test4", nums, target, result);
@@ -202,7 +202,7 @@ void Test5()
 {
     //[0,0,0,0,0,0,0,0,1]
     //1
-    std::vector<int> nums = {0,0,0,0,0,0,0,0,1}; 
+    std::vector<int> nums = {0,0,0,0,0,0,0,0,1};
     int target= 1;
     int result = 256;
     Test("Test5", nums, target, result);

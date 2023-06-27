@@ -4,13 +4,13 @@
  * Medium
  *************************************
  * Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane and an integer k, return the k closest points to the origin (0, 0).
- * 
+ *
  * The distance between two points on the X-Y plane is the Euclidean distance (i.e., √(x1 - x2)2 + (y1 - y2)2).
- * 
+ *
  * You may return the answer in any order. The answer is guaranteed to be unique (except for the order that it is in).
  *************************************
  * Example 1:
- * 
+ *
  *                |
  *                | *
  *             *  |
@@ -29,7 +29,7 @@
  * We only want the closest k = 1 points from the origin, so the answer is just [[-2,2]].
  *************************************
  * Example 2:
- * 
+ *
  *              * |
  *                |     *
  *                |
@@ -44,7 +44,7 @@
  * Explanation: The answer [[-2,4],[3,3]] would also be accepted.
  *************************************
  * Constraints:
- * 
+ *
  * 1 <= k <= points.length <= 104
  * -104 < xi, yi < 104
  *************************************

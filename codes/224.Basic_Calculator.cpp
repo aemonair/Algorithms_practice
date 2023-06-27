@@ -1,19 +1,19 @@
 /*
  * 224. Basic Calculator
  * Implement a basic calculator to evaluate a simple expression string.
- * 
+ *
  * The expression string may contain open ( and closing parentheses ), the plus + or minus sign -, non-negative integers and empty spaces .
- * 
+ *
  * Example 1:
- * 
+ *
  * Input: "1 + 1"
  * Output: 2
  * Example 2:
- * 
+ *
  * Input: " 2-1 + 2 "
  * Output: 3
  * Example 3:
- * 
+ *
  * Input: "(1+(4+5+2)-3)+(6+8)"
  * Output: 23
  *
@@ -64,7 +64,7 @@ public:
         std::cout <<  std::endl;
         return s.size();
     }
-    int calculate(std::string s) 
+    int calculate(std::string s)
     {
         int num    = 0;
         int sign   = 1;
@@ -117,7 +117,7 @@ public:
  *  "(1+(4+5+2)-3)+(6+8)"
  *
  */
-    int calculate1(std::string s) 
+    int calculate1(std::string s)
     {
         int result = 0;
         int sign   = 1;
@@ -188,7 +188,7 @@ int main()
     x =  a.calculate(s4);
     std::cout << "------------" << "x:" << x << "-----------" << std::endl;
 
-    std::string s5 = "2-4-(8+2-6+(8+4-(1)+8-10))"; 
+    std::string s5 = "2-4-(8+2-6+(8+4-(1)+8-10))";
     std::cout << "s5: " << s5 << std::endl;
     x =  a.calculate(s5);
     std::cout << "------------" << "x:" << x << "-----------" << std::endl;

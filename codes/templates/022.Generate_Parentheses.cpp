@@ -6,20 +6,20 @@
  * Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
  *********************************************
  * Example 1:
- * 
+ *
  * Input: n = 3
  * Output: ["((()))","(()())","(())()","()(())","()()()"]
  *********************************************
  * Example 2:
- * 
+ *
  * Input: n = 1
  * Output: ["()"]
  *********************************************
  * Constraints:
- * 
+ *
  * 1 <= n <= 8
  *********************************************
- * 
+ *
  */
 
 #include <stack>
@@ -92,7 +92,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         int n,
         std::vector<std::string> expected
         )

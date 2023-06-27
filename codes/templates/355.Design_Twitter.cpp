@@ -1,42 +1,42 @@
 /*
  * 355. Design Twitter
  * Medium
- ****************************************************************************** 
+ ******************************************************************************
  * Design a simplified version of Twitter where users can post tweets, follow/unfollow another user and is able to see the 10 most recent tweets in the user's news feed. Your design should support the following methods:
- * 
+ *
  * 1. postTweet(userId, tweetId): Compose a new tweet.
  * 2. getNewsFeed(userId): Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent.
  * 3. follow(followerId, followeeId): Follower follows a followee.
  * 4. unfollow(followerId, followeeId): Follower unfollows a followee.
- ****************************************************************************** 
+ ******************************************************************************
  * Example:
- * 
+ *
  * Twitter twitter = new Twitter();
- * 
+ *
  * // User 1 posts a new tweet (id = 5).
  * twitter.postTweet(1, 5);
- * 
+ *
  * // User 1's news feed should return a list with 1 tweet id -> [5].
  * twitter.getNewsFeed(1);
- * 
+ *
  * // User 1 follows user 2.
  * twitter.follow(1, 2);
- * 
+ *
  * // User 2 posts a new tweet (id = 6).
  * twitter.postTweet(2, 6);
- * 
+ *
  * // User 1's news feed should return a list with 2 tweet ids -> [6, 5].
  * // Tweet id 6 should precede tweet id 5 because it is posted after tweet id 5.
  * twitter.getNewsFeed(1);
- * 
+ *
  * // User 1 unfollows user 2.
  * twitter.unfollow(1, 2);
- * 
+ *
  * // User 1's news feed should return a list with 1 tweet id -> [5],
  * // since user 1 is no longer following user 2.
  * twitter.getNewsFeed(1);
- * 
- ****************************************************************************** 
+ *
+ ******************************************************************************
  */
 
 #include <unordered_map>
@@ -51,7 +51,7 @@
 #include <list>
 #include <map>
 #include <set>
- 
+
 
 
 class Twitter;
@@ -92,7 +92,7 @@ public:
         return a->time > b->time;
     }
 };
-class Twitter 
+class Twitter
 {
     friend class Tweet;
     friend class User;
@@ -100,29 +100,29 @@ class Twitter
 public:
     static int timestamp ;
     /** Initialize your data structure here. */
-    Twitter() 
+    Twitter()
     {
 
     }
 
     /** Compose a new tweet. */
-    void postTweet(int userid, int tweetid) 
+    void postTweet(int userid, int tweetid)
     {
     }
 
     /** Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent. */
-    std::vector<int> getNewsFeed(int userId) 
+    std::vector<int> getNewsFeed(int userId)
     {
         return std::vector<int>();
     }
 
     /** Follower follows a followee. If the operation is invalid, it should be a no-op. */
-    void follow(int followerId, int followeeId) 
+    void follow(int followerId, int followeeId)
     {
     }
 
     /** Follower unfollows a followee. If the operation is invalid, it should be a no-op. */
-    void unfollow(int followerId, int followeeId) 
+    void unfollow(int followerId, int followeeId)
     {
     }
 };
@@ -148,10 +148,10 @@ void User::post(int tweetid)
     head = twt;
 }
 
-class Solution 
+class Solution
 {
 public:
-    // 
+    //
     template <typename T>
     int printstack(std::stack<T> s)
     {
@@ -222,7 +222,7 @@ void Test(const std::string& testName
         std::cout << "twitter 1 follow 2: " << std::endl;
         twitter->follow(1, 2);
 
-        std::cout << "twitter 2 postTweet 6: " << std::endl; 
+        std::cout << "twitter 2 postTweet 6: " << std::endl;
         twitter->postTweet(2, 6);
         std::vector<int> result2 = twitter->getNewsFeed(1);
         solution->printvector(result2);

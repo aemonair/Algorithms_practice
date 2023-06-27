@@ -1,22 +1,22 @@
 /*
- * Level Order Successor 
+ * Level Order Successor
  * easy
  ************************************************************
  * Given a binary tree and a node, find the level order successor of the given node in the tree. The level order successor is the node that appears right after the given node in the level order traversal.
  ************************************************************
  * Example 1:
- * 
+ *
  *      1
  *     / \
  *    2   3
  *  /  \
  * 4    5
- * 
- * Given Node: 3 
+ *
+ * Given Node: 3
  * Level Order Successor: 4
  ************************************************************
  * Example 2:
- * 
+ *
  *      12
  *     /  \
  *    7    1
@@ -26,7 +26,7 @@
  * Level Order Successor: 10
  ************************************************************
  * Example 3:
- * 
+ *
  *      12
  *     /  \
  *    7    1
@@ -36,7 +36,7 @@
  * Level Order Successor: 7
  ************************************************************
  * Constraints:
- * 
+ *
  * The number of nodes in the tree is in the range [0, 105].
  * -1000 <= Node.val <= 1000
  ************************************************************
@@ -57,7 +57,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -66,11 +66,11 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
-    TreeNode * findSuccessor(TreeNode* root, int key) 
+    //
+    TreeNode * findSuccessor(TreeNode* root, int key)
     {
         return nullptr;
     }
@@ -126,8 +126,8 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
-        TreeNode *root, 
+void Test(const std::string& testName,
+        TreeNode *root,
         int key,
         TreeNode *expected)
 {
@@ -255,8 +255,8 @@ void Test3()
     //    1
     //     2
     //    3  4
-    //      5 
-    //       
+    //      5
+    //      
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;

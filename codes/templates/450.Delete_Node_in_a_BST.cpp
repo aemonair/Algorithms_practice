@@ -1,64 +1,64 @@
 /*
  * 450. Delete Node in a BST
  * Medium
- * 
+ *
  *************************************************************************************
  * Given a root node reference of a BST and a key, delete the node with the given key in the BST. Return the root node reference (possibly updated) of the BST.
- * 
+ *
  * Basically, the deletion can be divided into two stages:
- * 
+ *
  * Search for a node to remove.
  * If the node is found, delete the node.
  * Follow up: Can you solve it with time complexity O(height of tree)?
  *************************************************************************************
  * Example 1:
- *          5           5      
+ *          5           5     
  *         / \         / \
- *        3   6  ->   3   6      
+ *        3   6  ->   3   6     
  *       / \   \     /     \
- *      2   4   7   2       7       
+ *      2   4   7   2       7      
  *
- * 
+ *
  * Input: root = [5,3,6,2,4,null,7], key = 3
  * Output: [5,4,6,2,null,null,7]
  * Explanation: Given key to delete is 3. So we find the node with value 3 and delete it.
  * One valid answer is [5,4,6,2,null,null,7], shown in the above BST.
  * Please notice that another valid answer is [5,2,6,null,4,null,7] and it's also accepted.
- * 
- *      5      
+ *
+ *      5     
  *     / \
- *    2   6    
+ *    2   6   
  *     \   \
- *      4   7  
+ *      4   7 
  *************************************************************************************
  * Example 2:
  *
- *      5      
+ *      5     
  *     / \
- *    3   6    
+ *    3   6   
  *   / \   \
- *  2   4   7  
+ *  2   4   7 
  * Input: root = [5,3,6,2,4,null,7], key = 0
  * Output: [5,3,6,2,4,null,7]
  * Explanation: The tree does not contain a node with value = 0.
  *************************************************************************************
  * Example 3:
- * 
+ *
  * Input: root = [], key = 0
  * Output: []
- * 
+ *
  *************************************************************************************
- * 
+ *
  * Constraints:
- * 
+ *
  * The number of nodes in the tree is in the range [0, 10^4].
  * -10^5 <= Node.val <= 10^5
  * Each node has a unique value.
  * root is a valid binary search tree.
  * -10^5 <= key <= 10^5
- * 
+ *
  *************************************************************************************
- * 
+ *
  */
 
 #include <algorithm>
@@ -71,7 +71,7 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode 
+struct TreeNode
 {
     int val;
     TreeNode *left;
@@ -80,10 +80,10 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
- 
+
 class Solution {
 public:
-    // 
+    //
     TreeNode* deleteNode(TreeNode* root, int key)
     {
         return nullptr;
@@ -164,7 +164,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         TreeNode * root, int val,
         TreeNode * expected)
 {
@@ -215,7 +215,7 @@ void Test1()
     TreeNode * p_node1 = new TreeNode(1, nullptr, p_node2);
     TreeNode * p_node8 = new TreeNode(8, p_node7, nullptr);
     TreeNode * p_node6 = new TreeNode(6, p_node1, p_node8);
-    
+   
     std::cout << "      6         " << std::endl;
     std::cout << "    /   \\      " << std::endl;
     std::cout << "   1     8      " << std::endl;
@@ -260,7 +260,7 @@ void Test3()
     std::cout << "   1     4           " << std::endl;
     std::cout << "    \\               " << std::endl;
     std::cout << "     2               " << std::endl;
-    //       
+    //      
     TreeNode * p_node2 = new TreeNode(2);
     TreeNode * p_node4 = new TreeNode(4);
     TreeNode * p_node1 = new TreeNode(1, nullptr, p_node2);

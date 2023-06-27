@@ -1,53 +1,53 @@
 /*
  * 123. Best Time to Buy and Sell Stock III
  * Hard
- * 
+ *
  * Say you have an array for which the ith element is the price of a given stock on day i.
- * 
- * Design an algorithm to find the maximum profit. 
+ *
+ * Design an algorithm to find the maximum profit.
  * You may complete at most two transactions.
- * 
- * Note: 
+ *
+ * Note:
  * You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).
- * 
+ *
  **********************************************************
  *  Example 1:
- * 
+ *
  * Input: prices = [3,3,5,0,0,3,1,4]
  * Output: 6
  *
- * Explanation: 
+ * Explanation:
  * Buy on day 4 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
  * Then buy on day 7 (price = 1) and sell on day 8 (price = 4), profit = 4-1 = 3.
  **********************************************************
  *  Example 2:
- * 
+ *
  * Input: prices = [1,2,3,4,5]
  * Output: 4
  *
- * Explanation: 
+ * Explanation:
  * Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.
- * Note that you cannot buy on day 1, buy on day 2 and sell them later, as you are engaging multiple transactions at the same time. 
+ * Note that you cannot buy on day 1, buy on day 2 and sell them later, as you are engaging multiple transactions at the same time.
  * You must sell before buying again.
- * 
+ *
  **********************************************************
  * Example 3:
- * 
+ *
  * Input: prices = [7,6,4,3,1]
  * Output: 0
- * Explanation: 
+ * Explanation:
  * In this case, no transaction is done, i.e. max profit = 0.
  **********************************************************
  * Example 4:
- * 
+ *
  * Input: prices = [1]
  * Output: 0
  *********************************************************
  * Constraints:
- * 
+ *
  * 1 <= prices.length <= 10 ^ 5
 0 <= prices[i] <= 10 ^ 5
- ********************************************************* 
+ *********************************************************
  */
 
 #include <unordered_map>
@@ -59,10 +59,10 @@
 #include <queue>
 #include <map>
 #include <set>
- 
+
 class Solution {
 public:
-    int dp(std::vector<int> &prices, int start, 
+    int dp(std::vector<int> &prices, int start,
             std::unordered_map<std::string       ,int> &memo, int k)
     {
         int size = prices.size();
@@ -94,7 +94,7 @@ public:
         for (int i = start + 1; i< size; i++)
         {
             curmin = std::min(curmin, prices[i]);
-            result = std::max(result, 
+            result = std::max(result,
                     dp(prices, i+1,memo, k-1) + prices[i] - curmin);
         }
         //memo[std::pair(start,k)] = result;
@@ -102,7 +102,7 @@ public:
         memo[key] = result;
         std::cout << std::endl;
         for (auto& x: memo)
-            std::cout << "(" << x.first << "): " << 
+            std::cout << "(" << x.first << "): " <<
                 x.second << ";";// std::endl;
 
         return result;
@@ -121,7 +121,7 @@ public:
             for (int j = i + 1; j < size; j++)
             {
                 std::vector<int> newvector = std::vector<int>(prices.begin() + j+1, prices.end());
-                result = std::max(result, 
+                result = std::max(result,
                         maxProfit1(newvector) + prices[j] - prices[i]);
             }
         }
@@ -154,7 +154,7 @@ public:
 };
 
 // ==================== TEST Codes====================
-void Test(const std::string& testName, 
+void Test(const std::string& testName,
         std::vector<int>& prices,
         int expected)
 {
