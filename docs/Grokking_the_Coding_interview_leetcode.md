@@ -62,7 +62,7 @@ int findMaxSumSubArray(int k, std::vector<int> &arr)
 
 
 
-### LC 209 (209.Minimum_Size_Subarray_Sum)                 Smallest Subarray with a given sum           (easy)  : @20210107 @20221208
+### LC 209 (209.Minimum_Size_Subarray_Sum)                 Smallest Subarray with a given sum           (easy)  : @
 
 > 209. Minimum Size Subarray Sum - Medium
 >
@@ -133,7 +133,7 @@ result:2
 
 
 
-### LC 340 (340.Longest_Substring_with_K_Distinct_Characters)      Substring with K Distinct Characters (medium): @20210108
+### LC 340 (340.Longest_Substring_with_K_Distinct_Characters)      Substring with K Distinct Characters (medium): @
 
 > 340. Longest Substring with K Distinct Characters
 > ******************************************************************************
@@ -241,7 +241,7 @@ int LongestSubstringDistinct0(std::string & s, int k)
 
 
 
-### LC 904 (904.Fruit_Into_Baskets)                        Fruits into Baskets                          (medium): @20210108
+### LC 904 (904.Fruit_Into_Baskets)                        Fruits into Baskets                          (medium): @
 
 > \904. Fruit Into Baskets
 >
@@ -355,7 +355,7 @@ result:5
 
 
 
-### LC 003 (003.Longest_Substring_Without_Repeating_Characters)  No-repeat Substring                    (hard)  : @20210108
+### LC 003 (003.Longest_Substring_Without_Repeating_Characters)  No-repeat Substring                    (hard)  : @
 
 > \3. Longest Substring Without Repeating Characters
 >
@@ -497,7 +497,7 @@ Solution1 passed.
 
 
 
-### LC 424 (424.Longest_Repeating_Character_Replacemt)     Substring with Same Letters after Replacement(hard)  : @20210109
+### LC 424 (424.Longest_Repeating_Character_Replacemt)     Substring with Same Letters after Replacement(hard)  : @
 
 > \424. Longest Repeating Character Replacement
 >
@@ -616,7 +616,7 @@ result:4
 Solution0 passed.
 ```
 
-### LC 1004(1004.Max_Consecutive_Ones_III)                 Longest Subarray with Ones after Replacement (hard)  : @20210110
+### LC 1004(1004.Max_Consecutive_Ones_III)                 Longest Subarray with Ones after Replacement (hard)  : @
 
 > \1004. Max Consecutive Ones III
 >
@@ -725,7 +725,7 @@ Solution0 passed.
 
 
 
-### LC 567 (567.Permutation_in_Sring)                      PC1:                                                 : @20210113
+### LC 567 (567.Permutation_in_Sring)                      PC1:                                                 : @
 
 
 [[567.Permutation_in_Sring  字符串的排列]]
@@ -833,7 +833,7 @@ Solution0 passed.
 
 
 
-### LC 438 (438.Find_All_Anagrams_in_a_String)             PC2:                                                 : @20210113
+### LC 438 (438.Find_All_Anagrams_in_a_String)             PC2:                                                 : @
 [[438.Find_All_Anagrams_in_a_String 找到字符串中所有字母异位词]]
 > \438. Find All Anagrams in a String
 >
@@ -930,7 +930,7 @@ Solution0 passed.
 
 
 
-### LC 076 (076.Minimum_Window_Substring)                  PC3:                                                 : @20210121
+### LC 076 (076.Minimum_Window_Substring)                  PC3:                                                 : @
 [[076.Minimum_Window_Substring 最小覆盖子串]]
 
 ```cpp
@@ -988,7 +988,7 @@ public:
 };
 ```
 
-### LC 030 (030.Substring_with_Concatenation_of_All_Words) PC4:                                                 : @20210204
+### LC 030 (030.Substring_with_Concatenation_of_All_Words) PC4:                                                 : @
 > 30. Substring with Concatenation of All Words
 > [[030.Substring_with_Concatenation_of_All_Words 串联所有单词的子串]]
 > Hard
@@ -1063,7 +1063,7 @@ public:
 
 ## Pattern 3: Two Pointers (11)
 [[001.Two_Sum_两数之和]]
-### LC 1   (001.Two_Sum)                               Pair with Target Sum                         (easy)  : @20210208
+### LC 1   (001.Two_Sum)                               Pair with Target Sum                         (easy)  : @
 
 ```cpp
 class Solution {
@@ -1097,93 +1097,93 @@ public:
 };
 ```
 
-### LC 26  (026.Remove_Duplicates_from_Sorted_Array)   Remove Duplicates                            (easy)  : @20210208
-### LC 27  (027.Remove_Element)                        Remove Element                               (easy)  : @20210209
-### LC 977 (977.Squares_of_a_Sorted_Array)             Squaring a Sorted Array                      (easy)  : @20210209
-### LC 15  (15.3Sum)                                   Triplet Sum to Zero                          (medium): @20210209
-### LC 16  (016.3Sum_Closest)                          Triplet Sum Close to Target                  (medium): @20210210
-### LC 259 (259.3Sum_Smaller)                          Triplets with Smaller Sum                    (medium): @20210210
-###         LC 713                                     Subarrays with Product Less than a Target            : @20210212
-### LC 75  (075.Sort_Colors)                           Dutch National Flag Problem                  (medium): @20210212
-### LC 18  (018.4Sum)                                  PC 1 Quadruple Sum to Target                 (medium): @20210213
-### LC 844 (844.Backspace_String_Compare)              PC 2 Comparing Strings containing Backspaces (medium): @20200214
+### LC 26  (026.Remove_Duplicates_from_Sorted_Array)   Remove Duplicates                            (easy)  : @
+### LC 27  (027.Remove_Element)                        Remove Element                               (easy)  : @
+### LC 977 (977.Squares_of_a_Sorted_Array)             Squaring a Sorted Array                      (easy)  : @
+### LC 15  (15.3Sum)                                   Triplet Sum to Zero                          (medium): @
+### LC 16  (016.3Sum_Closest)                          Triplet Sum Close to Target                  (medium): @
+### LC 259 (259.3Sum_Smaller)                          Triplets with Smaller Sum                    (medium): @
+###         LC 713                                     Subarrays with Product Less than a Target            : @
+### LC 75  (075.Sort_Colors)                           Dutch National Flag Problem                  (medium): @
+### LC 18  (018.4Sum)                                  PC 1 Quadruple Sum to Target                 (medium): @
+### LC 844 (844.Backspace_String_Compare)              PC 2 Comparing Strings containing Backspaces (medium): @
 ### LC 581 (581.Shortest_Unsorted_Continuous_Subarray) PC 3 Minimum Window Sort                     (medium):
 
 ## Pattern 4: Fast & Slow pointers (7)
 
-### LC 141 (141.Linked_List_Cycle)                     LinkedList Cycle                             (easy)  : @20210215
+### LC 141 (141.Linked_List_Cycle)                     LinkedList Cycle                             (easy)  : @
         >                                              length of the LinkedList cycle.
-### LC 142 (142.Linked_List_Cycle_II.cpp)              Start of LinkedList Cycle                    (medium): @20210215
-### LC 202 (202.Happy_Number)                          Happy Number                                 (medium): @20210219
-### LC 876 (876.Middle_of_the_Linked_List)             Middle of the LinkedList                     (easy)  : @20210219
+### LC 142 (142.Linked_List_Cycle_II.cpp)              Start of LinkedList Cycle                    (medium): @
+### LC 202 (202.Happy_Number)                          Happy Number                                 (medium): @
+### LC 876 (876.Middle_of_the_Linked_List)             Middle of the LinkedList                     (easy)  : @
 ### LC 234                                             Problem Challenge 1                                  :
-### LC 143 (234.Palindrome_Linked_List)                Problem Challenge 2                                  : @20210219
+### LC 143 (234.Palindrome_Linked_List)                Problem Challenge 2                                  : @
 ### LC 457                                             Problem Challenge 3                                  :
 
 ## Pattern 5: Merge Intervals (7)
 
 ### LC 056 (056.Merge_Intervals)                       Merge Intervals                              (medium):
         >                                              find out if any two intervals overlap.
-### LC 057 (057.Insert_Interval)                       Insert Interval                              (medium): @20210220
+### LC 057 (057.Insert_Interval)                       Insert Interval                              (medium): @
 ### LC 986 (986.Interval_List_Intersections)           Intervals Intersection                       (medium):
-### LC 252 (252.Meeting_Rooms)                         Conflicting Appointments                     (easy)  : @20210302
+### LC 252 (252.Meeting_Rooms)                         Conflicting Appointments                     (easy)  : @
 ### LC 253 (253.Meeting_Rooms_II)                      Problem Challenge 1:                         (medium):
-### LC 124554                                          Problem Challenge 2:Maximum CPU Load                 : @20210302
+### LC 124554                                          Problem Challenge 2:Maximum CPU Load                 : @
 ### LC 759                                             Problem Challenge 3:                         (hard)  :
 
 ## Pattern 6: Cyclic Sort (8)
-###        (Cyclic Sort)                               Cyclic Sort                                  (easy)  : @20210306
-### LC 268 (268.Missing Number)                        Find the Missing Number                      (easy)  : @20210306
-### LC 448 (448.Find_All_Numbers_Disappeared_in_Array) Find all Missing Numbers                     (easy)  : @20210307
-### LC 287 (287.Find_the_Duplicate_Number)             Find the Duplicate Number                    (easy)  : @20210307
+###        (Cyclic Sort)                               Cyclic Sort                                  (easy)  : @
+### LC 268 (268.Missing Number)                        Find the Missing Number                      (easy)  : @
+### LC 448 (448.Find_All_Numbers_Disappeared_in_Array) Find all Missing Numbers                     (easy)  : @
+### LC 287 (287.Find_the_Duplicate_Number)             Find the Duplicate Number                    (easy)  : @
 ###     >                                              O(1) and without modifying
-### LC 442 (442.Find_All_Duplicates_in_an_Array)       Find all Duplicate Numbers                   (medium): @20210307
-### LC 645 (645.Set_Mismatch)                          PC 1:Find the Corrupt Pair                   (easy)  : @20210308
-### LC 041 (041.First_Missing_Positive)                PC 2:Find Smallest Missing Positive number   (hard)  : @20210309
-###         1539. Kth Missing Positive Number                                                       (easy)  : @20210310
-###         1539.Kth_Missing_Positive_Number_in_naturalPC 3:Find first k natural numbers missing    (hard)  : @20210311
+### LC 442 (442.Find_All_Duplicates_in_an_Array)       Find all Duplicate Numbers                   (medium): @
+### LC 645 (645.Set_Mismatch)                          PC 1:Find the Corrupt Pair                   (easy)  : @
+### LC 041 (041.First_Missing_Positive)                PC 2:Find Smallest Missing Positive number   (hard)  : @
+###         1539. Kth Missing Positive Number                                                       (easy)  : @
+###         1539.Kth_Missing_Positive_Number_in_naturalPC 3:Find first k natural numbers missing    (hard)  : @
 
 
 ## Pattern 7: In-place Reversal of a LinkedList (5)
-### LC 206 (206.Reverse_Linked_List)                   Reverse a LinkedList                         (easy)  : @20210312
-### LC 092 (092.Reverse_Linked_List_II)                Reverse a Sub-list                           (medium): @20210314
+### LC 206 (206.Reverse_Linked_List)                   Reverse a LinkedList                         (easy)  : @
+### LC 092 (092.Reverse_Linked_List_II)                Reverse a Sub-list                           (medium): @
            >                                           Reverse the first ‘k’ elements of a given LinkedList.
            >            Given a LinkedList with ‘n’ nodes, reverse it based on its size in the following way:
-### LC 025 (025.Reverse_Nodes_in_k-Group)              Reverse every K-element Sub-list             (medium): @20210324
-###        (025.Reverse_Alternate_K_Nodes_in_List)     PC 1:Reverse alternating K-element Sub-list  (medium): @20210324
-### LC 061 (061.Rotate_List)                           PC 2:Rotate a LinkedList                     (medium): @20210324
+### LC 025 (025.Reverse_Nodes_in_k-Group)              Reverse every K-element Sub-list             (medium): @
+###        (025.Reverse_Alternate_K_Nodes_in_List)     PC 1:Reverse alternating K-element Sub-list  (medium): @
+### LC 061 (061.Rotate_List)                           PC 2:Rotate a LinkedList                     (medium): @
 
 ## Pattern 8: Tree Breadth First Search (9)
-### LC 102 (102.Binary_Tree_Level_Order_Traversal)     Binary Tree Level Order Traversal            (easy)  : @20210325
-### LC 107 (107.Binary_Tree_Level_Order_Traversal_II)  Reverse Level Order Traversal                (easy)  : @20210325
-### LC 103 (103.Binary_Tree_Zigzag_Level_Order)        Zigzag Traversal                             (medium): @20210325
-### LC 637 (637.Average_of_Levels_in_Binary_Tree)      Level Averages in a Binary Tree              (easy)  : @20210325
+### LC 102 (102.Binary_Tree_Level_Order_Traversal)     Binary Tree Level Order Traversal            (easy)  : @
+### LC 107 (107.Binary_Tree_Level_Order_Traversal_II)  Reverse Level Order Traversal                (easy)  : @
+### LC 103 (103.Binary_Tree_Zigzag_Level_Order)        Zigzag Traversal                             (medium): @
+### LC 637 (637.Average_of_Levels_in_Binary_Tree)      Level Averages in a Binary Tree              (easy)  : @
            >                                           Find the largest value on each level of a binary tree.
-### LC 104 (111.Minimum_Depth_of_Binary_Tree)          Minimum Depth of a Binary Tree               (easy)  : @20120325
-                                                       Level Order Successor                        (easy)  : @20120326
-### LC 117 (117.Populating_Next_Right_Pointers_in_Each)Connect Level Order Siblings                 (medium): @20210326
-### LC     (117.Populating_Next_Right_Pointers_in_Each)PC 1: Connect All Level Order Siblings       (medium): @20210326
-### LC 199 (199.Binary_Tree_Right_Side_View)           PC 2: Right View of a Binary Tree            (easy)  : @20210326
+### LC 104 (111.Minimum_Depth_of_Binary_Tree)          Minimum Depth of a Binary Tree               (easy)  : @
+                                                       Level Order Successor                        (easy)  : @
+### LC 117 (117.Populating_Next_Right_Pointers_in_Each)Connect Level Order Siblings                 (medium): @
+### LC     (117.Populating_Next_Right_Pointers_in_Each)PC 1: Connect All Level Order Siblings       (medium): @
+### LC 199 (199.Binary_Tree_Right_Side_View)           PC 2: Right View of a Binary Tree            (easy)  : @
 
 ## Pattern 9: Tree Depth First Search (7)
-### LC 112 (112.Path_Sum)                              Binary Tree Path Sum                         (easy)  : @20210327
-### LC 113 (113.Path_Sum_II)                           All Paths for a Sum                          (medium): @20210329
-    > LC 257 (257.Binary_Tree_Paths)                   All root-to-leaf paths.                      (easy)  : @20210329
-### LC 129 (129.Sum_Root_to_Leaf_Numbers)              Sum of Path Numbers                          (medium): @20210329
+### LC 112 (112.Path_Sum)                              Binary Tree Path Sum                         (easy)  : @
+### LC 113 (113.Path_Sum_II)                           All Paths for a Sum                          (medium): @
+    > LC 257 (257.Binary_Tree_Paths)                   All root-to-leaf paths.                      (easy)  : @
+### LC 129 (129.Sum_Root_to_Leaf_Numbers)              Sum of Path Numbers                          (medium): @
 ### LC 1430(1430.Check_If_a_String_Is_a_Valid_Sequence_from_Root_to_Leaves_Path_in_a_Binary_Tree)
-                                                       Path With Given Sequence                     (medium): @20210330
+                                                       Path With Given Sequence                     (medium): @
 ### LC 437 (437.Path_Sum_III)                          Count Paths for a Sum                        (medium):
-### LC 543 (543.Diameter_of_Binary_Tree)               PC 1: Tree Diameter                          (easy)  : @20210331
-### LC 124 (124.Binary_Tree_Maximum_Path_Sum)          PC 2: Path with Maximum Sum                  (hard)  : @20210401
+### LC 543 (543.Diameter_of_Binary_Tree)               PC 1: Tree Diameter                          (easy)  : @
+### LC 124 (124.Binary_Tree_Maximum_Path_Sum)          PC 2: Path with Maximum Sum                  (hard)  : @
 
 ## Pattern 10: Two Heaps (4)
-### LC 295 (295.Find_Median_from_Data_Stream)          Find the Median of a Number Stream           (medium): @20210402
-### LC 480 (480.Sliding_Window_Median)                 Sliding Window Median                        (hard)  : @20210407
-### LC 502 (502.IPO)                                   Maximize Capital                             (hard)  : @20210408
-### LC 436 (436.Find_Right_Interval)                   PC 1:                                                : @20210409
+### LC 295 (295.Find_Median_from_Data_Stream)          Find the Median of a Number Stream           (medium): @
+### LC 480 (480.Sliding_Window_Median)                 Sliding Window Median                        (hard)  : @
+### LC 502 (502.IPO)                                   Maximize Capital                             (hard)  : @
+### LC 436 (436.Find_Right_Interval)                   PC 1:                                                : @
 
 ## Pattern: Subsets (9)
-### LC 078 (078.Subsets)                               Subsets                                      (easy)  : @20210410
+### LC 078 (078.Subsets)                               Subsets                                      (easy)  : @
 ```cpp
 // []
 // [] [] -> [] [1]
@@ -1249,7 +1249,7 @@ public:
         }
     }
 ```
-### LC 090 (090.Subsets_II)                            Subsets With Duplicates                      (easy)  : @20210412
+### LC 090 (090.Subsets_II)                            Subsets With Duplicates                      (easy)  : @
  Subsets With Duplicates (easy): LC 90
 ```cpp
 // 1 3 5 3
@@ -1304,7 +1304,7 @@ public:
     {[][  1][  3][  1, 3][  3, 3][  1, 3, 3][  5][  1, 5][  3, 5][  1, 3, 5][  3, 3, 5][  1, 3, 3, 5]}
     */
 ```
-### LC 046 (046.Permutations)                          Permutations                                 (medium): @20210413
+### LC 046 (046.Permutations)                          Permutations                                 (medium): @
 Permutations (medium): LC 46
 
 > 回溯
@@ -1395,7 +1395,7 @@ void backtrack(int[] nums, LinkedList<Integer> track) {
 
 
 
-### LC 784 (784.Letter_Case_Permutation)               String Permutations by changing case         (medium): @20210413
+### LC 784 (784.Letter_Case_Permutation)               String Permutations by changing case         (medium): @
 
  String Permutations by changing case (medium): LC 784
 ```cpp
@@ -1436,7 +1436,7 @@ void backtrack(int[] nums, LinkedList<Integer> track) {
         return result;
     }
 ```
-### LC 022 (022.Generate_Parentheses)                  Balanced Parentheses                         (hard)  : @20210414
+### LC 022 (022.Generate_Parentheses)                  Balanced Parentheses                         (hard)  : @
 ### LC 320 (320.Generalized_Abbreviation)              Unique Generalized Abbreviations             (hard)  : LC 320
 ### LC 241 (241.Different_Ways_to_Add_Parentheses)     PC 1: Evaluate Expression                    (medium): LC 241
 
@@ -1527,7 +1527,7 @@ result:5
 ```
 
 ## Pattern: Modified Binary Search (10)
-### LC 704 (704.Binary_Search)                         Order-agnostic Binary Search                 (easy)  : @20210425
+### LC 704 (704.Binary_Search)                         Order-agnostic Binary Search                 (easy)  : @
  Order-agnostic Binary Search (easy): LC 704
 ```cpp
     int search(std::vector<int>& nums, int target)
@@ -1554,11 +1554,11 @@ result:5
         return -1;
     }
 ```
-### LC 000 (704.Ceiling_of_a_number)                   Ceiling of a Number                          (easy)  : @20210426
-### LC 000 (704.Floor_of_a_number)                     Floor of a Number                            (easy)  : @20210426
+### LC 000 (704.Ceiling_of_a_number)                   Ceiling of a Number                          (easy)  : @
+### LC 000 (704.Floor_of_a_number)                     Floor of a Number                            (easy)  : @
 ### LC 744 (744.Find_Smallest_Letter_Greater_Than_T)   Next Letter                                  (medium): LC 744
 ### LC 034 (034.Find_First_and_Last_Position_of_E)     Number Range                                 (medium): LC 34
-### LC 702 (702.Search_in_Sorted_Array_of_Unknown_Size)Search in a Sorted Infinite Array            (medium): @20210514
+### LC 702 (702.Search_in_Sorted_Array_of_Unknown_Size)Search in a Sorted Infinite Array            (medium): @
  Search in a Sorted Infinite Array (medium): LC 702
 ```cpp
 class ArrayReader
@@ -1623,7 +1623,7 @@ public:
         return -1;
     }
 ```
-### LC 658 (658.Find_K_Closest_Elements)               Minimum Difference Element                   (medium): @20210520
+### LC 658 (658.Find_K_Closest_Elements)               Minimum Difference Element                   (medium): @
  Minimum Difference Element (medium): LC 658 (k == 1)
 ```cpp
     vector<int> findClosestElements(vector<int>& arr, int k, int x)
@@ -1646,7 +1646,7 @@ public:
         return std::vector<int>(arr.begin()+left, arr.begin()+left+k);
     }
 ```
-### LC 000 (033.Bitonic_Array_Maximum)                 Bitonic Array Maximum                        (easy)  : @20210521
+### LC 000 (033.Bitonic_Array_Maximum)                 Bitonic Array Maximum                        (easy)  : @
  Bitonic Array Maximum (easy): new (link)
 ```cpp
          |
@@ -1684,7 +1684,7 @@ if(lef < mid)
     }
 
 ```
-### LC 000 (033.Search_Bitonic_Array)                  PC 1: Search Bitonic Array                   (medium): @20210521
+### LC 000 (033.Search_Bitonic_Array)                  PC 1: Search Bitonic Array                   (medium): @
  Problem Challenge 1: Search Bitonic Array (medium)
 ```cpp
     int search(std::vector<int>& nums, int target)
@@ -1738,8 +1738,8 @@ if(lef < mid)
         return -1;
     }
 ```
-### LC 033 (033.Search_in_Rotated_Sorted_Array)        PC 2: Search in Rotated Array                (medium): @20210531
->  081 (081.Search_in_Rotated_Sorted_Array_II)     PC 2: Search in rotated array has duplicates (medium): @20210531
+### LC 033 (033.Search_in_Rotated_Sorted_Array)        PC 2: Search in Rotated Array                (medium): @
+>  081 (081.Search_in_Rotated_Sorted_Array_II)     PC 2: Search in rotated array has duplicates (medium): @
  Problem Challenge 2: LC 33, LC 81
 ```cpp
    |
@@ -1747,45 +1747,45 @@ if(lef < mid)
 5671234
 4567123
 ```
-### LC 153 (153.Find_Minimum_in_Rotated_Sorted_Array)  PC 3: Rotation Count                         (medium): @20210601
->  154 (154.Find_Minimum_in_Rotated_Sorted_Array_II   3: Rotation count rotated has duplicates  (hard)  : @20210601
+### LC 153 (153.Find_Minimum_in_Rotated_Sorted_Array)  PC 3: Rotation Count                         (medium): @
+>  154 (154.Find_Minimum_in_Rotated_Sorted_Array_II   3: Rotation count rotated has duplicates  (hard)  : @
 Problem Challenge 3: LC 153, LC 154
 
 ## Pattern: Bitwise XOR (4)
-### LC 136 (136.Single_Number)                         Single Number                                (easy)  : @20210601
-### LC 260 (260.Single_Number_III)                     Two Single Numbers                           (medium): @20210602
-### LC 476 (476.Number_Complement)                     Complement of Base 10 Number                 (medium): @20210602
-### LC 832 (832.Flipping_an_Image)                     Problem Challenge 1                          (easy)  : @20210602
+### LC 136 (136.Single_Number)                         Single Number                                (easy)  : @
+### LC 260 (260.Single_Number_III)                     Two Single Numbers                           (medium): @
+### LC 476 (476.Number_Complement)                     Complement of Base 10 Number                 (medium): @
+### LC 832 (832.Flipping_an_Image)                     Problem Challenge 1                          (easy)  : @
 
 ## Pattern: Top 'K' Elements (14)
 ### LC 000 (                                           Top 'K' Numbers                              (easy)  : new
-### LC 215 (215.Kth_Largest_Element_in_an_Array)       Kth Smallest Number (smallest/largest)       (easy)  : @20210603
-### LC 973 (973.K_Closest_Points_to_Origin)            'K' Closest Points to the Origin             (easy)  : @20210603
-### LC 1167(1167.Minimum_Cost_to_Connect_Sticks)       Connect Ropes                                (easy)  : @20210603
-### LC 347 (347.Top_K_Frequent_Elements)               Top 'K' Frequent Numbers                     (medium): @20210604
-### LC 451 (451.Sort_Characters_By_Frequency)          Frequency Sort                               (medium): @20210604
-### LC 703 (703.Kth_Largest_Element_in_a_Stream)       Kth Largest Number in a Stream               (medium): @20210604
-### LC 658 (658.Find_K_Closest_Elements)               'K' Closest Numbers                          (medium): @20210604
+### LC 215 (215.Kth_Largest_Element_in_an_Array)       Kth Smallest Number (smallest/largest)       (easy)  : @
+### LC 973 (973.K_Closest_Points_to_Origin)            'K' Closest Points to the Origin             (easy)  : @
+### LC 1167(1167.Minimum_Cost_to_Connect_Sticks)       Connect Ropes                                (easy)  : @
+### LC 347 (347.Top_K_Frequent_Elements)               Top 'K' Frequent Numbers                     (medium): @
+### LC 451 (451.Sort_Characters_By_Frequency)          Frequency Sort                               (medium): @
+### LC 703 (703.Kth_Largest_Element_in_a_Stream)       Kth Largest Number in a Stream               (medium): @
+### LC 658 (658.Find_K_Closest_Elements)               'K' Closest Numbers                          (medium): @
 ### LC 000 (658.Maxium_Distinct_Elements)              Maximum Distinct Elements                    (medium):
 ### LC 000 (                                           Sum of Elements                              (medium):
-### LC 767 (767.Reorganize_String)                     Rearrange String                             (hard)  : @20210609
-### LC 358 (358.Rearrange_String_k_Distance_Apart)     PC 1:358.Rearrange_String_k_Distance_Apart   (hard)  : @20210616
+### LC 767 (767.Reorganize_String)                     Rearrange String                             (hard)  : @
+### LC 358 (358.Rearrange_String_k_Distance_Apart)     PC 1:358.Rearrange_String_k_Distance_Apart   (hard)  : @
 ### LC 621 (621.Task_Scheduler)                        PC 2:621.Task_Scheduler                      (hard)  : LC 621
 ### LC 895 (895.Maximum_Frequency_Stack)               PC 3:895.Maximum_Frequency_Stack             (hard)  : LC 895
 
 ## Pattern: K-way merge (5)
-### LC 023 (023.Merge_k_Sorted_Lists)                  Merge K Sorted Lists                         (medium): @20210622
-### LC 000 (                                           Kth Smallest Number in M Sorted Lists(array) (Medium): @20210623
+### LC 023 (023.Merge_k_Sorted_Lists)                  Merge K Sorted Lists                         (medium): @
+### LC 000 (                                           Kth Smallest Number in M Sorted Lists(array) (Medium): @
      > Given ‘M’ sorted arrays, find the median number among all arrays.
      > Given a list of ‘K’ sorted arrays, merge them into one sorted list.
-### LC 378 (378.Kth_Smallest_Element_in_Sorted_Matrix) Kth Smallest Number in a Sorted Matrix       (medium): @20210623
-### LC 632 (Smallest_Range_Covering_Elements_from_K_Ls)Smallest Number Range                        (Hard)  : @20210623
-### LC 373 (373.Find_K_Pairs_with_Smallest_Sums)       PC 1: largest sum instead of smallest sum    (medium): @20210629
+### LC 378 (378.Kth_Smallest_Element_in_Sorted_Matrix) Kth Smallest Number in a Sorted Matrix       (medium): @
+### LC 632 (Smallest_Range_Covering_Elements_from_K_Ls)Smallest Number Range                        (Hard)  : @
+### LC 373 (373.Find_K_Pairs_with_Smallest_Sums)       PC 1: largest sum instead of smallest sum    (medium): @
 
 ## Pattern : 0/1 Knapsack (Dynamic Programming) (6)
-### LC 000 (01.knapsack)                               0/1 Knapsack                                 (medium) : @20210701
-### LC 416 (416.Partition_Equal_Subset_Sum)            Equal Subset Sum Partition                   (medium) : @20210701
-### LC 000 (416.01.Subset_Sum)                         Subset Sum                                   (medium) : @20210705
+### LC 000 (01.knapsack)                               0/1 Knapsack                                 (medium) : @
+### LC 416 (416.Partition_Equal_Subset_Sum)            Equal Subset Sum Partition                   (medium) : @
+### LC 000 (416.01.Subset_Sum)                         Subset Sum                                   (medium) : @
 ### LC 000 (416.02.Minimum_Subset_Sum_Difference)      Minimum Subset Sum Difference                (hard)   : new (link)
 ### LC 000 (416.03.Count_of_Subset_Sum)                PC 1: Count of Subset Sum                    (medium) : new (link)
 ### LC 494 (494.Target_Sum)                            PC 2: Target Sum                             (medium) : LC 494
