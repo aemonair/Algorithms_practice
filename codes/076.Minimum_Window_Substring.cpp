@@ -64,20 +64,149 @@ int printstack(std::stack<T> s);
 
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
-
 class Solution
 {
 public:
     //
     std::string minWindow0(std::string s, std::string t)
     {
+        std::unordered_map<char, int> u1;
+        std::unordered_map<char, int> u2;
+
+        for (auto x: t) {
+            u1[x] ++;
+        }
+        int left = 0;
+        int right = 0;
+        int minleft = 0;
+        int minlen = std::numeric_limits<int>::max();
+        for (left = 0; right < s.size();right++) {
+            char chr = s[right];
+            if (u1.count(chr) > 0) {
+                u2[chr]++;
+                while(u2[chr] > u1[chr]) {
+                    char chl = s[left];
+                    if (u1.count(chl) > 0){
+                        u2[chl]--;
+                    }
+                    left++;
+                }
+            }
+            
+            while (u1 == u2) {
+                char chl = s[left];
+                if (minlen > right -left+1) {
+                    minlen = right-left+1;
+                    minleft = left;
+                }
+                if (u1.count(chl) > 0) {
+                    u2[chl]--;
+                }
+                std::cout << "|:"<< s[left] << "~" << s[right]<< "min:" << minleft << ",len:" << minlen<<std::endl;
+                left++;
+            }
+        }
+        std::cout << "left:"<<s[left] << "min:" << minlen << std::endl;
+        if (minlen ==std::numeric_limits<int>::max()) {
+            return {};
+        }
+        return s.substr(minleft, minlen);
         return std::string();
     }
-    std::string minWindow1(std::string s, std::string t)
+    std::string minWindow1(std::string s, std::string t){
+        std::unordered_map<char, int> umap;
+        for (auto x: t) {
+            umap[x] ++;
+        }
+        printunordered_map(umap);
+        int left = 0;
+        int right = 0;
+        int match = 0;
+        int minlen = std::numeric_limits<int>::max();
+        int minleft = 0;
+        while (right < s.size()) {
+            char chr = s[right];
+            if (umap.count(chr) > 0) {
+                umap[chr] --;
+                if (umap[chr] >= 0) {
+                    match ++;
+                }
+            }
+            std::cout << left << "~" << right << ":" << s.substr(left, right - left + 1) << ",match:" << match << std::endl;
+            printunordered_map(umap);
+            while (match == t.size()) {
+                if (minlen > right -left+1) {
+                    minlen = right - left + 1;
+                    minleft = left;
+                }
+                char chl = s[left];
+                if (umap.count(chl) >0) {
+                    if (umap[chl] == 0){
+                        match --;
+                    }
+                }
+                umap[chl] ++;
+                left++;
+            printunordered_map(umap);
+                std::cout << "match:"<<left << "~" << right << ":" << s.substr(left, right - left + 1) << ",match:" << match << std::endl;
+            }
+            right++;
+        }
+        if (minlen == std::numeric_limits<int>::max()) {
+            return {};
+        } else {
+            return s.substr(minleft, minlen);
+        }
+        return std::string();
+    }
+    std::string minWindow2(std::string s, std::string t)
     {
+        std::unordered_map<char, int> umap;
+        for (auto x: t) {
+            umap[x] ++;
+        }
+        int left = 0;
+        int right = 0;
+        int match = 0;
+        int minlen = std::numeric_limits<int>::max();
+        int minleft = 0;
+        while (right < s.size()) {
+            char chr = s[right];
+            if (umap.count(chr) > 0) {
+                umap[chr] --;
+                if (umap[chr] == 0) {
+                    match ++;
+                }
+            }
+                printunordered_map(umap);
+            std::cout << left << "~" << right << ":" << s.substr(left, right - left + 1) << ",match:" << match << std::endl;
+            while (match == umap.size()) {
+                char chl = s[left];
+                if (minlen > right -left+1) {
+                    minlen = right - left + 1;
+                    minleft = left;
+                }
+                if (umap.count(chl) > 0) {
+                    umap[chl] ++;
+                    if (umap[chl] > 0)  {
+                        match --;
+                    }
+                }
+                left++;
+                printunordered_map(umap);
+                std::cout << "match:"<<left << "~" << right << ":" << s.substr(left, right - left + 1) << ",match:" << match << std::endl;
+            }
+            right++;
+        }
+        if (minlen == std::numeric_limits<int>::max()) {
+            return {};
+        } else {
+            return s.substr(minleft, minlen);
+        }
         return std::string();
     }
 };
+
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
@@ -101,7 +230,8 @@ void Test(const std::string& testName,
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
-const static int TEST_1    = 0;
+const static int TEST_1    = 1;
+const static int TEST_2    = 1;
     // getpermutataion
     if (TEST_0)
     {
@@ -163,7 +293,38 @@ const static int TEST_1    = 0;
         }
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
+    if (TEST_2)
+    {
+        std::cout << "Solution2 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.minWindow2(s, t);
+        std::cout << "result:\"" << result << "\"" << std::endl;
+
+        if(result == expected)
+        {
+            //10yy
+            std::cout << GREEN << "Solution2 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
+    }
 }
+
 // 75yy
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
@@ -231,7 +392,7 @@ int printvector(std::stack <T> s)
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v)
 {
-    std::cout << "unordered_map size: " << v.size() << std::endl;
+    //std::cout << "unordered_map size: " << v.size() << std::endl;
     for (auto iter = v.begin(); iter != v.end(); iter++ )
     {
         std::cout << "(" << iter->first << "," << iter->second<< "), ";//<<std::endl;
@@ -337,7 +498,6 @@ void Test5()
     std::string expect = "babdec";
     Test("Test5", s, t, expect);
 }
-
 int main()
 {
     Test1();
