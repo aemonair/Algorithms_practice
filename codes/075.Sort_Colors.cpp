@@ -1,52 +1,49 @@
 /*
- ******************************************************************************
- *844. Backspace String Compare
- * Easy
- ******************************************************************************
- * Given two strings S and T, return if they are equal when both are typed into empty text editors. # means a backspace character.
+ *************************************************************************************************
+ * 75. Sort Colors
+ * Medium
+ *************************************************************************************************
+ * Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
  *
- * Note that after backspacing an empty text, the text will continue empty.
- *
- ******************************************************************************
+ * We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.
+ *************************************************************************************************
  * Example 1:
  *
- * Input: S = "ab#c", T = "ad#c"
- * Output: true
- * Explanation: Both S and T become "ac".
- ******************************************************************************
+ * Input: nums = [2,0,2,1,1,0]
+ * Output: [0,0,1,1,2,2]
+ *************************************************************************************************
  * Example 2:
  *
- * Input: S = "ab##", T = "c#d#"
- * Output: true
- * Explanation: Both S and T become "".
- ******************************************************************************
+ * Input: nums = [2,0,1]
+ * Output: [0,1,2]
+ *************************************************************************************************
  * Example 3:
  *
- * Input: S = "a##c", T = "#a#c"
- * Output: true
- * Explanation: Both S and T become "c".
- ******************************************************************************
+ * Input: nums = [0]
+ * Output: [0]
+ *************************************************************************************************
  * Example 4:
  *
- * Input: S = "a#c", T = "b"
- * Output: false
- * Explanation: S becomes "c" while T becomes "b".
- ******************************************************************************
- * Note:
+ * Input: nums = [1]
+ * Output: [1]
+ *************************************************************************************************
+ * Constraints:
  *
- * 1 <= S.length <= 200
- * 1 <= T.length <= 200
- * S and T only contain lowercase letters and '#' characters.
- ******************************************************************************
+ * - n == nums.length
+ * - 1 <= n <= 300
+ * - nums[i] is 0, 1, or 2.
+ *************************************************************************************************
  * Follow up:
  *
- * Can you solve it in O(N) time and O(1) space?
- ******************************************************************************
+ * Could you solve this problem without using the library's sort function?
+ * Could you come up with a one-pass algorithm using only O(1) constant space?
+ *************************************************************************************************
  */
 
 #include <unordered_map>
 #include <algorithm>
 #include <iostream>
+#include <climits>
 #include <chrono>
 #include <vector>
 #include <string>
@@ -81,23 +78,48 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 template<typename T>
 int printvector(std::vector<T> v);
 
+template <typename T>
+int printstack(std::stack<T> s);
+
+template <typename T1, typename T2>
+int printunordered_map(const std::unordered_map<T1,T2> &v);
+
 class Solution
 {
 public:
-    bool backspaceCompare0(std::string S, std::string T)
+    void sortColors(std::vector<int>& nums)
     {
-        return false;
+        int left = 0;
+        int size = nums.size();
+        int right = size-1;
+        for (int i =0; i<= right; ) {
+            std::cout << nums[i] << " ";
+            if (nums[i] == 0) {
+                swap(nums, left, i);
+                left++;
+                i++;
+            } else if (nums[i] == 1) {
+                i++;
+            } else {
+                swap(nums, right, i);
+                right--;
+            }
+            printvector(nums);
+        }
     }
-    bool backspaceCompare(std::string S, std::string T)
+    template<typename T>
+    void swap(std::vector<T> &v, int a, int b)
     {
-        return false;
+        T temp  = v[a];
+        v[a] = v[b];
+        v[b] = temp;
     }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-        std::string S, std::string T,
-        bool expected
+        std::vector<int>& numbers,
+        std::vector<int>& expected
         )
 {
     if(testName.length() > 0)
@@ -111,12 +133,13 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "S: \"" << S << "\""<< std::endl;
-    std::cout << "T: \"" << T << "\""<< std::endl;
+    std::cout << "numbers:" << std::endl;
+    printvector(numbers);
 
-const static int TEST_TIME = 0;
+const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 0;
+    // getpermutataion
     if (TEST_0)
     {
         std::cout << "Solution0 start.........." << std::endl;
@@ -125,10 +148,11 @@ const static int TEST_1    = 0;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.backspaceCompare0(S, T);
-        std::cout << std::boolalpha << result << std::endl;
+        solution.sortColors(numbers);
+        std::cout << "Solution0 result:" << std::endl;
+        printvector(numbers);
 
-        if(result == expected)
+        if(numbers == expected)
         {
             //10yy
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
@@ -136,7 +160,8 @@ const static int TEST_1    = 0;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
+            std::cout << RED << "expected:" << std::endl;
+            printvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -148,36 +173,9 @@ const static int TEST_1    = 0;
     }
     if (TEST_1)
     {
-        std::cout << "Solution1 start.........." << std::endl;
-        if (TEST_TIME)
-        {
-            start = std::chrono::system_clock::now();
-        }
-
-        decltype(expected) result = solution.backspaceCompare(S, T);
-        std::cout << std::boolalpha << result << std::endl;
-
-        if(result == expected)
-        {
-            //10yy
-            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
-        }
-        else
-        {
-            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
-            std::cout << RESET << std::endl;
-        }
-        if (TEST_TIME)
-        {
-           end = std::chrono::system_clock::now();
-           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
-        }
     }
 }
-
-// 75yy
+// 75 yy
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
 {
@@ -194,7 +192,7 @@ int printvector(std::vector<T> v)
 {
     if(0 == v.size())
     {
-        std::cout << "[ ] Empty vector." << std::endl;
+        std::cout << "Empty vector." << std::endl;
         return 0;
     }
     std::cout << "[ " ;
@@ -255,75 +253,44 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 
 void Test1()
 {
-    std::string S = "ab#c";
-    std::string T = "ad#c";
-    bool expect = true ;
-    Test("Test1", S, T, expect);
+    std::vector<int> numbers   = {2, 0, 2, 1, 1, 0};
+    std::vector<int> expect    = {0, 0, 1, 1, 2, 2};
+    Test("Test1", numbers, expect);
 }
 void Test2()
 {
-    std::string S = "ab##";
-    std::string T = "c#d#";
-    bool expect = true;
-    Test("Test2", S, T, expect);
+    std::vector<int> numbers   = {2, 0, 1};
+    std::vector<int> expect    = {0, 1, 2};
+    Test("Test2", numbers, expect);
 }
 
 void Test3()
 {
-    std::string S = "a##c";
-    std::string T = "#a#c";
-    bool expect = true;
-    Test("Test3", S, T, expect);
+    std::vector<int> numbers   = {0};
+    std::vector<int> expect    = {0};
+    Test("Test3", numbers, expect);
 }
 
 void Test4()
 {
-    std::string S = "a#c";
-    std::string T = "b";
-    bool expect = false;
-    Test("Test4", S, T, expect);
+    std::vector<int> numbers   = {1};
+    std::vector<int> expect    = {1};
+    Test("Test4", numbers, expect);
 }
 
 void Test5()
 {
-    std::string S = "xy#z";
-    std::string T = "xzz#";
-    bool expect = true;
-    Test("Test5", S, T, expect);
+    std::vector<int> numbers   = {1,1,1,2,1,1,1};
+    std::vector<int> expect    = {1,1,1,1,1,1,2};
+    Test("Test5", numbers, expect);
 }
 
 void Test6()
 {
-    std::string S = "xy#z";
-    std::string T = "xyz#";
-    bool expect = false;
-    Test("Test6", S, T, expect);
+    std::vector<int> numbers   = {1,2,0,2,1};
+    std::vector<int> expect    = {0,1,1,2,2};
+    Test("Test6", numbers, expect);
 }
-
-void Test7()
-{
-    std::string S = "###z####";
-    std::string T = "";
-    bool expect = true;
-    Test("Test7", S, T, expect);
-}
-
-void Test8()
-{
-    std::string S = "bbbextm";
-    std::string T = "bbb#extm";
-    bool expect = false;
-    Test("Test8", S, T, expect);
-}
-
-void Test9()
-{
-    std::string S = "nzp#o#g";
-    std::string T = "b#nzp#o#g";
-    bool expect = true;
-    Test("Test9", S, T, expect);
-}
-
 int main()
 {
     Test1();
@@ -332,9 +299,7 @@ int main()
     Test4();
     Test5();
     Test6();
-    Test7();
-    Test8();
-    Test9();
 
     return 0;
+
 }

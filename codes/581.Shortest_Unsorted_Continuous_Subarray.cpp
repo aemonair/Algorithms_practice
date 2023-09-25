@@ -1,52 +1,43 @@
 /*
- ******************************************************************************
- *844. Backspace String Compare
- * Easy
- ******************************************************************************
- * Given two strings S and T, return if they are equal when both are typed into empty text editors. # means a backspace character.
+ *************************************************************************************************
+ * 581. Shortest Unsorted Continuous Subarray
+ * Medium
+ *************************************************************************************************
+ * Given an integer array nums, you need to find one continuous subarray that if you only sort this subarray in ascending order, then the whole array will be sorted in ascending order.
  *
- * Note that after backspacing an empty text, the text will continue empty.
- *
- ******************************************************************************
+ * Return the shortest such subarray and output its length.
+ *************************************************************************************************
  * Example 1:
  *
- * Input: S = "ab#c", T = "ad#c"
- * Output: true
- * Explanation: Both S and T become "ac".
- ******************************************************************************
+ * Input: nums = [2,6,4,8,10,9,15]
+ * Output: 5
+ * Explanation: You need to sort [6, 4, 8, 10, 9] in ascending order to make the whole array sorted in ascending order.
+ *************************************************************************************************
  * Example 2:
  *
- * Input: S = "ab##", T = "c#d#"
- * Output: true
- * Explanation: Both S and T become "".
- ******************************************************************************
+ * Input: nums = [1,2,3,4]
+ * Output: 0
+ *************************************************************************************************
  * Example 3:
  *
- * Input: S = "a##c", T = "#a#c"
- * Output: true
- * Explanation: Both S and T become "c".
- ******************************************************************************
- * Example 4:
+ * Input: nums = [1]
+ * Output: 0
+ *************************************************************************************************
+ * Constraints:
  *
- * Input: S = "a#c", T = "b"
- * Output: false
- * Explanation: S becomes "c" while T becomes "b".
- ******************************************************************************
- * Note:
+ * 1 <= nums.length <= 104
+ * -105 <= nums[i] <= 105
+ *************************************************************************************************
+ * Follow up: Can you solve it in O(n) time complexity?
+ *************************************************************************************************
  *
- * 1 <= S.length <= 200
- * 1 <= T.length <= 200
- * S and T only contain lowercase letters and '#' characters.
- ******************************************************************************
- * Follow up:
- *
- * Can you solve it in O(N) time and O(1) space?
- ******************************************************************************
  */
 
+// 44 yy
 #include <unordered_map>
 #include <algorithm>
 #include <iostream>
+#include <climits>
 #include <chrono>
 #include <vector>
 #include <string>
@@ -81,23 +72,61 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 template<typename T>
 int printvector(std::vector<T> v);
 
-class Solution
-{
+template <typename T>
+int printstack(std::stack<T> s);
+
+template <typename T1, typename T2>
+int printunordered_map(const std::unordered_map<T1,T2> &v);
+
+class Solution {
 public:
-    bool backspaceCompare0(std::string S, std::string T)
+    int findUnsortedSubarray(std::vector<int>& nums)
     {
-        return false;
-    }
-    bool backspaceCompare(std::string S, std::string T)
-    {
-        return false;
+        int left = 0;
+        int size = nums.size();
+        int right = 0;
+        // 1.find resorted index
+        for (left = 0; left < size - 1; left++) {
+            if (nums[left] > nums[left+1]) {
+                break;
+            }
+        }
+        if (left == size -1 ) {
+            return 0;
+        }
+        for (right= size-1; right > 0; right--) {
+            if (nums[right] < nums[right-1]) {
+                break;
+            }
+        }
+        // left ~ right
+        int min = *std::min_element(nums.begin()+left, nums.begin()+right+1); //-nums.begin();
+        int max = *std::max_element(nums.begin()+left, nums.begin()+right+1);//-nums.begin();
+        //int max = std::max_element(nums.begin()+left, nums.begin()+right)-nums.begin();
+        std::cout << left<< ":" << nums[left] << "~"<< right << ":" << nums[right] << std::endl;
+        std::cout << min << "," << max << std::endl;
+        int minleft = left;
+        int maxright= right;
+        for ( left--; left >= 0; left-- ) {
+            if (nums[left] > min) {
+                minleft = left;
+            }
+        }
+        for ( right++; right < size; right++) {
+            if (nums[right] < max) {
+                maxright = right;
+            }
+        }
+        std::cout << minleft << ":" << nums[minleft] << "~" << maxright << ":" << nums[maxright] << std::endl;
+        return maxright - minleft + 1;
+
     }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-        std::string S, std::string T,
-        bool expected
+        std::vector<int>& numbers,
+        int expected
         )
 {
     if(testName.length() > 0)
@@ -111,12 +140,13 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "S: \"" << S << "\""<< std::endl;
-    std::cout << "T: \"" << T << "\""<< std::endl;
+    std::cout << "numbers:" << std::endl;
+    printvector(numbers);
 
-const static int TEST_TIME = 0;
+const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 0;
+    // getpermutataion
     if (TEST_0)
     {
         std::cout << "Solution0 start.........." << std::endl;
@@ -125,10 +155,10 @@ const static int TEST_1    = 0;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.backspaceCompare0(S, T);
-        std::cout << std::boolalpha << result << std::endl;
+        decltype(expected) solution_result = solution.findUnsortedSubarray(numbers);
+        std::cout << "solution result:" << solution_result << std::endl;
 
-        if(result == expected)
+        if(solution_result == expected)
         {
             //10yy
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
@@ -148,36 +178,10 @@ const static int TEST_1    = 0;
     }
     if (TEST_1)
     {
-        std::cout << "Solution1 start.........." << std::endl;
-        if (TEST_TIME)
-        {
-            start = std::chrono::system_clock::now();
-        }
-
-        decltype(expected) result = solution.backspaceCompare(S, T);
-        std::cout << std::boolalpha << result << std::endl;
-
-        if(result == expected)
-        {
-            //10yy
-            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
-        }
-        else
-        {
-            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
-            std::cout << RESET << std::endl;
-        }
-        if (TEST_TIME)
-        {
-           end = std::chrono::system_clock::now();
-           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
-        }
     }
 }
 
-// 75yy
+// 76 yy
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
 {
@@ -194,7 +198,7 @@ int printvector(std::vector<T> v)
 {
     if(0 == v.size())
     {
-        std::cout << "[ ] Empty vector." << std::endl;
+        std::cout << "Empty vector." << std::endl;
         return 0;
     }
     std::cout << "[ " ;
@@ -255,75 +259,56 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 
 void Test1()
 {
-    std::string S = "ab#c";
-    std::string T = "ad#c";
-    bool expect = true ;
-    Test("Test1", S, T, expect);
+    std::vector<int> numbers   = {2,6,4,8,10,9,15};
+    int target = 5;
+    Test("Test1", numbers, target);
 }
 void Test2()
 {
-    std::string S = "ab##";
-    std::string T = "c#d#";
-    bool expect = true;
-    Test("Test2", S, T, expect);
+    std::vector<int> numbers   = {1,2,3,4};
+    int target = 0;
+    Test("Test2", numbers, target);
 }
 
 void Test3()
 {
-    std::string S = "a##c";
-    std::string T = "#a#c";
-    bool expect = true;
-    Test("Test3", S, T, expect);
+    std::vector<int> numbers   = {1};
+    int target = 0;
+    Test("Test3", numbers, target);
 }
 
 void Test4()
 {
-    std::string S = "a#c";
-    std::string T = "b";
-    bool expect = false;
-    Test("Test4", S, T, expect);
+    std::vector<int> numbers   = {1, 2, 5, 3, 7, 10, 9, 12};
+    int target = 5;
+    Test("Test4", numbers, target);
 }
 
 void Test5()
 {
-    std::string S = "xy#z";
-    std::string T = "xzz#";
-    bool expect = true;
-    Test("Test5", S, T, expect);
+    std::vector<int> numbers   = {1, 3, 2, 0, -1, 7, 10};
+    int target = 5;
+    Test("Test5", numbers, target);
 }
-
 void Test6()
 {
-    std::string S = "xy#z";
-    std::string T = "xyz#";
-    bool expect = false;
-    Test("Test6", S, T, expect);
+    std::vector<int> numbers   = {1, 2, 3};
+    int target = 0;
+    Test("Test6", numbers, target);
 }
 
 void Test7()
 {
-    std::string S = "###z####";
-    std::string T = "";
-    bool expect = true;
-    Test("Test7", S, T, expect);
+    std::vector<int> numbers   = {3, 2, 1};
+    int target = 3;
+    Test("Test7", numbers, target);
 }
-
 void Test8()
 {
-    std::string S = "bbbextm";
-    std::string T = "bbb#extm";
-    bool expect = false;
-    Test("Test8", S, T, expect);
+    std::vector<int> numbers   = {-3, -1, 0, 2, -2, 3, 5, 6, 7};
+    int target = 4;
+    Test("Test8", numbers, target);
 }
-
-void Test9()
-{
-    std::string S = "nzp#o#g";
-    std::string T = "b#nzp#o#g";
-    bool expect = true;
-    Test("Test9", S, T, expect);
-}
-
 int main()
 {
     Test1();
@@ -334,7 +319,6 @@ int main()
     Test6();
     Test7();
     Test8();
-    Test9();
-
     return 0;
+
 }

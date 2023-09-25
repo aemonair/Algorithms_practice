@@ -1,52 +1,35 @@
 /*
  ******************************************************************************
- *844. Backspace String Compare
- * Easy
+ *18. 4Sum
+ * Medium
  ******************************************************************************
- * Given two strings S and T, return if they are equal when both are typed into empty text editors. # means a backspace character.
+ * Given an array nums of n integers and an integer target, are there elements a, b, c, and d in nums such that a + b + c + d = target? Find all unique quadruplets in the array which gives the sum of target.
  *
- * Note that after backspacing an empty text, the text will continue empty.
- *
+ * Notice that the solution set must not contain duplicate quadruplets.
  ******************************************************************************
  * Example 1:
  *
- * Input: S = "ab#c", T = "ad#c"
- * Output: true
- * Explanation: Both S and T become "ac".
+ * Input: nums = [1,0,-1,0,-2,2], target = 0
+ * Output: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
  ******************************************************************************
  * Example 2:
  *
- * Input: S = "ab##", T = "c#d#"
- * Output: true
- * Explanation: Both S and T become "".
+ * Input: nums = [], target = 0
+ * Output: []
  ******************************************************************************
- * Example 3:
+ * Constraints:
  *
- * Input: S = "a##c", T = "#a#c"
- * Output: true
- * Explanation: Both S and T become "c".
- ******************************************************************************
- * Example 4:
- *
- * Input: S = "a#c", T = "b"
- * Output: false
- * Explanation: S becomes "c" while T becomes "b".
- ******************************************************************************
- * Note:
- *
- * 1 <= S.length <= 200
- * 1 <= T.length <= 200
- * S and T only contain lowercase letters and '#' characters.
- ******************************************************************************
- * Follow up:
- *
- * Can you solve it in O(N) time and O(1) space?
+ * 0 <= nums.length <= 200
+ * -10^9 <= nums[i] <= 10^9
+ * -10^9 <= target <= 10^9
  ******************************************************************************
  */
 
+// 44yy
 #include <unordered_map>
 #include <algorithm>
 #include <iostream>
+#include <climits>
 #include <chrono>
 #include <vector>
 #include <string>
@@ -81,23 +64,77 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 template<typename T>
 int printvector(std::vector<T> v);
 
+template <typename T>
+int printstack(std::stack<T> s);
+
+template <typename T1, typename T2>
+int printunordered_map(const std::unordered_map<T1,T2> &v);
+
 class Solution
 {
 public:
-    bool backspaceCompare0(std::string S, std::string T)
+///////////////////////////////////////////////////////////////////////////////////////////////////////   
+    std::vector<std::vector<int>> fourSum1(std::vector<int>& nums, int target)
     {
-        return false;
     }
-    bool backspaceCompare(std::string S, std::string T)
+    std::vector<std::vector<int>> fourSum(std::vector<int>& nums, int target)
     {
-        return false;
+        int size = nums.size();
+        if (nums.size() < 4) {
+            return {};
+        }
+        //decltype(fourSum) result;
+        std::sort(nums.begin(), nums.end());
+        printvector(nums);
+        std::vector<std::vector<int>> result;
+        // x + y + z + a == target
+        for (int i =0; i < size-3; i++) {
+            if ( i> 0 && nums[i] == nums[i-1]) {
+                continue;
+            }
+            for (int j = i+1; j < size-2; j++) {
+                if ( j>i+1 && nums[j] == nums[j-1]) {
+                    continue;
+                }
+                long sum = nums[i] + nums[j];
+                // find target - sum;
+                int left = j+1;
+                int right = size-1;
+                        std::cout << 
+                        nums[i]<<" " << nums[j]<<" " << nums[left]<<" " << nums[right] << std::endl;
+                while (left < right) {
+                    long curr = nums[left] + nums[right];
+                    if (target == sum + curr) {
+                        std::cout << 
+                        nums[i]<<" " << nums[j]<<" " << nums[left]<<" " << nums[right] << std::endl;
+                        result.push_back({nums[i],nums[j],nums[left],nums[right]});
+                        left++;
+                        right--;
+                        while(left < right && nums[left] == nums[left-1]) {
+                            left++;
+                        }
+                        while(left < right && nums[right] == nums[right+1]) {
+                            right--;
+                        }
+                    } else if (target > sum + curr) {
+                        left++;
+                    } else {
+                        right--;
+                    }
+                }
+            }
+        }
+        return result;
+        return std::vector<std::vector<int>>();
     }
 };
 
 // ==================== TEST Codes====================
+//std::vector<int> findSubstring(std::string s, std::vector<std::string>& words)
 void Test(const std::string& testName,
-        std::string S, std::string T,
-        bool expected
+        std::vector<int>& nums,
+        int target,
+        std::vector<std::vector<int>> expected
         )
 {
     if(testName.length() > 0)
@@ -111,12 +148,13 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "S: \"" << S << "\""<< std::endl;
-    std::cout << "T: \"" << T << "\""<< std::endl;
+    std::cout << "target:" << target << ",nums:" << std::endl;
+    printvector(nums);
 
-const static int TEST_TIME = 0;
+const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 0;
+    // getpermutataion
     if (TEST_0)
     {
         std::cout << "Solution0 start.........." << std::endl;
@@ -125,8 +163,10 @@ const static int TEST_1    = 0;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.backspaceCompare0(S, T);
-        std::cout << std::boolalpha << result << std::endl;
+        //decltype(expected)
+        std::vector<std::vector<int>> && result = solution.fourSum(nums, target);
+        std::cout << "result:" << std::endl;
+        printvector(result);
 
         if(result == expected)
         {
@@ -136,7 +176,8 @@ const static int TEST_1    = 0;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
+            std::cout << RED << "expected:" << std::endl;
+            printvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -148,36 +189,10 @@ const static int TEST_1    = 0;
     }
     if (TEST_1)
     {
-        std::cout << "Solution1 start.........." << std::endl;
-        if (TEST_TIME)
-        {
-            start = std::chrono::system_clock::now();
-        }
-
-        decltype(expected) result = solution.backspaceCompare(S, T);
-        std::cout << std::boolalpha << result << std::endl;
-
-        if(result == expected)
-        {
-            //10yy
-            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
-        }
-        else
-        {
-            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
-            std::cout << RESET << std::endl;
-        }
-        if (TEST_TIME)
-        {
-           end = std::chrono::system_clock::now();
-           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
-        }
     }
 }
 
-// 75yy
+// 75 yy
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
 {
@@ -194,7 +209,7 @@ int printvector(std::vector<T> v)
 {
     if(0 == v.size())
     {
-        std::cout << "[ ] Empty vector." << std::endl;
+        std::cout << "Empty vector." << std::endl;
         return 0;
     }
     std::cout << "[ " ;
@@ -255,75 +270,58 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 
 void Test1()
 {
-    std::string S = "ab#c";
-    std::string T = "ad#c";
-    bool expect = true ;
-    Test("Test1", S, T, expect);
+    int target = 0;
+    std::vector<int> nums   = {1,0,-1,0,-2,2};
+    std::vector<std::vector<int>> expect = {{-2,-1,1,2},{-2,0,0,2},{-1,0,0,1}};
+    Test("Test1", nums, target, expect);
 }
 void Test2()
 {
-    std::string S = "ab##";
-    std::string T = "c#d#";
-    bool expect = true;
-    Test("Test2", S, T, expect);
+    int target = 0;
+    std::vector<int> nums   = {};
+    std::vector<std::vector<int>> expect = {};
+    Test("Test2", nums, target, expect);
 }
 
 void Test3()
 {
-    std::string S = "a##c";
-    std::string T = "#a#c";
-    bool expect = true;
-    Test("Test3", S, T, expect);
+    int target = 1;
+    std::vector<int> nums   = {4, 1, 2, -1, 1, -3};
+    std::vector<std::vector<int>> expect = {{-3, -1, 1, 4}, {-3, 1, 1, 2}};
+    Test("Test3", nums, target, expect);
 }
 
 void Test4()
 {
-    std::string S = "a#c";
-    std::string T = "b";
-    bool expect = false;
-    Test("Test4", S, T, expect);
+    int target = 2;
+    std::vector<int> nums   = {2, 0, -1, 1, -2, 2};
+    std::vector<std::vector<int>> expect = {{-2, 0, 2, 2}, {-1, 0, 1, 2}};
+    Test("Test4", nums, target, expect);
 }
 
 void Test5()
 {
-    std::string S = "xy#z";
-    std::string T = "xzz#";
-    bool expect = true;
-    Test("Test5", S, T, expect);
+    int target = 2;
+    std::vector<int> nums   = {2, 0, -1, -1, 1, 2, 0, -2, 2};
+    std::vector<std::vector<int>> expect = {{-2, 0, 2, 2},{-1,-1,2,2},{-1, 0, 1, 2}};
+    Test("Test5", nums, target, expect);
 }
 
 void Test6()
 {
-    std::string S = "xy#z";
-    std::string T = "xyz#";
-    bool expect = false;
-    Test("Test6", S, T, expect);
+    int target = 0;
+    std::vector<int> nums   = {1000000000,1000000000,1000000000,1000000000};
+    std::vector<std::vector<int>> expect = {};
+    Test("Test6", nums, target, expect);
 }
 
 void Test7()
 {
-    std::string S = "###z####";
-    std::string T = "";
-    bool expect = true;
-    Test("Test7", S, T, expect);
+    int target = -294967296;
+    std::vector<int> nums   = {1000000000,1000000000,1000000000,1000000000};
+    std::vector<std::vector<int>> expect = {};
+    Test("Test7", nums, target, expect);
 }
-
-void Test8()
-{
-    std::string S = "bbbextm";
-    std::string T = "bbb#extm";
-    bool expect = false;
-    Test("Test8", S, T, expect);
-}
-
-void Test9()
-{
-    std::string S = "nzp#o#g";
-    std::string T = "b#nzp#o#g";
-    bool expect = true;
-    Test("Test9", S, T, expect);
-}
-
 int main()
 {
     Test1();
@@ -333,8 +331,6 @@ int main()
     Test5();
     Test6();
     Test7();
-    Test8();
-    Test9();
 
     return 0;
 }

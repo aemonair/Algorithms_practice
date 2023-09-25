@@ -1,49 +1,22 @@
 /*
- ******************************************************************************
- *844. Backspace String Compare
- * Easy
- ******************************************************************************
- * Given two strings S and T, return if they are equal when both are typed into empty text editors. # means a backspace character.
+ *************************************************************************************************
+ * 259. 3Sum Smaller
+ *************************************************************************************************
+ * Given an array of n integers nums and a target, find the number of index triplets i, j, k with 0 <= i < j < k < n that satisfy the condition nums[i] + nums[j] + nums[k] < target.
  *
- * Note that after backspacing an empty text, the text will continue empty.
+ *************************************************************************************************
+ * Example:
  *
- ******************************************************************************
- * Example 1:
+ * Input: nums = [-2,0,1,3], and target = 2
+ * Output: 2
+ * Explanation: Because there are two triplets which sums are less than 2:
+ *              [-2,0,1]
+ *              [-2,0,3]
+ *************************************************************************************************
+ * Follow up: Could you solve it in O(n2) runtime?
+ *************************************************************************************************
  *
- * Input: S = "ab#c", T = "ad#c"
- * Output: true
- * Explanation: Both S and T become "ac".
- ******************************************************************************
- * Example 2:
- *
- * Input: S = "ab##", T = "c#d#"
- * Output: true
- * Explanation: Both S and T become "".
- ******************************************************************************
- * Example 3:
- *
- * Input: S = "a##c", T = "#a#c"
- * Output: true
- * Explanation: Both S and T become "c".
- ******************************************************************************
- * Example 4:
- *
- * Input: S = "a#c", T = "b"
- * Output: false
- * Explanation: S becomes "c" while T becomes "b".
- ******************************************************************************
- * Note:
- *
- * 1 <= S.length <= 200
- * 1 <= T.length <= 200
- * S and T only contain lowercase letters and '#' characters.
- ******************************************************************************
- * Follow up:
- *
- * Can you solve it in O(N) time and O(1) space?
- ******************************************************************************
  */
-
 #include <unordered_map>
 #include <algorithm>
 #include <iostream>
@@ -81,23 +54,46 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 template<typename T>
 int printvector(std::vector<T> v);
 
-class Solution
-{
+template <typename T>
+int printstack(std::stack<T> s);
+
+template <typename T1, typename T2>
+int printunordered_map(const std::unordered_map<T1,T2> &v);
+
+class Solution {
 public:
-    bool backspaceCompare0(std::string S, std::string T)
+    int threeSumSmaller(std::vector<int>& nums, int target)
     {
-        return false;
+        // x + y + z < target
+        int sum = 0;
+        int size = nums.size();
+        std::sort(nums.begin(), nums.end());
+        int left = 0;
+        int right = 0;
+        for (int i =0; i< size-2; i++) {
+            for(left = i+1, right = size-1; left < right;) {
+                int diff = target - nums[i] - nums[left] -nums[right];
+                if (diff >0) {
+                    sum += (right-left);
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+        return sum;
     }
-    bool backspaceCompare(std::string S, std::string T)
+    int threeSumSmaller1(std::vector<int>& nums, int target)
     {
-        return false;
+        return 0;
     }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-        std::string S, std::string T,
-        bool expected
+        std::vector<int>& nums,
+        int target,
+        int expected
         )
 {
     if(testName.length() > 0)
@@ -111,12 +107,13 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "S: \"" << S << "\""<< std::endl;
-    std::cout << "T: \"" << T << "\""<< std::endl;
+    std::cout << "target: " << target << ",nums:" << std::endl;
+    printvector(nums);
 
-const static int TEST_TIME = 0;
+const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 0;
+    // getpermutataion
     if (TEST_0)
     {
         std::cout << "Solution0 start.........." << std::endl;
@@ -125,10 +122,10 @@ const static int TEST_1    = 0;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.backspaceCompare0(S, T);
-        std::cout << std::boolalpha << result << std::endl;
+        decltype(expected) solution_result = solution.threeSumSmaller(nums, target);
+        std::cout << "solution result:" << solution_result << std::endl;
 
-        if(result == expected)
+        if(solution_result == expected)
         {
             //10yy
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
@@ -148,35 +145,8 @@ const static int TEST_1    = 0;
     }
     if (TEST_1)
     {
-        std::cout << "Solution1 start.........." << std::endl;
-        if (TEST_TIME)
-        {
-            start = std::chrono::system_clock::now();
-        }
-
-        decltype(expected) result = solution.backspaceCompare(S, T);
-        std::cout << std::boolalpha << result << std::endl;
-
-        if(result == expected)
-        {
-            //10yy
-            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
-        }
-        else
-        {
-            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
-            std::cout << RESET << std::endl;
-        }
-        if (TEST_TIME)
-        {
-           end = std::chrono::system_clock::now();
-           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
-        }
     }
 }
-
 // 75yy
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
@@ -255,73 +225,38 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 
 void Test1()
 {
-    std::string S = "ab#c";
-    std::string T = "ad#c";
-    bool expect = true ;
-    Test("Test1", S, T, expect);
+    std::vector<int> nums   = {-1, 0, 2, 3};
+    int target = 3;
+    int expect = 2;
+    Test("Test1", nums, target, expect);
 }
+
 void Test2()
 {
-    std::string S = "ab##";
-    std::string T = "c#d#";
-    bool expect = true;
-    Test("Test2", S, T, expect);
+    std::vector<int> nums   = {-1, 4, 2, 1, 3};
+    int target = 5;
+    int expect = 4;
+    Test("Test2", nums, target, expect);
 }
 
 void Test3()
 {
-    std::string S = "a##c";
-    std::string T = "#a#c";
-    bool expect = true;
-    Test("Test3", S, T, expect);
+    std::vector<int> nums   = {-2, 0, 1, 3};
+    int target = 2;
+    int expect = 2;
+    Test("Test3", nums, target, expect);
 }
 
 void Test4()
 {
-    std::string S = "a#c";
-    std::string T = "b";
-    bool expect = false;
-    Test("Test4", S, T, expect);
 }
 
 void Test5()
 {
-    std::string S = "xy#z";
-    std::string T = "xzz#";
-    bool expect = true;
-    Test("Test5", S, T, expect);
 }
 
 void Test6()
 {
-    std::string S = "xy#z";
-    std::string T = "xyz#";
-    bool expect = false;
-    Test("Test6", S, T, expect);
-}
-
-void Test7()
-{
-    std::string S = "###z####";
-    std::string T = "";
-    bool expect = true;
-    Test("Test7", S, T, expect);
-}
-
-void Test8()
-{
-    std::string S = "bbbextm";
-    std::string T = "bbb#extm";
-    bool expect = false;
-    Test("Test8", S, T, expect);
-}
-
-void Test9()
-{
-    std::string S = "nzp#o#g";
-    std::string T = "b#nzp#o#g";
-    bool expect = true;
-    Test("Test9", S, T, expect);
 }
 
 int main()
@@ -332,9 +267,7 @@ int main()
     Test4();
     Test5();
     Test6();
-    Test7();
-    Test8();
-    Test9();
 
     return 0;
+
 }

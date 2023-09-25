@@ -84,65 +84,11 @@ public:
         int right = nums.size()-1;
 
         std::vector<std::vector<int>> resultv;
-        printvectorvector(resultv);
+        printvector(resultv);
         return resultv;
     }
     std::vector<std::vector<int>> threeSum0(std::vector<int>& nums)
     {
-    }
-    template <typename T>
-    int printstack(std::stack<T> s)
-    {
-        if (s.empty())
-        {
-            std::cout << "The stack is empty." << std::endl;
-            return 0;
-        }
-        std::cout <<  "The stack size is: " << s.size() << std::endl;
-        std::stack<T> tmp;
-        while (!s.empty())
-        {
-            std::cout << s.top() << ", ";
-            s.pop();
-        }
-        std::cout <<  std::endl;
-        return s.size();
-    }
-
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        std::cout << "[  ";// << v.size() << std::endl;
-        //std::cout << "vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << "'" << *iter << "', ";//<<std::endl;
-        }
-        std::cout <<"\b\b]" <<  std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-    template <typename T1, typename T2>
-    int printunordered_map(const std::unordered_map<T1,T2> &v)
-    {
-        std::cout << "unordered_map size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << "(" << iter->first << "," << iter->second<< "), ";//<<std::endl;
-        }
-        std::cout << std::endl;
-        return v.size();
     }
 };
 
@@ -165,7 +111,7 @@ void Test(const std::string& testName,
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
     std::cout << "nums:" << std::endl;
-    solution.printvector(nums);
+    printvector(nums);
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
@@ -181,7 +127,7 @@ const static int TEST_1    = 0;
         //decltype(expected)
         std::vector<std::vector<int>> && result = solution.threeSum(nums);
         std::cout << "result:" << std::endl;
-        solution.printvectorvector(result);
+        printvector(result);
 
         if(result == expected)
         {
@@ -204,53 +150,6 @@ const static int TEST_1    = 0;
     if (TEST_1)
     {
     }
-}
-void Test1()
-{
-    std::vector<int> nums   = {-1,0,1,2,-1,-4};
-    std::vector<std::vector<int>> expect = {{-1,-1,2},{-1,0,1}};
-    Test("Test1", nums, expect);
-}
-void Test2()
-{
-    std::vector<int> nums   = {};
-    std::vector<std::vector<int>> expect = {};
-    Test("Test2", nums, expect);
-}
-
-void Test3()
-{
-    std::vector<int> nums   = {0};
-    std::vector<std::vector<int>> expect = {};
-    Test("Test3", nums, expect);
-}
-
-void Test4()
-{
-    std::vector<int> nums   = {-3,0,1,2,-1,1,-2};
-    std::vector<std::vector<int>> expect = {{-3,1,2},{-2,0,2},{-2,1,1},{-1,0,1}};
-    Test("Test4", nums, expect);
-}
-
-void Test5()
-{
-    std::vector<int> nums   = {-5,2,-1,-2,3};
-    std::vector<std::vector<int>> expect = {{-5,2,3},{-2,-1,3}};
-    Test("Test5", nums, expect);
-}
-
-void Test6()
-{
-    std::vector<int> nums   = {-2,0,0,2,2};
-    std::vector<std::vector<int>> expect = {{-2,0,2}};
-    Test("Test6", nums, expect);
-}
-
-void Test7()
-{
-    std::vector<int> nums   = {{-1,-1,-1,0,0,0,1,1,1}};
-    std::vector<std::vector<int>> expect = {{-1,0,1},{0,0,0}};
-    Test("Test7", nums, expect);
 }
 // 75 yy
 template<typename T>
@@ -326,6 +225,53 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
     }
     std::cout << std::endl;
     return v.size();
+}
+void Test1()
+{
+    std::vector<int> nums   = {-1,0,1,2,-1,-4};
+    std::vector<std::vector<int>> expect = {{-1,-1,2},{-1,0,1}};
+    Test("Test1", nums, expect);
+}
+void Test2()
+{
+    std::vector<int> nums   = {};
+    std::vector<std::vector<int>> expect = {};
+    Test("Test2", nums, expect);
+}
+
+void Test3()
+{
+    std::vector<int> nums   = {0};
+    std::vector<std::vector<int>> expect = {};
+    Test("Test3", nums, expect);
+}
+
+void Test4()
+{
+    std::vector<int> nums   = {-3,0,1,2,-1,1,-2};
+    std::vector<std::vector<int>> expect = {{-3,1,2},{-2,0,2},{-2,1,1},{-1,0,1}};
+    Test("Test4", nums, expect);
+}
+
+void Test5()
+{
+    std::vector<int> nums   = {-5,2,-1,-2,3};
+    std::vector<std::vector<int>> expect = {{-5,2,3},{-2,-1,3}};
+    Test("Test5", nums, expect);
+}
+
+void Test6()
+{
+    std::vector<int> nums   = {-2,0,0,2,2};
+    std::vector<std::vector<int>> expect = {{-2,0,2}};
+    Test("Test6", nums, expect);
+}
+
+void Test7()
+{
+    std::vector<int> nums   = {{-1,-1,-1,0,0,0,1,1,1}};
+    std::vector<std::vector<int>> expect = {{-1,0,1},{0,0,0}};
+    Test("Test7", nums, expect);
 }
 int main()
 {
