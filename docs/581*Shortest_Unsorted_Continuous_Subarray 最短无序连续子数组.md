@@ -1,4 +1,3 @@
-#TwoPointers
 #### [581. 最短无序连续子数组](https://leetcode.cn/problems/shortest-unsorted-continuous-subarray/)
 
 难度中等
@@ -19,10 +18,10 @@
 **输出：** 0
 
 **示例 3：**
-```
+
 **输入：** nums = [1]
 **输出：** 0
-```
+
 
 **提示：**
 
@@ -61,67 +60,98 @@ Output: 3
 Explanation: The whole array needs to be sorted.
 ```
 **进阶：**你可以设计一个时间复杂度为 `O(n)` 的解决方案吗？
+
+---- ----
+
 1.  From the beginning and end of the array, find the first elements that are out of the sorting order. The two elements will be our candidate subarray.
 2.  Find the maximum and minimum of this subarray.
 3.  Extend the subarray from beginning to include any number which is bigger than the minimum of the subarray.
 4.  Similarly, extend the subarray from the end to include any number which is smaller than the maximum of the subarray.
 
+从前到后，寻找到第一个 不递增的位置，nums[i] > nums[i+1] ;这里的i开始则为子数组；
+找到 子数组内 最大最小值；左边的数组元素如果小于最小值，则扩展子数组；
+
 ```cpp
     int findUnsortedSubarray(std::vector<int>& nums)
-
-    {    
-
+    {
         int size = nums.size();
-
         int low = 0, high = size -1;
-       
+
         // 从前向后找到，是否存在不连续递增的位置，记录low
         while ( low < size -1 && nums[low] <= nums[low+1]){
-
             low ++;
-
         }
 
         if (low == size - 1) {
-
             return 0;
-
         }
 
         while (high > 0 && nums[high] >= nums[high - 1]) {
-
             high --;
-
         }
         ／／ 从后向前找到，不连续递增的记录high
         ／／ 获取最大最小
         ／／ 如果存在 左边 比最小值还大的，向左扩展
         ／／ 如果存在 右边 比最大值还小的，向右扩展
         int max = std::numeric_limits<int>::min();
-
         int min = std::numeric_limits<int>::max();
 
         for (int i = low ; i <= high ; i++) {
-
             max = std::max(max, nums[i]);
-
             min = std::min(min, nums[i]);
-
         }
 
         while (low > 0 && nums[low-1] > min) {
-
             low --;
-
         }
 
         while (high < size - 1 && nums[high+1] < max) {
-
             high ++;
-
         }
 
         return high - low + 1;
-
     }
 ```
+
+```cpp
+    int findUnsortedSubarray(std::vector<int>& nums)
+    {
+        int left = 0;
+        int size = nums.size();
+        int right = 0;
+        // 1.find resorted index
+        for (left = 0; left < size - 1; left++) {
+            if (nums[left] > nums[left+1]) {
+                break;
+            }
+        }
+        if (left == size -1 ) {
+            return 0;
+        }
+        for (right= size-1; right > 0; right--) {
+            if (nums[right] < nums[right-1]) {
+                break;
+            }
+        }
+        // left ~ right
+        int min = *std::min_element(nums.begin()+left, nums.begin()+right+1); //-nums.begin();
+        int max = *std::max_element(nums.begin()+left, nums.begin()+right+1);//-nums.begin();
+        std::cout << left<< ":" << nums[left] << "~"<< right << ":" << nums[right] << std::endl;
+        std::cout << min << "," << max << std::endl;
+        int minleft = left;
+        int maxright= right;
+        for ( left--; left >= 0; left-- ) {
+            if (nums[left] > min) {
+                minleft = left;
+            }
+        }
+        for ( right++; right < size; right++) {
+            if (nums[right] < max) {
+                maxright = right;
+            }
+        }
+        std::cout << minleft << ":" << nums[minleft] << "~" << maxright << ":" << nums[maxright] << std::endl;
+        return maxright - minleft + 1;
+    }
+```
+#TwoPointers;
