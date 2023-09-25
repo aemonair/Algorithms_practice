@@ -260,10 +260,18 @@ void Test5()
 
 void Test6()
 {
+    int target = 0;
+    std::vector<int> nums   = {1000000000,1000000000,1000000000,1000000000};
+    std::vector<std::vector<int>> expect = {};
+    Test("Test6", nums, target, expect);
 }
 
 void Test7()
 {
+    int target = -294967296;
+    std::vector<int> nums   = {1000000000,1000000000,1000000000,1000000000};
+    std::vector<std::vector<int>> expect = {};
+    Test("Test7", nums, target, expect);
 }
 int main()
 {

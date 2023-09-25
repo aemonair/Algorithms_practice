@@ -88,7 +88,7 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "nums:" << std::endl;
+    std::cout << "target:" << target << " ,nums:" << std::endl;
     printvector(nums);
 
 const static int TEST_TIME = 1;

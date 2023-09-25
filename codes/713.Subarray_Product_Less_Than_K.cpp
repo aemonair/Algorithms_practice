@@ -1,50 +1,29 @@
 /*
- ******************************************************************************
- *844. Backspace String Compare
- * Easy
- ******************************************************************************
- * Given two strings S and T, return if they are equal when both are typed into empty text editors. # means a backspace character.
+ *************************************************************************************************
+ * 713. Subarray Product Less Than K
+ * Medium
+ *************************************************************************************************
+ * Your are given an array of positive integers nums.
  *
- * Note that after backspacing an empty text, the text will continue empty.
+ * Count and print the number of (contiguous) subarrays where the product of all the elements in the subarray is less than k.
+ *************************************************************************************************
  *
- ******************************************************************************
  * Example 1:
- *
- * Input: S = "ab#c", T = "ad#c"
- * Output: true
- * Explanation: Both S and T become "ac".
- ******************************************************************************
- * Example 2:
- *
- * Input: S = "ab##", T = "c#d#"
- * Output: true
- * Explanation: Both S and T become "".
- ******************************************************************************
- * Example 3:
- *
- * Input: S = "a##c", T = "#a#c"
- * Output: true
- * Explanation: Both S and T become "c".
- ******************************************************************************
- * Example 4:
- *
- * Input: S = "a#c", T = "b"
- * Output: false
- * Explanation: S becomes "c" while T becomes "b".
- ******************************************************************************
+ * Input: nums = [10, 5, 2, 6], k = 100
+ * Output: 8
+ * Explanation: The 8 subarrays that have product less than 100 are: [10], [5], [2], [6], [10, 5], [5, 2], [2, 6], [5, 2, 6].
+ * Note that [10, 5, 2] is not included as the product of 100 is not strictly less than k.
+ *************************************************************************************************
  * Note:
  *
- * 1 <= S.length <= 200
- * 1 <= T.length <= 200
- * S and T only contain lowercase letters and '#' characters.
- ******************************************************************************
- * Follow up:
+ * 0 < nums.length <= 50000.
+ * 0 < nums[i] < 1000.
+ * 0 <= k < 10^6.
+ *************************************************************************************************
  *
- * Can you solve it in O(N) time and O(1) space?
- ******************************************************************************
  */
-
 #include <unordered_map>
+#include <unordered_set>
 #include <algorithm>
 #include <iostream>
 #include <chrono>
@@ -52,7 +31,7 @@
 #include <string>
 #include <queue>
 #include <stack>
-#include <list>
+#include <cmath>
 #include <map>
 #include <set>
 
@@ -81,23 +60,75 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 template<typename T>
 int printvector(std::vector<T> v);
 
-class Solution
-{
+template <typename T>
+int printstack(std::stack<T> s);
+
+template <typename T1, typename T2>
+int printunordered_map(const std::unordered_map<T1,T2> &v);
+
+class Solution {
 public:
-    bool backspaceCompare0(std::string S, std::string T)
-    {
-        return false;
+    int numSubarrayProductLessThanK(std::vector<int>& nums, int k) {
+        if (k<=1) {
+            return 0;
+        }
+        int size = nums.size();
+        int count = 0;
+        for (int i = 0; i < size; i++) {
+            int left = i;
+            int right = i+1;
+            int prod = nums[i];
+            if (prod < k) {
+                count++;
+                while (right < size && prod * nums[right] < k ) {
+                        prod *= nums[right];
+                        count++;
+                        right++;
+
+                }
+            }
+        }
+        return count;
     }
-    bool backspaceCompare(std::string S, std::string T)
+    int numSubarrayProductLessThanK0(std::vector<int>& nums, int k)
     {
-        return false;
+        if (k<=1) {
+            return 0;
+        }
+        int size = nums.size();
+        int count = 0;
+        //std::sort(nums.begin(), nums.end());
+        printvector(nums);
+        int left = 0;
+        int right = 1;
+        double prod = 0; //nums[0];
+        //int prod = 1;
+        // [left~right] < k; right++ --> left++;
+        for (int i = 0; i < size; i++) {
+            left = i;
+            right = i+1;
+            prod = nums[left];
+            if (prod < k) {
+                std::cout << prod << " ";
+                count++;
+                while (prod * nums[right] < k && right < size) {
+                    count++;
+                    std::cout <<prod << "*" << nums[right] <<"="<< prod*nums[right] << " ";
+                    prod *= nums[right];
+                    right++;
+                }
+            }
+        }
+        std::cout << "," << count << " " << std::endl;
+        return count;
     }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-        std::string S, std::string T,
-        bool expected
+        std::vector<int>& nums,
+        int k,
+        int expected
         )
 {
     if(testName.length() > 0)
@@ -111,12 +142,13 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "S: \"" << S << "\""<< std::endl;
-    std::cout << "T: \"" << T << "\""<< std::endl;
+    std::cout << "k: " << k << ",nums:" << std::endl;
+    printvector(nums);
 
-const static int TEST_TIME = 0;
+const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 0;
+    // getpermutataion
     if (TEST_0)
     {
         std::cout << "Solution0 start.........." << std::endl;
@@ -125,10 +157,10 @@ const static int TEST_1    = 0;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.backspaceCompare0(S, T);
-        std::cout << std::boolalpha << result << std::endl;
+        decltype(expected) solution_result = solution.numSubarrayProductLessThanK(nums, k);
+        std::cout << "solution result:" << solution_result << std::endl;
 
-        if(result == expected)
+        if(solution_result == expected)
         {
             //10yy
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
@@ -148,36 +180,9 @@ const static int TEST_1    = 0;
     }
     if (TEST_1)
     {
-        std::cout << "Solution1 start.........." << std::endl;
-        if (TEST_TIME)
-        {
-            start = std::chrono::system_clock::now();
-        }
-
-        decltype(expected) result = solution.backspaceCompare(S, T);
-        std::cout << std::boolalpha << result << std::endl;
-
-        if(result == expected)
-        {
-            //10yy
-            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
-        }
-        else
-        {
-            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
-            std::cout << RESET << std::endl;
-        }
-        if (TEST_TIME)
-        {
-           end = std::chrono::system_clock::now();
-           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
-        }
     }
 }
-
-// 75yy
+// 75 yy
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
 {
@@ -194,7 +199,7 @@ int printvector(std::vector<T> v)
 {
     if(0 == v.size())
     {
-        std::cout << "[ ] Empty vector." << std::endl;
+        std::cout << "Empty vector." << std::endl;
         return 0;
     }
     std::cout << "[ " ;
@@ -252,78 +257,48 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
     std::cout << std::endl;
     return v.size();
 }
-
 void Test1()
 {
-    std::string S = "ab#c";
-    std::string T = "ad#c";
-    bool expect = true ;
-    Test("Test1", S, T, expect);
+    std::vector<int> nums   = {10, 5, 2, 6};
+    int k = 100;
+    int expect = 8;
+    Test("Test1", nums, k, expect);
 }
 void Test2()
 {
-    std::string S = "ab##";
-    std::string T = "c#d#";
-    bool expect = true;
-    Test("Test2", S, T, expect);
+    std::vector<int> nums   = {1, 2, 3, 4};
+    int k = 10;
+    int expect = 7;
+    Test("Test2", nums, k, expect);
 }
 
 void Test3()
 {
-    std::string S = "a##c";
-    std::string T = "#a#c";
-    bool expect = true;
-    Test("Test3", S, T, expect);
+    std::vector<int> nums   = {};
+    int k = 10;
+    int expect = 0;
+    Test("Test3", nums, k, expect);
 }
 
 void Test4()
 {
-    std::string S = "a#c";
-    std::string T = "b";
-    bool expect = false;
-    Test("Test4", S, T, expect);
+    std::vector<int> nums   = {1,1,1,1};
+    int k = 10;
+    int expect = 10;
+    Test("Test4", nums, k, expect);
 }
 
 void Test5()
 {
-    std::string S = "xy#z";
-    std::string T = "xzz#";
-    bool expect = true;
-    Test("Test5", S, T, expect);
+    std::vector<int> nums   = {10,9,10,4,3,8,3,3,6,2,10,10,9,3};
+    int k = 19;
+    int expect = 18;
+    Test("Test5", nums, k, expect);
 }
 
 void Test6()
 {
-    std::string S = "xy#z";
-    std::string T = "xyz#";
-    bool expect = false;
-    Test("Test6", S, T, expect);
 }
-
-void Test7()
-{
-    std::string S = "###z####";
-    std::string T = "";
-    bool expect = true;
-    Test("Test7", S, T, expect);
-}
-
-void Test8()
-{
-    std::string S = "bbbextm";
-    std::string T = "bbb#extm";
-    bool expect = false;
-    Test("Test8", S, T, expect);
-}
-
-void Test9()
-{
-    std::string S = "nzp#o#g";
-    std::string T = "b#nzp#o#g";
-    bool expect = true;
-    Test("Test9", S, T, expect);
-}
-
 int main()
 {
     Test1();
@@ -332,9 +307,7 @@ int main()
     Test4();
     Test5();
     Test6();
-    Test7();
-    Test8();
-    Test9();
 
     return 0;
+
 }

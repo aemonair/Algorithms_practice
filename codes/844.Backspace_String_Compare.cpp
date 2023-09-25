@@ -84,9 +84,101 @@ int printvector(std::vector<T> v);
 class Solution
 {
 public:
-    bool backspaceCompare0(std::string S, std::string T)
+    bool backspaceCompare0(std::string S, std::string T) {
+        int i = S.length() - 1, j = T.length() - 1;
+        int skipS = 0, skipT = 0;
+
+        while (i >= 0 || j >= 0) {
+            while (i >= 0) {
+                if (S[i] == '#') {
+                    skipS++, i--;
+                } else if (skipS > 0) {
+                    skipS--, i--;
+                } else {
+                    break;
+                }
+            }
+            while (j >= 0) {
+                if (T[j] == '#') {
+                    skipT++, j--;
+                } else if (skipT > 0) {
+                    skipT--, j--;
+                } else {
+                    break;
+                }
+            }
+            std::cout << i << ":" << S[i] << " " << j << ":" << T[j] << std::endl;
+            if (i >= 0 && j >= 0) {
+                if (S[i] != T[j]) {
+                    return false;
+                }
+            } else {
+                if (i >= 0 || j >= 0) {
+                    return false;
+                }
+            }
+            i--, j--;
+        }
+        return true;
+    }
+
+    bool backspaceCompare1(std::string S, std::string T)
     {
-        return false;
+        int end1 = S.size() -1;
+        int end2 = T.size() -1;
+
+        while (end1 >= 0 || end2 >= 0) {
+            int index1 = getnext(S, end1);
+            int index2 = getnext(T, end2);
+            if (index1 >= 0 && index2 >= 0) {
+                if (S[index1] != T[index2]) {
+                    return false;
+                }
+            } else {
+                if (index1 >= 0 || index2 >= 0) {
+                    return false;
+                }
+            }
+            end1 = index1 -1;
+            end2 = index2 - 1;
+           // if (index1 < 0 && index2 < 0) {
+           //     return true;
+           // }
+           // if (index1 < 0 || index2 < 0) {
+           //     return false;
+           // }
+           // if (S[index1] == T[index2]) {
+           //     end1 = index1 - 1;
+           //     end2 = index2 - 1;
+           // } else {
+           //     return false;
+           // }
+        }
+        //if (end1 < 0 && end2< 0) {
+        //    return true;
+        //}
+        //if (end1 < 0 || end2< 0) {
+        //    std::cout << end1 << " "<< end2 << std::endl;
+        //    return false;
+        //}
+        return true;
+    }
+    int getnext(std::string & str, int end)
+    {
+        int backsize = 0;
+        while (end >= 0) {
+            if (str[end] == '#') {
+                backsize ++;
+                end --;
+            } else if (backsize > 0) {
+                backsize --;
+                end --;
+            } else {
+                break;
+            }
+        }
+        std::cout << str << " " << end << std::endl;
+        return end;
     }
     bool backspaceCompare(std::string S, std::string T)
     {
@@ -116,7 +208,7 @@ void Test(const std::string& testName,
 
 const static int TEST_TIME = 0;
 const static int TEST_0    = 1;
-const static int TEST_1    = 0;
+const static int TEST_1    = 1;
     if (TEST_0)
     {
         std::cout << "Solution0 start.........." << std::endl;
@@ -154,7 +246,7 @@ const static int TEST_1    = 0;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.backspaceCompare(S, T);
+        decltype(expected) result = solution.backspaceCompare1(S, T);
         std::cout << std::boolalpha << result << std::endl;
 
         if(result == expected)
@@ -315,7 +407,6 @@ void Test8()
     bool expect = false;
     Test("Test8", S, T, expect);
 }
-
 void Test9()
 {
     std::string S = "nzp#o#g";
@@ -323,7 +414,6 @@ void Test9()
     bool expect = true;
     Test("Test9", S, T, expect);
 }
-
 int main()
 {
     Test1();
