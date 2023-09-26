@@ -254,6 +254,16 @@ void Test3()
 
 void Test4()
 {
+    ListNode * p9 = new ListNode(2);
+    ListNode * p8 = new ListNode(3, p9);
+    ListNode * p7 = new ListNode(4, p8);
+    ListNode * p6 = new ListNode(5, p7);
+    ListNode * p5 = new ListNode(6, p6);
+    ListNode * p4 = new ListNode(5, p5);
+    ListNode * p3 = new ListNode(4, p4);
+    ListNode * p2 = new ListNode(3, p3);
+    ListNode * p1 = new ListNode(2, p2);
+    Test("Test4", p1, true  );
 }
 
 void Test5()

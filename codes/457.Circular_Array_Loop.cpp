@@ -38,6 +38,7 @@
  */
 // 44 yy
 #include <unordered_map>
+#include <unordered_set>
 #include <algorithm>
 #include <iostream>
 #include <climits>
@@ -80,12 +81,85 @@ int printstack(std::stack<T> s);
 
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
+template <typename T>
+int printunordered_set(const std::unordered_set<T> &v);
 
 class Solution {
 public:
     bool circularArrayLoop(std::vector<int>& nums)
     {
-        return true;
+        return false;
+    }
+    bool circularArrayLoop0(std::vector<int>& nums)
+    {
+        int size = nums.size();
+        for (int i = 0; i< size; ++i) {
+
+            int slow = i;
+            int fast = i;
+            bool isforward = nums[i] > 0;
+            
+            while (slow != -1 && fast!=-1) {
+                slow = findnext(nums, slow, isforward);
+                fast = findnext(nums, fast, isforward);
+                if (fast != -1) {
+                    fast = findnext(nums, fast, isforward);
+                }
+                if (slow!= -1 && slow==fast) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    bool circularArrayLoop1(std::vector<int>& nums)
+    {
+        int size = nums.size();
+        for (int i = 0; i < size; ++i) {
+            int curr = nums[i];
+            std::unordered_set<int> uset;
+            uset.insert(i);
+            printunordered_set(uset);
+            int next = 0;
+            int j = i;
+            std::cout << j <<":" << nums[j] << " ";
+            while (next != -1) {
+                if (curr > 0) {
+                    next = findnext(nums, j, true);
+                } else {
+                    next = findnext(nums, j, false);
+                }
+                if (next == -1) {
+                    std::cout << "can not found" << std::endl;
+                    break;
+                }
+                std::cout << next <<":" << nums[next] << " ";
+                if (uset.count(next) > 0) {
+                    printunordered_set(uset);
+                    if (uset.size() >1){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+                uset.insert(next);
+                j = next;
+            }
+        }
+        return false;
+    }
+    int findnext(std::vector<int> &nums, int index, bool isleft) {
+        int size = nums.size();
+        int next = (nums[index] + index + size )% size;
+        if (nums[next] > 0 && isleft) {
+            std::cout << "get next:" << next << std::endl;
+            return next;
+        }
+        if (nums[next] < 0 && !isleft) {
+            std::cout << "get next:" << next << std::endl;
+            return next;
+        }
+        return -1;
     }
     template<typename T>
     void swap(std::vector<T> &v, int a, int b)
@@ -215,6 +289,18 @@ int printvector(std::stack <T> s)
     std::cout << "\b\b ]" << std::endl;
     return s.size();
 }
+template <typename T>
+int printunordered_set(const std::unordered_set<T> &v)
+{
+    //std::cout << "unordered_set size: " << v.size() << std::endl;
+    std::cout << "set:" << v.size() << "{";// << std::endl;
+    for (auto iter = v.begin(); iter != v.end(); iter++ )
+    {
+        std::cout <<  *iter << ", ";//<<std::endl;
+    }
+    std::cout << "}" << std::endl;
+    return v.size();
+}
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v)
 {
@@ -281,6 +367,7 @@ void Test8()
     bool expect = false;
     Test("Test8", numbers, expect);
 }
+
 int main()
 {
     Test1();

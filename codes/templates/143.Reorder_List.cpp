@@ -65,99 +65,12 @@ typedef struct ListNode
 class Solution {
 public:
     /////////////////////////////////////////////////////////////////
-    void reorderList(ListNode* head)
-    {
-        return;
-    }
-    /////////////////////////////////////////////////////////////////
-    ListNode * merge(ListNode * head, ListNode * halfhead)
-    {
-        if (head == halfhead){
-            return head;
-        }
-        if(halfhead == nullptr && head == nullptr) {
-            return nullptr;
-        }
-        if(halfhead==nullptr && head != nullptr && head ->next == nullptr) {
-            return head;
-        }
-        if(head==nullptr && halfhead != nullptr && halfhead->next == nullptr) {
-            return halfhead;
-        }
-        // head -> 1->2 ->3
-        // half -> 4->5 ->6
-        //            n2
-        //        1->4->5->6
-        //        1->4->
-        //        head 5->6
-        //        half 2->3
-        //             n5
-        //             5->2->3
-        //             2->
-        //           head 3
-        //           half 6
-        //                 next null
-        //                 3-> 6
-        //                 6->
-        //                    null null
-        //                 6->null
-        //             2-> 6->null
-        //          4-> 2->6  
-            ListNode * next = head->next;
-            head->next = halfhead;
-            printList(head);
-            //halfhead -> next; halfhead->next = head->next
-            ListNode * newhead = merge(next, halfhead->next);
-            halfhead ->next = newhead;
-            // 1 2 3
-            // 4 5 6
-            //   n2
-            // 1 4 5 6
-            // 1 4 ?
-            //     2 3
-            // 1
-            // 2
-            // n null
-            // 1->2
-            //    2->?
-            //       null , null      
-            printList(head);
-            return head;
-    }
     void reorderList0(ListNode* head)
     {
-        ListNode * slow = head;
-        ListNode * fast = head;
-        while (fast && fast->next) {
-            fast = fast->next->next;
-            if (fast == nullptr) {
-                ListNode * old = slow;
-                slow = slow->next;
-                old->next = nullptr;
-            } else {
-            slow = slow->next;
-            }
-        }
-        ListNode *halfhead = reverse(slow);
-        printList(head);
-        printList(halfhead);
-        ListNode * newhead = merge(head, halfhead);
-        // 1 2 3
-        // 4 5 6
-        /*
-        ListNode * p = head;
-        ListNode * q = halfhead;
-        while(p && q) {
-            ListNode *  next = p ->next;
-            p->next =q;
-            p = next;
-
-            next = q->next;
-            q->next = p;
-            q = next;
-        }
-        */
-        printList(head);
+    }
+    /////////////////////////////////////////////////////////////////
+    void reorderList(ListNode* head)
+    {
         return;
     }
     /////////////////////////////////////////////////////////////////
@@ -179,25 +92,6 @@ public:
         {
             return false;
         }
-    }
-    ListNode * reverse(ListNode *head)
-    {
-        if(head == nullptr || head->next == nullptr)
-        {
-            return head;
-        }
-        ListNode * prev = nullptr;
-        ListNode * next = head->next;
-       
-        while(head)
-        {
-            next = head->next;
-            head->next = prev;
-            prev = head;
-            head = next;
-        }
-        return prev;
-
     }
     std::vector<int> printList(ListNode* head)
     {
