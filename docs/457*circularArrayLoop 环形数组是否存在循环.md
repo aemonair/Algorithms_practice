@@ -43,6 +43,17 @@
 -   `nums[i] != 0`
 
 **进阶：**你能设计一个时间复杂度为 `O(n)` 且额外空间复杂度为 `O(1)` 的算法吗？
+---- ----
+1.通过uset记录已获取过的记录，如果已存在记录，判断长度并返回；
+2.通过循环数组可以得到，通过快慢指针可以判断是否存在循环；
+
+需要注意，判断方向，
+a.`findnext`是通过传入`对应的nums[i] > 0`到函数中作区分判断；
+b.`lamdba same`方法通过乘法>0的方式进行判断；
+c.为了最终的index>0,注意计算same时，`(i+nums[i])%size+size)%size`;
+d.`nums[i] == 0`的判断；
+e.`same(i, slow) && same(i, next(fast)) && same(slow, fast) && same(i, fast)`判断条件；
+
 ```cpp
 class Solution {
 public:
@@ -51,7 +62,7 @@ public:
         auto next=[&](int x){return((x+nums[x])%n+n)%n;};
         auto same=[&](int&x,int y){return nums[x]*nums[y]>0;};
         for(int i=0;i<n;i++){
-            if(!nums[i])continue;           
+            if(!nums[i])continue;
             int slow=i,fast=next(i);
             while(same(slow,fast)&&same(slow,next(fast))){
                 if(slow==fast){
@@ -66,3 +77,81 @@ public:
     }
 };
 ```
+
+```cpp
+    int findnext(std::vector<int> &nums, int index, bool isleft) {
+        int size = nums.size();
+        int next = (nums[index] + index + size )% size;
+        if (nums[next] > 0 && isleft) {
+            std::cout << "get next:" << next << std::endl;
+            return next;
+        }
+        if (nums[next] < 0 && !isleft) {
+            std::cout << "get next:" << next << std::endl;
+            return next;
+        }
+        return -1;
+    }
+    bool circularArrayLoop(std::vector<int>& nums)
+    {
+        int size = nums.size();
+        for (int i = 0; i< size; ++i) {
+
+            int slow = i;
+            int fast = i;
+            bool isforward = nums[i] > 0;
+
+            while (slow != -1 && fast!=-1) {
+                slow = findnext(nums, slow, isforward);
+                fast = findnext(nums, fast, isforward);
+                if (fast != -1) {
+                    fast = findnext(nums, fast, isforward);
+                }
+                if (slow!= -1 && slow==fast) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+```
+
+```cpp
+    bool circularArrayLoop1(std::vector<int>& nums)
+    {
+        int size = nums.size();
+        for (int i = 0; i < size; ++i) {
+            int curr = nums[i];
+            std::unordered_set<int> uset;
+            uset.insert(i);
+            printunordered_set(uset);
+            int next = 0;
+            int j = i;
+            std::cout << j <<":" << nums[j] << " ";
+            while (next != -1) {
+                if (curr > 0) {
+                    next = findnext(nums, j, true);
+                } else {
+                    next = findnext(nums, j, false);
+                }
+                if (next == -1) {
+                    std::cout << "can not found" << std::endl;
+                    break;
+                }
+                std::cout << next <<":" << nums[next] << " ";
+                if (uset.count(next) > 0) {
+                    printunordered_set(uset);
+                    if (uset.size() >1){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+                uset.insert(next);
+                j = next;
+            }
+        }
+        return false;
+    }
+```
+#FastSlowPointers;
