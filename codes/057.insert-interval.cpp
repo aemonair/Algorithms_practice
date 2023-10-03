@@ -1,30 +1,47 @@
 /*
- * 56. Merge Intervals
- * Medium
- *
- * Given a collection of intervals, merge all overlapping intervals.
- *
- ******************************************************************
- *  Example 1:
- *
- * Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
- * Output: [[1,6],[8,10],[15,18]]
- * Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
- ******************************************************************
- *  Example 2:
- *
- * Input: intervals = [[1,4],[4,5]]
- * Output: [[1,5]]
- * Explanation: Intervals [1,4] and [4,5] are considered overlapping.
- ****************************************************************
- *  NOTE:
- *  input types have been changed on April 15, 2019. Please reset to default code definition to get new method signature.
- ****************************************************************
- *  Constraints:
- *
- * intervals[i][0] <= intervals[i][1]
  ***************************************************************
+ * 57. Insert Interval
+ * Medium
+ ***************************************************************
+ * Given a set of non-overlapping intervals, insert a new interval into the intervals (merge if necessary).
  *
+ * You may assume that the intervals were initially sorted according to their start times.
+ ***************************************************************
+ * Example 1:
+ *
+ * Input: intervals = [[1,3],[6,9]], newInterval = [2,5]
+ * Output: [[1,5],[6,9]]
+ ***************************************************************
+ * Example 2:
+ *
+ * Input: intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
+ * Output: [[1,2],[3,10],[12,16]]
+ * Explanation: Because the new interval [4,8] overlaps with [3,5],[6,7],[8,10].
+ ***************************************************************
+ * Example 3:
+ *
+ * Input: intervals = [], newInterval = [5,7]
+ * Output: [[5,7]]
+ ***************************************************************
+ * Example 4:
+ *
+ * Input: intervals = [[1,5]], newInterval = [2,3]
+ * Output: [[1,5]]
+ ***************************************************************
+ * Example 5:
+ *
+ * Input: intervals = [[1,5]], newInterval = [2,7]
+ * Output: [[1,7]]
+ ***************************************************************
+ * Constraints:
+ *
+ * 0 <= intervals.length <= 10^4
+ * intervals[i].length == 2
+ * 0 <= intervals[i][0] <= intervals[i][1] <= 10^5
+ * intervals is sorted by intervals[i][0] in ascending order.
+ * newInterval.length == 2
+ * 0 <= newInterval[0] <= newInterval[1] <= 10^5
+ ***************************************************************
  */
 
 // 44 yy
@@ -74,8 +91,44 @@ int printunordered_map(const std::unordered_map<T1,T2> &v);
 
 class Solution {
 public:
-    std::vector<std::vector<int>> merge(
-            std::vector<std::vector<int>>& intervals)
+    std::vector<std::vector<int>> insert(
+            std::vector<std::vector<int>>& intervals,
+                        std::vector<int> & newInterval)
+    {
+        int size = intervals.size();
+        std::vector<std::vector<int>> result;
+        // ---     ----    ---  ----  ---      intervals[i]
+        //   ---    --      ---            --- newInterval
+        //
+        //   --- --- --- --- --- ---
+        //                 ---
+        bool flag = true;
+        int i = 0;
+        for (i = 0; i < size; ++i) {
+            if (intervals[i][1] < newInterval[0]) {
+                result.push_back(intervals[i]);
+                //result.back()[1] = std::max(result.back()[1], intervals[i][1]);
+                //result.push_back({std::min(intervals[i][0], newInterval[0]), std::max(intervals[i][1], newInterval[1])});
+            } else if (intervals[i][0] <= newInterval[1]) {
+                newInterval[0] = std::min(intervals[i][0], newInterval[0]);
+                newInterval[1] = std::max(intervals[i][1], newInterval[1]);
+                //result.back()[0] = newInterval[0];
+                //result.back()[1] = newInterval[1];
+            } else {
+                break;
+            }
+        }
+        result.push_back(newInterval);
+        while (i < size) {
+            result.push_back(intervals[i]);
+            i++;
+        }
+        return result;
+        return std::vector<std::vector<int>>();
+    }
+    std::vector<std::vector<int>> insert1(
+            std::vector<std::vector<int>>& intervals,
+                        std::vector<int> & newInterval)
     {
         return std::vector<std::vector<int>>();
     }
@@ -84,11 +137,12 @@ public:
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
         std::vector<std::vector<int>> & intervals,
+                    std::vector<int>  & newInterval,
         std::vector<std::vector<int>> & expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -99,23 +153,21 @@ void Test(const std::string& testName,
 
     std::cout << "intervals:" <<  std::endl;
     printvector(intervals);
+    std::cout << "newInterval:" ;
+    printvector(newInterval);
+    //std::cout <<  std::endl;
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 0;
+    if (TEST_0)
     {
         std::cout << "Solution0 start.........." << std::endl;
-        if (TEST_TIME)
-        {
-            start = std::chrono::system_clock::now();
-        }
-
-        std::vector<std::vector<int>>&& result = solution.merge(intervals);
+        std::vector<std::vector<int>>&& result = solution.insert(intervals, newInterval);
         std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result );
-       
+        printvector(result);
+
         if(result == expected)
         {
-            //10yy
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
         }
         else
@@ -123,7 +175,7 @@ const static int TEST_1    = 0;
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
             std::cout << RED << "expected:" << std::endl;
             printvector(expected);
-            std::cout << RESET << std::endl;
+            std::cout << RESET ;//<< std::endl;
         }
         if (TEST_TIME)
         {
@@ -212,45 +264,60 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 
 void Test1()
 {
-    std::vector<std::vector<int>> intervals = {{1,3},{2,6},{8,10},{15,18}};
-    std::vector<std::vector<int>> result = {{1,6},{8,10},{15,18}};
-    Test("Test1", intervals, result);
+    std::vector<std::vector<int>> intervals = {{1,3},{6,9}};
+    std::vector<int>            newInterval = {2,5};
+    std::vector<std::vector<int>>    result = {{1,5},{6,9}};
+    Test("Test1", intervals, newInterval, result);
 }
 
 void Test2()
 {
-    std::vector<std::vector<int>> intervals = {{1,4},{4,5}};
-    std::vector<std::vector<int>> result = {{1,5}};
-    Test("Test2", intervals, result);
+    std::vector<std::vector<int>> intervals = {{1,2},{3,5},{6,7},{8,10},{12,16}};
+    std::vector<int>            newInterval = {4,8};
+    std::vector<std::vector<int>>    result = {{1,2},{3,10},{12,16}};
+    Test("Test2", intervals, newInterval, result);
 }
 
 void Test3()
 {
-    std::vector<std::vector<int>> intervals = {{1,4},{2,5},{7,9}};
-    std::vector<std::vector<int>> result = {{1,5},{7,9}};
-    Test("Test3", intervals, result);
+    std::vector<std::vector<int>> intervals = {};
+    std::vector<int>            newInterval = {5,7};
+    std::vector<std::vector<int>>    result = {{5,7}};
+    Test("Test3", intervals, newInterval, result);
 }
 
 void Test4()
 {
-    std::vector<std::vector<int>> intervals = {{6,7},{2,4},{5,9}};
-    std::vector<std::vector<int>> result = {{2,4},{5,9}};
-    Test("Test4", intervals, result);
+    std::vector<std::vector<int>> intervals = {{1,5}};
+    std::vector<int>            newInterval = {2,3};
+    std::vector<std::vector<int>>    result = {{1,5}};
+    Test("Test4", intervals, newInterval, result);
 }
 
 void Test5()
 {
-    std::vector<std::vector<int>> intervals = {{1,4},{2,6},{3,5}};
-    std::vector<std::vector<int>> result = {{1,6}};
-    Test("Test1", intervals, result);
+    std::vector<std::vector<int>> intervals = {{1,5}};
+    std::vector<int>            newInterval = {2,7};
+    std::vector<std::vector<int>>    result = {{1,7}};
+    Test("Test5", intervals, newInterval, result);
+}
+
+void Test6()
+{
+    std::vector<std::vector<int>> intervals = {{1,5}};
+    std::vector<int>            newInterval = {6,8};
+    std::vector<std::vector<int>>    result = {{1,5},{6,8}};
+    Test("Test6", intervals, newInterval, result);
 }
 int main()
 {
+
     Test1();
     Test2();
     Test3();
     Test4();
     Test5();
+    Test6();
 
     return 0;
 

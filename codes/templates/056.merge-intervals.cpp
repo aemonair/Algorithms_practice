@@ -1,51 +1,28 @@
 /*
- ******************************************************************
- * 986. Interval List Intersections
+ * 56. Merge Intervals
  * Medium
- ******************************************************************
  *
- * You are given two lists of closed intervals, firstList and secondList, where firstList[i] = [starti, endi] and secondList[j] = [startj, endj]. Each list of intervals is pairwise disjoint and in sorted order.
- *
- * Return the intersection of these two interval lists.
- *
- * (Formally, a closed interval [a, b] (with a <= b) denotes the set of real numbers x with a <= x <= b. 
- * The intersection of two closed intervals is a set of real numbers that is either empty, or can be represented as a closed interval. 
- * For example, the intersection of [1, 3] and [2, 4] is [2, 3].)
+ * Given a collection of intervals, merge all overlapping intervals.
  *
  ******************************************************************
- * Example 1:
- *  A  [ ]  [    ]  [         ][]
- *  B   [   ]  [   ]  [        ][]
+ *  Example 1:
  *
- *ans   []  |  [ ]    [       ]|| 
- *     0   4   8   C   16      24
- *
- * Input: A = [[0,2],[5,10],[13,23],[24,25]], B = [[1,5],[8,12],[15,24],[25,26]]
- * Output: [[1,2],[5,5],[8,10],[15,23],[24,24],[25,25]]
+ * Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+ * Output: [[1,6],[8,10],[15,18]]
+ * Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
  ******************************************************************
- * Example 2:
+ *  Example 2:
  *
- * Input: firstList = [[1,3],[5,9]], secondList = []
- * Output: []
- ******************************************************************
- * Example 3:
+ * Input: intervals = [[1,4],[4,5]]
+ * Output: [[1,5]]
+ * Explanation: Intervals [1,4] and [4,5] are considered overlapping.
+ ****************************************************************
+ *  NOTE:
+ *  input types have been changed on April 15, 2019. Please reset to default code definition to get new method signature.
+ ****************************************************************
+ *  Constraints:
  *
- * Input: firstList = [], secondList = [[4,8],[10,12]]
- * Output: []
- ******************************************************************
- * Example 4:
- *
- * Input: firstList = [[1,7]], secondList = [[3,10]]
- * Output: [[3,7]]
- ******************************************************************
- * Constraints:
- *
- * 0 <= firstList.length, secondList.length <= 1000
- * firstList.length + secondList.length >= 1
- * 0 <= start[i] < endi <= 10^9
- * end[i] < start[i+1]
- * 0 <= start[j] < end[j] <= 10^9
- * end[j] < start[j+1]
+ * intervals[i][0] <= intervals[i][1]
  ***************************************************************
  *
  */
@@ -97,28 +74,24 @@ int printunordered_map(const std::unordered_map<T1,T2> &v);
 
 class Solution {
 public:
-    std::vector<std::vector<int>> intervalIntersection(
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList)
+    std::vector<std::vector<int>> merge(
+            std::vector<std::vector<int>>& intervals)
     {
         return std::vector<std::vector<int>>();
     }
-
-    std::vector<std::vector<int>> intervalIntersection1(
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList)
+    std::vector<std::vector<int>> merge1(
+            std::vector<std::vector<int>>& intervals)
     {
         return std::vector<std::vector<int>>();
     }
-
-    //    --- |   -- |    --  |   --  |  --     |f
-    // --     | --   |  ----- |    -- |      -- |s
+    bool isoverlap(std::vector<std::vector<int>> &intervals){
+        return true;
+    }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList,
+        std::vector<std::vector<int>> & intervals,
         std::vector<std::vector<int>> & expected)
 {
     if(testName.length() > 0)
@@ -132,19 +105,22 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "firstList:" <<  std::endl;
-    printvector(firstList);
-    std::cout << "secondList:" <<  std::endl;
-    printvector(secondList);
+    std::cout << "intervals:" <<  std::endl;
+    printvector(intervals);
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 0;
-    if (TEST_0)
-    {
-        std::vector<std::vector<int>>&& result =
-            solution.intervalIntersection(firstList, secondList);
+    if (TEST_0) {
+        std::cout << "Solution0 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        std::cout << "isoverlap:" << std::boolalpha << solution.isoverlap(intervals) << std::endl;
+        std::vector<std::vector<int>>&& result = solution.merge(intervals);
         std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
+        printvector(result );
 
         if(result == expected)
         {
@@ -154,7 +130,8 @@ const static int TEST_1    = 0;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
+            std::cout << RED << "expected:" << std::endl;
+            printvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -165,12 +142,17 @@ const static int TEST_1    = 0;
         }
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
-    if (TEST_1)
-    {
-        std::vector<std::vector<int>>&& result =
-            solution.intervalIntersection1(firstList, secondList);
+    if (TEST_1) {
+        std::cout << "Solution1 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        std::cout << "isoverlap:" << std::boolalpha << solution.isoverlap(intervals) << std::endl;
+        std::vector<std::vector<int>>&& result = solution.merge(intervals);
         std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
+        printvector(result );
 
         if(result == expected)
         {
@@ -180,7 +162,8 @@ const static int TEST_1    = 0;
         else
         {
             std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
+            std::cout << RED << "expected:" << std::endl;
+            printvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -192,7 +175,6 @@ const static int TEST_1    = 0;
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
 }
-
 // 76 yy
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
@@ -271,53 +253,38 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 
 void Test1()
 {
-    std::vector<std::vector<int>> firstList  = {{0,2},{5,10},{13,23},{24,25}};
-    std::vector<std::vector<int>> secondList = {{1,5},{8,12},{15,24},{25,26}};
-    std::vector<std::vector<int>> result     =
-    {{1,2},{5,5},{8,10},{15,23},{24,24},{25,25}};
-    Test("Test1", firstList, secondList, result);
+    std::vector<std::vector<int>> intervals = {{1,3},{2,6},{8,10},{15,18}};
+    std::vector<std::vector<int>> result = {{1,6},{8,10},{15,18}};
+    Test("Test1", intervals, result);
 }
 
 void Test2()
 {
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,9}};
-    std::vector<std::vector<int>> secondList = {};
-    std::vector<std::vector<int>> result     = {};
-    Test("Test2", firstList, secondList, result);
+    std::vector<std::vector<int>> intervals = {{1,4},{4,5}};
+    std::vector<std::vector<int>> result = {{1,5}};
+    Test("Test2", intervals, result);
 }
 
 void Test3()
 {
-    std::vector<std::vector<int>> firstList  = {};
-    std::vector<std::vector<int>> secondList = {{4,8},{10,12}};
-    std::vector<std::vector<int>> result     = {};
-    Test("Test3", firstList, secondList, result);
+    std::vector<std::vector<int>> intervals = {{1,4},{2,5},{7,9}};
+    std::vector<std::vector<int>> result = {{1,5},{7,9}};
+    Test("Test3", intervals, result);
 }
 
 void Test4()
 {
-    std::vector<std::vector<int>> firstList  = {{1,7}};
-    std::vector<std::vector<int>> secondList = {{3,10}};
-    std::vector<std::vector<int>> result     = {{3,7}};
-    Test("Test4", firstList, secondList, result);
+    std::vector<std::vector<int>> intervals = {{6,7},{2,4},{5,9}};
+    std::vector<std::vector<int>> result = {{2,4},{5,9}};
+    Test("Test4", intervals, result);
 }
 
 void Test5()
 {
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,6},{7,9}};
-    std::vector<std::vector<int>> secondList = {{2,3},{5,7}};
-    std::vector<std::vector<int>> result     = {{2,3},{5,6},{7,7}};
-    Test("Test5", firstList, secondList, result);
+    std::vector<std::vector<int>> intervals = {{1,4},{2,6},{3,5}};
+    std::vector<std::vector<int>> result = {{1,6}};
+    Test("Test1", intervals, result);
 }
-
-void Test6()
-{
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,7},{9,12}};
-    std::vector<std::vector<int>> secondList = {{5,10}};
-    std::vector<std::vector<int>> result     = {{5,7},{9,10}};
-    Test("Test6", firstList, secondList, result);
-}
-
 int main()
 {
     Test1();
@@ -325,7 +292,6 @@ int main()
     Test3();
     Test4();
     Test5();
-    Test6();
 
     return 0;
 

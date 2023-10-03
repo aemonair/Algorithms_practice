@@ -97,22 +97,58 @@ int printunordered_map(const std::unordered_map<T1,T2> &v);
 
 class Solution {
 public:
-    std::vector<std::vector<int>> intervalIntersection(
+    std::vector<std::vector<int>> intervalIntersection0(
             std::vector<std::vector<int>>& firstList,
             std::vector<std::vector<int>>& secondList)
     {
+        int i = 0;
+        int j = 0;
+        int size1 = firstList.size();
+        std::vector<std::vector<int>> result;
+        int size2 = secondList.size();
+        while (i< size1 && j < size2) {
+            if (firstList[i][0] > secondList[j][1]) {
+                j++;
+                continue;
+            }
+            if (firstList[i][1] < secondList[j][0]) {
+                i++;
+                continue;
+            }
+            if (firstList[i][0] <= secondList[j][1]) {
+            //if (firstList[i][1] >= secondList[j][0]) {
+                result.push_back({std::max(firstList[i][0] , secondList[j][0]), std::min(firstList[i][1], secondList[j][1]) });
+            }
+            if(firstList[i][1] < secondList[j][1]) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+        return result;
         return std::vector<std::vector<int>>();
     }
-
-    std::vector<std::vector<int>> intervalIntersection1(
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList)
-    {
-        return std::vector<std::vector<int>>();
+    std::vector<std::vector<int>> intervalIntersection(std::vector<std::vector<int>>& firstList, std::vector<std::vector<int>>& secondList) {
+        int i = 0, j = 0;
+        std::vector<std::vector<int>> res;
+        while(i < firstList.size() && j < secondList.size()){
+            int low  = std::max(firstList[i][0], secondList[j][0]);
+            int high = std::min(firstList[i][1], secondList[j][1]);
+            std::cout << "low:" << low << "," << "high:" << high << std::endl;
+            if(low <= high){
+                res.push_back({low, high});
+            }
+            if(firstList[i][1] < secondList[j][1]){
+                i++;
+            } else {
+                j++;
+            }
+        }
+        return res;
     }
 
-    //    --- |   -- |    --  |   --  |  --     |f
-    // --     | --   |  ----- |    -- |      -- |s
+    //    --- |   -- |    --  |  ----- | --  |  --     |f
+    // --     | --   |  ----- |   --   |  -- |      -- |s
 };
 
 // ==================== TEST Codes====================
@@ -123,7 +159,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
     }
 
     Solution solution;
@@ -162,32 +198,6 @@ const static int TEST_1    = 0;
            end = std::chrono::system_clock::now();
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution0 costs " << elapsed.count() <<"micros" << std::endl;
-        }
-        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
-    }
-    if (TEST_1)
-    {
-        std::vector<std::vector<int>>&& result =
-            solution.intervalIntersection1(firstList, secondList);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
-
-        if(result == expected)
-        {
-            //10yy
-            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
-        }
-        else
-        {
-            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
-            std::cout << RESET << std::endl;
-        }
-        if (TEST_TIME)
-        {
-           end = std::chrono::system_clock::now();
-           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
         }
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
@@ -313,11 +323,23 @@ void Test5()
 void Test6()
 {
     std::vector<std::vector<int>> firstList  = {{1,3},{5,7},{9,12}};
-    std::vector<std::vector<int>> secondList = {{5,10}};
-    std::vector<std::vector<int>> result     = {{5,7},{9,10}};
+    std::vector<std::vector<int>> secondList = {{2,2},{5,10},{11,12}};
+    std::vector<std::vector<int>> result     = {{2,2},{5,7},{9,10},{11,12}};
     Test("Test6", firstList, secondList, result);
 }
 
+void Test7()
+{
+    std::vector<std::vector<int>> firstList  = {{1,3},{5,7},{9,12}};
+    std::vector<std::vector<int>> secondList = {{2,2},{5,10},{11,12}};
+    std::vector<std::vector<int>> result     = {{2,2},{5,7},{9,10},{11,12}};
+    Test("Test7", firstList, secondList, result);
+}
+
+//f    -------  
+//s  ------  ---
+            //if (firstList[i][0] <= secondList[j][1]) {
+            //if (firstList[i][1] >= secondList[j][0]) {
 int main()
 {
     Test1();
