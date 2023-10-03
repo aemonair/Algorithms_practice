@@ -1,32 +1,30 @@
 /*
- ******************************************************************
- * 253. Meeting Rooms II
- ******************************************************************
- * Given an array of meeting time intervals consisting of start and end times[[s1,e1],[s2,e2],...](si< ei), find the minimum number of conference rooms required.
- ******************************************************************
- * Example 1:
+ * 56. Merge Intervals
+ * Medium
  *
- * Input:
- * [[0,30],[5,10],[15,20]]
- * Output: 2
+ * Given a collection of intervals, merge all overlapping intervals.
+ *
  ******************************************************************
- * Example 2:
+ *  Example 1:
  *
- * Input:[[7,10],[2,4]]
+ * Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+ * Output: [[1,6],[8,10],[15,18]]
+ * Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
+ ******************************************************************
+ *  Example 2:
  *
- * Output: 1
+ * Input: intervals = [[1,4],[4,5]]
+ * Output: [[1,5]]
+ * Explanation: Intervals [1,4] and [4,5] are considered overlapping.
+ ****************************************************************
+ *  NOTE:
+ *  input types have been changed on April 15, 2019. Please reset to default code definition to get new method signature.
+ ****************************************************************
+ *  Constraints:
+ *
+ * intervals[i][0] <= intervals[i][1]
  ***************************************************************
- * Meetings: [[4,5], [2,3], [2,4], [3,5]]
- * Output: 2
- * Explanation: We will need one room for [2,3] and [3,5], and another room for [2,4] and [4,5].
  *
- * Here is a visual representation of Example :
- *
- * _1_2_3_4_5_6_7_
- *         __
- *     __
- *     ____
- *       ___
  */
 
 // 44 yy
@@ -74,32 +72,46 @@ int printstack(std::stack<T> s);
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
 
-struct Interval
-{
-    int start;
-    int end;
-    Interval() : start(0), end(0) {}
-    Interval(int s, int e) : start(s), end(e) {}
-};
-template<>
-int printvector(std::vector<Interval> v);
-
 class Solution {
 public:
-    int minMeetingRooms(std::vector<Interval>& intervals)
+    std::vector<std::vector<int>> merge(
+            std::vector<std::vector<int>>& intervals)
     {
-        return 0;
+        int size = intervals.size();
+        sort(intervals.begin(), intervals.end(), [](std::vector<int> a, std::vector<int> b){return a[0] < b[0];});
+        std::vector<std::vector<int>> result;
+        result.push_back(intervals[0]);
+        for (int i = 1; i < size; ++i) {
+            if (intervals[i][0] <= result.back()[1]) {
+                result.back()[1] = std::max(intervals[i][1], result.back()[1]);
+            } else {
+                result.push_back(intervals[i]);
+            }
+        }
+        return result;
+        return std::vector<std::vector<int>>();
+    }
+    // ---  ---
+    //     --
+    bool isoverlap(std::vector<std::vector<int>> &intervals){
+        int size = intervals.size();
+        for (int i = 0; i < size - 1; i++) {
+            if (intervals[i][1] >= intervals[i+1][0]) {
+                return true;
+            }
+        }
+        return false;
     }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-          std::vector<Interval>& intervals,
-          int  expected)
+        std::vector<std::vector<int>> & intervals,
+        std::vector<std::vector<int>> & expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -113,11 +125,18 @@ void Test(const std::string& testName,
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 0;
-    if (TEST_0)
     {
-        decltype(expected) result = solution.minMeetingRooms(intervals);
-        std::cout << "result:" << std::boolalpha << result << std::endl;
-       
+        std::cout << "Solution0 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        std::cout << "isoverlap:" << std::boolalpha << solution.isoverlap(intervals) << std::endl;
+        std::vector<std::vector<int>>&& result = solution.merge(intervals);
+        std::cout << "result:" << std::boolalpha << std::endl;
+        printvector(result );
+
         if(result == expected)
         {
             //10yy
@@ -126,7 +145,8 @@ const static int TEST_1    = 0;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
+            std::cout << RED << "expected:" << std::endl;
+            printvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -164,17 +184,6 @@ int printvector(std::vector<T> v)
         std::cout << i << ", ";
     }
     std::cout << "\b\b ]" << std::endl;
-    return v.size();
-}
-template<>
-int printvector(std::vector<Interval> v)
-{
-    std::cout << "{  " ;// << std::endl;
-    for (auto iter = v.begin(); iter != v.end(); iter++ )
-    {
-        std::cout << "[" << (*iter).start << ", "<< (*iter).end << "] ,";//<<std::endl;
-    }
-    std::cout << "\b  }" << std::endl;
     return v.size();
 }
 template<typename T>
@@ -227,56 +236,38 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 
 void Test1()
 {
-    std::vector<Interval> intervals  = {Interval(0,30),Interval(5,10),Interval(15,20)};
-    int                result     = 2;
+    std::vector<std::vector<int>> intervals = {{1,3},{2,6},{8,10},{15,18}};
+    std::vector<std::vector<int>> result = {{1,6},{8,10},{15,18}};
     Test("Test1", intervals, result);
 }
 
 void Test2()
 {
-    std::vector<Interval> intervals  = {Interval(7,10),Interval(2,4)};
-    int                result     = 1;
+    std::vector<std::vector<int>> intervals = {{1,4},{4,5}};
+    std::vector<std::vector<int>> result = {{1,5}};
     Test("Test2", intervals, result);
 }
 
 void Test3()
 {
-    std::vector<Interval> intervals  = {Interval(1,4),Interval(2,5),Interval(7,9)};
-    int                result     = 2;
+    std::vector<std::vector<int>> intervals = {{1,4},{2,5},{7,9}};
+    std::vector<std::vector<int>> result = {{1,5},{7,9}};
     Test("Test3", intervals, result);
 }
 
 void Test4()
 {
-    std::vector<Interval> intervals  = {Interval(6,7),Interval(2,4),Interval(8,12)};
-    int                result     = 1;
+    std::vector<std::vector<int>> intervals = {{6,7},{2,4},{5,9}};
+    std::vector<std::vector<int>> result = {{2,4},{5,9}};
     Test("Test4", intervals, result);
 }
 
 void Test5()
 {
-    std::vector<Interval> intervals  = {Interval(1,4),Interval(2,3),Interval(3,6)};
-    int                result     = 2;
-    Test("Test5", intervals, result);
+    std::vector<std::vector<int>> intervals = {{1,4},{2,6},{3,5}};
+    std::vector<std::vector<int>> result = {{1,6}};
+    Test("Test1", intervals, result);
 }
-
-void Test6()
-{
-    std::vector<Interval> intervals  = {{4,5},{2,3},{2,4},{3,5}};
-    //std::vector<Interval> intervals  = {Interval(4,5),Interval(2,3),Interval(2,4),Interval(3,5)};
-    int                result     = 2;
-    Test("Test6", intervals, result);
-}
-
-void Test7()
-{
-    std::vector<Interval> intervals  = {{4,5},{2,3},{2,4},{2,5}};
-    //std::vector<Interval> intervals  = {Interval(4,5),Interval(2,3),Interval(2,4),Interval(3,5)};
-    int                result     = 3;
-    Test("Test7", intervals, result);
-}
-
-
 int main()
 {
     Test1();
@@ -284,8 +275,6 @@ int main()
     Test3();
     Test4();
     Test5();
-    Test6();
-    Test7();
 
     return 0;
 

@@ -1,55 +1,35 @@
 /*
- ******************************************************************
- * 986. Interval List Intersections
- * Medium
- ******************************************************************
- *
- * You are given two lists of closed intervals, firstList and secondList, where firstList[i] = [starti, endi] and secondList[j] = [startj, endj]. Each list of intervals is pairwise disjoint and in sorted order.
- *
- * Return the intersection of these two interval lists.
- *
- * (Formally, a closed interval [a, b] (with a <= b) denotes the set of real numbers x with a <= x <= b. 
- * The intersection of two closed intervals is a set of real numbers that is either empty, or can be represented as a closed interval. 
- * For example, the intersection of [1, 3] and [2, 4] is [2, 3].)
- *
+ * 268. Missing Number
+ * Easy
+ * Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
  ******************************************************************
  * Example 1:
- *  A  [ ]  [    ]  [         ][]
- *  B   [   ]  [   ]  [        ][]
  *
- *ans   []  |  [ ]    [       ]|| 
- *     0   4   8   C   16      24
- *
- * Input: A = [[0,2],[5,10],[13,23],[24,25]], B = [[1,5],[8,12],[15,24],[25,26]]
- * Output: [[1,2],[5,5],[8,10],[15,23],[24,24],[25,25]]
+ * Input: nums = [3,0,1]
+ * Output: 2
+ * Explanation: n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.
  ******************************************************************
  * Example 2:
  *
- * Input: firstList = [[1,3],[5,9]], secondList = []
- * Output: []
+ * Input: nums = [0,1]
+ * Output: 2
+ * Explanation: n = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number in the range since it does not appear in nums.
  ******************************************************************
  * Example 3:
  *
- * Input: firstList = [], secondList = [[4,8],[10,12]]
- * Output: []
- ******************************************************************
- * Example 4:
- *
- * Input: firstList = [[1,7]], secondList = [[3,10]]
- * Output: [[3,7]]
+ * Input: nums = [9,6,4,2,3,5,7,0,1]
+ * Output: 8
+ * Explanation: n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.
  ******************************************************************
  * Constraints:
  *
- * 0 <= firstList.length, secondList.length <= 1000
- * firstList.length + secondList.length >= 1
- * 0 <= start[i] < endi <= 10^9
- * end[i] < start[i+1]
- * 0 <= start[j] < end[j] <= 10^9
- * end[j] < start[j+1]
- ***************************************************************
- *
- */
-
+ * n == nums.length
+ * 1 <= n <= 104
+ * 0 <= nums[i] <= n
+ * All the numbers of nums are unique.
+ ******************************************************************
+ * Follow up: Could you implement a solution using only O(1) extra space complexity and O(n) runtime complexity?
+*/
 // 44 yy
 #include <unordered_map>
 #include <algorithm>
@@ -97,29 +77,15 @@ int printunordered_map(const std::unordered_map<T1,T2> &v);
 
 class Solution {
 public:
-    std::vector<std::vector<int>> intervalIntersection(
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList)
+    int missingNumber(std::vector<int>& nums)
     {
-        return std::vector<std::vector<int>>();
+        return 0;
     }
-
-    std::vector<std::vector<int>> intervalIntersection1(
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList)
-    {
-        return std::vector<std::vector<int>>();
-    }
-
-    //    --- |   -- |    --  |   --  |  --     |f
-    // --     | --   |  ----- |    -- |      -- |s
 };
-
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList,
-        std::vector<std::vector<int>> & expected)
+        std::vector<int> & nums,
+        int expected)
 {
     if(testName.length() > 0)
     {
@@ -132,19 +98,20 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "firstList:" <<  std::endl;
-    printvector(firstList);
-    std::cout << "secondList:" <<  std::endl;
-    printvector(secondList);
+    std::cout << "nums:" <<  std::endl;
+    printvector(nums);
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 0;
-    if (TEST_0)
-    {
-        std::vector<std::vector<int>>&& result =
-            solution.intervalIntersection(firstList, secondList);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
+    if (TEST_0) {
+        std::cout << "Solution0 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        int result = solution.missingNumber(nums);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
 
         if(result == expected)
         {
@@ -165,12 +132,15 @@ const static int TEST_1    = 0;
         }
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
-    if (TEST_1)
-    {
-        std::vector<std::vector<int>>&& result =
-            solution.intervalIntersection1(firstList, secondList);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
+    if (TEST_1) {
+        std::cout << "Solution1 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        int result = solution.missingNumber(nums);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
 
         if(result == expected)
         {
@@ -192,7 +162,6 @@ const static int TEST_1    = 0;
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
 }
-
 // 76 yy
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
@@ -271,53 +240,32 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 
 void Test1()
 {
-    std::vector<std::vector<int>> firstList  = {{0,2},{5,10},{13,23},{24,25}};
-    std::vector<std::vector<int>> secondList = {{1,5},{8,12},{15,24},{25,26}};
-    std::vector<std::vector<int>> result     =
-    {{1,2},{5,5},{8,10},{15,23},{24,24},{25,25}};
-    Test("Test1", firstList, secondList, result);
+    std::vector<int> nums = {3,0,1};
+    int result = 2;
+    Test("Test1", nums, result);
 }
 
 void Test2()
 {
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,9}};
-    std::vector<std::vector<int>> secondList = {};
-    std::vector<std::vector<int>> result     = {};
-    Test("Test2", firstList, secondList, result);
+    std::vector<int> nums = {0,1};
+    int result = 2;
+    Test("Test2", nums, result);
 }
 
 void Test3()
 {
-    std::vector<std::vector<int>> firstList  = {};
-    std::vector<std::vector<int>> secondList = {{4,8},{10,12}};
-    std::vector<std::vector<int>> result     = {};
-    Test("Test3", firstList, secondList, result);
+    std::vector<int> nums = {9,6,4,2,3,5,7,0,1};
+    int result = 8;
+    Test("Test3", nums, result);
 }
 
 void Test4()
 {
-    std::vector<std::vector<int>> firstList  = {{1,7}};
-    std::vector<std::vector<int>> secondList = {{3,10}};
-    std::vector<std::vector<int>> result     = {{3,7}};
-    Test("Test4", firstList, secondList, result);
 }
 
 void Test5()
 {
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,6},{7,9}};
-    std::vector<std::vector<int>> secondList = {{2,3},{5,7}};
-    std::vector<std::vector<int>> result     = {{2,3},{5,6},{7,7}};
-    Test("Test5", firstList, secondList, result);
 }
-
-void Test6()
-{
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,7},{9,12}};
-    std::vector<std::vector<int>> secondList = {{5,10}};
-    std::vector<std::vector<int>> result     = {{5,7},{9,10}};
-    Test("Test6", firstList, secondList, result);
-}
-
 int main()
 {
     Test1();
@@ -325,7 +273,6 @@ int main()
     Test3();
     Test4();
     Test5();
-    Test6();
 
     return 0;
 

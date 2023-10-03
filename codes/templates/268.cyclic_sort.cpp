@@ -1,60 +1,36 @@
 /*
+ * 268.pre Cycle Sort
  ******************************************************************
- * 986. Interval List Intersections
- * Medium
+ * Cycle sort is an in-place, unstable sorting algorithm that is particularly useful when sorting arrays containing elements with a small range of values. It was developed by W. D. Jones and published in 1963.
+ *
+ * The basic idea behind cycle sort is to divide the input array into cycles, where each cycle consists of elements that belong to the same position in the sorted output array. The algorithm then performs a series of swaps to place each element in its correct position within its cycle, until all cycles are complete and the array is sorted.
  ******************************************************************
+ * We are given an array containing ‘n’ objects. Each object, when created, was assigned a unique number from 1 to ‘n’ based on their creation sequence. This means that the object with sequence number ‘3’ was created just before the object with sequence number ‘4’.
  *
- * You are given two lists of closed intervals, firstList and secondList, where firstList[i] = [starti, endi] and secondList[j] = [startj, endj]. Each list of intervals is pairwise disjoint and in sorted order.
- *
- * Return the intersection of these two interval lists.
- *
- * (Formally, a closed interval [a, b] (with a <= b) denotes the set of real numbers x with a <= x <= b. 
- * The intersection of two closed intervals is a set of real numbers that is either empty, or can be represented as a closed interval. 
- * For example, the intersection of [1, 3] and [2, 4] is [2, 3].)
- *
+ * Write a function to sort the objects in-place on their creation sequence number in O(n) and without any extra space. For simplicity, let’s assume we are passed an integer array containing only the sequence numbers, though each number is actually an object.
  ******************************************************************
  * Example 1:
- *  A  [ ]  [    ]  [         ][]
- *  B   [   ]  [   ]  [        ][]
  *
- *ans   []  |  [ ]    [       ]|| 
- *     0   4   8   C   16      24
- *
- * Input: A = [[0,2],[5,10],[13,23],[24,25]], B = [[1,5],[8,12],[15,24],[25,26]]
- * Output: [[1,2],[5,5],[8,10],[15,23],[24,24],[25,25]]
+ * Input: [3, 1, 5, 4, 2]
+ * Output: [1, 2, 3, 4, 5]
  ******************************************************************
  * Example 2:
  *
- * Input: firstList = [[1,3],[5,9]], secondList = []
- * Output: []
+ * Input: [2, 6, 4, 3, 1, 5]
+ * Output: [1, 2, 3, 4, 5, 6]
  ******************************************************************
  * Example 3:
  *
- * Input: firstList = [], secondList = [[4,8],[10,12]]
- * Output: []
+ * Input: [1, 5, 6, 4, 3, 2]
+ * Output: [1, 2, 3, 4, 5, 6]
  ******************************************************************
- * Example 4:
- *
- * Input: firstList = [[1,7]], secondList = [[3,10]]
- * Output: [[3,7]]
- ******************************************************************
- * Constraints:
- *
- * 0 <= firstList.length, secondList.length <= 1000
- * firstList.length + secondList.length >= 1
- * 0 <= start[i] < endi <= 10^9
- * end[i] < start[i+1]
- * 0 <= start[j] < end[j] <= 10^9
- * end[j] < start[j+1]
- ***************************************************************
- *
- */
-
+*/
 // 44 yy
 #include <unordered_map>
 #include <algorithm>
 #include <iostream>
 #include <climits>
+#include <thread>
 #include <chrono>
 #include <vector>
 #include <string>
@@ -95,58 +71,49 @@ int printstack(std::stack<T> s);
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
 
-class Solution {
+class Cyclicsort{
 public:
-    std::vector<std::vector<int>> intervalIntersection(
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList)
+    int sort(std::vector<int>& nums)
     {
-        return std::vector<std::vector<int>>();
+        return 0;
     }
-
-    std::vector<std::vector<int>> intervalIntersection1(
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList)
+    int sort1(std::vector<int>& nums)
     {
-        return std::vector<std::vector<int>>();
+        return 0;
     }
-
-    //    --- |   -- |    --  |   --  |  --     |f
-    // --     | --   |  ----- |    -- |      -- |s
 };
-
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList,
-        std::vector<std::vector<int>> & expected)
+        std::vector<int> & nums,
+        std::vector<int> expected)
 {
     if(testName.length() > 0)
     {
         std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
-    Solution solution;
+    Cyclicsort cycsort;
 
     auto start = std::chrono::system_clock::now();
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "firstList:" <<  std::endl;
-    printvector(firstList);
-    std::cout << "secondList:" <<  std::endl;
-    printvector(secondList);
+    std::cout << "nums:" <<  std::endl;
+    printvector(nums);
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 0;
-    if (TEST_0)
-    {
-        std::vector<std::vector<int>>&& result =
-            solution.intervalIntersection(firstList, secondList);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
+    if (TEST_0) {
+        std::cout << "Solution0 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
 
-        if(result == expected)
+        cycsort.sort(nums);
+        std::cout << "result:" << std::boolalpha << nums << std::endl;
+
+        if(nums == expected)
         {
             //10yy
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
@@ -165,14 +132,17 @@ const static int TEST_1    = 0;
         }
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
-    if (TEST_1)
-    {
-        std::vector<std::vector<int>>&& result =
-            solution.intervalIntersection1(firstList, secondList);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
+    if (TEST_1) {
+        std::cout << "Solution1 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
 
-        if(result == expected)
+        cycsort.sort1(nums);
+        std::cout << "result:" << std::boolalpha << nums << std::endl;
+
+        if(nums == expected)
         {
             //10yy
             std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
@@ -192,7 +162,6 @@ const static int TEST_1    = 0;
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
 }
-
 // 76 yy
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
@@ -271,53 +240,32 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 
 void Test1()
 {
-    std::vector<std::vector<int>> firstList  = {{0,2},{5,10},{13,23},{24,25}};
-    std::vector<std::vector<int>> secondList = {{1,5},{8,12},{15,24},{25,26}};
-    std::vector<std::vector<int>> result     =
-    {{1,2},{5,5},{8,10},{15,23},{24,24},{25,25}};
-    Test("Test1", firstList, secondList, result);
+    std::vector<int> nums = {3,1,5,4,2};
+    std::vector<int> result = {1,2,3,4,5};
+    Test("Test1", nums, result);
 }
 
 void Test2()
 {
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,9}};
-    std::vector<std::vector<int>> secondList = {};
-    std::vector<std::vector<int>> result     = {};
-    Test("Test2", firstList, secondList, result);
+    std::vector<int> nums = {2,6,4,3,1,5};
+    std::vector<int> result = {1,2,3,4,5,6};
+    Test("Test2", nums, result);
 }
 
 void Test3()
 {
-    std::vector<std::vector<int>> firstList  = {};
-    std::vector<std::vector<int>> secondList = {{4,8},{10,12}};
-    std::vector<std::vector<int>> result     = {};
-    Test("Test3", firstList, secondList, result);
+    std::vector<int> nums = {1,5,6,4,3,2};
+    std::vector<int> result = {1,2,3,4,5,6};
+    Test("Test3", nums, result);
 }
 
 void Test4()
 {
-    std::vector<std::vector<int>> firstList  = {{1,7}};
-    std::vector<std::vector<int>> secondList = {{3,10}};
-    std::vector<std::vector<int>> result     = {{3,7}};
-    Test("Test4", firstList, secondList, result);
 }
 
 void Test5()
 {
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,6},{7,9}};
-    std::vector<std::vector<int>> secondList = {{2,3},{5,7}};
-    std::vector<std::vector<int>> result     = {{2,3},{5,6},{7,7}};
-    Test("Test5", firstList, secondList, result);
 }
-
-void Test6()
-{
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,7},{9,12}};
-    std::vector<std::vector<int>> secondList = {{5,10}};
-    std::vector<std::vector<int>> result     = {{5,7},{9,10}};
-    Test("Test6", firstList, secondList, result);
-}
-
 int main()
 {
     Test1();
@@ -325,7 +273,6 @@ int main()
     Test3();
     Test4();
     Test5();
-    Test6();
 
     return 0;
 

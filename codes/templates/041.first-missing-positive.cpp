@@ -1,56 +1,38 @@
 /*
- ******************************************************************
- * 986. Interval List Intersections
- * Medium
- ******************************************************************
+ *************************************************************************************************
+ * 41. First Missing Positive
+ * Hard
+ *************************************************************************************************
+ * Given an unsorted integer array nums, return the smallest missing positive integer.
  *
- * You are given two lists of closed intervals, firstList and secondList, where firstList[i] = [starti, endi] and secondList[j] = [startj, endj]. Each list of intervals is pairwise disjoint and in sorted order.
- *
- * Return the intersection of these two interval lists.
- *
- * (Formally, a closed interval [a, b] (with a <= b) denotes the set of real numbers x with a <= x <= b. 
- * The intersection of two closed intervals is a set of real numbers that is either empty, or can be represented as a closed interval. 
- * For example, the intersection of [1, 3] and [2, 4] is [2, 3].)
- *
- ******************************************************************
+ * You must implement an algorithm that runs in O(n) time and uses O(1) auxiliary space.
+ *************************************************************************************************
  * Example 1:
- *  A  [ ]  [    ]  [         ][]
- *  B   [   ]  [   ]  [        ][]
  *
- *ans   []  |  [ ]    [       ]|| 
- *     0   4   8   C   16      24
- *
- * Input: A = [[0,2],[5,10],[13,23],[24,25]], B = [[1,5],[8,12],[15,24],[25,26]]
- * Output: [[1,2],[5,5],[8,10],[15,23],[24,24],[25,25]]
- ******************************************************************
+ * Input: nums = [1,2,0]
+ * Output: 3
+ * Explanation: The numbers in the range [1,2] are all in the array.
+ *************************************************************************************************
  * Example 2:
  *
- * Input: firstList = [[1,3],[5,9]], secondList = []
- * Output: []
- ******************************************************************
+ * Input: nums = [3,4,-1,1]
+ * Output: 2
+ * Explanation: 1 is in the array but 2 is missing.
+ *************************************************************************************************
  * Example 3:
  *
- * Input: firstList = [], secondList = [[4,8],[10,12]]
- * Output: []
- ******************************************************************
- * Example 4:
- *
- * Input: firstList = [[1,7]], secondList = [[3,10]]
- * Output: [[3,7]]
- ******************************************************************
+ * Input: nums = [7,8,9,11,12]
+ * Output: 1
+ * Explanation: The smallest positive integer 1 is missing.
+ *************************************************************************************************
  * Constraints:
  *
- * 0 <= firstList.length, secondList.length <= 1000
- * firstList.length + secondList.length >= 1
- * 0 <= start[i] < endi <= 10^9
- * end[i] < start[i+1]
- * 0 <= start[j] < end[j] <= 10^9
- * end[j] < start[j+1]
- ***************************************************************
- *
+ * 1 <= nums.length <= 10^5
+ * -2^31 <= nums[i] <= 2^31 - 1
+ *************************************************************************************************
  */
 
-// 44 yy
+// 45 yy
 #include <unordered_map>
 #include <algorithm>
 #include <iostream>
@@ -58,6 +40,7 @@
 #include <chrono>
 #include <vector>
 #include <string>
+#include <thread>
 #include <queue>
 #include <stack>
 #include <list>
@@ -97,29 +80,21 @@ int printunordered_map(const std::unordered_map<T1,T2> &v);
 
 class Solution {
 public:
-    std::vector<std::vector<int>> intervalIntersection(
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList)
+    int firstMissingPositive (std::vector<int>& nums)
     {
-        return std::vector<std::vector<int>>();
+        return 0;
     }
-
-    std::vector<std::vector<int>> intervalIntersection1(
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList)
+    int firstMissingPositive1(std::vector<int>& nums)
     {
-        return std::vector<std::vector<int>>();
+        return 0;
     }
-
-    //    --- |   -- |    --  |   --  |  --     |f
-    // --     | --   |  ----- |    -- |      -- |s
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList,
-        std::vector<std::vector<int>> & expected)
+        std::vector<int>& nums,
+        int expected
+        )
 {
     if(testName.length() > 0)
     {
@@ -132,19 +107,23 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "firstList:" <<  std::endl;
-    printvector(firstList);
-    std::cout << "secondList:" <<  std::endl;
-    printvector(secondList);
+    std::cout << "nums:" << nums << std::endl;
+
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
-const static int TEST_1    = 0;
+const static int TEST_1    = 1;
+const static int TEST_2    = 1;
+const static int TEST_3    = 1;
     if (TEST_0)
     {
-        std::vector<std::vector<int>>&& result =
-            solution.intervalIntersection(firstList, secondList);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
+        std::cout << "Solution0 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.firstMissingPositive(nums);
+        std::cout << "solution result:" << result << std::endl;
 
         if(result == expected)
         {
@@ -167,10 +146,14 @@ const static int TEST_1    = 0;
     }
     if (TEST_1)
     {
-        std::vector<std::vector<int>>&& result =
-            solution.intervalIntersection1(firstList, secondList);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
+        std::cout << "Solution1 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.firstMissingPositive1(nums);
+        std::cout << "solution result:" << result << std::endl;
 
         if(result == expected)
         {
@@ -190,6 +173,12 @@ const static int TEST_1    = 0;
            std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
         }
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
+    }
+    if (TEST_2)
+    {
+    }
+    if (TEST_3)
+    {
     }
 }
 
@@ -271,53 +260,44 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 
 void Test1()
 {
-    std::vector<std::vector<int>> firstList  = {{0,2},{5,10},{13,23},{24,25}};
-    std::vector<std::vector<int>> secondList = {{1,5},{8,12},{15,24},{25,26}};
-    std::vector<std::vector<int>> result     =
-    {{1,2},{5,5},{8,10},{15,23},{24,24},{25,25}};
-    Test("Test1", firstList, secondList, result);
+    std::vector<int> nums   = {1, 2, 0};
+    int expect = 3;
+    Test("Test1", nums, expect);
 }
-
 void Test2()
 {
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,9}};
-    std::vector<std::vector<int>> secondList = {};
-    std::vector<std::vector<int>> result     = {};
-    Test("Test2", firstList, secondList, result);
+    std::vector<int> nums   = {3, 4, -1, 1};
+    int expect = 2;
+    Test("Test2", nums, expect);
 }
 
 void Test3()
 {
-    std::vector<std::vector<int>> firstList  = {};
-    std::vector<std::vector<int>> secondList = {{4,8},{10,12}};
-    std::vector<std::vector<int>> result     = {};
-    Test("Test3", firstList, secondList, result);
+    std::vector<int> nums   = {7, 8, 9, 11, 12};
+    int expect = 1;
+    Test("Test3", nums, expect);
 }
 
 void Test4()
 {
-    std::vector<std::vector<int>> firstList  = {{1,7}};
-    std::vector<std::vector<int>> secondList = {{3,10}};
-    std::vector<std::vector<int>> result     = {{3,7}};
-    Test("Test4", firstList, secondList, result);
+    std::vector<int> nums   = {-3, 1, 5, 4, 2};
+    int expect = 3;
+    Test("Test4", nums, expect);
 }
 
 void Test5()
 {
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,6},{7,9}};
-    std::vector<std::vector<int>> secondList = {{2,3},{5,7}};
-    std::vector<std::vector<int>> result     = {{2,3},{5,6},{7,7}};
-    Test("Test5", firstList, secondList, result);
+    std::vector<int> nums   = {3, -2, 0, 1, 2};
+    int expect = 4;
+    Test("Test5", nums, expect);
 }
 
 void Test6()
 {
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,7},{9,12}};
-    std::vector<std::vector<int>> secondList = {{5,10}};
-    std::vector<std::vector<int>> result     = {{5,7},{9,10}};
-    Test("Test6", firstList, secondList, result);
+    std::vector<int> nums   = {3, 2, 5, 1};
+    int expect = 4;
+    Test("Test6", nums, expect);
 }
-
 int main()
 {
     Test1();

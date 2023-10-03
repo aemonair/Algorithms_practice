@@ -1,63 +1,45 @@
 /*
- ******************************************************************
- * 986. Interval List Intersections
- * Medium
- ******************************************************************
- *
- * You are given two lists of closed intervals, firstList and secondList, where firstList[i] = [starti, endi] and secondList[j] = [startj, endj]. Each list of intervals is pairwise disjoint and in sorted order.
- *
- * Return the intersection of these two interval lists.
- *
- * (Formally, a closed interval [a, b] (with a <= b) denotes the set of real numbers x with a <= x <= b. 
- * The intersection of two closed intervals is a set of real numbers that is either empty, or can be represented as a closed interval. 
- * For example, the intersection of [1, 3] and [2, 4] is [2, 3].)
- *
- ******************************************************************
+ *************************************************************************************************
+ * 1539. Kth Missing Positive Number
+ * Easy
+ *************************************************************************************************
+ * Given an array arr of positive integers sorted in a strictly increasing order, and an integer k.
+ * Return the kth positive integer that is missing from this array.
+ *************************************************************************************************
  * Example 1:
- *  A  [ ]  [    ]  [         ][]
- *  B   [   ]  [   ]  [        ][]
  *
- *ans   []  |  [ ]    [       ]|| 
- *     0   4   8   C   16      24
- *
- * Input: A = [[0,2],[5,10],[13,23],[24,25]], B = [[1,5],[8,12],[15,24],[25,26]]
- * Output: [[1,2],[5,5],[8,10],[15,23],[24,24],[25,25]]
- ******************************************************************
+ * Input: arr = [2,3,4,7,11], k = 5
+ * Output: 9
+ * Explanation: The missing positive integers are [1,5,6,8,9,10,12,13,...]. The 5th missing positive integer is 9.
+ *************************************************************************************************
  * Example 2:
  *
- * Input: firstList = [[1,3],[5,9]], secondList = []
- * Output: []
- ******************************************************************
- * Example 3:
- *
- * Input: firstList = [], secondList = [[4,8],[10,12]]
- * Output: []
- ******************************************************************
- * Example 4:
- *
- * Input: firstList = [[1,7]], secondList = [[3,10]]
- * Output: [[3,7]]
- ******************************************************************
+ * Input: arr = [1,2,3,4], k = 2
+ * Output: 6
+ * Explanation: The missing positive integers are [5,6,7,...]. The 2nd missing positive integer is 6.
+ *************************************************************************************************
  * Constraints:
  *
- * 0 <= firstList.length, secondList.length <= 1000
- * firstList.length + secondList.length >= 1
- * 0 <= start[i] < endi <= 10^9
- * end[i] < start[i+1]
- * 0 <= start[j] < end[j] <= 10^9
- * end[j] < start[j+1]
- ***************************************************************
- *
+ * 1 <= arr.length <= 1000
+ * 1 <= arr[i] <= 1000
+ * 1 <= k <= 1000
+ * arr[i] < arr[j] for 1 <= i < j <= arr.length
+ *************************************************************************************************
+ * Follow up:
+ * Could you solve this problem in less than O(n) complexity?
+ *************************************************************************************************
  */
 
-// 44 yy
+// 46 yy
 #include <unordered_map>
+#include <unordered_set>
 #include <algorithm>
 #include <iostream>
 #include <climits>
 #include <chrono>
 #include <vector>
 #include <string>
+#include <thread>
 #include <queue>
 #include <stack>
 #include <list>
@@ -97,29 +79,83 @@ int printunordered_map(const std::unordered_map<T1,T2> &v);
 
 class Solution {
 public:
-    std::vector<std::vector<int>> intervalIntersection(
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList)
+    std::vector<int> findKthPositive (std::vector<int>& nums, int k)
     {
-        return std::vector<std::vector<int>>();
-    }
+        int i = 1;
+        int j = 0;
+        std::vector<int> res;
+        int size = nums.size();
+        for (j = 0; j < size; j++) {
+            std::cout << i << " " << nums[j] << std::endl;
+            if (nums[j] < 0) {
+                continue;
+            }
+            while (i < nums[j] && k > 0) {
+                res.push_back(i);
+                k--;
+                i++;
+            }
+            if (i==nums[j]) {
+                i++;
+                continue;
+            }
+            while (i > nums[j] && j < size) {
+                res.push_back(nums[j]);
+                continue;
+            }
+        }
+        while (k > 0) {
+            res.push_back(i);
+            k--;
+            i++;
+        }
 
-    std::vector<std::vector<int>> intervalIntersection1(
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList)
+        return res;
+        return std::vector<int>{};
+    }
+    std::vector<int> findKthPositive1(std::vector<int>& nums, int k)
     {
-        return std::vector<std::vector<int>>();
-    }
+        int i = 0;
+        int n = nums.size();
+        auto swap = [&](int i, int j){
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+        };
+        while (i< n) {
+            while (nums[i] > 0 && nums[i] <= n && nums[i] != nums[nums[i]-1]) {
+                swap(i, nums[i]-1);
+            }
+            ++i;
+        }
+        std::cout << nums << std::endl;
+        std::vector<int> res;
+        std::unordered_set<int> uset;
 
-    //    --- |   -- |    --  |   --  |  --     |f
-    // --     | --   |  ----- |    -- |      -- |s
+        for (int i = 0; i < n && res.size() < k; ++i) {
+            if (i+1 != nums[i]) {
+                uset.insert(nums[i]);
+                res.push_back(i+1);
+            }
+        }
+        for (i=n+1; res.size() < k; i++) {
+            if (uset.count(i) > 0) {
+                continue;
+            }
+            res.push_back(i);
+        }
+        return res;
+        return {};
+    }
+    //int findKthPositive(vector<int>& arr, int k)
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList,
-        std::vector<std::vector<int>> & expected)
+        std::vector<int>& nums,
+        int k,
+        std::vector<int>& expected
+        )
 {
     if(testName.length() > 0)
     {
@@ -132,30 +168,33 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "firstList:" <<  std::endl;
-    printvector(firstList);
-    std::cout << "secondList:" <<  std::endl;
-    printvector(secondList);
+    std::cout << "nums:" << nums << std::endl;
+
 const static int TEST_TIME = 1;
-const static int TEST_0    = 1;
-const static int TEST_1    = 0;
+const static int TEST_0    = 0;
+const static int TEST_1    = 1;
+const static int TEST_2    = 0;
+const static int TEST_3    = 0;
     if (TEST_0)
     {
-        std::vector<std::vector<int>>&& result =
-            solution.intervalIntersection(firstList, secondList);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
+        std::cout << "Solution0 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        std::vector<int>&& result = solution.findKthPositive(nums, k);
+        std::cout << "solution result:" << result << std::endl;
 
         if(result == expected)
         {
-            //10yy
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
         }
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
-            std::cout << RESET << std::endl;
+            std::cout << RED << "expected:" << std::endl;
+            std::cout << expected << RESET << std::endl;
         }
         if (TEST_TIME)
         {
@@ -167,21 +206,24 @@ const static int TEST_1    = 0;
     }
     if (TEST_1)
     {
-        std::vector<std::vector<int>>&& result =
-            solution.intervalIntersection1(firstList, secondList);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
+        std::cout << "Solution1 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        std::vector<int>&& result = solution.findKthPositive1(nums, k);
+        std::cout << "solution result:" << result << std::endl;
 
         if(result == expected)
         {
-            //10yy
             std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
         }
         else
         {
             std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
-            std::cout << RESET << std::endl;
+            std::cout << RED << "expected:" << std::endl;
+            std::cout << expected << RESET << std::endl;
         }
         if (TEST_TIME)
         {
@@ -191,8 +233,13 @@ const static int TEST_1    = 0;
         }
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
+    if (TEST_2)
+    {
+    }
+    if (TEST_3)
+    {
+    }
 }
-
 // 76 yy
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
@@ -271,53 +318,50 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 
 void Test1()
 {
-    std::vector<std::vector<int>> firstList  = {{0,2},{5,10},{13,23},{24,25}};
-    std::vector<std::vector<int>> secondList = {{1,5},{8,12},{15,24},{25,26}};
-    std::vector<std::vector<int>> result     =
-    {{1,2},{5,5},{8,10},{15,23},{24,24},{25,25}};
-    Test("Test1", firstList, secondList, result);
+    std::vector<int> nums   = {2, 3, 4};
+    int k = 3;
+    std::vector<int> expect = {1,5,6};
+    Test("Test1", nums, k, expect);
 }
-
 void Test2()
 {
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,9}};
-    std::vector<std::vector<int>> secondList = {};
-    std::vector<std::vector<int>> result     = {};
-    Test("Test2", firstList, secondList, result);
+    std::vector<int> nums   = {-2, -3, 4};
+    int k = 2;
+    std::vector<int> expect = {1, 2};
+    Test("Test2", nums, k, expect);
 }
 
 void Test3()
 {
-    std::vector<std::vector<int>> firstList  = {};
-    std::vector<std::vector<int>> secondList = {{4,8},{10,12}};
-    std::vector<std::vector<int>> result     = {};
-    Test("Test3", firstList, secondList, result);
+    std::vector<int> nums   = {1, 2 };
+    int k = 1;
+    std::vector<int> expect = {3};
+    Test("Test3", nums, k, expect);
 }
 
 void Test4()
 {
-    std::vector<std::vector<int>> firstList  = {{1,7}};
-    std::vector<std::vector<int>> secondList = {{3,10}};
-    std::vector<std::vector<int>> result     = {{3,7}};
-    Test("Test4", firstList, secondList, result);
+    std::vector<int> nums   = {2,3,4,7,11};
+    int k = 5;
+    std::vector<int> expect = {1,5,6,8,9};
+    Test("Test4", nums, k, expect);
 }
 
 void Test5()
 {
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,6},{7,9}};
-    std::vector<std::vector<int>> secondList = {{2,3},{5,7}};
-    std::vector<std::vector<int>> result     = {{2,3},{5,6},{7,7}};
-    Test("Test5", firstList, secondList, result);
+    std::vector<int> nums   = {1,2,3,4};
+    int k = 2;
+    std::vector<int> expect = {5,6};
+    Test("Test5", nums, k, expect);
 }
 
 void Test6()
 {
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,7},{9,12}};
-    std::vector<std::vector<int>> secondList = {{5,10}};
-    std::vector<std::vector<int>> result     = {{5,7},{9,10}};
-    Test("Test6", firstList, secondList, result);
+    std::vector<int> nums   = {3,-1,4,5,5};
+    int k = 3;
+    std::vector<int> expect = {1,2,6};
+    Test("Test6", nums, k, expect);
 }
-
 int main()
 {
     Test1();

@@ -1,22 +1,32 @@
 /*
  ******************************************************************
- * 252. Meeting Rooms
+ * 253. Meeting Rooms II
  ******************************************************************
- * Given an array of meeting time intervals consisting of start and end times[[s1,e1],[s2,e2],...](si< ei), determine if a person could attend all meetings.
+ * Given an array of meeting time intervals consisting of start and end times[[s1,e1],[s2,e2],...](si< ei), find the minimum number of conference rooms required.
  ******************************************************************
  * Example 1:
  *
  * Input:
  * [[0,30],[5,10],[15,20]]
- * Output: false
+ * Output: 2
  ******************************************************************
  * Example 2:
  *
  * Input:[[7,10],[2,4]]
  *
- * Output:true
+ * Output: 1
  ***************************************************************
+ * Meetings: [[4,5], [2,3], [2,4], [3,5]]
+ * Output: 2
+ * Explanation: We will need one room for [2,3] and [3,5], and another room for [2,4] and [4,5].
  *
+ * Here is a visual representation of Example :
+ *
+ * _1_2_3_4_5_6_7_
+ *         __
+ *     __
+ *     ____
+ *       ___
  */
 
 // 44 yy
@@ -71,52 +81,111 @@ struct Interval
     Interval() : start(0), end(0) {}
     Interval(int s, int e) : start(s), end(e) {}
 };
-
 template<>
 int printvector(std::vector<Interval> v);
 
 class Solution {
 public:
-    bool canAttendMeetings(std::vector<Interval>& intervals)
+    int minMeetingRooms(std::vector<Interval>& intervals)
     {
-        return true;
-    }
-
-    //    --- |   -- |    --  |   --  |  --     |f
-    // --     | --   |  ----- |    -- |      -- |s
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        std::cout << "{  " ;// << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << "[" << (*iter).start << ", "<< (*iter).end << "] ,";//<<std::endl;
+        //Meetings: [[4,5], [2,3], [2,4], [3,5]]
+        // [2,3]
+        // [2,3][2,4]
+        //      [2,4][3,5]
+        //           [3,5][4,5]
+        // 按start排序
+        sort(intervals.begin(), intervals.end(), [](Interval &a, Interval &b){
+                return a.start < b.start;
+                });
+        auto cmp = [](Interval &a, Interval &b) {
+            return a.end > b.end;
+        };
+        std::priority_queue<Interval, std::vector<Interval>, decltype(cmp)> pq(cmp);
+        // 保存最大房间个数
+        int maxcount = std::numeric_limits<int>::min();
+        int i = 0;
+        int size = intervals.size();
+        while ( i< size) {
+            std::cout << intervals[i].start << "~"<< intervals[i].end << std::endl;
+            //while (!pq.empty()) {
+            if (!pq.empty()) {
+                std::cout << pq.top().end << "<" << intervals[i].start << "?" << std::endl;
+                // 如果当前堆顶最小结束时间 已过 当前开始时间，判断下一个堆顶结束时间
+                if(pq.top().end <= intervals[i].start) {
+                //while(pq.top().end <= intervals[i].start) {
+                    pq.pop();
+                }
+            }
+            pq.push(intervals[i]);
+            std::cout << pq.top().start << "~" << pq.top().end << "," << pq.size() << std::endl;
+            maxcount = std::max(maxcount, static_cast<int>(pq.size()));
+            i++;
         }
-        std::cout << "\b  }" << std::endl;
-        return v.size();
+        return static_cast<int>(maxcount);
     }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
+    int minMeetingRooms1(std::vector<Interval>& intervals)
     {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
+         // 上下车问题
+        // 上车+1，下车-1
+        std::vector<std::vector<int>> result;
+        for(auto interval: intervals) {
+            result.push_back(std::vector<int>{interval.start, 1});
+            result.push_back(std::vector<int>{interval.end , -1});
+            printvector(result);
         }
-        std::cout << std::endl;
-        return v.size();
+        int max = 0;
+        int maxnum = 0;
+        //std::sort(intervals.begin(), intervals.end(), [](Interval &a,Interval &b){return a.start < b.start});
+        std::sort(result.begin(),result.end());
+        printvector(result);
+        for(auto res: result){
+            maxnum += res[1];
+            max = std::max(maxnum, max);
+        }
+        return max;
+    }
+    int minMeetingRooms2(std::vector<Interval>& intervals)
+    {
+        sort(intervals.begin(), intervals.end(), [](Interval &a, Interval &b){return a.start < b.start;});
+        std::vector<int> vmax{intervals[0].end};
+        int num = 0;
+        for (int i = 0; i < intervals.size(); ++i) {
+            // 当前最小end
+            if(vmax[0] > intervals[i].start) {
+                if (vmax[0] > intervals[i].end) {
+                    // vmax     -----
+                    // interval   --
+                    vmax.insert(vmax.begin(), intervals[i].end);
+                } else {
+                    // vmax     ---
+                    // interval   ---
+                    vmax.push_back(intervals[i].end);
+                }
+                printvector(vmax);
+                num++;
+            } else {
+                // 没有交集
+                vmax.erase(vmax.begin());
+                std::cout << "erase begin" << std::endl;
+                if(vmax.size() == 0 || vmax[0] > intervals[i].end) {
+                    vmax.insert(vmax.begin(), intervals[i].end);
+                }
+                printvector(vmax);
+            }
+        }
+        return num;
+
     }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
           std::vector<Interval>& intervals,
-          bool expected)
+          int  expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -126,16 +195,15 @@ void Test(const std::string& testName,
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
     std::cout << "intervals:" <<  std::endl;
-    //solution.printvector(intervals);
     printvector(intervals);
 const static int TEST_TIME = 1;
-const static int TEST_0    = 1;
-const static int TEST_1    = 0;
+const static int TEST_0    = 0;
+const static int TEST_1    = 1;
     if (TEST_0)
     {
-        decltype(expected) result = solution.canAttendMeetings(intervals);
+        decltype(expected) result = solution.minMeetingRooms(intervals);
         std::cout << "result:" << std::boolalpha << result << std::endl;
-       
+
         if(result == expected)
         {
             //10yy
@@ -152,6 +220,30 @@ const static int TEST_1    = 0;
            end = std::chrono::system_clock::now();
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution0 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
+    }
+    if (TEST_1)
+    {
+        decltype(expected) result = solution.minMeetingRooms1(intervals);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
+
+        if(result == expected)
+        {
+            //10yy
+            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
         }
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
@@ -246,41 +338,69 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 void Test1()
 {
     std::vector<Interval> intervals  = {Interval(0,30),Interval(5,10),Interval(15,20)};
-    bool               result     = false;
+    int                result     = 2;
     Test("Test1", intervals, result);
 }
 
 void Test2()
 {
     std::vector<Interval> intervals  = {Interval(7,10),Interval(2,4)};
-    bool               result     = true;
+    int                result     = 1;
     Test("Test2", intervals, result);
 }
 
 void Test3()
 {
     std::vector<Interval> intervals  = {Interval(1,4),Interval(2,5),Interval(7,9)};
-    bool               result     = false;
+    int                result     = 2;
     Test("Test3", intervals, result);
 }
 
 void Test4()
 {
     std::vector<Interval> intervals  = {Interval(6,7),Interval(2,4),Interval(8,12)};
-    bool               result     = true;
+    int                result     = 1;
     Test("Test4", intervals, result);
 }
 
 void Test5()
 {
-    std::vector<Interval> intervals  = {Interval(4,5),Interval(2,3),Interval(3,6)};
-    bool               result     = false;
+    std::vector<Interval> intervals  = {Interval(1,4),Interval(2,3),Interval(3,6)};
+    int                result     = 2;
     Test("Test5", intervals, result);
 }
 
 void Test6()
 {
+    std::vector<Interval> intervals  = {{4,5},{2,3},{2,4},{3,5}};
+    //std::vector<Interval> intervals  = {Interval(4,5),Interval(2,3),Interval(2,4),Interval(3,5)};
+    int                result     = 2;
+    Test("Test6", intervals, result);
 }
+
+void Test7()
+{
+    std::vector<Interval> intervals  = {{4,5},{2,3},{2,4},{2,5}};
+    //std::vector<Interval> intervals  = {Interval(4,5),Interval(2,3),Interval(2,4),Interval(3,5)};
+    int                result     = 3;
+    Test("Test7", intervals, result);
+}
+
+void Test8()
+{
+    // 12 34 56 27 36
+    // --
+    //  ---
+    //    ---
+    //      ---
+    //         --
+    //          --
+    //           --
+    std::vector<Interval> intervals  = {{1,2},{1,4},{2,6},{5,8},{9,9}};
+    int                result     = 2;
+    Test("Test8", intervals, result);
+}
+
 
 int main()
 {
@@ -290,6 +410,8 @@ int main()
     Test4();
     Test5();
     Test6();
+    Test7();
+    Test8();
 
     return 0;
 

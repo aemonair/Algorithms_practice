@@ -1,51 +1,20 @@
 /*
  ******************************************************************
- * 986. Interval List Intersections
- * Medium
+ * 252. Meeting Rooms
  ******************************************************************
- *
- * You are given two lists of closed intervals, firstList and secondList, where firstList[i] = [starti, endi] and secondList[j] = [startj, endj]. Each list of intervals is pairwise disjoint and in sorted order.
- *
- * Return the intersection of these two interval lists.
- *
- * (Formally, a closed interval [a, b] (with a <= b) denotes the set of real numbers x with a <= x <= b. 
- * The intersection of two closed intervals is a set of real numbers that is either empty, or can be represented as a closed interval. 
- * For example, the intersection of [1, 3] and [2, 4] is [2, 3].)
- *
+ * Given an array of meeting time intervals consisting of start and end times[[s1,e1],[s2,e2],...](si< ei), determine if a person could attend all meetings.
  ******************************************************************
  * Example 1:
- *  A  [ ]  [    ]  [         ][]
- *  B   [   ]  [   ]  [        ][]
  *
- *ans   []  |  [ ]    [       ]|| 
- *     0   4   8   C   16      24
- *
- * Input: A = [[0,2],[5,10],[13,23],[24,25]], B = [[1,5],[8,12],[15,24],[25,26]]
- * Output: [[1,2],[5,5],[8,10],[15,23],[24,24],[25,25]]
+ * Input:
+ * [[0,30],[5,10],[15,20]]
+ * Output: false
  ******************************************************************
  * Example 2:
  *
- * Input: firstList = [[1,3],[5,9]], secondList = []
- * Output: []
- ******************************************************************
- * Example 3:
+ * Input:[[7,10],[2,4]]
  *
- * Input: firstList = [], secondList = [[4,8],[10,12]]
- * Output: []
- ******************************************************************
- * Example 4:
- *
- * Input: firstList = [[1,7]], secondList = [[3,10]]
- * Output: [[3,7]]
- ******************************************************************
- * Constraints:
- *
- * 0 <= firstList.length, secondList.length <= 1000
- * firstList.length + secondList.length >= 1
- * 0 <= start[i] < endi <= 10^9
- * end[i] < start[i+1]
- * 0 <= start[j] < end[j] <= 10^9
- * end[j] < start[j+1]
+ * Output:true
  ***************************************************************
  *
  */
@@ -95,31 +64,65 @@ int printstack(std::stack<T> s);
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
 
+struct Interval
+{
+    int start;
+    int end;
+    Interval() : start(0), end(0) {}
+    Interval(int s, int e) : start(s), end(e) {}
+};
+
+std::ostream & operator << (std::ostream &out, Interval & a){
+    out << "("<<a.start << "," << a.end << ")" << std::endl;
+    return out;
+}
+
+template<>
+int printvector(std::vector<Interval> v);
+
 class Solution {
 public:
-    std::vector<std::vector<int>> intervalIntersection(
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList)
+    bool canAttendMeetings(std::vector<Interval>& intervals)
     {
-        return std::vector<std::vector<int>>();
+        return true;
     }
-
-    std::vector<std::vector<int>> intervalIntersection1(
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList)
+    std::vector<std::vector<Interval>> findAttendMeetings(std::vector<Interval>& intervals)
     {
-        return std::vector<std::vector<int>>();
+        std::vector<std::vector<Interval>> result;
+        return result;
     }
 
     //    --- |   -- |    --  |   --  |  --     |f
     // --     | --   |  ----- |    -- |      -- |s
+    template <typename T>
+    int printvector(const std::vector<T> &v)
+    {
+        std::cout << "{  " ;// << std::endl;
+        for (auto iter = v.begin(); iter != v.end(); iter++ )
+        {
+            std::cout << "[" << (*iter).start << ", "<< (*iter).end << "] ,";//<<std::endl;
+        }
+        std::cout << "\b  }" << std::endl;
+        return v.size();
+    }
+
+    template <typename T>
+    int printvectorvector(const std::vector<T> &v)
+    {
+        std::cout << "this vector size: " << v.size() << std::endl;
+        for (auto iter = v.begin(); iter != v.end(); iter++ )
+        {
+            printvector( *iter );
+        }
+        std::cout << std::endl;
+        return v.size();
+    }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-            std::vector<std::vector<int>>& firstList,
-            std::vector<std::vector<int>>& secondList,
-        std::vector<std::vector<int>> & expected)
+          std::vector<Interval>& intervals,
+          bool expected)
 {
     if(testName.length() > 0)
     {
@@ -132,19 +135,19 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "firstList:" <<  std::endl;
-    printvector(firstList);
-    std::cout << "secondList:" <<  std::endl;
-    printvector(secondList);
+    std::cout << "intervals:" <<  std::endl;
+    //solution.printvector(intervals);
+    printvector(intervals);
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 0;
     if (TEST_0)
     {
-        std::vector<std::vector<int>>&& result =
-            solution.intervalIntersection(firstList, secondList);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
+        decltype(expected) result = solution.canAttendMeetings(intervals);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
+        auto findresult = solution.findAttendMeetings(intervals);
+        printvector(findresult);
+
 
         if(result == expected)
         {
@@ -165,34 +168,7 @@ const static int TEST_1    = 0;
         }
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
-    if (TEST_1)
-    {
-        std::vector<std::vector<int>>&& result =
-            solution.intervalIntersection1(firstList, secondList);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
-
-        if(result == expected)
-        {
-            //10yy
-            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
-        }
-        else
-        {
-            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
-            std::cout << RESET << std::endl;
-        }
-        if (TEST_TIME)
-        {
-           end = std::chrono::system_clock::now();
-           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
-        }
-        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
-    }
 }
-
 // 76 yy
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
@@ -219,6 +195,17 @@ int printvector(std::vector<T> v)
         std::cout << i << ", ";
     }
     std::cout << "\b\b ]" << std::endl;
+    return v.size();
+}
+template<>
+int printvector(std::vector<Interval> v)
+{
+    std::cout << "{  " ;// << std::endl;
+    for (auto iter = v.begin(); iter != v.end(); iter++ )
+    {
+        std::cout << "[" << (*iter).start << ", "<< (*iter).end << "] ,";//<<std::endl;
+    }
+    std::cout << "\b  }" << std::endl;
     return v.size();
 }
 template<typename T>
@@ -271,51 +258,44 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 
 void Test1()
 {
-    std::vector<std::vector<int>> firstList  = {{0,2},{5,10},{13,23},{24,25}};
-    std::vector<std::vector<int>> secondList = {{1,5},{8,12},{15,24},{25,26}};
-    std::vector<std::vector<int>> result     =
-    {{1,2},{5,5},{8,10},{15,23},{24,24},{25,25}};
-    Test("Test1", firstList, secondList, result);
+    std::vector<Interval> intervals  = {Interval(0,30),Interval(5,10),Interval(15,20)};
+    bool               result     = false;
+    Test("Test1", intervals, result);
 }
 
 void Test2()
 {
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,9}};
-    std::vector<std::vector<int>> secondList = {};
-    std::vector<std::vector<int>> result     = {};
-    Test("Test2", firstList, secondList, result);
+    std::vector<Interval> intervals  = {Interval(7,10),Interval(2,4)};
+    bool               result     = true;
+    Test("Test2", intervals, result);
 }
 
 void Test3()
 {
-    std::vector<std::vector<int>> firstList  = {};
-    std::vector<std::vector<int>> secondList = {{4,8},{10,12}};
-    std::vector<std::vector<int>> result     = {};
-    Test("Test3", firstList, secondList, result);
+    std::vector<Interval> intervals  = {Interval(1,4),Interval(2,5),Interval(7,9)};
+    bool               result     = false;
+    Test("Test3", intervals, result);
 }
 
 void Test4()
 {
-    std::vector<std::vector<int>> firstList  = {{1,7}};
-    std::vector<std::vector<int>> secondList = {{3,10}};
-    std::vector<std::vector<int>> result     = {{3,7}};
-    Test("Test4", firstList, secondList, result);
+    std::vector<Interval> intervals  = {Interval(6,7),Interval(2,4),Interval(8,12)};
+    bool               result     = true;
+    Test("Test4", intervals, result);
 }
 
 void Test5()
 {
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,6},{7,9}};
-    std::vector<std::vector<int>> secondList = {{2,3},{5,7}};
-    std::vector<std::vector<int>> result     = {{2,3},{5,6},{7,7}};
-    Test("Test5", firstList, secondList, result);
+    std::vector<Interval> intervals  = {Interval(4,5),Interval(2,3),Interval(3,6)};
+    bool               result     = false;
+    Test("Test5", intervals, result);
 }
 
 void Test6()
 {
-    std::vector<std::vector<int>> firstList  = {{1,3},{5,7},{9,12}};
-    std::vector<std::vector<int>> secondList = {{5,10}};
-    std::vector<std::vector<int>> result     = {{5,7},{9,10}};
-    Test("Test6", firstList, secondList, result);
+    std::vector<Interval> intervals  = {Interval(4,5),Interval(2,3),Interval(3,6), Interval(5,7), Interval(7,8)};
+    bool               result     = false;
+    Test("Test6", intervals, result);
 }
 
 int main()
