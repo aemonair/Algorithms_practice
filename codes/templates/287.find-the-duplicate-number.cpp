@@ -42,77 +42,69 @@
  *************************************************************************************************
  *
  */
+// 44 yy
 #include <unordered_map>
-#include <unordered_set>
 #include <algorithm>
 #include <iostream>
+#include <climits>
 #include <chrono>
 #include <vector>
 #include <string>
+#include <thread>
 #include <queue>
-#include <cmath>
+#include <stack>
+#include <list>
 #include <map>
 #include <set>
 
-#define RESET   "\033[0m"
-#define BLACK   "\033[30m"      /* Black */
-#define RED     "\033[31m"      /* Red */
-#define GREEN   "\033[32m"      /* Green */
-#define YELLOW  "\033[33m"      /* Yellow */
-#define BLUE    "\033[34m"      /* Blue */
-#define MAGENTA "\033[35m"      /* Magenta */
-#define CYAN    "\033[36m"      /* Cyan */
-#define WHITE   "\033[37m"      /* White */
-#define BOLDBLACK   "\033[1m\033[30m"      /* Bold Black */
-#define BOLDRED     "\033[1m\033[31m"      /* Bold Red */
-#define BOLDGREEN   "\033[1m\033[32m"      /* Bold Green */
-#define BOLDYELLOW  "\033[1m\033[33m"      /* Bold Yellow */
-#define BOLDBLUE    "\033[1m\033[34m"      /* Bold Blue */
+//the following are UBUNTU/LINUX ONLY terminal color codes.
+#define     RESET   "\033[0m"
+#define     RED     "\033[31m"             /*      Red     */
+#define     CYAN    "\033[36m"             /*      Cyan    */
+#define     BLUE    "\033[34m"             /*      Blue    */
+#define     GREEN   "\033[32m"             /*      Green   */
+#define     WHITE   "\033[37m"             /*      White   */
+#define     BLACK   "\033[30m"             /*      Black   */
+#define     YELLOW  "\033[33m"             /*      Yellow  */
+#define     MAGENTA "\033[35m"             /*      Magenta */
 #define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
-#define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
-#define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
+#define BOLDYELLOW  "\033[1m\033[33m"      /* Bold Yellow  */
+#define BOLDBLACK   "\033[1m\033[30m"      /* Bold Black   */
+#define BOLDWHITE   "\033[1m\033[37m"      /* Bold White   */
+#define BOLDGREEN   "\033[1m\033[32m"      /* Bold Green   */
+#define BOLDBLUE    "\033[1m\033[34m"      /* Bold Blue    */
+#define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan    */
+#define BOLDRED     "\033[1m\033[31m"      /* Bold Red     */
+
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
+
+template<typename T>
+int printvector(std::vector<T> v);
+
+template <typename T>
+int printstack(std::stack<T> s);
+
+template <typename T1, typename T2>
+int printunordered_map(const std::unordered_map<T1,T2> &v);
 
 class Solution {
 public:
     int findDuplicate (std::vector<int>& nums)
     {
-        int i = 0;
         return 0;
     }
     int findDuplicate1(std::vector<int>& nums)
     {
         return 0;
     }
-    template<typename T>
-    void swap(std::vector<T> &nums, int i, int j)
+    int findDuplicate2(std::vector<int>& nums)
     {
-        int temp = nums[i];
-        nums[i]=nums[j];
-        nums[j]= temp;
+        return 0;
     }
-
-    template <typename T>
-    int printvector(const std::vector<T> &v)
+    int findDuplicate3(std::vector<int>& nums)
     {
-        std::cout << "vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << "| ";//<<std::endl;
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
+        return 0;
     }
 };
 
@@ -123,7 +115,9 @@ void Test(const std::string& testName,
         )
 {
     if(testName.length() > 0)
-        std::cout <<testName << " begins: "<< std::endl;
+    {
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
+    }
 
     Solution solution;
 
@@ -131,14 +125,13 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    solution.printvector(nums);
+    std::cout << "nums:" << nums << std::endl;
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 1;
 const static int TEST_2    = 1;
 const static int TEST_3    = 1;
-    // getpermutataion
     if (TEST_0)
     {
         std::cout << "Solution0 start.........." << std::endl;
@@ -147,15 +140,20 @@ const static int TEST_3    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) solution_result = solution.findDuplicate(nums);
+        auto temp(nums);
+        decltype(expected) solution_result = solution.findDuplicate(temp);
         std::cout << "solution result:" << solution_result << std::endl;
 
         if(solution_result == expected)
-            std::cout << GREEN << "Solution0 passed." << WHITE <<  std::endl;
+        {
+            //10yy
+            std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
+        }
         else
         {
-            std::cout << RED << "Solution0 failed." <<  WHITE << std::endl;
-            std::cout << RED << "expected:" << expected <<  WHITE << std::endl;
+            std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::endl;
+            std::cout << expected << RESET << std::endl;
         }
         if (TEST_TIME)
         {
@@ -172,15 +170,20 @@ const static int TEST_3    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) solution_result = solution.findDuplicate1(nums);
+        auto temp(nums);
+        decltype(expected) solution_result = solution.findDuplicate1(temp);
         std::cout << "solution result:" << solution_result << std::endl;
 
         if(solution_result == expected)
-            std::cout << GREEN << "Solution1 passed." << WHITE <<  std::endl;
+        {
+            //10yy
+            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
+        }
         else
         {
-            std::cout << RED << "Solution1 failed." <<  WHITE << std::endl;
-            std::cout << RED << "expected:" << expected <<  WHITE << std::endl;
+            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::endl;
+            std::cout << expected << RESET << std::endl;
         }
         if (TEST_TIME)
         {
@@ -191,11 +194,141 @@ const static int TEST_3    = 1;
     }
     if (TEST_2)
     {
+        std::cout << "Solution2 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        auto temp(nums);
+        decltype(expected) solution_result = solution.findDuplicate2(temp);
+        std::cout << "solution result:" << solution_result << std::endl;
+
+        if(solution_result == expected)
+        {
+            //10yy
+            std::cout << GREEN << "Solution2 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::endl;
+            std::cout << expected << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
+        }
     }
     if (TEST_3)
     {
+        std::cout << "Solution3 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        auto temp(nums);
+        decltype(expected) solution_result = solution.findDuplicate3(temp);
+        std::cout << "solution result:" << solution_result << std::endl;
+
+        if(solution_result == expected)
+        {
+            //10yy
+            std::cout << GREEN << "Solution3 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution3 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::endl;
+            std::cout << expected << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution3 costs " << elapsed.count() <<"micros" << std::endl;
+        }
     }
 }
+// 76 yy
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+template<typename T>
+int printvector(std::vector<T> v)
+{
+    if(0 == v.size())
+    {
+        std::cout << "Empty vector." << std::endl;
+        return 0;
+    }
+    std::cout << "[ " ;
+    for(auto i: v)
+    {
+        std::cout << i << ", ";
+    }
+    std::cout << "\b\b ]" << std::endl;
+    return v.size();
+}
+template<typename T>
+int printstack (std::stack <T> s)
+{
+    if(s.empty())
+    {
+        std::cout << "Empty stack ." << std::endl;
+        return 0;
+    }
+    std::cout <<  "The stack size is: " << s.size() << std::endl;
+    std::cout << "[ " ;
+    while (!s.empty())
+    {
+        std::cout << s.top() << ", ";
+        s.pop();
+    }
+    std::cout << "\b\b ]" << std::endl;
+    return s.size();
+}
+template<typename T>
+int printvector(std::stack <T> s)
+{
+    if(s.empty())
+    {
+        std::cout << "Empty stack ." << std::endl;
+        return 0;
+    }
+    std::cout <<  "The stack size is: " << s.size() << std::endl;
+    std::cout << "[ " ;
+    while (!s.empty())
+    {
+        std::cout << s.top() << ", ";
+        s.pop();
+    }
+    std::cout << "\b\b ]" << std::endl;
+    return s.size();
+}
+template <typename T1, typename T2>
+int printunordered_map(const std::unordered_map<T1,T2> &v)
+{
+    std::cout << "unordered_map size: " << v.size() << std::endl;
+    for (auto iter = v.begin(); iter != v.end(); iter++ )
+    {
+        std::cout << "(" << iter->first << "," << iter->second<< "), ";//<<std::endl;
+    }
+    std::cout << std::endl;
+    return v.size();
+}
+
 void Test1()
 {
     std::vector<int> nums   = {1, 3, 4, 2, 2};
@@ -227,20 +360,20 @@ void Test5()
 {
     std::vector<int> nums   = {1, 4, 4, 3, 2};
     int expect = 4;
-    Test("Test1", nums, expect);
+    Test("Test5", nums, expect);
 }
 
 void Test6()
 {
     std::vector<int> nums   = {2, 1, 3, 3, 5, 4};
     int expect = 3;
-    Test("Test2", nums, expect);
+    Test("Test6", nums, expect);
 }
 void Test7()
 {
     std::vector<int> nums   = {2, 4, 1, 4, 4};
     int expect = 4;
-    Test("Test3", nums, expect);
+    Test("Test7", nums, expect);
 }
 int main()
 {

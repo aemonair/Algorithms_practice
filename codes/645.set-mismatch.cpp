@@ -1,38 +1,33 @@
 /*
- *************************************************************************************************
- * 1539. Kth Missing Positive Number
+ *********************************************
+ * 645. Set Mismatch
  * Easy
- *************************************************************************************************
- * Given an array arr of positive integers sorted in a strictly increasing order, and an integer k.
- * Return the kth positive integer that is missing from this array.
- *************************************************************************************************
+ *********************************************
+ * You have a set of integers s, which originally contains all the numbers from 1 to n. Unfortunately, due to some error, one of the numbers in s got duplicated to another number in the set, which results in repetition of one number and loss of another number.
+ *
+ * You are given an integer array nums representing the data status of this set after the error.
+ *
+ * Find the number that occurs twice and the number that is missing and return them in the form of an array.
+ *********************************************
  * Example 1:
  *
- * Input: arr = [2,3,4,7,11], k = 5
- * Output: 9
- * Explanation: The missing positive integers are [1,5,6,8,9,10,12,13,...]. The 5th missing positive integer is 9.
- *************************************************************************************************
+ * Input: nums = [1,2,2,4]
+ * Output: [2,3]
+ *********************************************
  * Example 2:
  *
- * Input: arr = [1,2,3,4], k = 2
- * Output: 6
- * Explanation: The missing positive integers are [5,6,7,...]. The 2nd missing positive integer is 6.
- *************************************************************************************************
+ * Input: nums = [1,1]
+ * Output: [1,2]
+ *********************************************
  * Constraints:
  *
- * 1 <= arr.length <= 1000
- * 1 <= arr[i] <= 1000
- * 1 <= k <= 1000
- * arr[i] < arr[j] for 1 <= i < j <= arr.length
- *************************************************************************************************
- * Follow up:
- * Could you solve this problem in less than O(n) complexity?
- *************************************************************************************************
+ * 2 <= nums.length <= 10^4
+ * 1 <= nums[i] <= 10^4
+ *********************************************
  */
 
-// 46 yy
+// 45 yy
 #include <unordered_map>
-#include <unordered_set>
 #include <algorithm>
 #include <iostream>
 #include <climits>
@@ -79,22 +74,69 @@ int printunordered_map(const std::unordered_map<T1,T2> &v);
 
 class Solution {
 public:
-    std::vector<int> findKthPositive (std::vector<int>& nums, int k)
+////////////////////////////////////////////////////////////////////////
+    std::vector<int> findErrorNums (std::vector<int> &nums)
     {
-        return {};
+        std::vector<int> result;
+        auto swap = [&](int a, int b) {
+            int temp = nums[a];
+            nums[a] = nums[b];
+            nums[b] = temp;
+        };
+        for (int i = 0; i < nums.size(); ++i) {
+            while (nums[i] != nums[nums[i] - 1]) {
+                swap(i, nums[i]-1);
+            }
+        }
+        std::cout << nums << std::endl;
+        for (int i = 0; i < nums.size(); ++i) {
+            if (i != nums[i] -1) {
+                return {nums[i], i+1};
+            }
+        }
+        return result;
     }
-    std::vector<int> findKthPositive1(std::vector<int>& nums, int k)
+    std::vector<int> findErrorNums1(std::vector<int> &nums)
     {
-        return {};
+        int repeat = 0;
+        for (int i =0; i < nums.size(); ++i) {
+            if (nums[abs(nums[i]) - 1] < 0) {
+                repeat = abs(nums[i]);
+            } else {
+                nums[abs(nums[i])-1] = -nums[abs(nums[i])-1];
+            }
+        }
+                std::cout << nums << std::endl;
+        for (int i =0; i < nums.size(); ++i) {
+            if (nums[i] > 0) {
+                return {repeat, i+1};
+            }
+        }
+        return std::vector<int>{};
     }
-    //int findKthPositive(vector<int>& arr, int k)
+    std::vector<int> findErrorNums2(std::vector<int> &nums)
+    {
+        int total = 0;
+        int sum = 0;
+        std::vector<int> count(nums.size()+1);
+        for (int i = 0; i < nums.size(); ++i) {
+            if (count[nums[i]] == 0) {
+                sum += nums[i];
+            }
+            count[nums[i]] = 1;
+            total += nums[i];
+        }
+        int n = nums.size();
+        // repeat, missing
+        return {total - sum, n*(n+1)/2- sum};
+    }
+////////////////////////////////////////////////////////////////////////
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
         std::vector<int>& nums,
-        int k,
-        std::vector<int>& expected
+        std::vector<int> expected
         )
 {
     if(testName.length() > 0)
@@ -112,8 +154,8 @@ void Test(const std::string& testName,
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 0;
-const static int TEST_1    = 1;
-const static int TEST_2    = 0;
+const static int TEST_1    = 0;
+const static int TEST_2    = 1;
 const static int TEST_3    = 0;
     if (TEST_0)
     {
@@ -122,8 +164,9 @@ const static int TEST_3    = 0;
         {
             start = std::chrono::system_clock::now();
         }
-
-        std::vector<int>&& result = solution.findKthPositive(nums, k);
+        auto temp(nums);
+        //decltype(expected)
+        std::vector<int> result = solution.findErrorNums(temp);
         std::cout << "solution result:" << result << std::endl;
 
         if(result == expected)
@@ -151,8 +194,9 @@ const static int TEST_3    = 0;
         {
             start = std::chrono::system_clock::now();
         }
-
-        std::vector<int>&& result = solution.findKthPositive1(nums, k);
+        //decltype(expected)
+        auto temp(nums);
+        std::vector<int> result = solution.findErrorNums1(temp);
         std::cout << "solution result:" << result << std::endl;
 
         if(result == expected)
@@ -175,11 +219,39 @@ const static int TEST_3    = 0;
     }
     if (TEST_2)
     {
+        std::cout << "Solution2 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+        //decltype(expected)
+        auto temp(nums);
+        std::vector<int> result = solution.findErrorNums2(temp);
+        std::cout << "solution result:" << result << std::endl;
+
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution2 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::endl;
+            std::cout << expected << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
     if (TEST_3)
     {
     }
 }
+
 // 76 yy
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
@@ -258,50 +330,35 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 
 void Test1()
 {
-    std::vector<int> nums   = {2, 3, 4};
-    int k = 3;
-    std::vector<int> expect = {1,5,6};
-    Test("Test1", nums, k, expect);
+    std::vector<int> nums   = {1,2,3,3};
+    std::vector<int> expect = {3,4};
+    Test("Test1", nums, expect);
 }
 void Test2()
 {
-    std::vector<int> nums   = {-2, -3, 4};
-    int k = 2;
-    std::vector<int> expect = {1, 2};
-    Test("Test2", nums, k, expect);
+    std::vector<int> nums   = {1,2,2,4};
+    std::vector<int> expect = {2,3};
+    Test("Test2", nums, expect);
 }
 
 void Test3()
 {
-    std::vector<int> nums   = {1, 2 };
-    int k = 1;
-    std::vector<int> expect = {3};
-    Test("Test3", nums, k, expect);
+    std::vector<int> nums   = {3,1,2,5,2};
+    std::vector<int> expect = {2,4};
+    Test("Test3", nums, expect);
 }
 
 void Test4()
 {
-    std::vector<int> nums   = {2,3,4,7,11};
-    int k = 5;
-    std::vector<int> expect = {1,5,6,8,9};
-    Test("Test4", nums, k, expect);
+    std::vector<int> nums   = {3,1,2,3,6,4};
+    std::vector<int> expect = {3,5};
+    Test("Test4", nums, expect);
 }
 
 void Test5()
 {
-    std::vector<int> nums   = {1,2,3,4};
-    int k = 2;
-    std::vector<int> expect = {5,6};
-    Test("Test5", nums, k, expect);
 }
 
-void Test6()
-{
-    std::vector<int> nums   = {3,-1,4,5,5};
-    int k = 3;
-    std::vector<int> expect = {1,2,6};
-    Test("Test6", nums, k, expect);
-}
 int main()
 {
     Test1();
@@ -310,8 +367,5 @@ int main()
     Test4();
     Test5();
 
-    Test6();
-
     return 0;
-
 }

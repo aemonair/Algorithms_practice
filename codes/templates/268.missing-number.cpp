@@ -1,45 +1,43 @@
 /*
- *************************************************************************************************
- * 1539. Kth Missing Positive Number
+ * 268. Missing Number
  * Easy
- *************************************************************************************************
- * Given an array arr of positive integers sorted in a strictly increasing order, and an integer k.
- * Return the kth positive integer that is missing from this array.
- *************************************************************************************************
+ * Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+ ******************************************************************
  * Example 1:
  *
- * Input: arr = [2,3,4,7,11], k = 5
- * Output: 9
- * Explanation: The missing positive integers are [1,5,6,8,9,10,12,13,...]. The 5th missing positive integer is 9.
- *************************************************************************************************
+ * Input: nums = [3,0,1]
+ * Output: 2
+ * Explanation: n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.
+ ******************************************************************
  * Example 2:
  *
- * Input: arr = [1,2,3,4], k = 2
- * Output: 6
- * Explanation: The missing positive integers are [5,6,7,...]. The 2nd missing positive integer is 6.
- *************************************************************************************************
+ * Input: nums = [0,1]
+ * Output: 2
+ * Explanation: n = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number in the range since it does not appear in nums.
+ ******************************************************************
+ * Example 3:
+ *
+ * Input: nums = [9,6,4,2,3,5,7,0,1]
+ * Output: 8
+ * Explanation: n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.
+ ******************************************************************
  * Constraints:
  *
- * 1 <= arr.length <= 1000
- * 1 <= arr[i] <= 1000
- * 1 <= k <= 1000
- * arr[i] < arr[j] for 1 <= i < j <= arr.length
- *************************************************************************************************
- * Follow up:
- * Could you solve this problem in less than O(n) complexity?
- *************************************************************************************************
- */
-
-// 46 yy
+ * n == nums.length
+ * 1 <= n <= 104
+ * 0 <= nums[i] <= n
+ * All the numbers of nums are unique.
+ ******************************************************************
+ * Follow up: Could you implement a solution using only O(1) extra space complexity and O(n) runtime complexity?
+*/
+// 44 yy
 #include <unordered_map>
-#include <unordered_set>
 #include <algorithm>
 #include <iostream>
 #include <climits>
 #include <chrono>
 #include <vector>
 #include <string>
-#include <thread>
 #include <queue>
 #include <stack>
 #include <list>
@@ -79,23 +77,15 @@ int printunordered_map(const std::unordered_map<T1,T2> &v);
 
 class Solution {
 public:
-    std::vector<int> findKthPositive (std::vector<int>& nums, int k)
+    int missingNumber(std::vector<int>& nums)
     {
-        return {};
+        return 0;
     }
-    std::vector<int> findKthPositive1(std::vector<int>& nums, int k)
-    {
-        return {};
-    }
-    //int findKthPositive(vector<int>& arr, int k)
 };
-
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-        std::vector<int>& nums,
-        int k,
-        std::vector<int>& expected
-        )
+        std::vector<int> & nums,
+        int expected)
 {
     if(testName.length() > 0)
     {
@@ -108,33 +98,31 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "nums:" << nums << std::endl;
-
+    std::cout << "nums:" <<  std::endl;
+    printvector(nums);
 const static int TEST_TIME = 1;
-const static int TEST_0    = 0;
-const static int TEST_1    = 1;
-const static int TEST_2    = 0;
-const static int TEST_3    = 0;
-    if (TEST_0)
-    {
+const static int TEST_0    = 1;
+const static int TEST_1    = 0;
+    if (TEST_0) {
         std::cout << "Solution0 start.........." << std::endl;
         if (TEST_TIME)
         {
             start = std::chrono::system_clock::now();
         }
 
-        std::vector<int>&& result = solution.findKthPositive(nums, k);
-        std::cout << "solution result:" << result << std::endl;
+        int result = solution.missingNumber(nums);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
 
         if(result == expected)
         {
+            //10yy
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
         }
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::endl;
-            std::cout << expected << RESET << std::endl;
+            std::cout << RED << "expected:" << expected << std::endl;
+            std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
         {
@@ -144,26 +132,26 @@ const static int TEST_3    = 0;
         }
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
-    if (TEST_1)
-    {
+    if (TEST_1) {
         std::cout << "Solution1 start.........." << std::endl;
         if (TEST_TIME)
         {
             start = std::chrono::system_clock::now();
         }
 
-        std::vector<int>&& result = solution.findKthPositive1(nums, k);
-        std::cout << "solution result:" << result << std::endl;
+        int result = solution.missingNumber(nums);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
 
         if(result == expected)
         {
+            //10yy
             std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
         }
         else
         {
             std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::endl;
-            std::cout << expected << RESET << std::endl;
+            std::cout << RED << "expected:" << expected << std::endl;
+            std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
         {
@@ -172,12 +160,6 @@ const static int TEST_3    = 0;
            std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
         }
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
-    }
-    if (TEST_2)
-    {
-    }
-    if (TEST_3)
-    {
     }
 }
 // 76 yy
@@ -258,49 +240,31 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 
 void Test1()
 {
-    std::vector<int> nums   = {2, 3, 4};
-    int k = 3;
-    std::vector<int> expect = {1,5,6};
-    Test("Test1", nums, k, expect);
+    std::vector<int> nums = {3,0,1};
+    int result = 2;
+    Test("Test1", nums, result);
 }
+
 void Test2()
 {
-    std::vector<int> nums   = {-2, -3, 4};
-    int k = 2;
-    std::vector<int> expect = {1, 2};
-    Test("Test2", nums, k, expect);
+    std::vector<int> nums = {0,1};
+    int result = 2;
+    Test("Test2", nums, result);
 }
 
 void Test3()
 {
-    std::vector<int> nums   = {1, 2 };
-    int k = 1;
-    std::vector<int> expect = {3};
-    Test("Test3", nums, k, expect);
+    std::vector<int> nums = {9,6,4,2,3,5,7,0,1};
+    int result = 8;
+    Test("Test3", nums, result);
 }
 
 void Test4()
 {
-    std::vector<int> nums   = {2,3,4,7,11};
-    int k = 5;
-    std::vector<int> expect = {1,5,6,8,9};
-    Test("Test4", nums, k, expect);
 }
 
 void Test5()
 {
-    std::vector<int> nums   = {1,2,3,4};
-    int k = 2;
-    std::vector<int> expect = {5,6};
-    Test("Test5", nums, k, expect);
-}
-
-void Test6()
-{
-    std::vector<int> nums   = {3,-1,4,5,5};
-    int k = 3;
-    std::vector<int> expect = {1,2,6};
-    Test("Test6", nums, k, expect);
 }
 int main()
 {
@@ -309,8 +273,6 @@ int main()
     Test3();
     Test4();
     Test5();
-
-    Test6();
 
     return 0;
 

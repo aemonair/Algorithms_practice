@@ -1,38 +1,49 @@
 /*
  *************************************************************************************************
- * 1539. Kth Missing Positive Number
- * Easy
+ * 287. Find the Duplicate Number
+ * Medium
  *************************************************************************************************
- * Given an array arr of positive integers sorted in a strictly increasing order, and an integer k.
- * Return the kth positive integer that is missing from this array.
+ * Given an array of integers nums containing n + 1 integers where each integer is in the range [1, n] inclusive.
+ * There is only one repeated number in nums, return this repeated number.
  *************************************************************************************************
  * Example 1:
  *
- * Input: arr = [2,3,4,7,11], k = 5
- * Output: 9
- * Explanation: The missing positive integers are [1,5,6,8,9,10,12,13,...]. The 5th missing positive integer is 9.
+ * Input: nums = [1,3,4,2,2]
+ * Output: 2
  *************************************************************************************************
  * Example 2:
  *
- * Input: arr = [1,2,3,4], k = 2
- * Output: 6
- * Explanation: The missing positive integers are [5,6,7,...]. The 2nd missing positive integer is 6.
+ * Input: nums = [3,1,3,4,2]
+ * Output: 3
+ *************************************************************************************************
+ * Example 3:
+ *
+ * Input: nums = [1,1]
+ * Output: 1
+ *************************************************************************************************
+ * Example 4:
+ *
+ * Input: nums = [1,1,2]
+ * Output: 1
  *************************************************************************************************
  * Constraints:
  *
- * 1 <= arr.length <= 1000
- * 1 <= arr[i] <= 1000
- * 1 <= k <= 1000
- * arr[i] < arr[j] for 1 <= i < j <= arr.length
+ * 2 <= n <= 3 * 10^4
+ * nums.length == n + 1
+ * 1 <= nums[i] <= n
+ * All the integers in nums appear only once except for precisely one integer which appears two or more times.
  *************************************************************************************************
  * Follow up:
- * Could you solve this problem in less than O(n) complexity?
+ *
+ * How can we prove that at least one duplicate number must exist in nums?
+ * Can you solve the problem without modifying the array nums?
+ * Can you solve the problem using only constant, O(1) extra space?
+ * Can you solve the problem with runtime complexity less than O(n2)?
  *************************************************************************************************
+ *
  */
-
-// 46 yy
+// 44 yy
 #include <unordered_map>
-#include <unordered_set>
 #include <algorithm>
 #include <iostream>
 #include <climits>
@@ -79,22 +90,65 @@ int printunordered_map(const std::unordered_map<T1,T2> &v);
 
 class Solution {
 public:
-    std::vector<int> findKthPositive (std::vector<int>& nums, int k)
+    int findDuplicate (std::vector<int>& nums)
     {
-        return {};
+        int res = 0;
+        for (int i = 0; i < nums.size(); ++i) {
+            if (nums[ abs(nums[i]) - 1] < 0) {
+                return abs(nums[i]);
+            } else {
+                nums[abs(nums[i])-1] = -nums[abs(nums[i])-1];
+            }
+        }
+        return nums.size();
+        return 0;
     }
-    std::vector<int> findKthPositive1(std::vector<int>& nums, int k)
+    int findDuplicate1(std::vector<int>& nums)
     {
-        return {};
+        auto swap = [&](int a ,int b){
+            int temp = nums[a];
+            nums[a] = nums[b];
+            nums[b] = temp;
+        };
+        int i = 0;
+        while ( i< nums.size()) {
+            if (nums[i] != nums[nums[i] - 1]) {
+                swap(i, nums[i] -1);
+            } else if (i != nums[i] -1) {
+                return nums[i];
+            } else {
+                ++i;
+            }
+        }
+        return nums.size();
+        return 0;
     }
-    //int findKthPositive(vector<int>& arr, int k)
+    int findDuplicate2(std::vector<int>& nums)
+    {
+        int slow = nums[0];
+        int fast = nums[nums[0]];
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        }
+        //slow = nums[0];
+        slow = 0;
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        return slow;
+    }
+    int findDuplicate3(std::vector<int>& nums)
+    {
+        return 0;
+    }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
         std::vector<int>& nums,
-        int k,
-        std::vector<int>& expected
+        int expected
         )
 {
     if(testName.length() > 0)
@@ -112,8 +166,8 @@ void Test(const std::string& testName,
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 0;
-const static int TEST_1    = 1;
-const static int TEST_2    = 0;
+const static int TEST_1    = 0;
+const static int TEST_2    = 1;
 const static int TEST_3    = 0;
     if (TEST_0)
     {
@@ -123,11 +177,13 @@ const static int TEST_3    = 0;
             start = std::chrono::system_clock::now();
         }
 
-        std::vector<int>&& result = solution.findKthPositive(nums, k);
-        std::cout << "solution result:" << result << std::endl;
+        auto temp(nums);
+        decltype(expected) solution_result = solution.findDuplicate(temp);
+        std::cout << "solution result:" << solution_result << std::endl;
 
-        if(result == expected)
+        if(solution_result == expected)
         {
+            //10yy
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
         }
         else
@@ -142,7 +198,6 @@ const static int TEST_3    = 0;
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution0 costs " << elapsed.count() <<"micros" << std::endl;
         }
-        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
     if (TEST_1)
     {
@@ -152,11 +207,13 @@ const static int TEST_3    = 0;
             start = std::chrono::system_clock::now();
         }
 
-        std::vector<int>&& result = solution.findKthPositive1(nums, k);
-        std::cout << "solution result:" << result << std::endl;
+        auto temp(nums);
+        decltype(expected) solution_result = solution.findDuplicate1(temp);
+        std::cout << "solution result:" << solution_result << std::endl;
 
-        if(result == expected)
+        if(solution_result == expected)
         {
+            //10yy
             std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
         }
         else
@@ -171,13 +228,66 @@ const static int TEST_3    = 0;
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
         }
-        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
     if (TEST_2)
     {
+        std::cout << "Solution2 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        auto temp(nums);
+        decltype(expected) solution_result = solution.findDuplicate2(temp);
+        std::cout << "solution result:" << solution_result << std::endl;
+
+        if(solution_result == expected)
+        {
+            //10yy
+            std::cout << GREEN << "Solution2 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::endl;
+            std::cout << expected << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
+        }
     }
     if (TEST_3)
     {
+        std::cout << "Solution3 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        auto temp(nums);
+        decltype(expected) solution_result = solution.findDuplicate3(temp);
+        std::cout << "solution result:" << solution_result << std::endl;
+
+        if(solution_result == expected)
+        {
+            //10yy
+            std::cout << GREEN << "Solution3 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution3 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::endl;
+            std::cout << expected << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution3 costs " << elapsed.count() <<"micros" << std::endl;
+        }
     }
 }
 // 76 yy
@@ -258,49 +368,49 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 
 void Test1()
 {
-    std::vector<int> nums   = {2, 3, 4};
-    int k = 3;
-    std::vector<int> expect = {1,5,6};
-    Test("Test1", nums, k, expect);
+    std::vector<int> nums   = {1, 3, 4, 2, 2};
+    int expect = 2;
+    Test("Test1", nums, expect);
 }
 void Test2()
 {
-    std::vector<int> nums   = {-2, -3, 4};
-    int k = 2;
-    std::vector<int> expect = {1, 2};
-    Test("Test2", nums, k, expect);
+    std::vector<int> nums   = {3, 1, 3, 4, 2};
+    int expect = 3;
+    Test("Test2", nums, expect);
 }
 
 void Test3()
 {
-    std::vector<int> nums   = {1, 2 };
-    int k = 1;
-    std::vector<int> expect = {3};
-    Test("Test3", nums, k, expect);
+    std::vector<int> nums   = {1, 1};
+    int expect = 1;
+    Test("Test3", nums, expect);
 }
 
 void Test4()
 {
-    std::vector<int> nums   = {2,3,4,7,11};
-    int k = 5;
-    std::vector<int> expect = {1,5,6,8,9};
-    Test("Test4", nums, k, expect);
+    std::vector<int> nums   = {1, 1, 2};
+    int expect = 1;
+    Test("Test4", nums, expect);
 }
 
 void Test5()
 {
-    std::vector<int> nums   = {1,2,3,4};
-    int k = 2;
-    std::vector<int> expect = {5,6};
-    Test("Test5", nums, k, expect);
+    std::vector<int> nums   = {1, 4, 4, 3, 2};
+    int expect = 4;
+    Test("Test5", nums, expect);
 }
 
 void Test6()
 {
-    std::vector<int> nums   = {3,-1,4,5,5};
-    int k = 3;
-    std::vector<int> expect = {1,2,6};
-    Test("Test6", nums, k, expect);
+    std::vector<int> nums   = {2, 1, 3, 3, 5, 4};
+    int expect = 3;
+    Test("Test6", nums, expect);
+}
+void Test7()
+{
+    std::vector<int> nums   = {2, 4, 1, 4, 4};
+    int expect = 4;
+    Test("Test7", nums, expect);
 }
 int main()
 {
@@ -309,8 +419,8 @@ int main()
     Test3();
     Test4();
     Test5();
-
     Test6();
+    Test7();
 
     return 0;
 

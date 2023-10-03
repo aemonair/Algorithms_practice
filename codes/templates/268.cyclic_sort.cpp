@@ -1,45 +1,39 @@
 /*
- *************************************************************************************************
- * 1539. Kth Missing Positive Number
- * Easy
- *************************************************************************************************
- * Given an array arr of positive integers sorted in a strictly increasing order, and an integer k.
- * Return the kth positive integer that is missing from this array.
- *************************************************************************************************
+ * 268.pre Cycle Sort
+ ******************************************************************
+ * Cycle sort is an in-place, unstable sorting algorithm that is particularly useful when sorting arrays containing elements with a small range of values. It was developed by W. D. Jones and published in 1963.
+ *
+ * The basic idea behind cycle sort is to divide the input array into cycles, where each cycle consists of elements that belong to the same position in the sorted output array. The algorithm then performs a series of swaps to place each element in its correct position within its cycle, until all cycles are complete and the array is sorted.
+ ******************************************************************
+ * We are given an array containing ‘n’ objects. Each object, when created, was assigned a unique number from 1 to ‘n’ based on their creation sequence. This means that the object with sequence number ‘3’ was created just before the object with sequence number ‘4’.
+ *
+ * Write a function to sort the objects in-place on their creation sequence number in O(n) and without any extra space. For simplicity, let’s assume we are passed an integer array containing only the sequence numbers, though each number is actually an object.
+ ******************************************************************
  * Example 1:
  *
- * Input: arr = [2,3,4,7,11], k = 5
- * Output: 9
- * Explanation: The missing positive integers are [1,5,6,8,9,10,12,13,...]. The 5th missing positive integer is 9.
- *************************************************************************************************
+ * Input: [3, 1, 5, 4, 2]
+ * Output: [1, 2, 3, 4, 5]
+ ******************************************************************
  * Example 2:
  *
- * Input: arr = [1,2,3,4], k = 2
- * Output: 6
- * Explanation: The missing positive integers are [5,6,7,...]. The 2nd missing positive integer is 6.
- *************************************************************************************************
- * Constraints:
+ * Input: [2, 6, 4, 3, 1, 5]
+ * Output: [1, 2, 3, 4, 5, 6]
+ ******************************************************************
+ * Example 3:
  *
- * 1 <= arr.length <= 1000
- * 1 <= arr[i] <= 1000
- * 1 <= k <= 1000
- * arr[i] < arr[j] for 1 <= i < j <= arr.length
- *************************************************************************************************
- * Follow up:
- * Could you solve this problem in less than O(n) complexity?
- *************************************************************************************************
- */
-
-// 46 yy
+ * Input: [1, 5, 6, 4, 3, 2]
+ * Output: [1, 2, 3, 4, 5, 6]
+ ******************************************************************
+*/
+// 44 yy
 #include <unordered_map>
-#include <unordered_set>
 #include <algorithm>
 #include <iostream>
 #include <climits>
+#include <thread>
 #include <chrono>
 #include <vector>
 #include <string>
-#include <thread>
 #include <queue>
 #include <stack>
 #include <list>
@@ -77,64 +71,58 @@ int printstack(std::stack<T> s);
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
 
-class Solution {
+class Cyclicsort{
 public:
-    std::vector<int> findKthPositive (std::vector<int>& nums, int k)
+    int sort(std::vector<int>& nums)
     {
-        return {};
+        return 0;
     }
-    std::vector<int> findKthPositive1(std::vector<int>& nums, int k)
+    int sort1(std::vector<int>& nums)
     {
-        return {};
+        return 0;
     }
-    //int findKthPositive(vector<int>& arr, int k)
 };
-
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-        std::vector<int>& nums,
-        int k,
-        std::vector<int>& expected
-        )
+        std::vector<int> & nums,
+        std::vector<int> expected)
 {
     if(testName.length() > 0)
     {
         std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
-    Solution solution;
+    Cyclicsort cycsort;
 
     auto start = std::chrono::system_clock::now();
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "nums:" << nums << std::endl;
-
+    std::cout << "nums:" <<  std::endl;
+    printvector(nums);
 const static int TEST_TIME = 1;
-const static int TEST_0    = 0;
-const static int TEST_1    = 1;
-const static int TEST_2    = 0;
-const static int TEST_3    = 0;
-    if (TEST_0)
-    {
+const static int TEST_0    = 1;
+const static int TEST_1    = 0;
+    if (TEST_0) {
         std::cout << "Solution0 start.........." << std::endl;
         if (TEST_TIME)
         {
             start = std::chrono::system_clock::now();
         }
 
-        std::vector<int>&& result = solution.findKthPositive(nums, k);
-        std::cout << "solution result:" << result << std::endl;
+        cycsort.sort(nums);
+        std::cout << "result:" << std::boolalpha << nums << std::endl;
 
-        if(result == expected)
+        if(nums == expected)
         {
+            //10yy
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
         }
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::endl;
-            std::cout << expected << RESET << std::endl;
+            std::cout << RED << "expected:" << expected << std::endl;
+            std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
         {
@@ -144,26 +132,26 @@ const static int TEST_3    = 0;
         }
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
-    if (TEST_1)
-    {
+    if (TEST_1) {
         std::cout << "Solution1 start.........." << std::endl;
         if (TEST_TIME)
         {
             start = std::chrono::system_clock::now();
         }
 
-        std::vector<int>&& result = solution.findKthPositive1(nums, k);
-        std::cout << "solution result:" << result << std::endl;
+        cycsort.sort1(nums);
+        std::cout << "result:" << std::boolalpha << nums << std::endl;
 
-        if(result == expected)
+        if(nums == expected)
         {
+            //10yy
             std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
         }
         else
         {
             std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::endl;
-            std::cout << expected << RESET << std::endl;
+            std::cout << RED << "expected:" << expected << std::endl;
+            std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
         {
@@ -172,12 +160,6 @@ const static int TEST_3    = 0;
            std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
         }
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
-    }
-    if (TEST_2)
-    {
-    }
-    if (TEST_3)
-    {
     }
 }
 // 76 yy
@@ -258,49 +240,31 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
 
 void Test1()
 {
-    std::vector<int> nums   = {2, 3, 4};
-    int k = 3;
-    std::vector<int> expect = {1,5,6};
-    Test("Test1", nums, k, expect);
+    std::vector<int> nums = {3,1,5,4,2};
+    std::vector<int> result = {1,2,3,4,5};
+    Test("Test1", nums, result);
 }
+
 void Test2()
 {
-    std::vector<int> nums   = {-2, -3, 4};
-    int k = 2;
-    std::vector<int> expect = {1, 2};
-    Test("Test2", nums, k, expect);
+    std::vector<int> nums = {2,6,4,3,1,5};
+    std::vector<int> result = {1,2,3,4,5,6};
+    Test("Test2", nums, result);
 }
 
 void Test3()
 {
-    std::vector<int> nums   = {1, 2 };
-    int k = 1;
-    std::vector<int> expect = {3};
-    Test("Test3", nums, k, expect);
+    std::vector<int> nums = {1,5,6,4,3,2};
+    std::vector<int> result = {1,2,3,4,5,6};
+    Test("Test3", nums, result);
 }
 
 void Test4()
 {
-    std::vector<int> nums   = {2,3,4,7,11};
-    int k = 5;
-    std::vector<int> expect = {1,5,6,8,9};
-    Test("Test4", nums, k, expect);
 }
 
 void Test5()
 {
-    std::vector<int> nums   = {1,2,3,4};
-    int k = 2;
-    std::vector<int> expect = {5,6};
-    Test("Test5", nums, k, expect);
-}
-
-void Test6()
-{
-    std::vector<int> nums   = {3,-1,4,5,5};
-    int k = 3;
-    std::vector<int> expect = {1,2,6};
-    Test("Test6", nums, k, expect);
 }
 int main()
 {
@@ -309,8 +273,6 @@ int main()
     Test3();
     Test4();
     Test5();
-
-    Test6();
 
     return 0;
 

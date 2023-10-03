@@ -81,10 +81,70 @@ class Solution {
 public:
     std::vector<int> findKthPositive (std::vector<int>& nums, int k)
     {
-        return {};
+        int i = 1;
+        int j = 0;
+        std::vector<int> res;
+        int size = nums.size();
+        for (j = 0; j < size; j++) {
+            std::cout << i << " " << nums[j] << std::endl;
+            if (nums[j] < 0) {
+                continue;
+            }
+            while (i < nums[j] && k > 0) {
+                res.push_back(i);
+                k--;
+                i++;
+            }
+            if (i==nums[j]) {
+                i++;
+                continue;
+            }
+            while (i > nums[j] && j < size) {
+                res.push_back(nums[j]);
+                continue;
+            }
+        }
+        while (k > 0) {
+            res.push_back(i);
+            k--;
+            i++;
+        }
+
+        return res;
+        return std::vector<int>{};
     }
     std::vector<int> findKthPositive1(std::vector<int>& nums, int k)
     {
+        int i = 0;
+        int n = nums.size();
+        auto swap = [&](int i, int j){
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+        };
+        while (i< n) {
+            while (nums[i] > 0 && nums[i] <= n && nums[i] != nums[nums[i]-1]) {
+                swap(i, nums[i]-1);
+            }
+            ++i;
+        }
+        std::cout << nums << std::endl;
+        std::vector<int> res;
+        std::unordered_set<int> uset;
+
+        for (int i = 0; i < n && res.size() < k; ++i) {
+            if (i+1 != nums[i]) {
+                uset.insert(nums[i]);
+                res.push_back(i+1);
+            }
+        }
+        for (i=n+1; res.size() < k; i++) {
+            if (uset.count(i) > 0) {
+                continue;
+            }
+            res.push_back(i);
+        }
+        return res;
         return {};
     }
     //int findKthPositive(vector<int>& arr, int k)
@@ -309,7 +369,6 @@ int main()
     Test3();
     Test4();
     Test5();
-
     Test6();
 
     return 0;
