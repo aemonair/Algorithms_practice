@@ -2,7 +2,7 @@
 
 [057.Insert_Interval 插入区间](<057.Insert_Interval 插入区间.md>)
 
-[986.Interval_List_Intersections 区间列表的交集](<986.Interval_List_Intersections 区间列表的交集.md>)
+[986.interval-list-intersections_区间列表的交集](<986.interval-list-intersections_区间列表的交集.md>)
 
 [252.Meeting_Rooms 会议室](<252.Meeting_Rooms 会议室.md>)
 
