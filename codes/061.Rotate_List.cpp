@@ -74,11 +74,54 @@ class Solution {
 public:
     ListNode* rotateRight (ListNode* head, int k)
     {
-        return nullptr;
+        int i = 0;
+        int size = 0;
+        ListNode * phead = head;
+        while (phead) {
+            phead = phead->next;
+            size++;
+        }
+        // 可用在这里直接变成环,phead->next = head,然后就可用只处理对应k处;
+        k %= size;
+        if (k ==0) {
+            return head;
+        }
+        std::cout << k << " " << size << std::endl;
+        phead = head;
+        for (i = 1; i<(size-k) && phead; ++i) {
+            phead = phead->next;
+        }
+        if (phead == nullptr) {
+            return head;
+        }
+        ListNode * newnode = phead->next;
+        std::cout << newnode << std::endl;
+        phead->next = nullptr;
+        phead = newnode;
+        while (phead && phead ->next != nullptr) {
+            phead = phead->next;
+        }
+        std::cout << "last:" << phead << std::endl;
+        phead ->next = head;
+        return newnode; //head;
     }
     ListNode* rotateRight1(ListNode* head, int k)
     {
-        return nullptr;
+        ListNode *phead = head;
+        int size = 1;
+        while (phead && phead->next) {
+            phead = phead->next;
+            size++;
+        }
+        phead->next = head;
+        k %= size ;
+        int i =0;
+        for (i=0; i< size-k; ++i) {
+            phead = phead->next;
+        }
+        ListNode *newnode = phead->next;
+        phead->next = nullptr;
+        return newnode;
     }
 };
 

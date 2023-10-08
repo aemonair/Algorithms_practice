@@ -1,35 +1,13 @@
 /*
- * 61. Rotate List
- * Medium
+ * 25. Reverse alternate K nodes in a Singly Linked List
+ * medium
+ *
+ * Given a linked list, write a function to reverse every alternate k nodes (where k is an input to the function) in an efficient way. Give the complexity of your algorithm.
  ************************************************************
- * Given the head of a linked list, rotate the list to the right by k places.
- ************************************************************
- * Example 1:
- *          1 -> 2 -> 3 -> 4 -> 5
+ * Example :
+ *   1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> NULL and k = 3
+ *   3 -> 2 -> 1 -> 4 -> 5 -> 6 -> 9 -> 8 -> 7 -> NULL.
  *
- * rotate1  5 -> 1 -> 2 -> 3 -> 4
- * rotate2  4 -> 5 -> 1 -> 2 -> 3
- *
- * Input: head = [1,2,3,4,5], k = 2
- * Output: [4,5,1,2,3]
- ************************************************************
- * Example 2:
- *
- *          0 -> 1 -> 2
- *
- * rotate1  2 -> 0 -> 1
- * rotate2  1 -> 2 -> 0
- * rotate3  0 -> 1 -> 2
- * rotate4  2 -> 0 -> 1
- *
- * Input: head = [0,1,2], k = 4
- * Output: [2,0,1]
- ************************************************************
- * Constraints:
- *
- * The number of nodes in the list is in the range [0, 500].
- * -100 <= Node.val <= 100
- * 0 <= k <= 2 * 10^9
  ************************************************************
  */
 #include <algorithm>
@@ -70,15 +48,74 @@ std::ostream & operator << (std::ostream &out, ListNode *_node)
     out << std::endl;
     return out;
 }
+
 class Solution {
 public:
-    ListNode* rotateRight (ListNode* head, int k)
+    ListNode* reversealternateK(ListNode* head, int k)
     {
-        return nullptr;
+        auto newhead = reverse(head, k);
+        return newhead;
     }
-    ListNode* rotateRight1(ListNode* head, int k)
+    ListNode* reverse(ListNode* head, int k)
     {
-        return nullptr;
+        int i = 0;
+        if (head == nullptr || head->next == nullptr || k <=1 ) {
+            return head;
+        }
+        auto phead = head;
+        for (i=1; i < k; ++i) {
+            phead = phead->next;
+        }
+        if (phead == nullptr) {
+            return head;
+        }
+        ListNode * curr = head;
+        ListNode *prev = new ListNode(-1, curr);
+        for (i=1; i< k; i++) {
+            auto next = curr->next;
+            curr->next = curr->next->next;
+            next->next = prev->next;
+            prev->next = next;
+        }
+        for (i = 0; i< k && curr; ++i) {
+            curr=curr->next;
+        }
+        std::cout << prev << std::endl;
+        if (curr) {
+            std::cout << curr << std::endl;
+            curr->next = reverse(curr->next, k);
+        }
+        return prev->next;
+    }
+    ListNode* reversealternateK1(ListNode* head, int k)
+    {
+        int i = 0;
+        ListNode * dummy = new ListNode(-1, head);
+        ListNode * curr = head;
+        ListNode * prev = dummy;
+        while (curr) {
+            auto phead = curr;
+            for (i=1; i< k && phead; ++i) {
+                phead = phead->next;
+            }
+            if (phead == nullptr) {
+                break;
+            }
+            for (i=1; i< k; ++i) {
+                auto next = curr->next;
+                curr->next = curr->next->next;
+                next->next = prev->next;
+                prev->next = next;
+            }
+            for (i=0; i<k && curr; ++i) {
+                curr = curr->next;
+            }
+            if (curr) {
+                prev = curr;
+                curr = curr->next;
+            }
+        }
+        return dummy->next;
     }
 };
 
@@ -88,8 +125,9 @@ void Test(const std::string& testName,
         int k,
         ListNode * expected)
 {
-    if(testName.length() > 0)
+    if(testName.length() > 0) {
         std::cout <<testName << " begins: "<< std::endl;
+    }
 
     Solution solution;
 
@@ -100,18 +138,16 @@ void Test(const std::string& testName,
 const static int TEST_TIME = 1;
 const static int TEST_0    = 0;
 const static int TEST_1    = 1;
-const static int TEST_2    = 0;
-const static int TEST_3    = 0;
     if(TEST_0)
     {
         std::cout << "k:" << k << " " << head << " ";
-        // solution.printList(head);
+        //solution.printList(head);
         if (TEST_TIME)
         {
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.rotateRight(head, k);
+        decltype(expected) result = solution.reversealternateK(head, k);
 
         std::cout << "result: " << result << " ";
         // solution.printList(result);
@@ -132,18 +168,17 @@ const static int TEST_3    = 0;
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution0 costs " << elapsed.count() <<"micros" << std::endl;
         }
-        std::cout << "-----------------------------" << std::endl;
     }
     if(TEST_1)
     {
         std::cout << "k:" << k << " " << head << " ";
-        // solution.printList(head);
+        //solution.printList(head);
         if (TEST_TIME)
         {
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.rotateRight1(head, k);
+        decltype(expected) result = solution.reversealternateK1(head, k);
 
         std::cout << "result: " << result << " ";
         // solution.printList(result);
@@ -164,7 +199,6 @@ const static int TEST_3    = 0;
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
         }
-        std::cout << "-----------------------------" << std::endl;
     }
 }
 void Test0()
@@ -180,7 +214,38 @@ void Test0()
     p3->next = p4;
     p4->next = p5;
 
-    Test("Test0", p1, 5, p1);
+    Test("Test0", p1, 2, p2);
+#if 0
+    Solution solution;
+    ListNode *head = p1;
+    ListNode * rev = solution.reverseList(head);
+    std::cout << "reverseList List:" << std::endl;
+    solution.printList(rev);
+
+    std::cout << "List:" << std::endl;
+    solution.reverseList(rev);
+    solution.printList(head);
+
+    std::cout << "reverseList List, p2 & p4:" << std::endl;
+    ListNode *new_head = solution.reverseList(p2, p4);
+    solution.printList(new_head);
+    // 3 -> 2
+
+    p1 -> next = new_head;
+    // 1 -> 3
+
+    p2 -> next = p4;
+    // 2 -> 4
+
+    solution.printList(head);
+    // 1 -> 3 -> 2 -> 4 -> 5
+
+    //std::cout << "reverseListre List, p3 & p1:" << std::endl;
+    //solution.reverseList(p3  , p1);
+    //std::cout << "List:" << std::endl;
+    //solution.printList(head);
+    std::cout << "" << std::endl;
+#endif
 }
 
 void Test1()
@@ -195,7 +260,7 @@ void Test1()
     struct ListNode * p2 = new ListNode(2, p3);
     struct ListNode * p1 = new ListNode(1, p2);
 
-    Test("Test1", p1, 2, p8);
+    Test("Test1", p1, 2, p2);
 }
 
 void Test2()
@@ -205,16 +270,14 @@ void Test2()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-    struct ListNode * p6 = new ListNode(6);
 
 
     p1->next = p2;
     p2->next = p3;
     p3->next = p4;
     p4->next = p5;
-    p5->next = p6;
 
-    Test("Test2", p1, 3, p4);
+    Test("Test2", p1, 3, p3);
 }
 
 void Test3()
@@ -231,7 +294,7 @@ void Test3()
     p3->next = p4;
     p4->next = p5;
 
-    Test("Test3", p1, 8, p3);
+    Test("Test3", p1, 1, p1);
 }
 
 void Test4()
@@ -252,7 +315,7 @@ void Test5()
     struct ListNode * p2 = new ListNode(2, p3);
     struct ListNode * p1 = new ListNode(1, p2);
 
-    Test("Test1", p1, 3, p7);
+    Test("Test1", p1, 3, p3);
 }
 
 int main()

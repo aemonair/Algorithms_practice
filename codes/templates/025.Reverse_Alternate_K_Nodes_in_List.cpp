@@ -32,86 +32,32 @@ struct ListNode {
     ListNode(int x) : val(x), next(nullptr) {}
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
+std::ostream & operator << (std::ostream &out, ListNode *_node)
+{
+    ListNode *listNode = _node;
+    out << "[  ";
+    if (!_node) {
+        out << "null ]" << std::endl;
+        return out;
+    }
+    while (listNode != nullptr) { // && listNode->next != nullptr)
+        out << listNode->val << " -> " ; // << std::endl;
+        listNode = listNode->next;
+    }
+    out << "\b\b\b ]" ;
+    out << std::endl;
+    return out;
+}
+
 class Solution {
 public:
-    ListNode *reverseList(ListNode *head)
-    {
-        return nullptr;
-    }
-    ListNode *reverseList(ListNode *head, ListNode *tail)
-    {
-        return nullptr;
-    }
     ListNode* reversealternateK(ListNode* head, int k)
     {
-        if(head == nullptr || head->next == nullptr || k <= 1)
-        {
-            return head;
-        }
-        ListNode * curr = head;
-        ListNode * prev = nullptr;
-        ListNode * next = nullptr;
-        ListNode * prevpart = nullptr;
-        while(true)
-        {
-            ListNode * lastnode = curr;
-            for(int i = 0;curr != nullptr && i< k; i++)
-            {
-                next = curr->next;
-                curr->next = prev;
-                prev = curr;
-                curr = next;
-            }
-            if(prevpart != nullptr)
-            {
-                prevpart->next = prev;
-            }
-            else
-            {
-                head = prev;
-            }
-            lastnode->next = curr;
-            if(curr == nullptr)
-            {
-                break;
-            }
-            ListNode * firstnode = prev;
-            // lastnode <- ... <- prev
-            for(int i = 0;curr != nullptr && i< k; i++)
-            {
-                prev = curr;
-                curr = curr->next;
-            }
-            if(curr == nullptr )
-            {
-                break;
-            }
-            prevpart = prev;
-        }
-
-        return head;
+        return nullptr;
     }
-
-    std::vector<int> printList(ListNode* head)
+    ListNode* reversealternateK1(ListNode* head, int k)
     {
-        std::vector<int> ret ; // = new ArrayList<>();
-        ListNode *listNode = head;
-        if (head)
-        {
-            std::cout << "head" << listNode->val << std::endl;
-        }
-        else
-        {
-            std::cout << "null" << std::endl;
-        }
-        while (listNode != nullptr) // && listNode->next != nullptr)
-        {
-            std::cout << listNode->val << " " ; // << std::endl;
-            ret.push_back(listNode->val);
-            listNode = listNode->next;
-        }
-        std::cout << std::endl;
-        return ret;
+        return nullptr;
     }
 };
 
@@ -121,8 +67,9 @@ void Test(const std::string& testName,
         int k,
         ListNode * expected)
 {
-    if(testName.length() > 0)
+    if(testName.length() > 0) {
         std::cout <<testName << " begins: "<< std::endl;
+    }
 
     Solution solution;
 
@@ -131,9 +78,12 @@ void Test(const std::string& testName,
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
 const static int TEST_TIME = 1;
+const static int TEST_0    = 0;
+const static int TEST_1    = 1;
+    if(TEST_0)
     {
-        std::cout << "k:" << k << " ";
-        solution.printList(head);
+        std::cout << "k:" << k << " " << head << " ";
+        //solution.printList(head);
         if (TEST_TIME)
         {
             start = std::chrono::system_clock::now();
@@ -141,8 +91,8 @@ const static int TEST_TIME = 1;
 
         decltype(expected) result = solution.reversealternateK(head, k);
 
-        std::cout << "result: ";
-        solution.printList(result);
+        std::cout << "result: " << result << " ";
+        // solution.printList(result);
         if(result == expected)
         {
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
@@ -150,8 +100,8 @@ const static int TEST_TIME = 1;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::endl;
-            solution.printList(expected);
+            std::cout << RED << "expected:" << expected << std::endl;
+            // solution.printList(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -161,9 +111,36 @@ const static int TEST_TIME = 1;
            std::cout << "Solution0 costs " << elapsed.count() <<"micros" << std::endl;
         }
     }
+    if(TEST_1)
     {
-    }
-    {
+        std::cout << "k:" << k << " " << head << " ";
+        //solution.printList(head);
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.reversealternateK1(head, k);
+
+        std::cout << "result: " << result << " ";
+        // solution.printList(result);
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << expected << std::endl;
+            // solution.printList(expected);
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
+        }
     }
 }
 void Test0()
@@ -235,7 +212,7 @@ void Test2()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-   
+
 
     p1->next = p2;
     p2->next = p3;
@@ -252,7 +229,7 @@ void Test3()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-   
+
 
     p1->next = p2;
     p2->next = p3;

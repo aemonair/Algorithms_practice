@@ -72,15 +72,73 @@ struct ListNode {
 std::ostream & operator << (std::ostream &out, ListNode *_node);
 class Solution {
 public:
-    ListNode* reverseKGroup(ListNode* head, int k)
+    ListNode *reverseList(ListNode *head)
     {
         return nullptr;
+    }
+    ListNode *reverseList(ListNode *head, ListNode *tail)
+    {
+        return nullptr;
+    }
+    ListNode* reverse(ListNode* head, int k)
+    {
+        ListNode * phead = head;
+        for (int i = 1; i < k && phead; ++i) {
+            phead = phead->next;
+        }
+        if (phead == nullptr || k == 1) {
+            return head;
+        }
+        phead = head;
+        auto prev = new ListNode(-1, phead);
+        int i = 1;
+        while (i<k) {
+            auto next = phead->next;
+            phead->next = phead->next->next;
+            next->next = prev->next;
+            prev->next = next;
+            ++i;
+        }
+        // 反转后 phead 身为最后一个,可用通过phead->next = reverse(phead->next)进行连接;
+        //head->next = reverse(phead->next, k);
+        phead->next = reverse(phead->next, k);
+        return prev->next;
+    }
+    ListNode* reverseKGroup(ListNode* head, int k)
+    {
+        auto newhead = reverse(head, k);
+        return newhead;
     }
     ListNode* reverseKGroup1(ListNode* head, int k)
     {
-        return nullptr;
+        ListNode *curr = head;
+        //std::unique_ptr<ListNode> prev = new ListNode(-1, curr);
+        ListNode * dummy = new ListNode(-1, curr);
+        ListNode * prev = dummy;
+        while (curr) {
+            ListNode *phead = curr;
+            int i = 1;
+            for (i=1; i< k; i++) {
+                phead = phead->next;
+            }
+            if (phead==nullptr) {
+                break;
+            }
+            phead = curr;
+            i=1;
+            while (i< k) {
+                i++;
+                auto next = curr->next;
+                curr->next = curr->next->next;
+                next -> next = prev->next;
+                prev -> next = next;
+            }
+            prev = curr;
+            curr = curr->next;
+        }
+        return dummy->next;
     }
-#if 0
+
     std::vector<int> printList(ListNode* head)
     {
         std::vector<int> ret ; // = new ArrayList<>();
@@ -102,7 +160,6 @@ public:
         std::cout << std::endl;
         return ret;
     }
-#endif
 };
 
 std::ostream & operator << (std::ostream &out, ListNode *_node)
@@ -144,8 +201,8 @@ const static int TEST_1    = 1;
     if(TEST_0)
     {
         std::cout << "Solution0 start.........." << std::endl;
-        std::cout << "k:" << k << " " << head << " ";
-        // solution.printList(head);
+        std::cout << "k:" << k << " ";
+        solution.printList(head);
         if (TEST_TIME)
         {
             start = std::chrono::system_clock::now();
@@ -163,8 +220,8 @@ const static int TEST_1    = 1;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
-            // solution.printList(expected);
+            std::cout << RED << "expected:" << std::endl;
+            solution.printList(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -197,8 +254,8 @@ const static int TEST_1    = 1;
         else
         {
             std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
-            // solution.printList(expected);
+            std::cout << RED << "expected:" << std::endl;
+            solution.printList(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
