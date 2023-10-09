@@ -1,30 +1,37 @@
 /*
- * 103. Binary Tree Zigzag Level Order Traversal
- * Medium
+ * 111. Minimum Depth of Binary Tree
+ * Easy
  ************************************************************
- * Given the root of a binary tree, return the zigzag level order traversal of its nodes' values. (i.e., from left to right, then right to left for the next level and alternate between).
+ * Given a binary tree, find its minimum depth.
+ *
+ * The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+ ************************************************************
+ * Note: A leaf is a node with no children.
  ************************************************************
  * Example 1:
  *
+ *
+ *     3
+ *    / \
+ *   9  20
+ *     /  \
+ *    15   7
+ *
  * Input: root = [3,9,20,null,null,15,7]
- * Output: [[3],[20,9],[15,7]]
+ * Output: 2
  ************************************************************
  * Example 2:
  *
- * Input: root = [1]
- * Output: [[1]]
- ************************************************************
- * Example 3:
- *
- * Input: root = []
- * Output: []
+ * Input: root = [2,null,3,null,4,null,5,null,6]
+ * Output: 5
  ************************************************************
  * Constraints:
  *
- * The number of nodes in the tree is in the range [0, 2000].
- * -100 <= Node.val <= 100
+ * The number of nodes in the tree is in the range [0, 105].
+ * -1000 <= Node.val <= 1000
  ************************************************************
  */
+
 #include <algorithm>
 #include <iostream>
 #include <chrono>
@@ -40,7 +47,8 @@
 /**
  * Definition for a binary tree node.
  */
-struct TreeNode {
+struct TreeNode
+{
     int val;
     TreeNode *left;
     TreeNode *right;
@@ -48,7 +56,6 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
-
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
 {
@@ -74,16 +81,40 @@ std::ostream & operator << (std::ostream &out, TreeNode *root)
 
 class Solution {
 public:
-    std::vector<std::vector<int>> zigzagLevelOrder(TreeNode* root)
+    //
+    int minDepth(TreeNode* root)
     {
-        return std::vector<std::vector<int>>();
+        if (root == nullptr) {
+            return 0;
+        }
+        std::queue<TreeNode*> q;
+        q.push(root);
+        int level = 1;
+        while (!q.empty()) {
+            int size = q.size();
+            for (int i =0; i< size; ++i) {
+                auto curr = q.front();
+                if (curr->left == nullptr && curr->right == nullptr) {
+                    return level;
+                }
+                if (curr->left) {
+                    q.push(curr->left);
+                }
+                if (curr->right) {
+                    q.push(curr->right);
+                }
+                q.pop();
+            }
+            level += 1;
+        }
+        return level;
     }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-        TreeNode * root,
-        std::vector<std::vector<int>> expected)
+        TreeNode *root,
+        int expected)
 {
     if(testName.length() > 0)
     {
@@ -104,9 +135,9 @@ const static int TEST_TIME = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.zigzagLevelOrder(root);
+        decltype(expected) result = solution.minDepth(root);
+        std::cout << "result:" << result << std::endl;
 
-        std::cout << "result: " << result << std::endl;
         if(result == expected)
         {
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
@@ -128,60 +159,81 @@ const static int TEST_TIME = 1;
 }
 void Test0()
 {
-    std::cout << "      1         " << std::endl;
-    std::cout << "    /   \\      " << std::endl;
-    std::cout << "   2     3      " << std::endl;
-    std::cout << "    \\   /      " << std::endl;
-    std::cout << "     4  5       " << std::endl;
-    TreeNode * p_node4 = new TreeNode(4);
-    TreeNode * p_node5 = new TreeNode(5);
-    TreeNode * p_node2 = new TreeNode(2, nullptr, p_node4);
-    TreeNode * p_node3 = new TreeNode(3, p_node5, nullptr);
-    TreeNode * p_node1 = new TreeNode(1, p_node2, p_node3);
-
-    std::vector<std::vector<int>> expected = {{1},{3,2},{4,5}};
-    Test("Test0", p_node1, expected );
+    Test("Test0", nullptr, 0);
 }
-
 void Test1()
 {
-    //Input: root = [3,9,20,null,null,15,7]
-    //Output: [[3],[20,9],[15,7]]
-
     std::cout << "      3         " << std::endl;
     std::cout << "    /   \\      " << std::endl;
     std::cout << "   9     20     " << std::endl;
     std::cout << "         / \\   " << std::endl;
-    std::cout << "        15  7   " << std::endl;
-
-    TreeNode * p_node15= new TreeNode(15);
-    TreeNode * p_node7 = new TreeNode(7 );
-    TreeNode * p_node9 = new TreeNode(9 );
-    TreeNode * p_node20= new TreeNode(20, p_node15, p_node7 );
-    TreeNode * p_node3 = new TreeNode(3 , p_node9 , p_node20);
-
-    std::vector<std::vector<int>> expected = {{3},{20,9},{15,7}};
-    Test("Test1", p_node3, expected);
+    std::cout << "       15   7   " << std::endl;
+    TreeNode * pnode3 = new TreeNode(3);
+    TreeNode * pnode9 = new TreeNode(9);
+    TreeNode * pnode20= new TreeNode(20);
+    TreeNode * pnode15= new TreeNode(15);
+    TreeNode * pnode7 = new TreeNode(7);
+    pnode3 ->left  = pnode9 ;
+    pnode3 ->right = pnode20;
+    pnode20->left  = pnode15;
+    pnode20->right = pnode7 ;
+    Test("Test1", pnode3, 2);
 }
-
 void Test2()
 {
-    TreeNode * p_node1 = new TreeNode(1 );
-
-    std::vector<std::vector<int>> expected = {{1}};
-
-    Test("Test2", p_node1, expected);
+    // [2,null,3,null,4,null,5,null,6]
+    //    2
+    //   n  3
+    //      n 4
+    //       n 5
+    //         n 6
+    std::cout << "      2           " << std::endl;
+    std::cout << "        \\        " << std::endl;
+    std::cout << "         3        " << std::endl;
+    std::cout << "           \\     " << std::endl;
+    std::cout << "            4     " << std::endl;
+    std::cout << "             \\   " << std::endl;
+    std::cout << "              5   " << std::endl;
+    std::cout << "               \\ " << std::endl;
+    std::cout << "                6 " << std::endl;
+    TreeNode * pnode6 = new TreeNode(6);
+    TreeNode * pnode5 = new TreeNode(5, nullptr, pnode6);
+    TreeNode * pnode4 = new TreeNode(4, nullptr, pnode5);
+    TreeNode * pnode3 = new TreeNode(3, nullptr, pnode4);
+    TreeNode * pnode2 = new TreeNode(2, nullptr, pnode3);
+    Test("Test2", pnode2, 5);
 }
 
 void Test3()
 {
-    std::vector<std::vector<int>> expected = {};
+    std::cout << "      1         " << std::endl;
+    std::cout << "        \\      " << std::endl;
+    std::cout << "         2      " << std::endl;
+    std::cout << "         / \\   " << std::endl;
+    std::cout << "        3   4   " << std::endl;
+    std::cout << "           /    " << std::endl;
+    std::cout << "          5     " << std::endl;
+    TreeNode * pnode1 = new TreeNode(1);
+    TreeNode * pnode2 = new TreeNode(2);
+    TreeNode * pnode3 = new TreeNode(3);
+    TreeNode * pnode4 = new TreeNode(4);
+    TreeNode * pnode5 = new TreeNode(5);
 
-    Test("Test3", nullptr , expected);
+    //    1
+    //     2
+    //    3  4
+    //      5
+    //
+    pnode1->right  = pnode2;
+    pnode2->left   = pnode3;
+    pnode2->right  = pnode4;
+    pnode4->left   = pnode5;
+    Test("Test3", pnode1,3);
 }
 
 void Test4()
 {
+    //Test("Test4", 6, 6, 3);
     std::cout << "      1         " << std::endl;
     std::cout << "    /   \\      " << std::endl;
     std::cout << "   2     3      " << std::endl;
@@ -196,30 +248,10 @@ void Test4()
     TreeNode * p2 = new TreeNode(2, p4, p5);
     TreeNode * p1 = new TreeNode(1, p2, p3);
 
-    std::vector<std::vector<int>> expected = {{1},{3,2},{4,5,6,7}};
+    int expected = 3;
     Test("Test1", p1, expected);
 }
-void Test5()
-{
-    std::cout << "      12        " << std::endl;
-    std::cout << "    /   \\      " << std::endl;
-    std::cout << "   7     1      " << std::endl;
-    std::cout << "     \\  / \\   " << std::endl;
-    std::cout << "      9 10  5   " << std::endl;
-    std::cout << "       / \\     " << std::endl;
-    std::cout << "      20 17     " << std::endl;
-    struct TreeNode * p9 = new TreeNode(9 );
-    struct TreeNode * p17= new TreeNode(17);
-    struct TreeNode * p20= new TreeNode(20);
-    struct TreeNode * p5 = new TreeNode(5 );
-    struct TreeNode * p10= new TreeNode(10, p20, p17);
-    struct TreeNode * p7 = new TreeNode(7, nullptr, p9);
-    struct TreeNode * p1 = new TreeNode(1, p10, p5);
-    struct TreeNode * p12= new TreeNode(12,p7 , p1);
 
-    std::vector<std::vector<int>> expected = {{12},{1,7},{9,10,5},{17,20}};
-    Test("Test2", p12, expected);
-}
 
 int main()
 {
@@ -229,8 +261,6 @@ int main()
     Test1();
     Test2();
     Test3();
-    Test4();
-    Test5();
 
     return 0;
 

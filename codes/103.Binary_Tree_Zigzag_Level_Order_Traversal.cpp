@@ -76,6 +76,41 @@ class Solution {
 public:
     std::vector<std::vector<int>> zigzagLevelOrder(TreeNode* root)
     {
+        if(!root) {
+            return {};
+        }
+        std::queue<TreeNode *> q;
+        q.push(root);
+        std::vector<std::vector<int>> result;
+        bool flag = true ;
+        while(!q.empty()) {
+            int size = q.size();
+            std::vector<int> vec;
+            for (int i =0; i< size; ++i) {
+                auto curr = q.front();
+                if (curr->left) {
+                    q.push(curr->left);
+                }
+                if (curr->right){
+                    q.push(curr->right);
+                }
+                q.pop();
+                if (flag) {
+                    vec.push_back(curr->val);
+                } else {
+                    vec.insert(vec.begin(), curr->val);
+                }
+            }
+            result.push_back(vec);
+            // if (flag) {
+            //     flag = false;
+            // } else {
+            //     flag = true;
+            // }
+            flag = !flag;
+            std::cout << std::boolalpha << flag << std::endl;
+        }
+        return result;
         return std::vector<std::vector<int>>();
     }
 };

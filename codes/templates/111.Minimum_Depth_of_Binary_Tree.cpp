@@ -56,61 +56,34 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+std::ostream & operator << (std::ostream &out, TreeNode *root)
+{
+    if (root == nullptr) {
+        out << "N" << ",";
+        return out;
+    }
+    out << root->val << ",";
+    out << (root->left) ;
+    out << (root->right);
+    return out;
+}
 
 class Solution {
 public:
     //
     int minDepth(TreeNode* root)
     {
-        return 0;
-    }
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << "| "<<std::endl;
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-    int printtree  (const TreeNode * root)
-    {
-        if (root==nullptr)
-        {
-            std::cout << "null tree. " << std::endl;
-            return 0;
-        }
-        std::cout << "root->val: " << root->val << std::endl;
-        printtreenode(root);
-        std::cout << std::endl;
-        return 0;
-    }
-    int printtreenode (const TreeNode * root)
-    {
-        if(root==nullptr)
-        {
-            std::cout << "N" << ",";
-        }
-        else
-        {
-            std::cout << root->val << ",";
-            printtreenode(root->left);
-            printtreenode(root->right);
-        }
         return 0;
     }
 };
@@ -131,8 +104,7 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "Tree:" << std::endl;
-    solution.printtree(root);
+    std::cout << "Tree:" << root << std::endl;
 const static int TEST_TIME = 1;
     {
         if (TEST_TIME)
@@ -228,7 +200,7 @@ void Test3()
     //     2
     //    3  4
     //      5
-    //      
+    //
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;

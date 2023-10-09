@@ -67,61 +67,83 @@ struct TreeNode
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+int getheight(TreeNode *root)
+{
+    if (root == nullptr) {
+        return 0;
+    }
+    return 1+std::max(getheight(root->left), getheight(root->right));
+}
+std::ostream & operator << (std::ostream &out, TreeNode *root)
+{
+    int height = getheight(root);
+    // out << "height:" << height << std::endl;
+        if(root==nullptr)
+        {
+            out << "[ null ]"<< std::endl;
+            return out;
+        }
+        out << std::endl;
+        std::vector<std::vector<int>> result;
+        std::queue<TreeNode *> queue;
+        queue.push(root);
+        int level = 0;
+        while(queue.empty() == false)
+        {
+            int levelsize = queue.size();
+            for (int j = 0; j < height - level ; j++) {
+                out << " " ;
+            }
+            for(int i =0; i < levelsize; i++)
+            {
+                TreeNode * curr = queue.front();
+                if (curr) {
+                    out << (curr->val) << " ";
+                    queue.push(curr->left);
+                    queue.push(curr->right);
+                } else {
+                    // out << "N ";
+                    out << "  ";
+                }
+                for (int j = 1; j < height - level ; j++) {
+                    out << " ";
+                }
+                queue.pop();
+            }
+            out << std::endl;
+            ++ level;
+            // result.push_back(vec);
+        }
+        return out;
+}
+// std::ostream & operator << (std::ostream &out, TreeNode *root)
+// {
+//     if (root == nullptr) {
+//         out << "N" << ",";
+//         return out;
+//     }
+//     out << root->val << ",";
+//     out << (root->left) ;
+//     out << (root->right);
+//     return out;
+// }
 class Solution {
 public:
     //
     TreeNode * findSuccessor(TreeNode* root, int key)
     {
         return nullptr;
-    }
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << "| "<<std::endl;
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-    int printtree  (const TreeNode * root)
-    {
-        if (root==nullptr)
-        {
-            std::cout << "null tree. " << std::endl;
-            return 0;
-        }
-        std::cout << "root->val: " << root->val << std::endl;
-        printtreenode(root);
-        std::cout << std::endl;
-        return 0;
-    }
-    int printtreenode (const TreeNode * root)
-    {
-        if(root==nullptr)
-        {
-            std::cout << "N" << ",";
-        }
-        else
-        {
-            std::cout << root->val << ",";
-            printtreenode(root->left);
-            printtreenode(root->right);
-        }
-        return 0;
     }
 };
 
@@ -142,8 +164,7 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "find " << key << " successor of Tree:" << std::endl;
-    solution.printtree(root);
+    std::cout << "find " << key << " successor of Tree:" << root << std::endl;
 const static int TEST_TIME = 1;
     {
         if (TEST_TIME)
@@ -256,7 +277,7 @@ void Test3()
     //     2
     //    3  4
     //      5
-    //      
+    //
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;

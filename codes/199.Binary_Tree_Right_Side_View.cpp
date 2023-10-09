@@ -57,35 +57,87 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
-template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
-std::ostream & operator << (std::ostream &out, TreeNode *root)
-{
-    if (root == nullptr) {
-        out << "N" << ",";
-        return out;
-    }
-    out << root->val << ",";
-    out << (root->left) ;
-    out << (root->right);
-    return out;
-}
 
 class Solution {
 public:
     //
     std::vector<int> rightSideView(TreeNode* root)
     {
-        return {};
+        if(root==nullptr)
+        {
+            return {};
+        }
+        std::queue<TreeNode*> q;
+        q.push(root);
+        std::vector<int> res;
+        while (!q.empty()) {
+            int size = q.size();
+            for (int i = 0; i< size; i++) {
+                auto curr =q.front();
+                q.pop();
+                if (curr->left) {
+                    q.push(curr->left);
+                }
+                if (curr->right) {
+                    q.push(curr->right);
+                }
+                if (i == size-1) {
+                    res.push_back(curr->val);
+                }
+            }
+        }
+        return res;
+        return std::vector<int>();
+    }
+    template <typename T>
+    int printvector(const std::vector<T> &v)
+    {
+        std::cout << "vector size: " << v.size() << std::endl;
+        std::cout << "[  " ;
+        for (auto iter = v.begin(); iter != v.end(); iter++ )
+        {
+            std::cout << *iter << ", "; //<<std::endl;
+        }
+        std::cout << "\b\b]" << std::endl;
+        return v.size();
+    }
+
+    template <typename T>
+    int printvectorvector(const std::vector<T> &v)
+    {
+        std::cout << "this vector size: " << v.size() << std::endl;
+        for (auto iter = v.begin(); iter != v.end(); iter++ )
+        {
+            printvector( *iter );
+        }
+        std::cout << std::endl;
+        return v.size();
+    }
+    int printtree  (const TreeNode * root)
+    {
+        if (root==nullptr)
+        {
+            std::cout << "null tree. " << std::endl;
+            return 0;
+        }
+        std::cout << "root->val: " << root->val << std::endl;
+        printtreenode(root);
+        std::cout << std::endl;
+        return 0;
+    }
+    int printtreenode (const TreeNode * root)
+    {
+        if(root==nullptr)
+        {
+            std::cout << "N" << ",";
+        }
+        else
+        {
+            std::cout << root->val << ",";
+            printtreenode(root->left);
+            printtreenode(root->right);
+        }
+        return 0;
     }
 };
 
@@ -105,7 +157,7 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "Tree" << root << std::endl;
+    solution.printtree(root);
 const static int TEST_TIME = 1;
     {
         if (TEST_TIME)
@@ -114,7 +166,8 @@ const static int TEST_TIME = 1;
         }
 
         decltype(expected) result = solution.rightSideView(root);
-        std::cout << "result:" << result << std::endl;
+        std::cout << "result:";// << result->val << std::endl;
+        solution.printvector(result);
 
         if(result == expected)
         {
@@ -123,7 +176,8 @@ const static int TEST_TIME = 1;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << expected << std::endl;
+            std::cout << RED << "expected:";// << expected->val << std::endl;
+            solution.printvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)

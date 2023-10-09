@@ -24,11 +24,11 @@
  *
  ************************************************************
  *
- *     1                 1
+ *     1                 1 -->N
  *    / \               / \
- *   2   3             2-->3
- *  / \   \           /-\-- \
- * 4   5   7         4-->5-->7
+ *   2   3             2-->3 -->N
+ *  / \   \           / \   \
+ * 4   5   7         4-->5-->7 -->N
  *
  * Input: root = [1,2,3,4,5,null,7]
  * Output: [1,#,2,3,#,4,5,7,#]
@@ -72,83 +72,74 @@ public:
     Node(int _val, Node* _left, Node* _right, Node* _next)
         : val(_val), left(_left), right(_right), next(_next) {}
 };
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+std::ostream & operator << (std::ostream &out, Node *root)
+{
+     //        2^height;
+     // height ,
+     //123456789XABCDE
+     //       1            2
+     //   2      3      x      y
+     // 4   5   6   7
+     //8 9 X A B C D E
+     // i ,left =2i,right=2i+1
+     // 7space 1
+     // 3space 2 6space 3
+     // 1space 4 3space 5..6..7
+     // 0space 8 1space 9..X..A...E
+    if (root == nullptr) {
+        // out << "N" << ",";
+        return out;
+    }
+    out << root->val << " " ;
+    if (root->next) {
+        out << "->" << root->next->val << ");";
+    } else {
+        out << "->N);" ;
+    }
+    out << (root->left) ;
+    out << (root->right);
+    return out;
+}
 
 class Solution {
 public:
     Node* connect(Node* root)
     {
-        if(root==nullptr)
-        {
-            return root;
+        if (root == nullptr) {
+            return nullptr;
         }
-
-        std::queue<Node *> queue;
-        queue.push(root);
-        Node * prev = nullptr;
-        while(!queue.empty())
-        {
-            int size = queue.size();
-            for(int i = 0; i< size; i++)
-            {
-                Node * curr = queue.front();
-                queue.pop();
-                if (prev)
-                {
+        std::queue<Node *> q;
+        q.push(root);
+        while (!q.empty()) {
+            int size = q.size();
+            Node * prev = nullptr;
+            for(int i =0; i< size; ++i) {
+                auto curr = q.front();
+                q.pop();
+                if (prev) {
                     prev->next = curr;
                 }
                 prev = curr;
-                if(curr->left)
-                {
-                    queue.push(curr->left);
+                if (curr->left) {
+                    q.push(curr->left);
                 }
-                if(curr->right)
-                {
-                    queue.push(curr->right);
+                if (curr->right) {
+                    q.push(curr->right);
                 }
             }
         }
         return root;
-    }
-    int printtreenext  (const Node * root)
-    {
-        Node * curr = const_cast<Node *>(root);
-        while(curr != nullptr)
-        {
-            std::cout << curr->val << " ";
-            curr = curr->next;
-        }
-        return 0;
-    }
-    int printtree  (const Node * root)
-    {
-        if (root==nullptr)
-        {
-            std::cout << "null tree. " << std::endl;
-            return 0;
-        }
-        std::cout << "root->val: " << root->val << std::endl;
-        printtreenode(root);
-        std::cout << std::endl;
-        return 0;
-    }
-    int printtreenode (const Node * root)
-    {
-        if(root==nullptr)
-        {
-            std::cout << "N" << ",";
-        }
-        else
-        {
-            std::cout << root->val << ",(";
-            if (root->next)
-            {
-                std::cout << root->next->val ;
-            }
-            std::cout << ")";
-            printtreenode(root->left);
-            printtreenode(root->right);
-        }
-        return 0;
     }
 };
 
@@ -168,8 +159,7 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "Tree:" << std::endl;
-    solution.printtree(root);
+    std::cout << "Tree:" << root << std::endl;
 const static int TEST_TIME = 1;
     {
         if (TEST_TIME)
@@ -178,17 +168,7 @@ const static int TEST_TIME = 1;
         }
 
         decltype(expected) result = solution.connect(root);
-        std::cout << "result:";// << result->val << std::endl;
-        if(result)
-        {
-            std::cout << result->val << std::endl;
-        }
-        else
-        {
-            std::cout << "null." << std::endl;
-        }
-        solution.printtree(result);
-        solution.printtreenext(result);
+        std::cout << "result:" << result << std::endl;// << result->val << std::endl;
 
         if(result == expected)
         {
@@ -197,8 +177,7 @@ const static int TEST_TIME = 1;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::endl;
-            solution.printtree(expected);
+            std::cout << RED << "expected:" << expected <<  std::endl;
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -276,7 +255,7 @@ void Test3()
     //     2
     //    3  4
     //      5
-    //      
+    //
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;

@@ -47,88 +47,34 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+std::ostream & operator << (std::ostream &out, TreeNode *root)
+{
+    if (root == nullptr) {
+        out << "N" << ",";
+        return out;
+    }
+    out << root->val << ",";
+    out << (root->left) ;
+    out << (root->right);
+    return out;
+}
 class Solution {
 public:
 
     std::vector<double> averageOfLevels(TreeNode* root)
     {
         return std::vector<double>();
-    }
-    int printtree  (const TreeNode * root)
-    {
-        if (root==nullptr)
-        {
-            std::cout << "null tree. " << std::endl;
-            return 0;
-        }
-        std::cout << "root->val: " << root->val << std::endl;
-        printtreenode(root);
-        std::cout << std::endl;
-        return 0;
-    }
-    int printtreenode (const TreeNode * root)
-    {
-        if(root==nullptr)
-        {
-            std::cout << "N" << ",";
-        }
-        else
-        {
-            std::cout << root->val << ",";
-            printtreenode(root->left);
-            printtreenode(root->right);
-        }
-        return 0;
-    }
-    bool isSame(TreeNode *T1, TreeNode *T2)
-    {
-        if(T1 == nullptr ^ T2 == nullptr)
-        {
-            // T1 ==nullptr && T2 != nullptr
-            // T1 !=nullptr && T2 == nullptr
-            return false;
-        }
-        else
-        {
-            if (T1 == nullptr && T2==nullptr)
-            {
-                return true;
-            }
-        }
-        if(T1->val==T2->val)
-        {
-            return isSame(T1->left,T2->left) && isSame(T1->right,T2->right);
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        //std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ; // << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", ";//<<std::endl;
-        }
-        std::cout << "\b\b ]" ; // << std::endl;
-        std::cout << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
     }
 };
 
@@ -148,8 +94,7 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "Tree:" << std::endl;
-    solution.printtree(root);
+    std::cout << "Tree:" << root << std::endl;
 const static int TEST_TIME = 1;
     {
         if (TEST_TIME)
@@ -159,8 +104,7 @@ const static int TEST_TIME = 1;
 
         decltype(expected) result = solution.averageOfLevels(root);
 
-        std::cout << "result: ";
-        solution.printvector(result);
+        std::cout << "result: " << result << std::endl;
         if(result == expected)
         {
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
@@ -168,8 +112,7 @@ const static int TEST_TIME = 1;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::endl;
-            solution.printvector(expected);
+            std::cout << RED << "expected:" << expected << std::endl;
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
