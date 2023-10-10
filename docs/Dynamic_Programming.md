@@ -12,7 +12,7 @@
 
 [[120.triangle_minimumTotal 三角形最小路径和]]
 
-[[931.Minimum_Falling_Path_Sum 下降路径最小和]]
+[[931.Minimum_Falling_Path_Sum_下降路径最小和]]
 
 [[1289.Minimum_Falling_Path_Sum_II 下降路径最小和 II]]
 

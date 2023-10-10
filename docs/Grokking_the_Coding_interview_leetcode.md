@@ -99,7 +99,7 @@ int findMaxSumSubArray(int k, std::vector<int> &arr)
            1 2 4   - 7
              2 4 3 - 9
                4 3 - 7
-        
+
     int minSubArrayLen(int s, std::vector<int> &nums)
     {
         int i =0;
@@ -176,7 +176,7 @@ a r a a c i
                       max length =4
      a  r  a  a _c__i
                       max length =4
-       
+
 ```
 
 
@@ -257,7 +257,7 @@ int LongestSubstringDistinct0(std::string & s, int k)
 >
 > Given the integer array `fruits`, return *the **maximum** number of fruits you can pick*.
 >
-> 
+>
 >
 > **Example 1:**
 >
@@ -293,7 +293,7 @@ int LongestSubstringDistinct0(std::string & s, int k)
 > Explanation: We can pick from trees [1,2,1,1,2].
 > ```
 >
-> 
+>
 >
 > **Constraints:**
 >
@@ -363,7 +363,7 @@ result:5
 >
 > Given a string `s`, find the length of the **longest substring** without repeating characters.
 >
-> 
+>
 >
 > **Example 1:**
 >
@@ -397,7 +397,7 @@ result:5
 > Output: 0
 > ```
 >
-> 
+>
 >
 > **Constraints:**
 >
@@ -456,7 +456,7 @@ result:3
     p  w _w__k_ e  w   [{p0}{w2}{k3}] start=2,end = 3,maxlength = 3
     p  w _w__k__e_ w   [{p0}{w2}{k3}{e4}] start=2,end = 4,maxlength = 3
     p  w _w__k__e__w   [{p0}{w2}{k3}{e4}] start=2,end = 5
-    p  w  w _k__e__w   [{p0}{w5}{k3}{e4}] start=3,end = 5,maxlength = 3   
+    p  w  w _k__e__w   [{p0}{w5}{k3}{e4}] start=3,end = 5,maxlength = 3
     int lengthOfLongestSubstring1(std::string s)
     {
         int start = 0;
@@ -560,7 +560,7 @@ currentmax 记录重复字符,
 
 ```cpp
     int characterReplacement(std::string s, int k)
-    {  
+    {
         int start = 0;
         int end = 0;
         int size = s.size();
@@ -574,16 +574,16 @@ currentmax 记录重复字符,
             currentmax = std::max(currentmax, umap[ch]);
             std::cout << "umap[ch]:"<< umap[ch] << " , currentmax:" <<currentmax << std::endl;
             if(end - start - currentmax >= k)
-            {  
+            {
                 umap[s[start]]--;
                 start++;
-            }  
+            }
             maxlength = std::max(maxlength, end - start + 1);
             std::cout << ", maxlength:" <<maxlength << " "; //std::endl;
             printunordered_map(umap);
-        }  
+        }
         return maxlength;
-    }  
+    }
 ```
 
 
@@ -673,34 +673,34 @@ end:10 , A[10](value):0 end-start-currentmax:2 start++:5 end-start+1:6 maxlength
 
 
 ```cpp
-    int longestOnes(std::vector<int> &A, int K)                           
-    {                                                                     
-        int start = 0;                                                    
-        int end = 0;                                                      
-        int currentmax = 0;                                               
-        int maxlength = 0;                                                
-        for(end = 0; end < A.size(); end++)                               
-        {                                                                 
-            int value = A[end];                                           
+    int longestOnes(std::vector<int> &A, int K)
+    {
+        int start = 0;
+        int end = 0;
+        int currentmax = 0;
+        int maxlength = 0;
+        for(end = 0; end < A.size(); end++)
+        {
+            int value = A[end];
             std::cout << "start:" << start << " , A[" << start << "]:" << value << " ";
-            if(value == 1)                                                
-            {                                                             
-                currentmax++;                                             
-            }                                                             
+            if(value == 1)
+            {
+                currentmax++;
+            }
             std::cout << "end:" << end << ",start:" << start << ",currentmax:" << currentmax << " ";
-            if(end  - start - currentmax >= K)                            
-            {                                                             
-                if(A[start]==1)                                           
-                {                                                         
-                    currentmax--;                                         
-                }                                                         
-                start++;                                                  
-            }                                                             
-            maxlength = std::max(maxlength, end - start+1);               
-            std::cout << "maxlength :" << maxlength  << " "  <<std::endl;                                                                   
-        }                                                                 
-        return maxlength;                                                 
-    }   
+            if(end  - start - currentmax >= K)
+            {
+                if(A[start]==1)
+                {
+                    currentmax--;
+                }
+                start++;
+            }
+            maxlength = std::max(maxlength, end - start+1);
+            std::cout << "maxlength :" << maxlength  << " "  <<std::endl;
+        }
+        return maxlength;
+    }
 ```
 
 
@@ -731,7 +731,7 @@ Solution0 passed.
 [[567.Permutation_in_Sring  字符串的排列]]
 ```cpp
    bool checkInclusion(std::string s1, std::string s2)
-    {          
+    {
         if(s1.size() > s2.size())
         {
             return false;
@@ -740,37 +740,37 @@ Solution0 passed.
         std::unordered_map<char, int> umap2;
         int i = 0;
         for(i = 0; i < s1.size(); i++)
-        {      
+        {
             umap1[s1[i]]++;
             umap2[s2[i]]++;
-        }      
+        }
         printunordered_map(umap1);
         int start = 0;
         int end = i;
-        do  
-        {      
+        do
+        {
             printunordered_map(umap2);
             if(umap2 == umap1)
-            {  
+            {
                 return true;
-            }  
+            }
             umap2[s2[end]]++;
             umap2[s2[start]]--;
             if(umap2[s2[start]] == 0)
-            {  
+            {
                 umap2.erase(s2[start]);
-            }  
+            }
             start++;
             end++;
-        }      
+        }
         while(end < s2.size());
             if(umap2 == umap1)
-            {  
+            {
                 return true;
-            }  
+            }
         return false;
         return false;
-    }       
+    }
 s1: "ab"
 s2: "eidbaooo"
 Solution0 start..........
@@ -792,43 +792,43 @@ Solution0 passed.
 
 ```cpp
     bool checkInclusion(std::string s1, std::string s2)
-    {  
+    {
         std::unordered_map<char ,int> umap1;
         for (int i = 0; i < s1.size(); i++)
-        {  
+        {
             umap1[s1[i]]++;
-        }  
+        }
         for (int match=0,end = 0, start =0; end < s2.size(); end++)
-        {  
+        {
             char ch = s2[end];
             if( umap1.count ( ch ) > 0)
-            {  
+            {
                 umap1[ch]--;
                 if(umap1[ch] == 0)
                 {
                     match ++;
-                }  
-            }  
+                }
+            }
             if(match == umap1.size())
-            {  
+            {
                 return true;
-            }  
+            }
             if(end >= s1.size() - 1)
-            {  
+            {
                 char left = s2[start];
                 start++;
                 if(umap1.count(left) > 0)
-                {  
+                {
                     if(umap1[left] == 0)
-                    {  
+                    {
                         match--;
-                    }  
+                    }
                     umap1[left]++;
-                }  
-            }  
-        }  
+                }
+            }
+        }
         return false;
-    }  
+    }
 ```
 
 
@@ -843,7 +843,7 @@ Solution0 passed.
 >
 > An **Anagram** is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
 >
-> 
+>
 >
 > **Example 1:**
 >
@@ -866,7 +866,7 @@ Solution0 passed.
 > The substring with start index = 2 is "ab", which is an anagram of "ab".
 > ```
 >
-> 
+>
 >
 > **Constraints:**
 >
@@ -875,32 +875,32 @@ Solution0 passed.
 
 ```cpp
     std::vector<int> findAnagrams(std::string s, std::string p)
-    {           
+    {
         std::vector<int> result;
         std::unordered_map<char,int> umap1;
         std::unordered_map<char,int> umap2;
         for(int c=0; c< p.size(); c++)
-        {       
+        {
             umap2[p[c]]++;
             umap1[s[c]]++;
-        }       
+        }
         printunordered_map(umap1);
         printunordered_map(umap2);
         for(int x=p.size(); x<= s.size(); x++)
-        {       
+        {
             if(umap1==umap2)
-            {   
+            {
                 result.push_back(x-p.size());
                 printvector(result);
-            }   
+            }
             umap1[s[x-p.size()]]--;
             umap1[s[x]]++;
             if(umap1[s[x-p.size()]] == 0)
-            {   
+            {
                 umap1.erase(s[x-p.size()]);
-            }   
+            }
         printunordered_map(umap1);
-        }       
+        }
         return result;
         return std::vector<int>{};
     }
@@ -960,7 +960,7 @@ public:
                     match ++;
                 }
             }
-           
+
             while(match == umap.size())
             {
                 char a = s[left];
@@ -1128,8 +1128,8 @@ public:
 ### LC 986 (986.Interval_List_Intersections)           Intervals Intersection                       (medium):
 ### LC 252 (252.Meeting_Rooms)                         Conflicting Appointments                     (easy)  : @
 ### LC 253 (253.Meeting_Rooms_II)                      Problem Challenge 1:                         (medium):
-### LC 124554                                          Problem Challenge 2:Maximum CPU Load                 : @
-### LC 759                                             Problem Challenge 3:                         (hard)  :
+### LC     (124554.Find_Max_Bandwidth)                 Problem Challenge 2:Maximum CPU Load         (hard)  : @
+### LC 759 (employee-free-time)                        Problem Challenge 3:                         (hard)  :
 
 ## Pattern 6: Cyclic Sort (8)
 ###        (Cyclic Sort)                               Cyclic Sort                                  (easy)  : @
@@ -1378,7 +1378,7 @@ void backtrack(int[] nums, LinkedList<Integer> track) {
         res.add(new LinkedList(track));
         return;
     }
-   
+
     for (int i = 0; i < nums.length; i++) {
         // 排除不合法的选择
         if (track.contains(nums[i]))

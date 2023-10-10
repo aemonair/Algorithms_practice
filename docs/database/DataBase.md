@@ -2134,7 +2134,7 @@ mysql> show warnings;
 
 - statement：记录整条sql语句
     - 缺点：可能造成主从不一致
-    - mysql> delete from t where a>=4 and b<=5 limit 1;
+    - mysql > delete from t where a>=4 and b 小于 5 limit 1 ;
     - 主库是索引a,那么删除a=4
     - 备库是索引b,那么删除b=5
 
@@ -2151,7 +2151,7 @@ mysql> show warnings;
 ### 10.3.5 二进制日志相关的变量
 
 注意：在配置binlog相关变量的时候，相关变量名总是搞混，因为有的是binlog，有的是log_bin，当他们分开的时候，log在前，当它们一起的时候，bin在前。在配置文件中也同样如此。
-
+```
 - log_bin = {on | off | base_name} #指定是否启用记录二进制日志或者指定一个日志路径(路径不能加.否则.后的被忽略)
 - sql_log_bin ={ on | off } #指定是否启用记录二进制日志，只有在log_bin开启的时候才有效
 - expire_logs_days = #指定自动删除二进制日志的时间，即日志过期时间
@@ -2171,7 +2171,7 @@ mysql> show warnings;
 - sync_binlog = { 0 | n } #这个参数直接影响mysql的性能和完整性
     - sync_binlog=0:不同步，日志何时刷到磁盘由FileSystem决定，这个性能最好。
     - sync_binlog=n:每写n次事务(注意，对于非事务表来说，是n次事件，对于事务表来说，是n次事务，而一个事务里可能包含多个二进制事件)，MySQL将执行一次磁盘同步指令fdatasync()将缓存日志刷新到磁盘日志文件中。Mysql中默认的设置是sync_binlog=0，即不同步，这时性能最好，但风险最大。一旦系统奔溃，缓存中的日志都会丢失。
-
+```
 **在innodb的主从复制结构中，如果启用了二进制日志(几乎都会启用)，要保证事务的一致性和持久性的时候，必须将sync_binlog的值设置为1，因为每次事务提交都会写入二进制日志，设置为1就保证了每次事务提交时二进制日志都会写入到磁盘中，从而立即被从服务器复制过去。**
 
 ### 10.3.6 二进制日志定点还原数据库
