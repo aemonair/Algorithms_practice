@@ -1,60 +1,53 @@
 /*
  ************************************************************
- * 1430. Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree
- * Medium
+ * 257. Binary Tree Paths
+ * Easy
  ************************************************************
- * Given a binary tree where each path going from the root to any leaf form a valid sequence, check if a given string is a valid sequence in such binary tree.
+ * Given a Binary Tree, find the maximum sum path from a leaf to root.
+ ************************************************************
  *
- * We get the given string from the concatenation of an array of integers arr and the concatenation of all values of the nodes along a path results in a sequence in the given binary tree.
- ************************************************************
  * Example 1:
  *
- *            0
- *          /   \
- *         1     0
- *       /   \   /
- *      0     1 0
- *       \   / \
- *        1 0   0
- * Input: root = [0,1,0,0,1,0,null,null,1,0,0], arr = [0,1,0,1]
- * Output: true
- *
+ * Input:
+ *         1
+ *        / \
+ *       2   3
+ * Output:
+ * 4
  * Explanation:
- * The path 0 -> 1 -> 0 -> 1 is a valid sequence (green color in the figure).
- * Other valid sequences are:
- * 0 -> 1 -> 1 -> 0
- * 0 -> 0 -> 0
+ * Following the path 3 -> 1, results in a
+ * sum of 4, which is the maximum path sum
+ * from leaf to root for the given tree.
  ************************************************************
  * Example 2:
  *
- *            0
- *          /   \
- *         1     0
- *       /   \   /
- *      0     1 0
- *       \   / \
- *        1 0   0
- * Input: root = [0,1,0,0,1,0,null,null,1,0,0], arr = [0,0,1]
- * Output: false
- * Explanation: The path 0 -> 0 -> 1 does not exist, therefore it is not even a sequence.
+ * Input:
+ *        10
+ *       /  \
+ *     -2    7
+ *     / \
+ *    8  -4
+ * Output:
+ * 17
+ * Explanation :
+ * Following the path 7 -> 10, results in a
+ * sum of 17, which is the maximum path sum
+ * from leaf to root for the given tree.
  ************************************************************
- * Example 3:
+ * Your task :
  *
- *            0
- *          /   \
- *         1     0
- *       /   \   /
- *      0     1 0
- *       \   / \
- *        1 0   0
- * Input: root = [0,1,0,0,1,0,null,null,1,0,0], arr = [0,1,1]
- * Output: false
- * Explanation: The path 0 -> 1 -> 1 is a sequence, but it is not a valid sequence.
- ************************************************************
- * Constraints:
- * 1 <= arr.length <= 5000
- * 0 <= arr[i] <= 9
- * Each node's value is between [0 - 9].
+ * Expected Time Complexity: O(n) , where n = number of nodes
+ * Expected Auxiliary Space: O(1)
+ *
+ * Constraints :
+ * 1 <= Number of nodes <= 10^5
+ * -106 <= max sum path <= 106
+ *
+ *                10
+ *             /      \
+ *           -2        7
+ *         /   \
+ *        8     -4
  ************************************************************
  */
 
@@ -90,21 +83,39 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 std::ostream & operator << (std::ostream &out, TreeNode *root);
 class Solution {
 public:
-    bool isValidSequence(TreeNode* root, std::vector<int> &arr)
+    //
+    int  binaryTreeMaxPaths(TreeNode* root)
     {
-        return true;
-    }
-    bool isValidSequence1(TreeNode* root, std::vector<int> &arr)
-    {
-        return true;
+        return 0;
     }
 };
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << "(" << v << "), ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+std::ostream & operator << (std::ostream &out, TreeNode *root)
+{
+    if (root == nullptr) {
+        out << "N" << ",";
+        return out;
+    }
+    out << root->val << ",";
+    out << (root->left) ;
+    out << (root->right);
+    return out;
+}
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
         TreeNode *root,
-        std::vector<int> &arr,
-        bool expected)
+        int expected)
 {
     if(testName.length() > 0)
     {
@@ -117,10 +128,11 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "find arr:" << " " << arr << " " << root << std::endl;
+    std::cout << "Tree:" << root << std::endl;
+    //solution.printtree(root);
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
-const static int TEST_1    = 0;
+const static int TEST_1    = 1;
 
     if(TEST_0)
     {
@@ -129,8 +141,9 @@ const static int TEST_1    = 0;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.isValidSequence(root, arr);
-        std::cout << "result:" << std::boolalpha << result << std::endl;
+        decltype(expected) result = solution.binaryTreeMaxPaths(root);
+        std::cout << "result  :" << std::boolalpha << result << std::endl;
+        std::cout << "expected:" << std::boolalpha << expected << std::endl;
 
         if(result == expected)
         {
@@ -152,66 +165,13 @@ const static int TEST_1    = 0;
     }
     if(TEST_1)
     {
-        if (TEST_TIME)
-        {
-            start = std::chrono::system_clock::now();
-        }
-
-        decltype(expected) result = solution.isValidSequence1(root, arr);
-        std::cout << "result:" << std::boolalpha << result << std::endl;
-
-        if(result == expected)
-        {
-            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
-        }
-        else
-        {
-            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
-            std::cout << RESET << std::endl;
-        }
-        if (TEST_TIME)
-        {
-           end = std::chrono::system_clock::now();
-           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
-        }
-        std::cout << "-----------------------------" << std::endl;
     }
-}
-template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
-std::ostream & operator << (std::ostream &out, TreeNode *root)
-{
-    if (root == nullptr) {
-        out << "N" << ",";
-        return out;
-    }
-    out << root->val << ",";
-    out << (root->left) ;
-    out << (root->right);
-    // 转为数组
-    // 1 2 4 8
-    //   0    0,
-    //  1 2   1, 2^i-1
-    // 34 56  2, 2^i-1,
-    return out;
 }
 
 void Test0()
 {
-    std::vector<int> arr = {};
-    bool expected = false;
-    Test("Test0", nullptr, arr, expected);
+    int expected = 0;
+    Test("Test0", nullptr,  expected);
 }
 void Test1()
 {
@@ -230,10 +190,9 @@ void Test1()
     pnode20->left  = pnode15;
     pnode20->right = pnode7 ;
 
-    std::vector<int> arr= {3, 9};
-    bool expected = true;
+    int expected = 3+20+15;
 
-    Test("Test1", pnode3, arr,expected);
+    Test("Test1", pnode3, expected);
 }
 void Test2()
 {
@@ -257,9 +216,8 @@ void Test2()
     TreeNode * pnode4 = new TreeNode(4, nullptr, pnode5);
     TreeNode * pnode3 = new TreeNode(3, nullptr, pnode4);
     TreeNode * pnode2 = new TreeNode(2, nullptr, pnode3);
-    std::vector<int> arr= {2,3,4,5};
-    bool expected = false;
-    Test("Test2", pnode2, arr, expected);
+    int expected = 2+3+4+5+6;
+    Test("Test2", pnode2, expected);
 }
 
 void Test3()
@@ -286,46 +244,29 @@ void Test3()
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;
     pnode4->left   = pnode5;
-    std::vector<int> arr= {1,2,3};
-    bool expected = true;
-    Test("Test3", pnode1, arr, expected);
+    int expected = 1+2+4+5;
+    Test("Test3", pnode1, expected);
 }
 
 void Test4()
 {
     //Test("Test4", 6, 6, 3);
-     std::cout << "      0        " << std::endl;
-     std::cout << "    /   \\     " << std::endl;
-     std::cout << "   1     0     " << std::endl;
-     std::cout << " /   \\  /     " << std::endl;
-     std::cout << "0     1 0      " << std::endl;
-     std::cout << " \\  / \\      " << std::endl;
-     std::cout << "  1 0   0      " << std::endl;
+    std::cout << "      1         " << std::endl;
+    std::cout << "    /   \\      " << std::endl;
+    std::cout << "   2     3      " << std::endl;
+    std::cout << " /   \\  / \\   " << std::endl;
+    std::cout << "4     5 6   7   " << std::endl;
 
-    TreeNode * p9 = new TreeNode(0);
-    TreeNode * p8 = new TreeNode(0);
-    TreeNode * p7 = new TreeNode(1);
-    TreeNode * p6 = new TreeNode(0);
-    TreeNode * p5 = new TreeNode(0, p8, p9);
-    TreeNode * p4 = new TreeNode(0, nullptr, p7);
-    TreeNode * p3 = new TreeNode(0, p6, nullptr);
-    TreeNode * p2 = new TreeNode(1, p4, p5);
-    TreeNode * p1 = new TreeNode(0, p2, p3);
-    {
-        std::vector<int> arr= {0,1,0,1};
-        bool expected = true;
-        Test("Test1", p1, arr, expected);
-    }
-    {
-        std::vector<int> arr= {0,0,1};
-        bool expected = false;
-        Test("Test1", p1, arr, expected);
-    }
-    {
-        std::vector<int> arr= {0,1,1};
-        bool expected = false;
-        Test("Test1", p1, arr, expected);
-    }
+    TreeNode * p7 = new TreeNode(7);
+    TreeNode * p6 = new TreeNode(6);
+    TreeNode * p5 = new TreeNode(5);
+    TreeNode * p4 = new TreeNode(4);
+    TreeNode * p3 = new TreeNode(3, p6, p7);
+    TreeNode * p2 = new TreeNode(2, p4, p5);
+    TreeNode * p1 = new TreeNode(1, p2, p3);
+
+    int expected = 1+3+7;
+    Test("Test4", p1, expected);
 }
 void Test5()
 {
@@ -342,9 +283,8 @@ void Test5()
     struct TreeNode * p7 = new TreeNode(7, p9, nullptr);
     struct TreeNode * p1 = new TreeNode(1, p10, p5);
     struct TreeNode * p12= new TreeNode(12,p7 , p1);
-    std::vector<int> arr= {12,1,7};
-    bool expected = false;
-    Test("Test5", p12, arr,  expected );
+    int expected = 12+7+9;
+    Test("Test5", p12, expected );
 }
 void Test6()
 {
@@ -366,33 +306,39 @@ void Test6()
     struct TreeNode * p_4= new TreeNode(4 , p11, nullptr);
     struct TreeNode * p8 = new TreeNode(8, p13, p4 );
     struct TreeNode * p5 = new TreeNode(5 ,p_4, p8);
-    {
-        std::vector<int> arr= {5,4,11};
-        bool expected = false;
-        Test("Test6", p5, arr,  expected );
-    }
-    {
-        std::vector<int> arr= {5,8,4,5,1};
-        bool expected = false;
-        Test("Test6", p5, arr,  expected );
-    }
-    {
-        std::vector<int> arr= {5,8,4,5};
-        bool expected = true ;
-        Test("Test6", p5, arr,  expected );
-    }
+    int expected = 5+4+11+7;
+    Test("Test6", p5, expected );
+}
+void Test7()
+{
+    //Test("Test4", 6, 6, 3);
+    std::cout << "     10         " << std::endl;
+    std::cout << "    /   \\      " << std::endl;
+    std::cout << "  -2     7      " << std::endl;
+    std::cout << " /   \\         " << std::endl;
+    std::cout << "8    -4         " << std::endl;
+
+    TreeNode * p7 = new TreeNode(7);
+    TreeNode * p8 = new TreeNode(8);
+    TreeNode * p4 = new TreeNode(-4);
+    TreeNode * p2 = new TreeNode(-2, p8, p4);
+    TreeNode * p10= new TreeNode(10, p2, p7);
+
+    int expected = 10+7;
+    Test("Test7", p10, expected);
 }
 int main()
 {
     Solution solution;
 
     Test0();
-    Test4();
     Test1();
     Test2();
     Test3();
+    Test4();
     Test5();
     Test6();
+    Test7();
 
     return 0;
 

@@ -53,153 +53,44 @@ struct TreeNode
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
+std::ostream & operator << (std::ostream &out, TreeNode *root);
 class Solution {
 public:
     //
     std::vector<std::string>  binaryTreePaths(TreeNode* root)
     {
-        std::vector<std::string> result;
-        if(root==nullptr)
-        {
-            return result;
-        }
-        std::string curr; // = std::to_string(root->val);
-        binaryTreePaths(root, curr, result);
-        return result;
-    }
-    int binaryTreePaths(TreeNode* root, std::string &curr, std::vector<std::string> &result)
-    {
-        std::string oldstring = curr;
-        if(!curr.empty())
-        {
-            curr += "->";
-        }
-        curr += std::to_string(root->val) ;
-        if(root ->left == nullptr && root->right == nullptr)
-        {
-            result.push_back(curr);
-        }
-        if(root->left)
-        {
-            binaryTreePaths(root->left, curr, result);
-        }
-        if(root->right)
-        {
-            binaryTreePaths(root->right, curr, result);
-        }
-        curr = oldstring;
-        return 0;
-    }
-    template <typename T>
-    int printstack(std::stack<T> s)
-    {
-        if (s.empty())
-        {
-            std::cout << "The stack is empty." << std::endl;
-            return 0;
-        }
-        std::cout <<  "The stack size is: " << s.size() << std::endl;
-        std::stack<T> tmp(s);
-        while (!tmp.empty())
-        {
-            std::cout << tmp.top() << ", ";
-            tmp.pop();
-        }
-        std::cout <<  std::endl;
-        return tmp.size();
-    }
-    int printstack(std::stack<std::pair <TreeNode *, int>> s)
-    {
-        if (s.empty())
-        {
-            std::cout << "The TreeNode pair stack is empty." << std::endl;
-            return 0;
-        }
-        std::cout <<  "The TreeNode stack size is: " << s.size() << std::endl;
-        std::stack<std::pair<TreeNode *, int>> tmp(s);
-        while (!tmp.empty())
-        {
-            std::cout << "(" << (tmp.top()).first->val << ", " << tmp.top().second << ");";
-            tmp.pop();
-        }
-        std::cout << "\b]" << std::endl;
-        return tmp.size();
-    }
-
-    template <typename T>
-    int printdeque(const std::deque<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", "; //<<std::endl;
-        }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
-    }
-    int printdeque(const std::deque<TreeNode *> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << (*iter) ->val << ", "; //<<std::endl;
-        }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
-    }
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", "; //<<std::endl;
-        }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-    int printtree  (const TreeNode * root)
-    {
-        if (root==nullptr)
-        {
-            std::cout << "null tree. " << std::endl;
-            return 0;
-        }
-        std::cout << "root->val: " << root->val << std::endl;
-        printtreenode(root);
-        std::cout << std::endl;
-        return 0;
-    }
-    int printtreenode (const TreeNode * root)
-    {
-        if(root==nullptr)
-        {
-            std::cout << "N" << ",";
-        }
-        else
-        {
-            std::cout << root->val << ",";
-            printtreenode(root->left);
-            printtreenode(root->right);
-        }
-        return 0;
+        reutrn {};
     }
 };
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << "(" << v << "), ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+std::ostream & operator << (std::ostream &out, TreeNode *root)
+{
+    if (root == nullptr) {
+        out << "N" << ",";
+        return out;
+    }
+    out << root->val << ",";
+    out << (root->left) ;
+    out << (root->right);
+    // 转为数组
+    // 1 2 4 8
+    //   0    0,
+    //  1 2   1, 2^i-1
+    // 34 56  2, 2^i-1,
+    return out;
+}
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
@@ -217,7 +108,8 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    solution.printtree(root);
+    std::cout << "Tree:" << root << std::endl;
+    //solution.printtree(root);
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 1;
@@ -230,8 +122,8 @@ const static int TEST_1    = 1;
         }
 
         decltype(expected) result = solution.binaryTreePaths(root);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        solution.printvector(result);
+        std::cout << "result  :" << std::boolalpha << result << std::endl;
+        std::cout << "expected:" << std::boolalpha << expected << std::endl;
 
         if(result == expected)
         {
@@ -240,8 +132,7 @@ const static int TEST_1    = 1;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvector(expected);
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -250,10 +141,11 @@ const static int TEST_1    = 1;
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution0 costs " << elapsed.count() <<"micros" << std::endl;
         }
+        std::cout << "-----------------------------" << std::endl;
     }
     if(TEST_1)
-    {}
-    std::cout << "-----------------------------" << std::endl;
+    {
+    }
 }
 
 void Test0()
@@ -327,12 +219,12 @@ void Test3()
     //     2
     //    3  4
     //      5
-    //      
+    //
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;
     pnode4->left   = pnode5;
-    std::vector<std::string> expected = {};
+    std::vector<std::string> expected = { "1->2->3", "1->2->4->5"};
     Test("Test3", pnode1, expected);
 }
 
@@ -353,8 +245,8 @@ void Test4()
     TreeNode * p2 = new TreeNode(2, p4, p5);
     TreeNode * p1 = new TreeNode(1, p2, p3);
 
-    std::vector<std::string> expected = {};
-    Test("Test1", p1, expected);
+    std::vector<std::string> expected = {"1->2->4", "1->2->5", "1->3->6", "1->3->7" };
+    Test("Test4", p1, expected);
 }
 void Test5()
 {
@@ -371,8 +263,8 @@ void Test5()
     struct TreeNode * p7 = new TreeNode(7, p9, nullptr);
     struct TreeNode * p1 = new TreeNode(1, p10, p5);
     struct TreeNode * p12= new TreeNode(12,p7 , p1);
-    std::vector<std::string> expected = {};
-    Test("Test2", p12, expected );
+    std::vector<std::string> expected = { "12->7->9", "12->1->10", "12->1->5"};
+    Test("Test5", p12, expected );
 }
 void Test6()
 {
@@ -394,20 +286,20 @@ void Test6()
     struct TreeNode * p_4= new TreeNode(4 , p11, nullptr);
     struct TreeNode * p8 = new TreeNode(8, p13, p4 );
     struct TreeNode * p5 = new TreeNode(5 ,p_4, p8);
-    std::vector<std::string> expected = {};
-    Test("Test2", p5, expected );
+    std::vector<std::string> expected = {"5->4->11->7", "5->4->11->2", "5->8->13", "5->8->4->5", "5->8->4->1" };
+    Test("Test6", p5, expected );
 }
 int main()
 {
     Solution solution;
 
-    //Test0();
+    Test0();
     Test1();
     Test2();
-    //Test3();
-    //Test4();
-    //Test5();
-    //Test6();
+    Test3();
+    Test4();
+    Test5();
+    Test6();
 
     return 0;
 

@@ -69,104 +69,113 @@ struct TreeNode
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
+std::ostream & operator << (std::ostream &out, TreeNode *root);
+template <typename T>
+std::ostream & operator << (std::ostream &out, std::stack<T> s);
 class Solution {
 public:
     //
     bool hasPathSum(TreeNode* root, int targetSum)
     {
-        return true;
+        return false;
     }
     bool hasPathSum1(TreeNode* root, int targetSum)
     {
         return false;
     }
-    template <typename T>
-    int printstack(std::stack<T> s)
-    {
-        if (s.empty())
-        {
-            std::cout << "The stack is empty." << std::endl;
-            return 0;
-        }
-        std::cout <<  "The stack size is: " << s.size() << std::endl;
-        std::stack<T> tmp(s);
-        while (!tmp.empty())
-        {
-            std::cout << tmp.top() << ", ";
-            tmp.pop();
-        }
-        std::cout <<  std::endl;
-        return tmp.size();
-    }
-    int printstack(std::stack<std::pair <TreeNode *, int>> s)
-    {
-        if (s.empty())
-        {
-            std::cout << "The TreeNode pair stack is empty." << std::endl;
-            return 0;
-        }
-        std::cout <<  "The TreeNode stack size is: " << s.size() << std::endl;
-        std::stack<std::pair<TreeNode *, int>> tmp(s);
-        while (!tmp.empty())
-        {
-            std::cout << "(" << (tmp.top()).first->val << ", " << tmp.top().second << ");";
-            tmp.pop();
-        }
-        std::cout << "\b]" << std::endl;
-        return tmp.size();
-    }
-
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", "; //<<std::endl;
-        }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-    int printtree  (const TreeNode * root)
-    {
-        if (root==nullptr)
-        {
-            std::cout << "null tree. " << std::endl;
-            return 0;
-        }
-        std::cout << "root->val: " << root->val << std::endl;
-        printtreenode(root);
-        std::cout << std::endl;
-        return 0;
-    }
-    int printtreenode (const TreeNode * root)
-    {
-        if(root==nullptr)
-        {
-            std::cout << "N" << ",";
-        }
-        else
-        {
-            std::cout << root->val << ",";
-            printtreenode(root->left);
-            printtreenode(root->right);
-        }
-        return 0;
-    }
 };
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+std::ostream & operator << (std::ostream &out, TreeNode *root)
+{
+    if (root == nullptr) {
+        out << "N" << ",";
+        return out;
+    }
+    out << root->val << ",";
+    out << (root->left) ;
+    out << (root->right);
+    // 转为数组
+    // 1 2 4 8
+    //   0    0,
+    //  1 2   1, 2^i-1
+    // 34 56  2, 2^i-1,
+    return out;
+}
+template <typename T>
+std::ostream & operator << (std::ostream &out, std::stack<T> s)
+{
+    if (s.empty())
+    {
+        out << "The stack is empty." << std::endl;
+        return out;
+    }
+    out <<  "The stack size is: " << s.size() << std::endl;
+    std::stack<T> tmp(s);
+    while (!tmp.empty())
+    {
+        out << tmp.top() << ", ";
+        tmp.pop();
+    }
+    out <<  std::endl;
+    return out;
+}
+template <typename T1, typename T2>
+std::ostream & operator << (std::ostream &out, std::pair <T1,T2> t)
+{
+    out << "(" << t.first << "," << t.second << ") ";
+}
+template <typename T2>
+std::ostream & operator << (std::ostream &out, std::pair <TreeNode *,T2> t)
+{
+    out << "(" << t.first->val << "," << t.second << ") ";
+}
+// template <typename T>
+// int printstack(std::stack<T> s)
+// {
+//     if (s.empty())
+//     {
+//         std::cout << "The stack is empty." << std::endl;
+//         return 0;
+//     }
+//     std::cout <<  "The stack size is: " << s.size() << std::endl;
+//     std::stack<T> tmp(s);
+//     while (!tmp.empty())
+//     {
+//         std::cout << tmp.top() << ", ";
+//         tmp.pop();
+//     }
+//     std::cout <<  std::endl;
+//     return tmp.size();
+// }
+// int printstack(std::stack<std::pair <TreeNode *, int>> s)
+// {
+//     if (s.empty())
+//     {
+//         std::cout << "The TreeNode pair stack is empty." << std::endl;
+//         return 0;
+//     }
+//     std::cout <<  "The TreeNode stack size is: " << s.size() << std::endl;
+//     std::stack<std::pair<TreeNode *, int>> tmp(s);
+//     while (!tmp.empty())
+//     {
+//         std::cout << "(" << (tmp.top()).first->val << ", " << tmp.top().second << ");";
+//         tmp.pop();
+//     }
+//     std::cout << "\b]" << std::endl;
+//     return tmp.size();
+// }
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
@@ -185,7 +194,7 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    solution.printtree(root);
+    std::cout << "Tree:" << root << std::endl;
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 1;
@@ -313,7 +322,7 @@ void Test3()
     //     2
     //    3  4
     //      5
-    //      
+    //
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;
@@ -339,7 +348,7 @@ void Test4()
     TreeNode * p1 = new TreeNode(1, p2, p3);
 
     int expected = 3;
-    Test("Test1", p1, 23, false);
+    Test("Test4", p1, 23, false);
 }
 void Test5()
 {
@@ -356,7 +365,45 @@ void Test5()
     struct TreeNode * p7 = new TreeNode(7, p9, nullptr);
     struct TreeNode * p1 = new TreeNode(1, p10, p5);
     struct TreeNode * p12= new TreeNode(12,p7 , p1);
-    Test("Test2", p12, 23, true );
+    Test("Test5", p12, 23, true );
+}
+void Test6()
+{
+    //Test("Test4", 6, 6, 3);
+    std::cout << "      12        " << std::endl;
+    std::cout << "    /   \\      " << std::endl;
+    std::cout << "   7     1      " << std::endl;
+    std::cout << " /       / \\   " << std::endl;
+    std::cout << "9       10  5   " << std::endl;
+
+    struct TreeNode * p9 = new TreeNode(9 );
+    struct TreeNode * p5 = new TreeNode(5 );
+    struct TreeNode * p10= new TreeNode(10);
+    struct TreeNode * p7 = new TreeNode(7, p9, nullptr);
+    struct TreeNode * p1 = new TreeNode(1, p10, p5);
+    struct TreeNode * p12= new TreeNode(12,p7 , p1);
+    Test("Test6", p12, 12, false );
+}
+void Test7()
+{
+    std::cout << "        5       " << std::endl;
+    std::cout << "       / \\     " << std::endl;
+    std::cout << "     4    8     " << std::endl;
+    std::cout << "    /    / \\   " << std::endl;
+    std::cout << "   11   13  4   " << std::endl;
+    std::cout << "  / \\        \\" << std::endl;
+    std::cout << " 7   2        1 " << std::endl;
+
+    struct TreeNode * p1  = new TreeNode(1);
+    struct TreeNode * p2  = new TreeNode(2);
+    struct TreeNode * p7  = new TreeNode(7);
+    struct TreeNode * p4_ = new TreeNode(4, nullptr,p1 );
+    struct TreeNode * p13= new TreeNode(13);
+    struct TreeNode * p11= new TreeNode(11, p7, p2);
+    struct TreeNode * p8 = new TreeNode(8, p13, p4_);
+    struct TreeNode * p4 = new TreeNode(4, p11, nullptr);
+    struct TreeNode * p5 = new TreeNode(5, p4 , p8);
+    Test("Test7", p5, 22, true  );
 }
 
 int main()
@@ -369,6 +416,8 @@ int main()
     Test3();
     Test4();
     Test5();
+    Test6();
+    Test7();
 
     return 0;
 

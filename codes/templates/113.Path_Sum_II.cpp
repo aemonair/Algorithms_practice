@@ -69,129 +69,118 @@ struct TreeNode
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
+template <typename T>
+std::ostream & operator << (std::ostream &out, std::stack<T> s);
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::deque <T> &_vec);
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::deque <TreeNode *> &_vec);
+std::ostream & operator << (std::ostream &out, TreeNode *root);
+
 class Solution {
 public:
-    //
     std::vector<std::vector<int>>  pathSum(TreeNode* root, int targetSum)
     {
-        std::vector<std::vector<int>> result;
-        return result;
+        return {};
     }
     std::vector<std::vector<int>>  pathSum1(TreeNode* root, int targetSum)
     {
-        std::vector<std::vector<int>> result;
-        return result;
-    }
-    template <typename T>
-    int printstack(std::stack<T> s)
-    {
-        if (s.empty())
-        {
-            std::cout << "The stack is empty." << std::endl;
-            return 0;
-        }
-        std::cout <<  "The stack size is: " << s.size() << std::endl;
-        std::stack<T> tmp(s);
-        while (!tmp.empty())
-        {
-            std::cout << tmp.top() << ", ";
-            tmp.pop();
-        }
-        std::cout <<  std::endl;
-        return tmp.size();
-    }
-    int printstack(std::stack<std::pair <TreeNode *, int>> s)
-    {
-        if (s.empty())
-        {
-            std::cout << "The TreeNode pair stack is empty." << std::endl;
-            return 0;
-        }
-        std::cout <<  "The TreeNode stack size is: " << s.size() << std::endl;
-        std::stack<std::pair<TreeNode *, int>> tmp(s);
-        while (!tmp.empty())
-        {
-            std::cout << "(" << (tmp.top()).first->val << ", " << tmp.top().second << ");";
-            tmp.pop();
-        }
-        std::cout << "\b]" << std::endl;
-        return tmp.size();
+        return {};
     }
 
-    template <typename T>
-    int printdeque(const std::deque<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", "; //<<std::endl;
-        }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
-    }
-    int printdeque(const std::deque<TreeNode *> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << (*iter) ->val << ", "; //<<std::endl;
-        }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
-    }
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", "; //<<std::endl;
-        }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-    int printtree  (const TreeNode * root)
-    {
-        if (root==nullptr)
-        {
-            std::cout << "null tree. " << std::endl;
-            return 0;
-        }
-        std::cout << "root->val: " << root->val << std::endl;
-        printtreenode(root);
-        std::cout << std::endl;
-        return 0;
-    }
-    int printtreenode (const TreeNode * root)
-    {
-        if(root==nullptr)
-        {
-            std::cout << "N" << ",";
-        }
-        else
-        {
-            std::cout << root->val << ",";
-            printtreenode(root->left);
-            printtreenode(root->right);
-        }
-        return 0;
-    }
 };
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::deque <T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::deque <TreeNode *> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v->val << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+std::ostream & operator << (std::ostream &out, TreeNode *root)
+{
+    if (root == nullptr) {
+        out << "N" << ",";
+        return out;
+    }
+    out << root->val << ",";
+    //out << (root->left) ;
+    //out << (root->right);
+    // 转为数组
+    // 1 2 4 8
+    //   0    0,
+    //  1 2   1, 2^i-1
+    // 34 56  2, 2^i-1,
+    return out;
+}
+template <typename T>
+std::ostream & operator << (std::ostream &out, std::stack<T> s)
+{
+    if (s.empty())
+    {
+        out << "The stack is empty." << std::endl;
+        return out;
+    }
+    out <<  "The stack size is: " << s.size() << std::endl;
+    std::stack<T> tmp(s);
+    while (!tmp.empty())
+    {
+        out << tmp.top() << ", ";
+        tmp.pop();
+    }
+    out <<  std::endl;
+    return out;
+}
+template <typename T>
+int printdeque(const std::deque<T> &v)
+{
+    std::cout << "vector size: " << v.size() << std::endl;
+    std::cout << "[  " ;
+    for (auto iter = v.begin(); iter != v.end(); iter++ )
+    {
+        std::cout << *iter << ", "; //<<std::endl;
+    }
+    std::cout << "\b\b]" << std::endl;
+    return v.size();
+}
+int printdeque(const std::deque<TreeNode *> &v)
+{
+    std::cout << "vector size: " << v.size() << std::endl;
+    std::cout << "[  " ;
+    for (auto iter = v.begin(); iter != v.end(); iter++ )
+    {
+        std::cout << (*iter) ->val << ", "; //<<std::endl;
+    }
+    std::cout << "\b\b]" << std::endl;
+    return v.size();
+}
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
@@ -210,10 +199,10 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "find targetSum:" << targetSum << " ";
-    solution.printtree(root);
+    std::cout << "find targetSum:" << targetSum << " " << root << std::endl;
+    // solution.printtree(root);
 const static int TEST_TIME = 1;
-const static int TEST_0    = 1;
+const static int TEST_0    = 0;
 const static int TEST_1    = 1;
 
     if(TEST_0)
@@ -224,8 +213,8 @@ const static int TEST_1    = 1;
         }
 
         decltype(expected) result = solution.pathSum(root, targetSum);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        solution.printvectorvector(result);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
+        //solution.printvectorvector(result);
 
         if(result == expected)
         {
@@ -234,8 +223,8 @@ const static int TEST_1    = 1;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvectorvector(expected);
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            // solution.printvectorvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -253,8 +242,8 @@ const static int TEST_1    = 1;
         }
 
         decltype(expected) result = solution.pathSum1(root, targetSum);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        solution.printvectorvector(result);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
+        // solution.printvectorvector(result);
 
         if(result == expected)
         {
@@ -263,8 +252,8 @@ const static int TEST_1    = 1;
         else
         {
             std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvectorvector(expected);
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            // solution.printvectorvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -348,7 +337,7 @@ void Test3()
     //     2
     //    3  4
     //      5
-    //      
+    //
     pnode1->right  = pnode2;
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;
