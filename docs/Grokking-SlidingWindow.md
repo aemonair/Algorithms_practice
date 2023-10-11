@@ -11,7 +11,7 @@
 
 [1004.max-consecutive-ones-iii_最大连续1的个数III](<1004.max-consecutive-ones-iii_最大连续1的个数III.md>)
 
-[567.Permutation_in_Sring 字符串的排列](<567.Permutation_in_Sring 字符串的排列.md>)
+[567.Permutation_in_Sring 字符串的排列](<567.Permutation_in_Sring  字符串的排列.md>)
 
 [438.Find_All_Anagrams_in_a_String 找到字符串中所有字母异位词](<438.Find_All_Anagrams_in_a_String 找到字符串中所有字母异位词.md>)
 
