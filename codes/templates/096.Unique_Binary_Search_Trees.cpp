@@ -240,7 +240,7 @@ void Test(const std::string& testName,
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
-const static int TEST_1    = 1;
+const static int TEST_1    = 0;
 
     if(TEST_0)
     {

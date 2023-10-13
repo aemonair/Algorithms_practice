@@ -61,13 +61,35 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+std::ostream & operator << (std::ostream &out, TreeNode *root)
+{
+    if (root == nullptr) {
+        out << "N" << ",";
+        return out;
+    }
+    out << root->val << ",";
+    out << (root->left) ;
+    out << (root->right);
+    return out;
+}
 
 class Solution {
 public:
     //
     std::vector<TreeNode*> generateTrees(int n)
     {
-        return std::vector<TreeNode *>{};
+        return {};
     }
     std::vector<TreeNode*> generateTrees1(int n)
     {

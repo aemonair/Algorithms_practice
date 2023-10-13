@@ -54,26 +54,34 @@
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
 
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
 class Solution {
 public:
 ////////////////////////////////////////////////////////////////////////
     std::vector<std::vector<int>> subsets0(std::vector<int> nums)
     {
-        std::vector<std::vector<int>> result;
-        return result;
+        return {};
     }
 ////////////////////////////////////////////////////////////////////////
     std::vector<std::vector<int>> subsets1(std::vector<int>& nums)
     {
-        std::vector<std::vector<int>> result;
-        return result;
+        return {};
     }
 
 ////////////////////////////////////////////////////////////////////////
     std::vector<std::vector<int>> subsets2(std::vector<int>& nums)
     {
-        std::vector<std::vector<int>> result;
-        return result;
+        return {};
     }
 ////////////////////////////////////////////////////////////////////////
     std::vector<std::vector<int>> res3;
@@ -82,51 +90,6 @@ public:
         return res3;
     }
 ////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    int printvector(std::vector<T> v)
-    {
-        //std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  ";
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", ";
-        }
-        std::cout << "\b\b]";
-        //std::cout << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printstack(std::stack<T> s)
-    {
-        if (s.empty())
-        {
-            std::cout << "The stack is empty." << std::endl;
-            return 0;
-        }
-        std::cout <<  "The stack size is: " << s.size() << std::endl;
-        std::stack<T> tmp;
-        while (!s.empty())
-        {
-            std::cout << s.top() << ", ";
-            s.pop();
-        }
-        std::cout <<  std::endl;
-        return s.size();
-    }
-    template <typename T>
-    int printvectorvector(std::vector<T> v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        std::cout << "{";
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << "}";
-        std::cout <<  std::endl;
-        return v.size();
-    }
 };
 
 // ==================== TEST Codes====================
@@ -146,13 +109,13 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "numbers:" << std::endl;
-    solution.printvector(numbers);
+    std::cout << "numbers:" << numbers << std::endl;
+    //solution.printvector(numbers);
 
 const static int TEST_TIME = 1;
-const static int TEST_0    = 1;
+const static int TEST_0    = 0;
 const static int TEST_1    = 0;
-const static int TEST_2    = 0;
+const static int TEST_2    = 1;
 const static int TEST_3    = 0;
     if (TEST_0)
     {
@@ -161,20 +124,20 @@ const static int TEST_3    = 0;
         {
             start = std::chrono::system_clock::now();
         }
-        decltype(expected) solution_result = solution.subsets0(numbers);
-        std::cout << "solution0 result:" << std::endl;
-        solution.printvectorvector(solution_result);
+        decltype(expected) result = solution.subsets0(numbers);
+        std::cout << "solution0 result:" << result << std::endl;
+        // solution.printvectorvector(result);
 
         std::cout << "expect numbers:" << std::endl;
-        if(solution_result == expected)
+        if(result == expected)
         {
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
         }
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvectorvector(expected);
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            // solution.printvectorvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -191,20 +154,20 @@ const static int TEST_3    = 0;
         {
             start = std::chrono::system_clock::now();
         }
-        decltype(expected) solution_result = solution.subsets1(numbers);
-        std::cout << "solution1 result:" << std::endl;
-        solution.printvectorvector(solution_result);
+        decltype(expected) result = solution.subsets1(numbers);
+        std::cout << "solution1 result:" << result << std::endl;
+        // solution.printvectorvector(result);
 
         std::cout << "expect numbers:" << std::endl;
-        if(solution_result == expected)
+        if(result == expected)
         {
             std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
         }
         else
         {
             std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvectorvector(expected);
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            // solution.printvectorvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -221,20 +184,20 @@ const static int TEST_3    = 0;
         {
             start = std::chrono::system_clock::now();
         }
-        decltype(expected) solution_result = solution.subsets2(numbers);
-        std::cout << "solution22 result:" << std::endl;
-        solution.printvectorvector(solution_result);
+        decltype(expected) result = solution.subsets2(numbers);
+        std::cout << "solution2 result:" << result << std::endl;
+        // solution.printvectorvector(result);
 
         std::cout << "expect numbers:" << std::endl;
-        if(solution_result == expected)
+        if(result == expected)
         {
             std::cout << GREEN << "Solution2 passed." << RESET <<  std::endl;
         }
         else
         {
             std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvectorvector(expected);
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            // solution.printvectorvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -251,12 +214,12 @@ const static int TEST_3    = 0;
         {
             start = std::chrono::system_clock::now();
         }
-        decltype(expected) solution_result = solution.subsets3(numbers);
-        std::cout << "solution result:" << std::endl;
-        solution.printvectorvector(solution_result);
+        decltype(expected) result = solution.subsets3(numbers);
+        std::cout << "solution result:" << result << std::endl;
+        // solution.printvectorvector(result);
 
         std::cout << "expect numbers:" << std::endl;
-        if(solution_result == expected)
+        if(result == expected)
         {
             std::cout << GREEN << "Solution3 passed." << RESET <<  std::endl;
         }
@@ -264,7 +227,7 @@ const static int TEST_3    = 0;
         {
             std::cout << RED << "Solution3 failed." <<  RESET << std::endl;
             std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvectorvector(expected);
+            // solution.printvectorvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)

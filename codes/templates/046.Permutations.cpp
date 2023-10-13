@@ -50,57 +50,41 @@
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
+template<typename T>
+std::ostream & operator << (std::ostream &out, const std::queue <T> &_queue)
+{
+    auto Q(_queue);
+    out << "queue :[  ";
+    while (!Q.empty()) {
+        out << Q.front() << ", ";
+        Q.pop();
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+template<typename T>
+std::ostream & operator << (std::ostream &out, const std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
 class Solution {
 public:
     //
-    bool hasvalue(int num, std::vector<int> three)
-    {
-        for (auto one : three)
-        {
-            if (one == num)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    std::vector<std::vector<int>> result;
     ////////////////////////////////////////////////////////////////////////////////
     std::vector<std::vector<int>> permute0(std::vector<int>& nums)
     {
-        result.clear();
-        return result;
+        return {};
     }
     ////////////////////////////////////////////////////////////////////////////////
     std::vector<std::vector<int>> permute1(std::vector<int>& nums)
     {
-        result.clear();
-        return result;
-    }
-    template <typename T>
-    int printvector(std::vector<T> v)
-    {
-        //std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  "; // << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", ";
-        }
-        std::cout << "\b\b]"  ;//std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(std::vector<T> v)
-    {
-        std::cout << "{  " ; //<< v.size() << std::endl;
-        //std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << "  }" << std::endl;
-        return v.size();
+        return {};
     }
     int getpermutataion(std::vector<int> nums, std::vector<std::vector<int>> & permutation)
     {
@@ -110,7 +94,6 @@ public:
         {
             permutation.push_back(std::vector<int>{nums});
         } while ( std::next_permutation(nums.begin(), nums.end() ));
-        //printvectorvector(permutation);
         return permutation.size();
     }
 };
@@ -132,9 +115,10 @@ void Test(const std::string& testName,
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
     std::cout << " nums: "<< std::endl;
-    solution.printvector(nums);
-    //std::cout << " expected by getpermutataion: "<< std::endl;
+    // solution.printvector(nums);
+    //std::cout << " expected by getpermutataion: " << expected << std::endl;
     solution.getpermutataion(nums, expected);
+
     //solution.printvectorvector(expected);
 
 const static int TEST_TIME = 1;
@@ -149,8 +133,8 @@ const static int TEST_1    = 1;
         }
 
         std::vector<std::vector<int>> &&result = solution.permute0(nums);
-        std::cout << "result:" << std::endl;
-        solution.printvectorvector(result);
+        std::cout << "result:" << result << std::endl;
+        // solution.printvectorvector(result);
 
         std::sort(result.begin(), result.end());
         if(result == expected)
@@ -160,8 +144,8 @@ const static int TEST_1    = 1;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvectorvector(expected);
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            // solution.printvectorvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -180,8 +164,8 @@ const static int TEST_1    = 1;
         }
 
         std::vector<std::vector<int>> &&result = solution.permute1(nums);
-        std::cout << "result:" << std::endl;
-        solution.printvectorvector(result);
+        std::cout << "result:" << result << std::endl;
+        // solution.printvectorvector(result);
         std::sort(result.begin(), result.end());
 
         if(result == expected)
@@ -191,8 +175,8 @@ const static int TEST_1    = 1;
         else
         {
             std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvectorvector(expected);
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            // solution.printvectorvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)

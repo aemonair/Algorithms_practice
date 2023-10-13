@@ -51,13 +51,70 @@ std::ostream & operator << (std::ostream &out, const std::vector<T> &_vec)
 class Solution {
 public:
 ////////////////////////////////////////////////////////////////////////
+    struct parentheses{
+        std::string str;
+        int left ;
+        int right;
+
+    };
     std::vector<std::string> generateParenthesis(int n)
     {
-        return {};
+        std::vector<std::string> res;
+        std::queue<std::tuple<std::string,int,int>> queue;
+        queue.push(std::make_tuple(std::string("("), 1, 0));
+        while (!queue.empty()){
+            auto curr = queue.front();
+            queue.pop();
+            int left = std::get<1>(curr);
+            int right= std::get<2>(curr);
+            auto str = std::get<0>(curr);
+            if (left  == n && right == n) {
+                res.push_back(str);
+            }
+            if (left > right) {
+                queue.push(std::make_tuple(str + ")", left , right + 1));
+            }
+            if (left < n ) {
+                queue.push(std::make_tuple(str + ("("), left + 1, right));
+            }
+        }
+        return res;
     }
     std::vector<std::string> generateParenthesis1(int n)
     {
-        return {};
+        // (
+        // (( ()
+        // ((( ()( (()
+        // ((() ()(( ()() (()( (())
+        // ((()) ()(() ()()( (()() (())(
+        // ((())) ()(()) ()()() (()()) (())()
+        std::vector<std::string> res;
+        std::queue <parentheses> parenthes;
+        parenthes.push(parentheses{"(", 1, 0});
+        int size = parenthes.size();
+        while (!parenthes.empty()) {
+            // default: left < n && left >= right
+            // auto _temppar(parenthes[j]);
+            auto par = parenthes.front();
+            parenthes.pop();
+            if (par.left < n) {
+                if (par.left > par.right) {
+                    parenthes.push({par.str+")", par.left, par.right+1});
+                }
+                parenthes.push({par.str+"(", par.left+1, par.right});
+                //  left <n left ==right (
+                //  left <n ,left > right )
+                // insert )
+            } else {
+                if (par.left > par.right) {
+                    parenthes.push({par.str+")", par.left, par.right+1});
+                }
+                if (par.left == n && par.right==n) {
+                    res.push_back(par.str);
+                }
+            }
+        }
+        return res;
     }
 ////////////////////////////////////////////////////////////////////////
 };

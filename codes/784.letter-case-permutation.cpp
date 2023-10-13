@@ -94,10 +94,68 @@ std::ostream & operator << (std::ostream &out, const std::vector<T> &_vec)
 class Solution {
 public:
     std::vector<std::string> letterCasePermutation(std::string s) {
-        return {};
+        std::vector<std::string> res;
+        std::queue<std::string> queue;
+        for (auto ch : s) {
+            std::vector<char> curr;
+            if (std::isdigit(ch)) {
+                std::cout << ch << "是数字" << std::endl;
+                // 遍历并添加到每个中
+            } else if (std::islower(ch)) {
+                // 将小写字母转换为大写字母
+                //char uppercase = toupper(character);
+                curr.push_back(toupper(ch));
+            } else if (std::isupper(ch)) {
+                // 将大写字母转换为小写字母
+                //char lowercase = tolower(character);
+                curr.push_back(tolower(ch));
+            }
+            // 添加 大小字母 到每个中
+            curr.push_back(ch);
+            std::cout << "curr:" << curr << std::endl;
+            if (res.empty()){
+                for (int j = 0; j < curr.size(); j++) {
+                    std::cout << (curr[j]) << std::endl;
+                    res.push_back(std::string(1,curr[j]));
+                }
+                std::cout << "empty" <<res << std::endl;
+                continue;
+            }
+            std::cout << "res:" <<res << std::endl;
+            int size = res.size();
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < curr.size(); j++) {
+                    auto temp(res[i]);
+                    temp += (curr[j]);
+                    res.push_back(temp);
+                    std::cout << res << std::endl;
+                }
+                // res.erase(res.begin());
+            }
+            res.erase(res.begin(), res.begin()+size);
+            std::cout << res << std::endl;
+        }
+        return res;
     }
     std::vector<std::string> letterCasePermutation1(std::string s) {
-        return {};
+        // 针对每个字符,添加到已有的字符串中;
+        std::vector<std::string> res({s});
+        for (int i = 0; i < s.size(); ++i) {
+            if (isalpha(s[i]) ) {
+                int size = res.size();
+                for (int j = 0; j < size; ++j) {
+                    std::string temp(res[j]);
+                    if(isupper(s[i])) {
+                        temp[i] = tolower(temp[i]);
+                    }
+                    if (islower(s[i])) {
+                        temp[i] = toupper(temp[i]);
+                    }
+                    res.push_back(temp);
+                }
+            }
+        }
+        return res;
     }
 };
 // ==================== TEST Codes====================
@@ -120,8 +178,8 @@ void Test(const std::string& testName,
     std::sort(expected.begin(), expected.end());
 
 const static int TEST_TIME = 1;
-const static int TEST_0    = 1;
-const static int TEST_1    = 0;
+const static int TEST_0    = 0;
+const static int TEST_1    = 1;
     if (TEST_0)
     {
         std::cout << "Solution0 start.........." << std::endl;
