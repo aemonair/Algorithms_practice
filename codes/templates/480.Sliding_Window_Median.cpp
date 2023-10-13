@@ -49,16 +49,44 @@
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
 
+template<typename T>
+std::ostream & operator << (std::ostream &out, const std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+template <typename ...T>
+std::ostream & operator << (std::ostream &out, std::priority_queue<T...> big_queue)
+{
+    std::priority_queue<T...> Big_queue = big_queue;
+    int bsize = Big_queue.size();
+    if (Big_queue.empty())
+    {
+        out << "The big queue is empty. "<< std::endl;
+    }
+    std::cout << " | ";
+    while (bsize--)
+    {
+        out << Big_queue.top() << ", " ;
+        Big_queue.pop();
+    }
+    out << std::endl ;
+    return out;
+}
+
 class Solution
 {
 public:
-    //
     std::vector<double> medianSlidingWindow(
             std::vector<int>& nums, int k
             )
     {
         std::vector<double> medians;
-
         return medians;
     }
     std::vector<double> medianSlidingWindow1(
@@ -68,79 +96,7 @@ public:
         std::vector<double> ans;
         return ans;
     }
-    template <typename T>
-    int printstack(std::stack<T> s)
-    {
-        if (s.empty())
-        {
-            std::cout << "The stack is empty." << std::endl;
-            return 0;
-        }
-        std::cout <<  "The stack size is: " << s.size() << std::endl;
-        std::stack<T> tmp;
-        while (!s.empty())
-        {
-            std::cout << s.top() << ", ";
-            s.pop();
-        }
-        std::cout <<  std::endl;
-        return s.size();
-    }
-    template <typename T1, typename T2>
-    int printunordered_map(const std::unordered_map<T1,T2> &v)
-    {
-        std::cout << "unordered_map size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << "(" << iter->first << "," << iter->second<< "), ";//<<std::endl;
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
 
-
-    template <typename ...T>
-    int printqueue(std::priority_queue<T...> big_queue)
-    {
-        std::priority_queue<T...> Big_queue = big_queue;
-        int bsize = Big_queue.size();
-        if (Big_queue.empty())
-        {
-            std::cout << "The big queue is empty. "<< std::endl;
-        }
-        std::cout << " | ";
-        while (bsize--)
-        {
-            std::cout << Big_queue.top() << ", " ;
-            Big_queue.pop();
-        }
-        std::cout << std::endl ;
-        return bsize;
-    }
-
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << "| ";//<<std::endl;
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
 };
 
 // ==================== TEST Codes====================
@@ -156,8 +112,8 @@ void Test(const std::string& testName,
 
     Solution solution;
 
-    std::cout << "nums:" << std::endl;
-    solution.printvector(nums);
+    std::cout << "k:" << k << ",nums:" << nums << std::endl;
+    //solution.printvector(nums);
 
     auto start = std::chrono::system_clock::now();
     decltype(start) end ;
@@ -176,8 +132,8 @@ const static int TEST_1    = 0;
 
         auto  result = solution.medianSlidingWindow(nums, k);
         //std::vector<int> && result = solution.medianSlidingWindow(nums, k);
-        std::cout << "result:" << std::endl;
-        solution.printvector(result);
+        std::cout << "result:" << result << std::endl;
+        // solution.printvector(result);
 
         if(result == expected)
         {
@@ -186,8 +142,8 @@ const static int TEST_1    = 0;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvector(expected);
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            // solution.printvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -206,8 +162,8 @@ const static int TEST_1    = 0;
 
         auto  result = solution.medianSlidingWindow1(nums, k);
         //std::vector<int> && result = solution.medianSlidingWindow(nums, k);
-        std::cout << "result:" << std::endl;
-        solution.printvector(result);
+        std::cout << "result:" << result << std::endl;
+        // solution.printvector(result);
 
         if(result == expected)
         {
@@ -216,8 +172,8 @@ const static int TEST_1    = 0;
         else
         {
             std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvector(expected);
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            // solution.printvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)

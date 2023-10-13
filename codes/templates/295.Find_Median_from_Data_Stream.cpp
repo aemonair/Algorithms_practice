@@ -211,12 +211,12 @@ const static int TEST_1    = 0;
         // [null, null, null, 1.5, null, 2.0]
         MedianFinder* obj = nullptr;
         std::vector<double> result(operators.size(), 0);
-       
+
         for(int i = 0; i< operators.size(); i++)
         {
             auto oper = operators[i];
             auto num  = nums[i];
-            std::cout << oper << ": " << num << std::endl;
+            std::cout << "operator:" << oper << ": " << num << std::endl;
             if (oper == "MedianFinder")
             {
                 if(obj)
@@ -322,7 +322,7 @@ int main()
     		tuple_print(std::get<0>(t));
     	}
     };
-   
+
     template<typename T>
     void tuple_print(T t)
     {
@@ -334,12 +334,12 @@ int main()
     {
         std::cout << t;
     }
-   
+
     template<>
     void tuple_print<double>(double t) {
         std::cout << t;
     }
-   
+
     template<>
     void tuple_print<char>(char t) {
         std::cout << t;
@@ -348,12 +348,12 @@ int main()
     void tuple_print<bool>(bool t) {
         std::cout << t;
     }
-   
+
     template<>
     void tuple_print<const char *>(const char* t) {
         std::cout << t;
     }
-   
+
     template<>
     void tuple_print<std::string>(std::string t) {
         std::cout << t;

@@ -10,12 +10,12 @@
  *
  * You are given several projects.
  * For each project i, it has a pure profit Pi and a minimum capital of Ci is needed to start the corresponding project.
- * Initially, you have W capital. When you finish a project, you will obtain its pure profit and the profit will be added to your total capital.
+ * Initially, you have w capital. When you finish a project, you will obtain its pure profit and the profit will be added to your total capital.
  *
  * To sum up, pick a list of at most k distinct projects from given projects to maximize your final capital, and output your final maximized capital.
  ******************************************************************************
  * Example 1:
- * Input: k=2, W=0, Profits=[1,2,3], Capital=[0,1,1].
+ * Input: k=2, w=0, profits=[1,2,3], capital=[0,1,1].
  *
  * Output: 4
  *
@@ -28,6 +28,14 @@
  * 1. You may assume all numbers in the input are non-negative integers.
  * 2. The length of Profits array and Capital array will not exceed 50,000.
  * 3. The answer is guaranteed to fit in a 32-bit signed integer.
+ ******************************************************************************
+ * 1 <= k <= 10^5
+ * 0 <= w <= 10^9
+ * n == profits.length
+ * n == capital.length
+ * 1 <= n <= 10^5
+ * 0 <= profits[i] <= 10^4
+ * 0 <= capital[i] <= 10^9
  ******************************************************************************
  */
 
@@ -48,114 +56,58 @@
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
 
+template<typename T1,typename T2>
+std::ostream & operator << (std::ostream &out, const std::pair<T1,T2> &_pair)
+{
+    out << "( " << _pair.first << ", " << _pair.second << ") ";
+    return out;
+}
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+template <typename ...T>
+std::ostream & operator << (std::ostream &out, std::priority_queue<T...> big_queue)
+{
+    std::priority_queue<T...> Big_queue = big_queue;
+    int bsize = Big_queue.size();
+    if (Big_queue.empty())
+    {
+        out << "The big queue is empty. "<< std::endl;
+    }
+    std::cout << " | ";
+    while (bsize--)
+    {
+        out << Big_queue.top() << ", " ;
+        Big_queue.pop();
+    }
+    out << std::endl ;
+    return out;
+}
 //const bool PRINT = false;
 const bool PRINT = true ;
 class Solution
 {
 public:
-    //
-    int findMaximizedCapital( int k, int W, std::vector<int>& Profits, std::vector<int> &Capital )
+    int findMaximizedCapital( int k, int w, std::vector<int>& profits, std::vector<int> &capital )
     {
         return 0;
-    }
-    template <typename T>
-    int printstack(std::stack<T> s)
-    {
-        if (s.empty())
-        {
-            std::cout << "The stack is empty." << std::endl;
-            return 0;
-        }
-        std::cout <<  "The stack size is: " << s.size() << std::endl;
-        std::stack<T> tmp;
-        while (!s.empty())
-        {
-            std::cout << s.top() << ", ";
-            s.pop();
-        }
-        std::cout <<  std::endl;
-        return s.size();
-    }
-    template <typename T1, typename T2>
-    int printunordered_map(const std::unordered_map<T1,T2> &v)
-    {
-        std::cout << "unordered_map size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << "(" << iter->first << "," << iter->second<< "), ";//<<std::endl;
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-
-
-    template <typename ...T>
-    //int printqueue(std::priority_queue<T...> big_queue)
-    //{
-    //    std::priority_queue<T...> Big_queue = big_queue;
-    //    int bsize = Big_queue.size();
-    //    if (Big_queue.empty())
-    //    {
-    //        std::cout << "The big queue is empty. "<< std::endl;
-    //    }
-    //    std::cout << " | ";
-    //    while (bsize--)
-    //    {
-    //        std::cout << Big_queue.top() << ", " ;
-    //        Big_queue.pop();
-    //    }
-    //    std::cout << std::endl ;
-    //    return bsize;
-    //}
-    int printqueue(std::priority_queue<T... > big_queue)
-    {
-        std::priority_queue<T...> Big_queue = big_queue;
-        int bsize = Big_queue.size();
-        if (Big_queue.empty())
-        {
-            std::cout << "The big queue is empty. "<< std::endl;
-        }
-        std::cout << " | ";
-        while (bsize--)
-        {
-            std::cout << "(" << Big_queue.top().first << " ," << Big_queue.top().second << "), " ;
-            Big_queue.pop();
-        }
-        std::cout << std::endl ;
-        return bsize;
-    }
-
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << "| ";//<<std::endl;
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
     }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
         int k,
-        int W,
-        std::vector<int>& Profits,
-        std::vector<int>& Capital,
+        int w,
+        std::vector<int>& profits,
+        std::vector<int>& capital,
         int expected
         )
 {
@@ -166,11 +118,11 @@ void Test(const std::string& testName,
 
     Solution solution;
 
-    std::cout << "k:" << k << " , W:" << W << std::endl;
-    std::cout << "Profits:" << std::endl;
-    solution.printvector(Profits);
-    std::cout << "Capital:" << std::endl;
-    solution.printvector(Capital);
+    std::cout << "k:" << k << " , w:" << w << std::endl;
+    std::cout << "profits:" << profits << std::endl;
+    // solution.printvector(profits);
+    std::cout << "capital:" << capital <<std::endl;
+    // solution.printvector(capital);
 
     auto start = std::chrono::system_clock::now();
     decltype(start) end ;
@@ -187,7 +139,7 @@ const static int TEST_1    = 0;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.findMaximizedCapital(k, W, Profits, Capital);
+        decltype(expected) result = solution.findMaximizedCapital(k, w, profits, capital);
         std::cout << "result:" << result << std::endl;
 
         if(result == expected)
@@ -215,18 +167,30 @@ const static int TEST_1    = 0;
 void Test1()
 {
     int k = 2;
-    int W = 0;
-    std::vector<int> Profits = {1, 2, 3};
-    std::vector<int> Capital = {0, 1, 1};
+    int w = 0;
+    std::vector<int> profits = {1, 2, 3};
+    std::vector<int> capital = {0, 1, 1};
     int expected = 4;
-    Test("Test1", k, W, Profits, Capital, expected);
+    Test("Test1", k, w, profits, capital, expected);
 }
 void Test2()
 {
+    int k = 3;
+    int w = 0;
+    std::vector<int> profits = {1, 2, 3};
+    std::vector<int> capital = {0, 1, 2};
+    int expected = 6;
+    Test("Test2", k, w, profits, capital, expected);
 }
 
 void Test3()
 {
+    int k = 1;
+    int w = 0;
+    std::vector<int> profits = {1, 2, 3};
+    std::vector<int> capital = {1, 1, 2};
+    int expected = 0;
+    Test("Test3", k, w, profits, capital, expected);
 }
 
 void Test4()
