@@ -47,7 +47,7 @@ public:
     {
         return -1;
     }
-   
+
     template <typename T>
     int printvector(const std::vector<T> &v)
     {

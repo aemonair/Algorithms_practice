@@ -1,34 +1,37 @@
 /*
- * 704. Binary Search - Ceiling in a sorted array
+ * 704. Binary Search
  * Easy
  **************************************************************
- * Given an array of numbers sorted in an ascending order, find the ceiling of a given number ‘key’. The ceiling of the ‘key’ will be the smallest element in the given array greater than or equal to the ‘key’.
+ * Given a sorted (in ascending order) integer array nums of n elements and a target value @20200924
+ * write a function to search target in nums. If target exists, then return its index, otherwise return -1.
  *
- * Write a function to return the index of the ceiling of the ‘key’. If there isn’t any ceiling return -1.
+ * Given an array of integers nums which is sorted in ascending order, and an integer target,  @20210425
+ * write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.
  **************************************************************
  * Example 1:
  *
- * Input: nums = [4,6,10], key = 6
- * Output: 1
- * Explanation: The smallest number greater than or equal to '6' is '6' having index '1'.
+ * Input: nums = [-1,0,3,5,9,12], target = 9
+ * Output: 4
+ * Explanation: 9 exists in nums and its index is 4
  **************************************************************
  * Example 2:
  *
- * Input: nums = [1,3,8,10,15], key = 12
- * Output: 4
- * Explanation: The smallest number greater than or equal to '12' is '15' having index '4'.
- **************************************************************
- * Example 3:
- *
- * Input: nums = [4,6,10], key = 17
+ * Input: nums = [-1,0,3,5,9,12], target = 2
  * Output: -1
- * Explanation: There is no number greater than or equal to '17' in the given array.
+ * Explanation: 2 does not exist in nums so return -1
  **************************************************************
- * Example 4:
+ * Note:
  *
- * Input: nums = [4,6,10], key = -1
- * Output: 0
- * Explanation: The smallest number greater than or equal to '-1' is '4' having index '0'.
+ * You may assume that all elements in nums are unique.
+ * n will be in the range [1, 10000].
+ * The value of each element in nums will be in the range [-9999, 9999].
+ **************************************************************
+ * Constraints:
+ *
+ * 1 <= nums.length <= 104
+ * -9999 <= nums[i], target <= 9999
+ * All the integers in nums are unique.
+ * nums is sorted in an ascending order.
  **************************************************************
  */
 
@@ -48,15 +51,38 @@
 class Solution {
 public:
     //
-    int search(std::vector<int>& nums, int key)
+    int search(std::vector<int>& nums, int target)
     {
+        int left = 0;
+        int right = nums.size()-1;
+        bool isAsc = (nums[left] < nums[right]) ;
+        int result = -1;
+        while (left <= right) {
+            int mid = left+(right-left)/2;
+            if (nums[mid] == target) {
+                right = mid -1;
+                result = mid;
+                // return mid;
+            }
+
+            if (isAsc){
+                if (nums[mid] < target) {
+                    left = mid +1;
+                } else {
+                    right = mid-1;
+                }
+            } else {
+                if (nums[mid] > target) {
+                    left = mid +1;
+                } else {
+                    right = mid-1;
+                }
+            }
+        }
+        return result;
         return -1;
     }
-    int search0(std::vector<int>& nums, int key)
-    {
-        return -1;
-    }
-   
+
     template <typename T>
     int printvector(const std::vector<T> &v)
     {
@@ -69,24 +95,12 @@ public:
         std::cout << "\b\b]" << std::endl;
         return v.size();
     }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
         std::vector<int> & nums,
-        int key,   
+        int target,
         int expected)
 {
     if(testName.length() > 0)
@@ -95,7 +109,7 @@ void Test(const std::string& testName,
     }
 
     Solution solution;
-    std::cout << "Ceiling " << key <<  " in nums:" << std::endl;
+    std::cout << "target:" << target << " nums:" << std::endl;
     solution.printvector(nums);
 
     auto start = std::chrono::system_clock::now();
@@ -112,7 +126,7 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.search(nums, key);
+        decltype(expected) result = solution.search(nums, target);
         std::cout << "result:" << std::boolalpha << result << std::endl;
 
         if(result == expected)
@@ -136,37 +150,49 @@ const static int TEST_1    = 1;
 }
 void Test1()
 {
-    std::vector<int> nums ={4, 6, 10};
-    int key = 6;
-    int expected = 1;
-    Test("Test1",nums, key, expected);
+    std::vector<int> nums ={-1,0,3,5,9,12};
+    Test("Test1.1",nums, 9,4);
+    Test("Test1.2",nums, 2,-1);
 }
 void Test2()
 {
-    std::vector<int> nums ={1, 3, 8, 10, 15};
-    int key = 12;
-    int expected = 4;
-    Test("Test2",nums, key, expected);
+    std::vector<int> nums ={-1,0,1,2,2,4};
+    Test("Test2",nums, 2,3);
 }
 
 void Test3()
 {
-    std::vector<int> nums ={4, 6, 10};
-    int key = 17;
-    int expected = -1;
-    Test("Test3",nums, key, expected);
+    std::vector<int> nums ={4,5,10};
+    Test("Test3", nums, 10, 2);
 }
 
 void Test4()
 {
-    std::vector<int> nums ={4, 6, 10};
-    int key = -1;
-    int expected = 0;
-    Test("Test4",nums, key, expected);
+    std::vector<int> nums ={1,2,3,4,5,6,7};
+    int target = 5;
+    Test("Test4", nums, target, 4);
 }
 
 void Test5()
 {
+    int target = -1;
+    std::vector<int> nums ={10, 6, 4};
+    target = 10;
+    Test("Test5.1", nums, target, 0);
+    target = 4;
+    Test("Test5.2", nums, target, 2);
+}
+
+void Test6()
+{
+    int target = -1;
+    std::vector<int> nums ={10, 6, 4, 4, 2, 2};
+    target = 10;
+    Test("Test6.1", nums, target, 0);
+    target = 4;
+    Test("Test6.2", nums, target, 2);
+    target = 2;
+    Test("Test6.3", nums, target, 4);
 }
 
 int main()
@@ -178,6 +204,7 @@ int main()
     Test3();
     Test4();
     Test5();
+    Test6();
 
     return 0;
 

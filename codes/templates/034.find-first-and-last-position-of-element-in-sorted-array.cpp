@@ -48,54 +48,30 @@
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
+
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
 class Solution {
 public:
     //
     std::vector<int> searchRange(std::vector<int>& nums, int target)
     {
-        int left  = 0;
-        return std::vector<int>{left_bound(nums,target),right_bound(nums,target)};
+        return {};
     }
-   
-    int left_bound(std::vector<int>& nums, int target)
+    std::vector<int> searchRange1(std::vector<int>& nums, int target)
     {
-        return 0;
-    }
-    int right_bound(std::vector<int> &nums, int target)
-    {
-        return 0;
-    }
-    int right_bound_old(std::vector<int> &nums, int target)
-    {
-        return 0;
-    }
-    int left_bound_old(std::vector<int>& nums, int target)
-    {
-        return 0;
-    }
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << "| ";//<<std::endl;
-        }
-        std::cout << std::endl;
-        return v.size();
+        return {};
     }
 
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
 };
 
 // ==================== TEST Codes====================
@@ -107,8 +83,8 @@ void Test(const std::string& testName, std::vector<int> & nums,int target, std::
     }
 
     Solution solution;
-    std::cout << "target " << target << " in nums:" << std::endl;
-    solution.printvector(nums);
+    std::cout << "target " << target << " in nums:" << nums << std::endl;
+    // solution.printvector(nums);
 
     auto start = std::chrono::system_clock::now();
     decltype(start) end ;
@@ -125,14 +101,14 @@ const static int TEST_1    = 1;
         }
 
         std::cout << "find target:" << target << std::endl;
-        int left_result  = solution.left_bound(nums, target);
-        std::cout << "left_result:" << left_result << std::endl;
-        int right_result = solution.right_bound(nums, target);
-        std::cout << "right_result:" << right_result << std::endl;
+        //int left_result  = solution.left_bound(nums, target);
+        //std::cout << "left_result:" << left_result << std::endl;
+        //int right_result = solution.right_bound(nums, target);
+        //std::cout << "right_result:" << right_result << std::endl;
 
         std::vector<int> && result = solution.searchRange(nums, target);
-        std::cout << "result:" <<  std::endl;
-        solution.printvector(result);
+        std::cout << "result:" <<  result << std::endl;
+        // solution.printvector(result);
 
         if(result == expected)
         {
@@ -141,8 +117,8 @@ const static int TEST_1    = 1;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvector(expected);
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            // solution.printvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -179,7 +155,8 @@ void Test4()
 
 void Test5()
 {
-    //Test("Test5", deadends, target, -1);
+    std::vector<int> nums = {1};
+    Test("Test5", nums, 1, std::vector<int>{0,0});
 }
 
 int main()

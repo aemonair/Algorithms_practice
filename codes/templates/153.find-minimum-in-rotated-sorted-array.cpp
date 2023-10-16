@@ -1,45 +1,48 @@
 /*
  **************************************************************
- * 33. Search in Rotated Sorted Array
+ * 153. Find Minimum in Rotated Sorted Array
  * Medium
  **************************************************************
- * There is an integer array nums sorted in ascending order (with distinct values).
+ * Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,2,4,5,6,7] might become:
  *
- * Prior to being passed to your function, nums is rotated at an unknown pivot index k (0 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed).
- * For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].
+ * [4,5,6,7,0,1,2] if it was rotated 4 times.
+ * [0,1,2,4,5,6,7] if it was rotated 7 times.
+ * Notice that rotating an array [a[0], a[1], a[2], ..., a[n-1]] 1 time results in the array [a[n-1], a[0], a[1], a[2], ..., a[n-2]].
  *
- * Given the array nums after the rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
+ * Given the sorted rotated array nums of unique elements, return the minimum element of this array.
  *
- * You must write an algorithm with O(log n) runtime complexity.
+ * You must write an algorithm that runs in O(log n) time.
  **************************************************************
  * Example 1:
  *
- * Input: nums = [4,5,6,7,0,1,2], target = 0
- * Output: 4
+ * Input: nums = [3,4,5,1,2]
+ * Output: 1
+ * Explanation: The original array was [1,2,3,4,5] rotated 3 times.
  **************************************************************
  * Example 2:
  *
- * Input: nums = [4,5,6,7,0,1,2], target = 3
- * Output: -1
+ * Input: nums = [4,5,6,7,0,1,2]
+ * Output: 0
+ * Explanation: The original array was [0,1,2,4,5,6,7] and it was rotated 4 times.
  **************************************************************
  * Example 3:
  *
- * Input: nums = [1], target = 0
- * Output: -1
+ * Input: nums = [11,13,15,17]
+ * Output: 11
+ * Explanation: The original array was [11,13,15,17] and it was rotated 4 times.
  **************************************************************
  * Constraints:
  *
- * 1 <= nums.length <= 5000
- * -10^4 <= nums[i] <= 10^4
- * All values of nums are unique.
- * nums is guaranteed to be rotated at some pivot.
- * -10^4 <= target <= 10^4
+ * n == nums.length
+ * 1 <= n <= 5000
+ * -5000 <= nums[i] <= 5000
+ * All the integers of nums are unique.
+ * nums is sorted and rotated between 1 and n times.
  **************************************************************
  */
 
 #include <algorithm>
 #include <iostream>
-#include <thread>
 #include <chrono>
 #include <vector>
 #include <string>
@@ -54,11 +57,11 @@
 class Solution {
 public:
     //
-    int search(std::vector<int>& nums, int target)
+    int findMin(std::vector<int>& nums)
     {
         return -1;
     }
-   
+
     template <typename T>
     int printvector(const std::vector<T> &v)
     {
@@ -88,7 +91,6 @@ public:
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
         std::vector<int> & nums,
-        int target,
         int expected)
 {
     if(testName.length() > 0)
@@ -97,7 +99,6 @@ void Test(const std::string& testName,
     }
 
     Solution solution;
-    std::cout << "find target:" << target << " in "  ;
     std::cout << "nums:" << std::endl;
     solution.printvector(nums);
 
@@ -115,7 +116,7 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.search(nums, target);
+        decltype(expected) result = solution.findMin(nums);
         std::cout << "result:" << std::boolalpha << result << std::endl;
 
         if(result == expected)
@@ -139,40 +140,29 @@ const static int TEST_1    = 1;
 }
 void Test1()
 {
-    std::vector<int> nums ={4, 5, 6, 7, 0, 1, 2};
-    Test("Test1.1",nums, 0, 4);
-    Test("Test1.2",nums, 3,-1);
-    Test("Test1.3",nums, 1, 5);
+    std::vector<int> nums ={3, 4, 5, 1, 2};
+    Test("Test1",nums, 1 );
 }
 void Test2()
 {
-    std::vector<int> nums ={1};
-    Test("Test2",nums, 0, -1);
+    std::vector<int> nums ={4, 5, 6, 7, 0, 1, 2};
+    Test("Test2",nums, 0 );
 }
 
 void Test3()
 {
-    std::vector<int> nums ={4, 5, 6, 7};
-    Test("Test3",nums, 7, 3);
-    Test("Test3",nums, 4, 0);
+    std::vector<int> nums ={11, 13, 15, 17};
+    Test("Test3", nums, 11);
 }
 
 void Test4()
 {
-    std::vector<int> nums ={5, 1, 3};
-    Test("Test4",nums, 3, 2);
+    std::vector<int> nums ={15};
+    Test("Test4", nums, 15);
 }
 
 void Test5()
 {
-    std::vector<int> nums ={10, 15, 1, 3, 8};
-    Test("Test5",nums, 15, 1);
-}
-
-void Test6()
-{
-    std::vector<int> nums ={4, 5, 7, 9, 10, -1, 2};
-    Test("Test6",nums, 10, 4);
 }
 
 int main()
@@ -184,7 +174,6 @@ int main()
     Test3();
     Test4();
     Test5();
-    Test6();
 
     return 0;
 

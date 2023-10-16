@@ -1,38 +1,39 @@
 /*
+ * 704. Binary Search - Ceiling in a sorted array
+ * Easy
  **************************************************************
- * 81. Search in Rotated Sorted Array II
- * Medium
- **************************************************************
- * There is an integer array nums sorted in non-decreasing order (not necessarily with distinct values).
+ * Given an array of numbers sorted in an ascending order, find the ceiling of a given number ‘key’. The ceiling of the ‘key’ will be the smallest element in the given array greater than or equal to the ‘key’.
  *
- * Before being passed to your function, nums is rotated at an unknown pivot index k (0 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,4,4,5,6,6,7] might be rotated at pivot index 5 and become [4,5,6,6,7,0,1,2,4,4].
- *
- * Given the array nums after the rotation and an integer target, return true if target is in nums, or false if it is not in nums.
- * You must decrease the overall operation steps as much as possible.
+ * Write a function to return the index of the ceiling of the ‘key’. If there isn’t any ceiling return -1.
  **************************************************************
  * Example 1:
  *
- * Input: nums = [2,5,6,0,0,1,2], target = 0
- * Output: true
+ * Input: nums = [4,6,10], key = 6
+ * Output: 1
+ * Explanation: The smallest number greater than or equal to '6' is '6' having index '1'.
+ **************************************************************
  * Example 2:
  *
- * Input: nums = [2,5,6,0,0,1,2], target = 3
- * Output: false
+ * Input: nums = [1,3,8,10,15], key = 12
+ * Output: 4
+ * Explanation: The smallest number greater than or equal to '12' is '15' having index '4'.
  **************************************************************
- * Constraints:
+ * Example 3:
  *
- * 1 <= nums.length <= 5000
- * -104 <= nums[i] <= 104
- * nums is guaranteed to be rotated at some pivot.
- * -104 <= target <= 104
+ * Input: nums = [4,6,10], key = 17
+ * Output: -1
+ * Explanation: There is no number greater than or equal to '17' in the given array.
  **************************************************************
- * Follow up: This problem is similar to Search in Rotated Sorted Array, but nums may contain duplicates. Would this affect the runtime complexity? How and why?
+ * Example 4:
+ *
+ * Input: nums = [4,6,10], key = -1
+ * Output: 0
+ * Explanation: The smallest number greater than or equal to '-1' is '4' having index '0'.
  **************************************************************
  */
 
 #include <algorithm>
 #include <iostream>
-#include <thread>
 #include <chrono>
 #include <vector>
 #include <string>
@@ -47,11 +48,15 @@
 class Solution {
 public:
     //
-    bool search(std::vector<int>& nums, int target)
+    int search(std::vector<int>& nums, int key)
     {
-        return false;
+        return -1;
     }
-   
+    int search0(std::vector<int>& nums, int key)
+    {
+        return -1;
+    }
+
     template <typename T>
     int printvector(const std::vector<T> &v)
     {
@@ -81,8 +86,8 @@ public:
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
         std::vector<int> & nums,
-        int target,
-        bool expected)
+        int key,
+        int expected)
 {
     if(testName.length() > 0)
     {
@@ -90,8 +95,7 @@ void Test(const std::string& testName,
     }
 
     Solution solution;
-    std::cout << "find target:" << target << " in "  ;
-    std::cout << "nums:" << std::endl;
+    std::cout << "Ceiling " << key <<  " in nums:" << std::endl;
     solution.printvector(nums);
 
     auto start = std::chrono::system_clock::now();
@@ -108,7 +112,7 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.search(nums, target);
+        decltype(expected) result = solution.search(nums, key);
         std::cout << "result:" << std::boolalpha << result << std::endl;
 
         if(result == expected)
@@ -132,32 +136,36 @@ const static int TEST_1    = 1;
 }
 void Test1()
 {
-    std::vector<int> nums ={2,5,6,0,0,1,2};
-    Test("Test1.1",nums, 0, true);
-    Test("Test1.2",nums, 3, false);
-    Test("Test1.3",nums, 6, true);
-    Test("Test1.4",nums, 2, true);
-    Test("Test1.5",nums, 7, false);
+    std::vector<int> nums ={4, 6, 10};
+    int key = 6;
+    int expected = 1;
+    Test("Test1",nums, key, expected);
 }
 void Test2()
 {
-    std::vector<int> nums ={3,7,3,3,3};
-    Test("Test2",nums, 7, true);
+    std::vector<int> nums ={1, 3, 8, 10, 15};
+    int key = 12;
+    int expected = 4;
+    Test("Test2",nums, key, expected);
 }
 
 void Test3()
 {
+    std::vector<int> nums ={4, 6, 10};
+    int key = 17;
+    int expected = -1;
+    Test("Test3",nums, key, expected);
 }
 
 void Test4()
 {
+    std::vector<int> nums ={4, 6, 10};
+    int key = -1;
+    int expected = 0;
+    Test("Test4",nums, key, expected);
 }
 
 void Test5()
-{
-}
-
-void Test6()
 {
 }
 
@@ -170,7 +178,6 @@ int main()
     Test3();
     Test4();
     Test5();
-    Test6();
 
     return 0;
 

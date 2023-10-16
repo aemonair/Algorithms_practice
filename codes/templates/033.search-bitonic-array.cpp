@@ -1,53 +1,34 @@
 /*
  **************************************************************
- * 744. Find Smallest Letter Greater Than Target
- * Easy
+ * Search Bitonic Array
+ * medium
  **************************************************************
- * Given a list of sorted characters letters containing only lowercase letters, and given a target letter target, find the smallest element in the list that is larger than the given target.
+ * Given a Bitonic array, find if a given ‘key’ is present in it.
+ * An array is considered bitonic if it is monotonically increasing and then monotonically decreasing.
+ * Monotonically increasing or decreasing means that for any index i in the array arr[i] != arr[i+1].
  *
- * Letters also wrap around. For example, if the target is target = 'z' and letters = ['a', 'b'], the answer is 'a'.
+ * Write a function to return the index of the ‘key’. If the ‘key’ is not present, return -1.
  *
  **************************************************************
- * Examples:
- * Input:
- * letters = ["c", "f", "j"]
- * target = "a"
- * Output: "c"
- **************************************************************
+ * Example 1:
  *
- * Input:
- * letters = ["c", "f", "j"]
- * target = "c"
- * Output: "f"
+ * Input: [1, 3, 8, 4, 3], key=4
+ * Output: 3
  **************************************************************
+ * Example 2:
  *
- * Input:
- * letters = ["c", "f", "j"]
- * target = "d"
- * Output: "f"
+ * Input: [3, 8, 3, 1], key=8
+ * Output: 1
  **************************************************************
+ * Example 3:
  *
- * Input:
- * letters = ["c", "f", "j"]
- * target = "g"
- * Output: "j"
+ * Input: [1, 3, 8, 12], key=12
+ * Output: 3
  **************************************************************
+ * Example 4:
  *
- * Input:
- * letters = ["c", "f", "j"]
- * target = "j"
- * Output: "c"
- **************************************************************
- *
- * Input:
- * letters = ["c", "f", "j"]
- * target = "k"
- * Output: "c"
- **************************************************************
- * Note:
- * letters has a length in range [2, 10000].
- * letters consists of lowercase letters, and contains at least 2 unique letters.
- * target is a lowercase letter.
+ * Input: [10, 9, 8], key=10
+ * Output: 0
  **************************************************************
  */
 
@@ -67,11 +48,11 @@
 class Solution {
 public:
     //
-    char nextGreatestLetter(std::vector<char>& letters, char target)
+    int search(std::vector<int>& nums, int target)
     {
-        return ' ';
+        return -1;
     }
-   
+
     template <typename T>
     int printvector(const std::vector<T> &v)
     {
@@ -100,9 +81,9 @@ public:
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-        std::vector<char> & letters,
-        char target,
-        char expected)
+        std::vector<int> & nums,
+        int target,
+        int expected)
 {
     if(testName.length() > 0)
     {
@@ -110,8 +91,8 @@ void Test(const std::string& testName,
     }
 
     Solution solution;
-    std::cout << "target " << target << " in letters:" << std::endl;
-    solution.printvector(letters);
+    std::cout << "find target :" << target << " nums:" << std::endl;
+    solution.printvector(nums);
 
     auto start = std::chrono::system_clock::now();
     decltype(start) end ;
@@ -127,7 +108,7 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.nextGreatestLetter(letters, target);
+        decltype(expected) result = solution.search(nums, target);
         std::cout << "result:" << std::boolalpha << result << std::endl;
 
         if(result == expected)
@@ -151,31 +132,26 @@ const static int TEST_1    = 1;
 }
 void Test1()
 {
-    std::vector<char> letters ={'c', 'f', 'j'};
-    Test("Test1",letters, 'a','c');
-    Test("Test2",letters, 'c','f');
-    Test("Test3",letters, 'd','f');
-    Test("Test4",letters, 'g','j');
-    Test("Test5",letters, 'j','c');
-    Test("Test6",letters, 'k','c');
+    std::vector<int> nums ={1, 3, 8, 4, 3};
+    Test("Test1",nums, 4,3);
 }
 void Test2()
 {
-    std::vector<char> letters ={'a', 'c', 'f', 'h'};
-    Test("Test1",letters, 'f','h');
-    Test("Test2",letters, 'b','c');
-    Test("Test3",letters, 'm','a');
-    Test("Test4",letters, 'h','a');
+    std::vector<int> nums ={3, 8, 3, 1};
+    Test("Test0",nums, 8,1);
 }
 
 void Test3()
 {
-    std::vector<char> letters ={'e','e','e','e','e','e','n','n','n','n'};
-    Test("Test5",letters, 'e','n');
+    std::vector<int> nums ={1, 3, 8, 12};
+    Test("Test1", nums, 12, 3);
 }
 
 void Test4()
 {
+    std::vector<int> nums ={10, 9, 8};
+    int target = 10;
+    Test("Test2", nums, target, 0);
 }
 
 void Test5()

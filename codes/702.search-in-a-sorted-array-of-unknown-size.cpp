@@ -65,16 +65,16 @@ public:
         }
         return v[i];
     }
-    friend std::ostream &operator << (std::ostream & in, ArrayReader &a)
+    friend std::ostream &operator << (std::ostream & out, ArrayReader &a)
     {
-        //std::cout
-        in << "vector size: " << a.v.size() << std::endl;
+        //out << "vector size: " << a.v.size() << std::endl;
+        out<< "[  "; //a.v.size() << std::endl;
         for (auto iter = a.v.begin(); iter != a.v.end(); iter++ )
         {
-            in << *iter << "| ";//<<std::endl;
+            out << *iter << ", ";//<<std::endl;
         }
-        //std::cout << std::endl;
-        return in ;//v.size();
+        out << "\b\b] " << std::endl;
+        return out ;//v.size();
     }
 };
 class Solution {
@@ -82,32 +82,53 @@ public:
     //
     int search(ArrayReader & reader, int target)
     {
+        // 0~1    2
+        // 2~5    4
+        // 6~13   8
+        int left = 0;
+        int right = 1;
+        while(reader.get(right) < target) {
+            auto newstart = right+1;
+            right += (right-left+1)*2;
+            left = newstart;
+            std::cout << left  << "," << right << "," <<reader.get(right) << std::endl;
+        }
+        std::cout << left << "," << right << std::endl;
+        while (left <= right) {
+            int mid = left +(right-left)/2;
+            if (reader.get(mid) == target) {
+                return mid;
+            } else if (reader.get(mid) < target) {
+                left = mid+1;
+            } else {
+                right = mid-1;
+            }
+        }
         return -1;
     }
-   
-    template <typename T>
-    int printvector(const std::vector<T> &v)
+    int search1(ArrayReader & reader, int target)
     {
-        std::cout << "vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << "| ";//<<std::endl;
+        int i = 1;
+        while(reader.get(i) < target) {
+            i *= 2;
+            std::cout << i << "," << reader.get(i) << std::endl;
         }
-        std::cout << std::endl;
-        return v.size();
+        int right = i;
+        int left = i/2;
+        std::cout << left << "," << right << std::endl;
+        while (left <= right) {
+            int mid = left +(right-left)/2;
+            if (reader.get(mid) == target) {
+                return mid;
+            } else if (reader.get(mid) < target) {
+                left = mid+1;
+            } else {
+                right = mid-1;
+            }
+        }
+        return -1;
     }
 
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
 };
 
 // ==================== TEST Codes====================

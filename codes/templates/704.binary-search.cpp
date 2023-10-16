@@ -53,51 +53,9 @@ public:
     //
     int search(std::vector<int>& nums, int target)
     {
-        int left = 0;
-        int right = nums.size();
-        bool increase;
-        if(nums[0] < nums[right-1])
-        {
-            //+
-            increase = true;
-        }
-        else
-        {
-            increase = false;
-        }
-        while(left < right)
-        {
-            int index = left + (right-left)/2;
-            if(nums[index] == target)
-            {
-                return index;
-            }
-            else if(nums[index] > target)
-            {
-                if(increase)
-                {
-                    right = index;
-                }
-                else
-                {
-                    left = index+1;
-                }
-            }
-            else
-            {
-                if(increase)
-                {
-                    left = index+1;
-                }
-                else
-                {
-                    right = index;
-                }
-            }
-        }
         return -1;
     }
-   
+
     template <typename T>
     int printvector(const std::vector<T> &v)
     {
@@ -108,18 +66,6 @@ public:
             std::cout << *iter << ", "; // <<std::endl;
         }
         std::cout << "\b\b]" << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
         return v.size();
     }
 };
@@ -136,7 +82,7 @@ void Test(const std::string& testName,
     }
 
     Solution solution;
-    std::cout << "nums:" << std::endl;
+    std::cout << "target:" << target << " nums:" << std::endl;
     solution.printvector(nums);
 
     auto start = std::chrono::system_clock::now();
@@ -178,26 +124,26 @@ const static int TEST_1    = 1;
 void Test1()
 {
     std::vector<int> nums ={-1,0,3,5,9,12};
-    Test("Test1",nums, 9,4);
-    Test("Test2",nums, 2,-1);
+    Test("Test1.1",nums, 9,4);
+    Test("Test1.2",nums, 2,-1);
 }
 void Test2()
 {
     std::vector<int> nums ={-1,0,1,2,2,4};
-    Test("Test0",nums, 2,3);
+    Test("Test2",nums, 2,3);
 }
 
 void Test3()
 {
     std::vector<int> nums ={4,5,10};
-    Test("Test1", nums, 10, 2);
+    Test("Test3", nums, 10, 2);
 }
 
 void Test4()
 {
     std::vector<int> nums ={1,2,3,4,5,6,7};
     int target = 5;
-    Test("Test2", nums, target, 4);
+    Test("Test4", nums, target, 4);
 }
 
 void Test5()
@@ -205,9 +151,21 @@ void Test5()
     int target = -1;
     std::vector<int> nums ={10, 6, 4};
     target = 10;
-    Test("Test3", nums, target, 0);
+    Test("Test5.1", nums, target, 0);
     target = 4;
-    Test("Test4", nums, target, 2);
+    Test("Test5.2", nums, target, 2);
+}
+
+void Test6()
+{
+    int target = -1;
+    std::vector<int> nums ={10, 6, 4, 4, 2, 2};
+    target = 10;
+    Test("Test6.1", nums, target, 0);
+    target = 4;
+    Test("Test6.2", nums, target, 2);
+    target = 2;
+    Test("Test6.3", nums, target, 4);
 }
 
 int main()
@@ -219,6 +177,7 @@ int main()
     Test3();
     Test4();
     Test5();
+    Test6();
 
     return 0;
 

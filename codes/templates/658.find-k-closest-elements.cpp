@@ -47,13 +47,13 @@ public:
     //
     std::vector<int> findClosestElements1(std::vector<int>& arr, int k,int x)
     {
-        return std::vector<int>{};
+        return {};
     }
     std::vector<int> findClosestElements(std::vector<int>& arr, int k,int x)
     {
-        return std::vector<int>{};
+        return {};
     }
-   
+
     template <typename T>
     int printvector(const std::vector<T> &v)
     {
@@ -97,7 +97,7 @@ void Test(const std::string& testName, std::vector<int> & arr,int k,int x, std::
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
-const static int TEST_1    = 1;
+const static int TEST_1    = 0;
     if(TEST_0)
     {
         if (TEST_TIME)
@@ -163,6 +163,7 @@ void Test1()
     std::vector<int> arr ={1, 2, 3, 4, 5};
     Test("Test1.1",arr, 4,  3, std::vector<int>{1,2,3,4});
     Test("Test1.2",arr, 4, -1, std::vector<int>{1,2,3,4});
+    Test("Test1.3",arr, 3,  3, std::vector<int>{2,3,4});
 }
 void Test2()
 {
@@ -180,6 +181,8 @@ void Test3()
 
 void Test4()
 {
+    std::vector<int> arr ={1, 3, 8, 10, 15, 16,19,34, 56,68,79};
+    Test("Test4",arr, 3, 40,std::vector<int> {19,34,56});
 }
 
 void Test5()
