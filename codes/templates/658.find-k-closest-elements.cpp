@@ -181,12 +181,16 @@ void Test3()
 
 void Test4()
 {
-    std::vector<int> arr ={1, 3, 8, 10, 15, 16,19,34, 56,68,79};
-    Test("Test4",arr, 3, 40,std::vector<int> {19,34,56});
+    std::vector<int> arr ={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15};
+    Test("Test4.1",arr, 3, 10,std::vector<int> {9,10,11});
+    Test("Test4.2",arr, 3, 12,std::vector<int> {9,10,11});
+    Test("Test4.3",arr, 3, 3,std::vector<int> {2,3,4});
 }
 
 void Test5()
 {
+    std::vector<int> arr ={1, 3, 8, 10, 15, 16,19,34, 56,68,79};
+    Test("Test5",arr, 3, 40,std::vector<int> {19,34,56});
 }
 
 int main()

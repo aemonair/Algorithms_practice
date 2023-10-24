@@ -32,10 +32,36 @@
 #include <iostream>
 #include <queue>
 
-#define RESET   "\033[0m"
-#define BLACK   "\033[30m"      /* Black */
-#define RED     "\033[31m"      /* Red */
-#define GREEN   "\033[32m"      /* Green */
+//the following are UBUNTU/LINUX ONLY terminal color codes.
+#define     RESET   "\033[0m"
+#define     RED     "\033[31m"             /*      Red     */
+#define     CYAN    "\033[36m"             /*      Cyan    */
+#define     BLUE    "\033[34m"             /*      Blue    */
+#define     GREEN   "\033[32m"             /*      Green   */
+#define     WHITE   "\033[37m"             /*      White   */
+#define     BLACK   "\033[30m"             /*      Black   */
+#define     YELLOW  "\033[33m"             /*      Yellow  */
+#define     MAGENTA "\033[35m"             /*      Magenta */
+#define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
+#define BOLDYELLOW  "\033[1m\033[33m"      /* Bold Yellow  */
+#define BOLDBLACK   "\033[1m\033[30m"      /* Bold Black   */
+#define BOLDWHITE   "\033[1m\033[37m"      /* Bold White   */
+#define BOLDGREEN   "\033[1m\033[32m"      /* Bold Green   */
+#define BOLDBLUE    "\033[1m\033[34m"      /* Bold Blue    */
+#define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan    */
+#define BOLDRED     "\033[1m\033[31m"      /* Bold Red     */
+
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
 
 class Solution {
 public:
@@ -43,17 +69,12 @@ public:
     int findKthLargest(std::vector<int>& nums, int k)
     {
         std::priority_queue<int, std::vector<int>, std::greater<int>> pq;
-        for(auto num: nums)
-        {
-            pq.push(num);
-            std::cout <<  " push" << num << "top:" << pq.top() <<std::endl;
-            if(!pq.empty() )
-            {
-                if(pq.size() > k)
-                {
-                    std::cout << pq.top() << " pop" << std::endl;
-                    pq.pop();
-                }
+        for (auto & n: nums) {
+            if (pq.size() <= k || pq.top() < n) {
+                pq.push(n);
+            }
+            while (pq.size() > k) {
+                pq.pop();
             }
         }
         return pq.top();
@@ -61,47 +82,6 @@ public:
     int findKthLargest1(std::vector<int>& nums, int k)
     {
         return 0;
-    }
-///////////////////////////////////////////////////////////////
-    template <typename T>
-    int printvector(std::vector<T> v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", ";
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-    template <typename T>
-    int printstack(std::stack<T> s)
-    {
-        if (s.empty())
-        {
-            std::cout << "The stack is empty." << std::endl;
-            return 0;
-        }
-        std::cout <<  "The stack size is: " << s.size() << std::endl;
-        std::stack<T> tmp;
-        while (!s.empty())
-        {
-            std::cout << s.top() << ", ";
-            s.pop();
-        }
-        std::cout <<  std::endl;
-        return s.size();
     }
 ///////////////////////////////////////////////////////////////
 };
@@ -114,7 +94,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout <<testName << " begins: "<< std::endl;
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -123,8 +103,8 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "k:" << k << ",nums:" << std::endl;
-    solution.printvector(nums);
+    std::cout << "k:" << k << ",nums:" << nums << std::endl;
+    // solution.printvector(nums);
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;

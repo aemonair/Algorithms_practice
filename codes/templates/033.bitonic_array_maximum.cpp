@@ -42,8 +42,12 @@
 #define GREEN   "\033[32m"      /* Green */
 class Solution {
 public:
-    //
     int searchmax(std::vector<int>& nums)
+    {
+        return -1;
+    }
+    //
+    int searchmax1(std::vector<int>& nums)
     {
         return -1;
     }

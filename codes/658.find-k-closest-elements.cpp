@@ -158,7 +158,7 @@ public:
         std::cout << "left:" <<left << ",right:" << right << std::endl;
         return std::vector<int>(arr.begin()+left,arr.begin()+right);
     }
-    std::vector<int> findClosestElements(std::vector<int>& arr, int k,int x)
+    std::vector<int> findClosestElements2(std::vector<int>& arr, int k,int x)
     {
         int size = arr.size();
         int left = 0;
@@ -222,6 +222,35 @@ public:
         }
         return std::vector<int>(arr.begin() + left + 1, arr.begin() + right);
 #endif
+    }
+    std::vector<int> findClosestElements(std::vector<int>& arr, int k,int x)
+    {
+        int left = 0;
+        int right = arr.size() - k ;
+        std::cout << "left:" << left << ",right:" << right << std::endl;
+        // k长度的,起始位置可能是start～right中的某一个
+
+        while(left < right)
+        {
+            // 想找到left~right中的起始位置, 可以通过mid找到
+            // 可以通过判断 mid 和mid+k, 根据mid判断找到mid最接近x,则对应的left即为需要寻找的开始位置
+            int mid = left + (right-left)/2;
+            std::cout << "mid :" << mid  << ",arr[mid]:" << arr[mid] << ",arr[mid+k]:"<< arr[mid+k] << std::endl;
+            // x离mid+k更近;
+            // x在 区间 右边;left=mid+1
+            // x 离mid更近,
+            // 区间 左边;
+            if(x - arr[mid] > arr[mid+k] - x)
+            {
+                left = mid+1;
+            }
+            else
+            {
+                right = mid;
+            }
+            std::cout << "left:" << left << "arr[left]:" << arr[left] << ",right:" << right << ",arr[right]:" << arr[right]<< std::endl;
+        }
+        return std::vector<int>(arr.begin()+left, arr.begin()+left+k);
     }
 
     template <typename T>
@@ -350,10 +379,16 @@ void Test3()
 
 void Test4()
 {
+    std::vector<int> arr ={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15};
+    Test("Test4.1",arr, 3, 10,std::vector<int> {9,10,11});
+    Test("Test4.2",arr, 3, 12,std::vector<int> {9,10,11});
+    Test("Test4.3",arr, 3, 3,std::vector<int> {2,3,4});
 }
 
 void Test5()
 {
+    std::vector<int> arr ={1, 3, 8, 10, 15, 16,19,34, 56,68,79};
+    Test("Test5",arr, 3, 40,std::vector<int> {19,34,56});
 }
 
 int main()
