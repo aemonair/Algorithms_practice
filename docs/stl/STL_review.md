@@ -147,7 +147,7 @@ v.clear();v.erase(v.begin(),v.end())//清空
 vector<int>(v).swap(v);//利用swap收缩空间 利用拷贝构造初始匿名对象并交换 匿名对象自动释放 v指向新的收缩后内存
 v.reserve(10000)//预留空间 减少因空间不足动态增加产生的操作消耗
 vector<int>::reverse_iterator it = v.rbegin();//逆序迭代器
-vector<int>::iterator it = v.begin(); it = it + i;//支持随机访问 	
+vector<int>::iterator it = v.begin(); it = it + i;//支持随机访问
 ```
 ### 1.5.2 vector底层存储
 vector就是一个动态数组，里面有一个指针指向一片连续的内存空间，当空间不够装下数据时，会自动申请另一片更大的空间（一般是增加当前容量的50%或100%），然后把原来的数据拷贝过去，接着释放原来的那片空间；当释放或者删除里面的数据时，其存储空间不释放，仅仅是清空了里面的数据。
@@ -248,7 +248,7 @@ int main() {
 
     return 0;
 }
-```  
+```
 ### 1.5.9 push_back 和 emplace_back
 `push_back` 和 `emplace_back` 是C++标准库中用于向容器中添加元素的函数，它们的区别主要体现在两个方面：语义和效率。
 
@@ -288,12 +288,12 @@ emplace_back：由于直接在容器内部构造对象，避免了拷贝（或�
 
 int main() {
     std::vector<int*> myVector;
-   
+
     int* ptr = new int(10);
 
     // 无法使用 emplace_back 添加指针对象
     // myVector.emplace_back(ptr);  // 编译错误
-   
+
     // 只能使用 push_back 添加指针对象
     myVector.push_back(ptr);
 
@@ -686,7 +686,36 @@ RB-TREE用二分查找法，时间复杂度为logn，所以从10000增到20000�
 二分法的时间复杂度
 N/2 N/4 ... 设置x次找到，N*(1/2)^x = 1，x=log2N
 log2n
+### 1.12.8 multimap 支持[]吗？
+multimap 支持 [] 下标操作，但与 map 不同，它返回一个迭代器而不是一个值。当使用 [] 下标操作时，它会返回指向第一个匹配键的迭代器。由于 multimap 可能包含多个具有相同键的元素，这个操作允许你访问这些元素中的第一个。
 
+如果你希望获取所有具有相同键的元素，你可以使用迭代器来遍历它们，或者使用范围循环来处理它们。这允许你处理所有与特定键相关的值。
+
+以下是一个示例，演示如何使用 multimap 进行 [] 下标操作：
+
+```cpp
+#include <iostream>
+#include <map>
+
+int main() {
+    std::multimap<int, std::string> myMultiMap;
+    myMultiMap.insert({1, "apple"});
+    myMultiMap.insert({1, "banana"});
+    myMultiMap.insert({2, "cherry"});
+
+    // 使用 [] 下标操作获取第一个匹配键的元素
+    auto it = myMultiMap[1];
+    std::cout << "First element with key 1: " << it->second << std::endl;
+
+    // 遍历所有匹配键的元素
+    for (auto range = myMultiMap.equal_range(1); range.first != range.second; ++range.first) {
+        std::cout << "Element with key 1: " << range.first->second << std::endl;
+    }
+
+    return 0;
+}
+```
+上述示例中，myMultiMap[1] 返回的是指向第一个匹配键 1 的元素的迭代器，而遍历匹配键的元素允许你获取所有相关值。
 ## 1.13 map和set的区别
 ### 1.13.0 map和set的区别
  - 相同：
@@ -794,7 +823,7 @@ int main() {
     std::for_each(numbers.begin(), numbers.end(), [](int number) {
         std::cout << number << " ";
     });
-   
+
     // 使用 lambda 表达式
     std::for_each(numbers.begin(), numbers.end(), [](int& number) {
         number *= 2;

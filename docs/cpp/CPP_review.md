@@ -457,7 +457,7 @@ const对象默认为文件局部变量（详见#1.2.5.3 const对象默认为文�
     const int* const d; //指向const对象的const指针。
 
   ```
- 
+
   ```cpp
 
     int a = 10;
@@ -790,7 +790,7 @@ const函数承诺，不会修改数据成员，能访问const和非const数据�
 - this指针是某个具体对象的地址，因此**static成员函数没有this指针**。
 - 而函数中的const其实就是用来**修饰this指针**的，意味this指向的内容不可变，所以const不能用来修饰static成员函数
 - 静态成员函数不含有 this 指针，即不能实例化，const 成员函数必须具体到某一实例。
- 
+
 ### 1.2.8 构造析构函数不能是const
 ```cpp
     A() const:b(0){};
@@ -1141,7 +1141,7 @@ thread2(volatile Type* value) {
 - 因此 (2) 处对两个 volatile-qualified 变量进行访问时，编译器不会交换他们的顺序。看起来就万事大吉了。
 - 然而，volatile 只作用在编译器上，但我们的代码最终是要运行在 CPU 上的。尽管编译器不会将 (2) 处换序，但 CPU 的乱序执行（out-of-order execution）已是几十年的老技术了；
   - 在 CPU 执行时，value 和 flag 的赋值仍有可能是被换序了的（store-store）。
- 
+
 #### 1.4.3.4 分析多线程
 - 一是 flag 相关的代码块不能被轻易优化消失，二是要保证线程同步的 happens-before 语义。
 - 但本质上，设计使用 flag 本身也就是为了构建 happens-before 语义。
@@ -1174,7 +1174,7 @@ thread2(Type* value) {
     return;
 }
 ```
-- 由于对 std::atomic<bool> 的操作是原子的，同时构建了良好的内存屏障，因此整个代码的行为在标准下是良定义的。
+- 由于对 std::atomic\<bool\> 的操作是原子的，同时构建了良好的内存屏障，因此整个代码的行为在标准下是良定义的。
 - 除此之外，还可以结合使用互斥量和条件变量。
 
 ```cpp
@@ -1206,11 +1206,12 @@ thread2(Type* value) {
     return;
 }
 ```
+
 - 这样一来，由线程之间的同步由互斥量和条件变量来保证，同时也避免了 while (true) 死循环空耗 CPU 的情况;
 
-- std::atomic<bool> 和原生的 bool 不同之处不仅在于对 std::atomic<bool> 的读写操作是有原子性保证的，还在于 std::atomic<bool> 提供了内存屏障。
-- 其中 std::atomic<bool> 的 operator= 运算符，相当于
-- std::atomic<bool>::store(bool flag, std::memory_order_seq_cst)。这里保证了不会乱序
+- `std::atomic<bool>` 和原生的 bool 不同之处不仅在于对 `std::atomic<bool>` 的读写操作是有原子性保证的，还在于 `std::atomic<bool>` 提供了内存屏障。
+- 其中 `std::atomic<bool>` 的 `operator=` 运算符，相当于
+- `std::atomic<bool>::store(bool flag, std::memory_order_seq_cst)`。这里保证了不会乱序
 
 ### 1.4.4 volatile问题( 一个参数既是const还可以是volatile吗?一个指针可以是volatile吗?square(volatile int *ptr))
 #### 1.4.4.1 一个参数既是const还可以是volatile吗？为什么？
@@ -1816,9 +1817,9 @@ A::_ZTV1A: 4 entries
 8     (int (*)(...))(& _ZTI1A)
 16    (int (*)(...))A::get_a
 24    (int (*)(...))A::get_normal
-               
-Class A        
-   size=16 align=8                                                                                                                                                                                              
+
+Class A
+   size=16 align=8
    base size=12 base align=8
 A (0x0x7f6c336008a0) 0
     vptr=((& A::_ZTV1A) + 16)
@@ -1843,8 +1844,8 @@ B::_ZTV1B: 3 entries
 0     (int (*)(...))0
 8     (int (*)(...))(& _ZTI1B)
 16    (int (*)(...))B::get_b
-               
-Class B        
+
+Class B
    size=8 align=8
    base size=8 base align=8
 B (0x0x7f6c336009c0) 0 nearly-empty
@@ -1876,8 +1877,8 @@ C::_ZTV1C: 7 entries
 32    (int (*)(...))-16
 40    (int (*)(...))(& _ZTI1C)
 48    (int (*)(...))B::get_b
-           
-Class C    
+
+Class C
    size=24 align=8
    base size=24 base align=8
 C (0x0x7f6c33628230) 0
@@ -1923,8 +1924,8 @@ D::_ZTV1D: 8 entries
 40    (int (*)(...))-16
 48    (int (*)(...))(& _ZTI1D)
 56    (int (*)(...))B::get_b
-          
-Class D   
+
+Class D
    size=24 align=8
    base size=24 base align=8
 D (0x0x7f6c33628310) 0
@@ -1960,11 +1961,21 @@ vtable for 'A' @ 0x555555755be0 (subobject @ 0x7fffffffe3b8):
         /* struct A                   <ancestor>; */     /* 4294967295    16 */
         /* XXX last struct has 4 bytes of padding */
         /* struct B                   <ancestor>; */     /* 4294967295     8 */
+(gdb) info vtbl e
+vtable for 'E' @ 0x555555755bb0 (subobject @ 0x7fffffffe3b0):
+[0]: 0x555555554fe0 <B::get_b()>
+[1]: 0x555555555000 <E::get_e()>
 
+vtable for 'A' @ 0x555555755be0 (subobject @ 0x7fffffffe3b8):
+[0]: 0x555555554fbe <A::get_a()>
+[1]: 0x555555554fd0 <A::get_normal()>
+(gdb) p e
+$10 = {<A> = {_vptr.A = 0x555555755be0 <vtable for E+88>, a = -6992}, <B> = {_vptr.B = 0x555555755bb0 <vtable for E+40>}, <No data fields>}
+(gdb)
 ```
 ### 1.7.8 内存对齐指定字节
 * `#pragma pack(1)`: 指定 `1` 字节对齐
- 
+
 ## 1.8 assert
 ### 1.8.0 assert
 
@@ -4303,13 +4314,13 @@ void bar(int& ref) {
   - 全局/静态。
   - 常量。不允许修改。
   - 栈。编译器管理。堆。程序员决定。
- 
+
 ### 2.4.2 C语言是怎么进行函数调用的
   - call函数调用，ret返回
   - 记录 被调用函数下一地址压入栈；
   - 参数由右向左依次入栈；
   - 64位前六个参数可以通过寄存器；
- 
+
 ### 2.4.3 C++函数返回值
   - 生成一个临时变量，把它的引用作为函数参数传入函数内。
   - 1.保存当前执行函数的状态（执行到了哪里，各个参数的值等）；
@@ -4440,7 +4451,7 @@ int main()
 
     typedef void (* PF1) (int);
     typedef int (* PF2) (int,char *);
-    PF1 pf1; 
+    PF1 pf1;
     PF2 pf2;
     pf2 = reinterpret_cast<PF2>(pf1);  // 两个不同类型的函数指针之间可以互相转换
 }
@@ -4514,7 +4525,7 @@ Runtime Type IdentificationI
 - 右值引用是C++11中引入的新特性 , 它实现了转移语义和精确传递。它的主要目的有两个方面：
 - 消除两个对象交互时不必要的对象拷贝，节省运算存储资源，提高效率。
 - 能够更简洁明确地定义泛型函数。
- 
+
 - 左值和右值的概念：
   - 左值：能对表达式取地址、或具名对象/变量。一般指表达式结束后依然存在的持久对象。
   - 右值：不能对表达式取地址，或匿名对象。一般指表达式结束就不再存在的临时对象。
@@ -5668,15 +5679,16 @@ int main()
 //[0]: 0x555555555a44 <Derived::print()>
 ```
 #### - 布局
-<pre>
+
+\<pre>
 (gdb) p d
-$4 = {<Base> = {_vptr.Base = <span style="background-color:#8A2BE2;">0x555555756c90</span> <vtable for Derived+16>, baseI = 200}, derivedI = 2}
+$4 = {\<Base> = {_vptr.Base = <span style="background-color:#8A2BE2;">0x555555756c90</span> <vtable for Derived+16>, baseI = 200}, derivedI = 2}
 
 (gdb) p b
 $3 = {_vptr.Base = <span style="background-color: #00BFFF;">0x555555756cc8</span> <vtable for Base+16>, baseI = 1000}
-
+```
 (gdb) p typeid(b)
-$1 = {_vptr.type_info = <font color="HotPink">0x7ffff7dc67f8</font> <vtable for __cxxabiv1::__class_type_info+16>, __name = <font color="DeepPink">0x555555555e99</font> <typeinfo name for Base> "4Base"}
+$1 = {\_vptr.type_info = <font color="HotPink">0x7ffff7dc67f8</font> <vtable for __cxxabiv1::__class_type_info+16>, __name = <font color="DeepPink">0x555555555e99</font> <typeinfo name for Base> "4Base"}
 
 (gdb) p typeid(d)
 $2 = {_vptr.type_info = <font color="Orange">0x7ffff7dc7438</font> <vtable for __cxxabiv1::__si_class_type_info+16>, __name = <font color= "#ff6600;">0x555555555e90</font> <typeinfo name for Derived> "7Derived"}
@@ -5734,7 +5746,9 @@ $4 = {_vptr.type_info = <font color="Lime">0x7ffff7dc73d8</font> <vtable for __c
                                                    0x555555756d20 &lt;_ZTI7Derived+16&gt;:  &lt;_ZTI4Base&gt;                                   <span style="background-color:#FFD700">0x555555756d28</span>
                                                    <span style="background-color:#FFD700">0x555555756d28</span> &lt;_ZTI4Base&gt;:        &lt;_ZTVN10__cxxabiv117__class_type_infoE+16&gt;    <font color="HotPink">0x7ffff7dc67f8</font>
                                                    0x555555756d30 &lt;_ZTI4Base+8&gt;:      &lt;_ZTS4Base&gt;                                   <font color="DeepPink">0x555555555e99 52 '4'  66 'B'  97 'a'  115 's' 101 'e' 0 '\000'</font>
+```
 </pre>
+
 ### 5. 多继承无虚继承无虚函数
 #### - 代码/Codes
 ```cpp
@@ -6426,7 +6440,7 @@ $24 = {<A> = {_vptr.A = 0x555555756c70 <vtable for C+16>, m_data1 = 0, m_data2 =
 $25 = {<A> = {_vptr.A = 0x555555756bb8 <vtable for CD+16>, m_data1 = 0, m_data2 = 0}, m_data1 = 0, m_data4 = 0}
 (gdb) p *pdd
 $26 = {<A> = {_vptr.A = 0x555555756be0 <vtable for CD+56>, m_data1 = 0, m_data2 = 0}, m_data5 = 0}
-              
+
                                                                   0x555555756ba8 <_ZTV2CD>:          +----------------------------------------+
                                                                                                      |       offset   :   0x0                 |
                                                                   0x555555756bb0 <_ZTV2CD+8>:        +----------------------------------------+
@@ -7731,10 +7745,8 @@ C++中的内存泄漏问题通常出现在以下几个方面：
   - valgrind --leak-check=full ./a.out
 ### 5.8.4 valgrind 例子
 假设我们有以下的 C++ 代码：
-
 ```cpp
 #include <iostream>
-
 void leakingnew()
 {
     int *ptr = new int[10];
@@ -7743,7 +7755,6 @@ void leakingFunction()
 {
     int* ptr = new int(10);
 }
-
 int main()
 {
     for (int i = 0; i < 5; i++)
@@ -7755,6 +7766,7 @@ int main()
     return 0;
 }
 ```
+
 这段代码中，leakingFunction() 函数在每次被调用时都会动态分配一个 int 类型的内存块，并没有进行释放，导致内存泄漏。
 
 我们可以使用 Valgrind 来检测该程序的内存泄漏。请确保你已经安装了 Valgrind。
@@ -8037,4 +8049,51 @@ public:
 一个对象应该对其他对象有尽可能少的了解。一个类应该只与其直接的朋友发生交互，而避免与陌生的类发生直接的交互。通过减少类之间的耦合性，可以提高系统的可维护性和可扩展性。
 
 
+### 5.15 堆
 
+在C++中，您可以使用标准库中的`std::priority_queue`来定义堆（优先队列），并且可以通过指定比较器来控制堆是最大堆还是最小堆。
+
+1. **最大堆**（Max Heap）：最大的元素位于堆的顶部，可以使用默认的比较器或自定义比较器来实现。
+
+
+```cpp
+#include <queue>
+std::priority_queue<int> maxHeap; // 默认为最大堆
+// 或者使用自定义比较器
+std::priority_queue<int, std::vector<int>, std::less<int>> maxHeapCustomComparator;
+bool operator()(int a, int b) { return a < b; }
+```
+
+
+2. **最小堆**（Min Heap）：最小的元素位于堆的顶部，需要使用自定义比较器。
+
+```cpp
+#include <queue>
+std::priority_queue<int, std::vector<int>, std::greater<int>> minHeap; // 自定义比较器为std::greater<int>
+bool operator()(int a, int b) { return a > b; }
+```
+
+### 5.16 C++ int / long
+在C++中，int的大小通常取决于编译器和操作系统的位数。
+通常情况下，int是4字节（32位）大小，因此可以表示的最大整数是2^31 - 1，最小整数是-2^31。
+
+这是因为int是带符号的整数类型，其中一位用于表示符号（正或负），所以可以表示的范围是从-2^31到2^31 - 1，包括0。如果你需要更大的整数范围，可以考虑使用long int或long long int，它们通常是8字节（64位）大小，可以表示更大的整数范围。
+
+`long` 是64位的，因此可以表示的最大整数是 2^63 - 1
+
+2^32 = 4,294,967,296
+2^31 -1 = 2,147,483,647
+2^64 = 18,446,744,073,709,551,616(1.844674407E19)
+2^63 -1 = 9,223,372,036,854,775,807
+1. 2^32 表示 32 位二进制数的最大值，也称为 32 位整数。它的值是 4,294,967,296。这是无符号整数的最大值，如果是有符号整数，其范围通常是从 -2,147,483,648 到 2,147,483,647。这在计算机中常用于表示内存地址或存储整数数据。
+
+2. 2^31-1 表示 32 位二进制数的最大有符号整数值，即 2,147,483,647。这是因为最高位通常用于表示数的正负，所以有符号整数的范围是从 -2,147,483,648 到 2,147,483,647。
+
+3. 2^64 表示 64 位二进制数的最大值，也称为 64 位整数。它的值是 18,446,744,073,709,551,616。这提供了更大的数值范围，通常用于表示非常大的整数或用于计算很大的数值。
+
+4. 2^63-1 表示 64 位二进制数的最大有符号整数值，即 9,223,372,036,854,775,807。这是因为最高位通常用于表示数的正负，所以有符号整数的范围是从 -9,223,372,036,854,775,808 到 9,223,372,036,854,775,807。
+5. 一个32位整数可以表示的最大值是2^31 - 1，或者约为21亿（2,147,483,647）。这是因为一个32位整数的最高位通常被用来表示正负号（0表示正数，1表示负数），所以实际可用的位数是31位。因此，一个32位整数可以正常表示10^9（10亿），但不能正常表示10^10（100亿），因为10^10大于2,147,483,647，超出了32位整数的表示范围。
+
+
+2,147,483,647
+1,000,000,000
