@@ -34,6 +34,7 @@
 #include <vector>
 #include <string>
 #include <queue>
+#include <cmath>
 #include <map>
 #include <set>
 
@@ -48,7 +49,7 @@ public:
     {
         return 0;
     }
-   
+
     template <typename T>
     int printvector(const std::vector<T> &v)
     {
@@ -102,7 +103,7 @@ const static int TEST_1    = 1;
         }
 
 
-        std::cout << "num:" << num << " (" << std::bitset<sizeof(long)>(num) << ")" <<  std::endl;
+        std::cout << "num:" << num << " (" << std::bitset<8*sizeof(num)>(num) << ")" <<  std::endl;
         int result = solution.findComplement(num);
         std::cout << "result:" << result <<  std::endl;
 
@@ -131,19 +132,23 @@ void Test1()
 }
 void Test2()
 {
-    Test("Test1", 1, 0);
+    Test("Test2", 1, 0);
 }
 
 void Test3()
 {
+    Test("Test3", pow(2,16) -1, 0);
 }
 
 void Test4()
 {
+    Test("Test4", pow(2,31)-1, 0);
 }
 
 void Test5()
 {
+    Test("Test5", pow(2,10)-pow(2,6)-pow(2,3), pow(2,0) + pow(2,1) + pow(2,2)+pow(2,6) );
+    // 0001000111
 }
 
 int main()

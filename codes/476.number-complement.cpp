@@ -1,46 +1,40 @@
 /*
  *************************************
- * 832. Flipping an Image
+ * 476. Number Complement
  * Easy
  *************************************
- * Given an n x n binary matrix image, flip the image horizontally, then invert it, and return the resulting image.
- *
- * To flip an image horizontally means that each row of the image is reversed.
- *
- * For example, flipping [1,1,0] horizontally results in [0,1,1].
- * To invert an image means that each 0 is replaced by 1, and each 1 is replaced by 0.
- *
- * For example, inverting [0,1,1] results in [1,0,0].
+ * Given a positive integer num, output its complement number. The complement strategy is to flip the bits of its binary representation.
  *************************************
  * Example 1:
  *
- * Input: image = [[1,1,0],[1,0,1],[0,0,0]]
- * Output: [[1,0,0],[0,1,0],[1,1,1]]
- * Explanation: First reverse each row: [[0,1,1],[1,0,1],[0,0,0]].
- * Then, invert the image: [[1,0,0],[0,1,0],[1,1,1]]
+ * Input: num = 5
+ * Output: 2
+ * Explanation: The binary representation of 5 is 101 (no leading zero bits), and its complement is 010. So you need to output 2.
  *************************************
  * Example 2:
  *
- * Input: image = [[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]]
- * Output: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
- * Explanation: First reverse each row: [[0,0,1,1],[1,0,0,1],[1,1,1,0],[0,1,0,1]].
- * Then invert the image: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+ * Input: num = 1
+ * Output: 0
+ * Explanation: The binary representation of 1 is 1 (no leading zero bits), and its complement is 0. So you need to output 0.
  *************************************
  * Constraints:
  *
- * n == image.length
- * n == image[i].length
- * 1 <= n <= 20
- * images[i][j] is either 0 or 1.
+ * The given integer num is guaranteed to fit within the range of a 32-bit signed integer.
+ * num >= 1
+ * You could assume no leading zero bit in the integer’s binary representation.
+ * This question is the same as 1009: https://leetcode.com/problems/complement-of-base-10-integer/
  *************************************
  */
 
+#include <unordered_map>
 #include <algorithm>
 #include <iostream>
+#include <bitset>
 #include <chrono>
 #include <vector>
 #include <string>
 #include <queue>
+#include <cmath>
 #include <map>
 #include <set>
 
@@ -51,43 +45,63 @@
 class Solution {
 public:
     //
-    std::vector<std::vector<int>> flipAndInvertImage(std::vector<std::vector<int>>& image)
+    int findComplement(int num)
     {
-        std::vector<std::vector<int>> result;
-        return result; //std::vector<std::vector<int>>{{}};
+        int n = num;
+        std::bitset<8*sizeof(num)> binaryNumber(num);
+        std::cout << binaryNumber << std::endl;
+
+        int count = 0;
+        while(n > 0){
+            // n /=2;
+            n = n >> 1;
+            ++count;
+        }
+        std::cout << count << std::endl;
+        int all = pow(2,count)-1;
+        std::cout << all << std::endl;
+        std::cout << "以二进制输出: " << std::bitset<sizeof(all) * 8>(all) << std::endl;
+        std::cout << "以二进制输出: " << std::bitset<sizeof(all) * 8>(all^num) << std::endl;
+        return all ^ num;
+
+        int x = 1;
+        while(count --) {
+            x = x<<1;
+        }
+        std::cout <<  x << std::endl;
+        return 0;
     }
 
     template <typename T>
     int printvector(const std::vector<T> &v)
     {
         //std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  ";// << std::endl;
+        std::cout << "[  " ;//<< std::endl;
         for (auto iter = v.begin(); iter != v.end(); iter++ )
         {
             std::cout << *iter << ", ";//<<std::endl;
         }
-        std::cout << "\b\b ]" << std::endl;
+        std::cout << "\b\b]" << std::endl;
         return v.size();
     }
 
     template <typename T>
     int printvectorvector(const std::vector<T> &v)
     {
-        //std::cout << "this vector size: " << v.size() << std::endl;
-        std::cout << "{ " << std::endl;
+        std::cout << "this vector size: " << v.size() << std::endl;
         for (auto iter = v.begin(); iter != v.end(); iter++ )
         {
             printvector( *iter );
         }
-        std::cout << " }" << std::endl;
+        std::cout << std::endl;
         return v.size();
     }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-        std::vector<std::vector<int>> & image,
-        std::vector<std::vector<int>> expected)
+        int   num,
+        int   expected)
 {
     if(testName.length() > 0)
     {
@@ -95,7 +109,6 @@ void Test(const std::string& testName,
     }
 
     Solution solution;
-    solution.printvectorvector(image);
 
     auto start = std::chrono::system_clock::now();
     decltype(start) end ;
@@ -111,9 +124,10 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        std::vector<std::vector<int>> && result = solution.flipAndInvertImage(image);
-        std::cout << "result:" <<  std::endl;
-        solution.printvectorvector(result);
+
+        std::cout << "num:" << num << " (" << std::bitset<8*sizeof(num)>(num) << ")" <<  std::endl;
+        int result = solution.findComplement(num);
+        std::cout << "result:" << result <<  std::endl;
 
         if(result == expected)
         {
@@ -122,8 +136,7 @@ const static int TEST_1    = 1;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvectorvector(expected);
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -137,27 +150,27 @@ const static int TEST_1    = 1;
 }
 void Test1()
 {
-    std::vector<std::vector<int>> image ={{1,1,0},{1,0,1},{0,0,0}};
-    Test("Test1",image, std::vector<std::vector<int>>{{1,0,0},{0,1,0},{1,1,1}});
+    Test("Test1", 5, 2);
 }
 void Test2()
 {
-    std::vector<std::vector<int>> image ={{1,1,0,0},{1,0,0,1},{0,1,1,1},{1,0,1,0}};
-    Test("Test1",image, std::vector<std::vector<int>>{{1,1,0,0},{0,1,1,0},{0,0,0,1},{1,0,1,0}});
+    Test("Test2", 1, 0);
 }
 
 void Test3()
 {
-    std::vector<std::vector<int>> image ={{}};
-    Test("Test2",image, std::vector<std::vector<int>> {{}});
+    Test("Test3", pow(2,16) -1, 0);
 }
 
 void Test4()
 {
+    Test("Test4", pow(2,31)-1, 0);
 }
 
 void Test5()
 {
+    Test("Test5", pow(2,10)-pow(2,6)-pow(2,3), pow(2,0) + pow(2,1) + pow(2,2)+pow(2,6) );
+    // 0001000111
 }
 
 int main()
@@ -173,4 +186,3 @@ int main()
     return 0;
 
 }
-

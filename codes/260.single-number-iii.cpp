@@ -46,38 +46,44 @@
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
+
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+
 class Solution {
 public:
     //
     std::vector<int> singleNumber(std::vector<int>& nums)
     {
-        return std::vector<int>{};
-    }
-   
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        //std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;//<< std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", ";//<<std::endl;
+        int x1x2 = 0;
+        for (auto &num: nums) {
+            x1x2 ^= num;
         }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
+        int findone = 1;
+        while ((findone & x1x2)== 0) {
+            findone = findone << 1;
+        }
+        int x1 = 0;
+        int x2 = 0;
+        for (auto &num: nums) {
+            if ((num & findone) != 0) {
+                x1 ^= num;
+            } else {
+                x2 ^= num;
+            }
+        }
+        return std::vector<int>{x1,x2};
     }
 
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
 };
 
 // ==================== TEST Codes====================
@@ -91,7 +97,8 @@ void Test(const std::string& testName,
     }
 
     Solution solution;
-    solution.printvector(nums);
+    std::cout << "nums:" << nums << std::endl;
+    // solution.printvector(nums);
 
     auto start = std::chrono::system_clock::now();
     decltype(start) end ;
@@ -109,8 +116,8 @@ const static int TEST_1    = 1;
 
 
         std::vector<int> && result = solution.singleNumber(nums);
-        std::cout << "result:" <<  std::endl;
-        solution.printvector(result);
+        std::cout << "result:" << result << std::endl;
+        // solution.printvector(result);
 
         if(result == expected)
         {
@@ -119,8 +126,8 @@ const static int TEST_1    = 1;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvector(expected);
+            std::cout << RED << "expected:" << expected << std::endl;
+            //solution.printvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -161,7 +168,6 @@ void Test5()
 
 int main()
 {
-    Solution solution;
 
     Test1();
     Test2();

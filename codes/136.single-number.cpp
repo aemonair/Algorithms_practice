@@ -42,6 +42,19 @@
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
+#define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
+
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
 
 class Solution {
 public:
@@ -49,54 +62,11 @@ public:
     int singleNumber(std::vector<int> &nums)
     {
         int res = 0;
+        for (auto x: nums) {
+            res ^= x;
+        }
         return res;
     }
-////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    int printvector(std::vector<T> v)
-    {
-        //std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  ";
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", ";
-        }
-        std::cout << "\b\b  ]";
-        std::cout << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printstack(std::stack<T> s)
-    {
-        if (s.empty())
-        {
-            std::cout << "The stack is empty." << std::endl;
-            return 0;
-        }
-        std::cout <<  "The stack size is: " << s.size() << std::endl;
-        std::stack<T> tmp;
-        while (!s.empty())
-        {
-            std::cout << s.top() << ", ";
-            s.pop();
-        }
-        std::cout <<  std::endl;
-        return s.size();
-    }
-    template <typename T>
-    int printvectorvector(std::vector<T> v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << "[";
-            printvector( *iter );
-        }
-        std::cout <<  std::endl;
-        return v.size();
-    }
-////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 };
 
@@ -107,7 +77,9 @@ void Test(const std::string& testName,
         )
 {
     if(testName.length() > 0)
-        std::cout <<testName << " begins: "<< std::endl;
+    {
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
+    }
 
     Solution solution;
 
@@ -115,8 +87,8 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "nums:" << std::endl;
-    solution.printvector(nums);
+    std::cout << "nums:" << nums << std::endl;
+    // solution.printvector(nums);
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
