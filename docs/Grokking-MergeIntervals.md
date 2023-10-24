@@ -4,11 +4,11 @@
 
 [986.interval-list-intersections_区间列表的交集](<986.interval-list-intersections_区间列表的交集.md>)
 
-[252.Meeting_Rooms 会议室](<252.Meeting_Rooms 会议室.md>)
+[252.meeting_rooms_会议室](252.meeting_rooms_会议室.md)
 
-[253.Meeting_Rooms_II_会议室II](<253.Meeting_Rooms_II_会议室II.md>)
+[253.meeting_rooms_ii_会议室II](253.meeting_rooms_ii_会议室II.md)
 
-[253.124554.Maximum_CPU_Load_最大CPU加载](<253.124554_Maximum_CPU_Load_最大CPU加载.md>)
+[253.124554.maximum_cpu_load_最大CPU加载](253.124554_maximum_cpu_load_最大CPU加载.md)
 
 [759.employee-free-time_员工空闲时间](<759.employee-free-time_员工空闲时间.md>)
 
