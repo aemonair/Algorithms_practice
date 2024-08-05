@@ -2,7 +2,7 @@
 # 1. STL
 - C++ Standard Library C++标准库
 - Standard Template Library STL标准模板库
-
+《C++标准程序库》
 ## 1.1 六大部件
 ### 1.1.0 六大部件
 - 容器（container）、
@@ -105,11 +105,13 @@ struct random_access_iterator_tag:public bidirectional_iterator_tag{};
 直接使用 高复用性 高性能 高移植性 数据和算法分离，利用迭代器进行沟通
 ### 1.4.2 iterator使用
 1. STL容器中只有顺序容器和关联容器支持迭代器遍历，行为类似于指针，用于指向容器内的元素，并通过解引用*符号来获取元素。
-2. 所有容器的迭代器都支持==和!=运算符；一般都支持++和--运算符（forward_list不支持--运算符）；除了无序关联容器以外，其它容器的迭代器均支持<, <=, >, >=运算符。
-3. 一个迭代器范围由一对迭代器表示，第一个迭代器指向范围内第一个元素，第二个迭代器指向范围内最后一个元素的下一个位置，是一个左闭右开区间[begin, end)。如果begin和end相等，则范围为空；如果begin和end不等，则范围至少包含一个元素，且begin指向第一个元素；begin递增若干次可以==end。
-4. 每种容器都有指向首元素的begin()和指向尾后位置的end()迭代器，类型类似于vector<int>::iterator；另外还有对应的const版本的迭代器cbegin()和cend()，类型类似于vector<int>::const_iterator。
+2. 所有容器的迭代器都支持 == 和!=运算符；一般都支持++和--运算符（forward_list不支持--运算符）；除了无序关联容器以外，其它容器的迭代器均支持<, <=, >, >=运算符。
+3. 一个迭代器范围由一对迭代器表示，第一个迭代器指向范围内第一个元素，第二个迭代器指向范围内最后一个元素的下一个位置，是一个左闭右开区间`[ begin, end)`。如果begin和end相等，则范围为空；如果begin和end不等，则范围至少包含一个元素，且begin指向第一个元素；begin递增若干次可以 == end。
+4. 每种容器都有指向首元素的begin()和指向尾后位置的end()迭代器，类型类似于`vector<int>::iterator`；另外还有对应的const版本的迭代器cbegin()和cend()，类型类似于`vector<int>::const_iterator`。
 5. 反向迭代器，仅能反向迭代的容器支持。rbegin()指向末尾的第一个元素，rend()指向首元素的前一个位置，crbegin()和crend()分别为对应的const版本。类型为reverse_iterator以及其const版本const_reverse_iterator。
+
 ### 1.4.3 容器支持的迭代器
+
 |                容器名称                | 支持的迭代器类型 |
 | ------------------------------------- | -------------- |
 | vector                                | 随机访问迭代器   |
@@ -151,6 +153,10 @@ vector<int>::iterator it = v.begin(); it = it + i;//支持随机访问
 ```
 ### 1.5.2 vector底层存储
 vector就是一个动态数组，里面有一个指针指向一片连续的内存空间，当空间不够装下数据时，会自动申请另一片更大的空间（一般是增加当前容量的50%或100%），然后把原来的数据拷贝过去，接着释放原来的那片空间；当释放或者删除里面的数据时，其存储空间不释放，仅仅是清空了里面的数据。
+
+当 std::vector 需要扩容但未能成功申请到足够的内存时，它会抛出一个 std::bad_alloc 异常。这是因为 std::vector 使用连续的内存块来存储其元素，以保证随机访问的性能。当向 std::vector 添加元素，而现有的内存空间不足以容纳新元素时，std::vector 将尝试重新分配一块更大的内存区域。
+
+std::vector 的扩容策略通常是在当前容量的基础上增加一个固定的比例（如两倍），以减少频繁的内存重新分配。但是，如果在尝试重新分配内存时，操作系统或运行环境无法提供所需的内存资源，std::vector 的构造函数、插入函数（如 push_back 或 resize）或任何可能触发内部重新分配的操作都会失败，并抛出 std::bad_alloc 异常。
 ### 1.5.3 自增长机制
 当已经分配的空间不够装下数据时，分配双倍于当前容量的存储区，把当前的值拷贝到新分配的内存中，并释放原来的内存。
 ### 1.5.4 begin和end指向最后一个的后面位置
@@ -191,7 +197,7 @@ int main() {
 - n个元素，m倍增因子
   * 假定有 n 个元素,倍增因子为 m。那么完成这 n 个元素往一个 vector 中的push_back​操作，需要重新分配内存的次数大约为 logm(n)，第 i 次重新分配将会导致复制 m^i (也就是当前的vector.size() 大小)个旧空间中元素，因此 n 次 push_back操作所花费的总时间约为 n*m/(m - 1):
   * n个元素，n次操作 n*m/(m - 1)/n 变成 m/(m-1)一个常量
-  * vector ,m==2,n个元素总时间 2*n/(2-1);
+  * vector ,m== 2,n个元素总时间 2*n/(2-1);
 - 算法导论方法
   * 假设现在 capacity() == size() == N ，那么
   * 后 1/2 N 个元素拷贝了1次，是 push_back() 直接拷贝的。
@@ -477,7 +483,11 @@ multiset容器 和set用法相同 底层都是红黑树 但允许键值重复
 ```cpp
 set<T> s;
 s.insert(i);//插入数据 内部自动排好序 唯一插入方式
-s.erase(elem);//删除elem的元素
+pair<iterator, bool> insert(int val); insert的返回值；迭代器+插入成功
+s.erase(elem);//删除elem的元素，返回0或者1；
+set.erase(std::prev(set.end())) // 删除最大元素
+b.erase(b.find(2), b.find(4)) // 删除[2,4)之间的元素,如果不存在2则会出错，end()~find(4)
+b.erase(b.lower_bound(2), b.upper_bound(4)); // 删除[2,4]之间的元素
 s.find(elem);//存在返回对应元素的迭代器（*pos可以取找到的值） 不存在返回end()迭代器
 s.count(elem);//找elem个数 对于set要么1 要么0
 set<int>::iterator res = s.lower_bound(elem);//返回第一个key>=elem元素的迭代器
@@ -486,9 +496,13 @@ pair<set<int>::iterator,set<int>::iterator> res = s.equal_range(elem);//返回�
 res.first//lower_bound迭代器
 res.second//upper_bound迭代器
 pair<set<int>::iterator,bool> res = s.insert(i);//res.second为bool体现是否插入成功
+b_it = std::next(a_it,3) 修改迭代器后返回，返回向后的三个迭代器，a_it不变,不会改变原迭代器
+`d::next(it, -3)` 相当于 `it - 3`。还可以用另一个专门的函数 `std::prev(it, 3)`
+std::advance(a_it,3) a_it向后移动三个迭代器，没有返回值
+`std::distance(it1, it2)` 相当于 `it2 - it1`，注意顺序和 `-`相反
 ```
 利用仿函数(普通回调函数只是指针 不能作为类型套入模板函数)指定排序规则//对自定义数据类型使用set时同样在插入之前指定排序规则
-```
+```cpp
 set<int,MyCompare> s;
 实现MyCompare类
 class MyComapre
@@ -686,12 +700,12 @@ RB-TREE用二分查找法，时间复杂度为logn，所以从10000增到20000�
 二分法的时间复杂度
 N/2 N/4 ... 设置x次找到，N*(1/2)^x = 1，x=log2N
 log2n
-### 1.12.8 multimap 支持[]吗？
-multimap 支持 [] 下标操作，但与 map 不同，它返回一个迭代器而不是一个值。当使用 [] 下标操作时，它会返回指向第一个匹配键的迭代器。由于 multimap 可能包含多个具有相同键的元素，这个操作允许你访问这些元素中的第一个。
+### 1.12.8 multimap 支持`[]`吗？
+multimap 支持 `[]` 下标操作，但与 map 不同，它返回一个迭代器而不是一个值。当使用 [] 下标操作时，它会返回指向第一个匹配键的迭代器。由于 multimap 可能包含多个具有相同键的元素，这个操作允许你访问这些元素中的第一个。
 
 如果你希望获取所有具有相同键的元素，你可以使用迭代器来遍历它们，或者使用范围循环来处理它们。这允许你处理所有与特定键相关的值。
 
-以下是一个示例，演示如何使用 multimap 进行 [] 下标操作：
+以下是一个示例，演示如何使用 multimap 进行 `[]` 下标操作：
 
 ```cpp
 #include <iostream>
@@ -715,7 +729,73 @@ int main() {
     return 0;
 }
 ```
-上述示例中，myMultiMap[1] 返回的是指向第一个匹配键 1 的元素的迭代器，而遍历匹配键的元素允许你获取所有相关值。
+上述示例中，`myMultiMap[1] `返回的是指向第一个匹配键 1 的元素的迭代器，而遍历匹配键的元素允许你获取所有相关值。
+
+`std::map`和`std::multimap`容器了`at()`成员函数，它可以用来访问与给定键关联的值。与`[]`操作符不同，`at()`在键不存在时会抛出一个`std::out_of_range`异常，而不是默默地插入一个新元素。
+使用`at()`可以让你在访问键时进行更安全的边界检查。下面是一个示例：
+```cpp
+#include <map>
+#include <iostream>
+#include <stdexcept>
+
+int main() {
+    std::map<std::string, int> myMap;
+    myMap["apple"] = 1;
+    myMap["banana"] = 2;
+
+    try {
+        int value = myMap.at("banana");
+        std::cout << "The value for 'banana' is: " << value << std::endl;
+    } catch (const std::out_of_range& e) {
+        std::cerr << "Error: Key not found in map." << std::endl;
+    }
+
+    try {
+        int value = myMap.at("cherry"); // 这个键不存在
+    } catch (const std::out_of_range& e) {
+        std::cerr << "Error: Key not found in map." << std::endl;
+    }
+
+    return 0;
+}
+```
+
+在这个例子中，当尝试访问一个不存在的键（"cherry"）时，`at()`会抛出一个异常，从而可以被异常处理机制捕获并做出适当的响应。
+
+因此，如果你需要在访问`std::map`或`std::multimap`中的元素时进行安全性检查，`at()`是一个更好的选择，因为它可以防止程序因错误的键访问而导致的意外行为。
+### 1.12.9 判断一个键是否存在于容器中：
+
+1. 使用`find()`成员函数：
+    ```cpp
+    std::map<KeyType, ValueType> myMap;
+    KeyType keyToFind;
+    if (myMap.find(keyToFind) != myMap.end()) {
+        // 键存在
+    }
+    ```
+
+2. 使用`count()`成员函数（仅在`std::map`中返回0或1，在`std::multimap`中可能返回大于1的值）：
+    ```cpp
+    if (myMap.count(keyToFind) > 0) {
+        // 键存在
+    }
+    ```
+
+3. 使用`contains()`成员函数（C++20 引入）：
+    ```cpp
+    if (myMap.contains(keyToFind)) {
+        // 键存在
+    }
+    ```
+
+4. 使用`try_emplace()`或`emplace()`成员函数尝试插入一个元素，如果键已存在则不执行插入：
+    ```cpp
+    auto [it, inserted] = myMap.try_emplace(keyToFind, valueToInsert);
+    if (!inserted) {
+        // 键已存在
+    }
+    ```
+
 ## 1.13 map和set的区别
 ### 1.13.0 map和set的区别
  - 相同：
@@ -892,13 +972,15 @@ int main() {
 }
 ```
 std::visit 将 10 和 20 的和赋给 ret，然后程序打印出 The sum is: 30。
-在这个例子中，我们创建了一个 std::variant，它可以持有 std::vector<int> 或 std::vector<double>。我们使用 std::visit 和一个 lambda 表达式来计算和打印出 std::variant 中存储的 std::vector 的元素之和。
+在这个例子中，我们创建了一个 std::variant，它可以持有 `std::vector<int>` 或 `std::vector<double>`。我们使用 std::visit 和一个 lambda 表达式来计算和打印出 std::variant 中存储的 std::vector 的元素之和。
+
 > error 示例:
-> ```cpp
-> return std::visit([&](std::variant<T1,T2> const &t1, std::variant<T1,T2>const & t2){
->            // return t1+t2;
->            std::variant<T1,T2> ret ;
-> ```
+```cpp
+return std::visit([&](std::variant<T1,T2> const &t1,
+					  std::variant<T1,T2>const & t2){
+           // return t1+t2;
+           std::variant<T1,T2> ret ;
+```
 > 无限递归问题: 在 lambda 函数内部，ret = t1 + t2; 实际上又调用了你正在定义的 operator+。因为 t1 和 t2 本身是 std::variant 类型，这就导致了无限递归。
 代码试图对 `std::variant<T1, T2>` 对象进行加法操作，这在 `std::visit` 的 lambda 函数中完成。然而，在你的 lambda 函数内部，你又执行了 t1 + t2。而在这个上下文中，t1 和 t2 是 `std::variant<T1, T2>` 类型。因此，t1 + t2 事实上又在调用你正在定义的 `operator+`，这导致了无限递归。
 为了避免这个问题，你需要确保 std::visit 的 lambda 函数对 std::variant 存储的实际值（即 T1 或 T2 类型）进行操作，而不是对 `std::variant` 本身进行操作。这就是为什么在修改后的代码中，我们使用 auto 关键字让编译器推断 t1 和 t2 的实际类型，而不是显式地声明它们为 `std::variant<T1, T2>` 类型。
