@@ -82,13 +82,17 @@ class Solution
 {
 public:
     //
+    std::vector<int> findSubstring_old(std::string s, std::vector<std::string>& words)
+    {
+        return {};
+    }
     std::vector<int> findSubstring0(std::string s, std::vector<std::string>& words)
     {
-        return std::vector<int>();
+        return {};
     }
     std::vector<int> findSubstring(std::string s, std::vector<std::string>& words)
     {
-        return std::vector<int>();
+        return {};
     }
 };
 
@@ -101,7 +105,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -128,6 +132,7 @@ const static int TEST_1    = 0;
 
         //decltype(expected)
         std::vector<int> && result = solution.findSubstring0(s, words);
+        //std::vector<int> && result = solution.findSubstring_old(s, words);
         std::cout << "result:" << std::endl;
         printvector(result);
 
@@ -152,6 +157,35 @@ const static int TEST_1    = 0;
     }
     if (TEST_1)
     {
+        std::cout << "Solution1 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        //decltype(expected)
+        std::vector<int> && result = solution.findSubstring(s, words);
+        std::cout << "result:" << std::endl;
+        printvector(result);
+
+        if(result == expected)
+        {
+            //10yy
+            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
 }
 void Test1()

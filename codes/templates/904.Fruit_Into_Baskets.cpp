@@ -111,7 +111,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -191,6 +191,13 @@ void Test5()
 {
     std::vector<char> fruit = {'A', 'B', 'C', 'B', 'B', 'C'};
     int expect = 5;
+    Test("Test5", fruit, expect);
+}
+
+void Test6()
+{
+    std::vector<char> fruit = {'A', 'A', 'A', 'A', 'A', 'A'};
+    int expect = fruit.size();
     Test("Test5", fruit, expect);
 }
 
@@ -276,6 +283,7 @@ int main()
     Test3();
     Test4();
     Test5();
+    Test6();
 
     return 0;
 }

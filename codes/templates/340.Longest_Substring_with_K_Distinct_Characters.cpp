@@ -81,7 +81,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -94,7 +94,7 @@ void Test(const std::string& testName,
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
-const static int TEST_1    = 1;
+const static int TEST_1    = 0;
     {
         std::cout << "Solution0 start.........." << std::endl;
         if (TEST_TIME)
@@ -136,11 +136,11 @@ const static int TEST_1    = 1;
 
         if(result == expected)
         {
-            std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
+            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
         }
         else
         {
-            std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
+            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
             std::cout << RED << "expected:" << expected << std::endl;
             std::cout << RESET << std::endl;
         }

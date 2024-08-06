@@ -69,16 +69,11 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan    */
 #define BOLDRED     "\033[1m\033[31m"      /* Bold Red     */
 
-class Solution
-{
-public:
-    std::vector<int> findAnagrams(std::string s, std::string p)
-    {
-        return std::vector<int>{};
-    }
-};
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
+
+template<typename T1, typename T2>
+std::ostream & operator << (std::ostream &out, std::unordered_map<T1, T2> &_umap);
 
 template<typename T>
 int printvector(std::vector<T> v);
@@ -89,6 +84,20 @@ int printstack(std::stack<T> s);
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
 
+class Solution
+{
+public:
+    std::vector<int> findAnagrams(std::string s, std::string p)
+    {
+        std::vector<int> result;
+        return result;
+    }
+    std::vector<int> findAnagrams1(std::string s, std::string p)
+    {
+    }
+    std::vector<int> findAnagrams2(std::string s, std::string p) {
+    }
+};
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
@@ -98,7 +107,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -147,56 +156,6 @@ const static int TEST_1    = 0;
     {
     }
 }
-void Test1()
-{
-    std::string s = "cbaebabacd";
-    std::string p = "abc";
-    std::vector<int> expect = {0, 6};
-    Test("Test1", s, p, expect);
-}
-void Test2()
-{
-    std::string s = "abab";
-    std::string p = "ab";
-    std::vector<int> expect = {0, 1, 2};
-    Test("Test2", s, p, expect);
-}
-
-void Test3()
-{
-    std::string s = "ppqp";
-    std::string p = "pq";
-    std::vector<int> expect = {1, 2};
-    Test("Test3", s, p, expect);
-}
-
-void Test4()
-{
-    std::string s = "abbcabc";
-    std::string p = "abc";
-    std::vector<int> expect = {2, 3, 4};
-    Test("Test4", s, p, expect);
-}
-
-void Test5()
-{
-    std::string s = "";
-    std::string p = "a";
-    std::vector<int> expect = {};
-    Test("Test4", s, p, expect);
-}
-
-void Test6()
-{
-}
-
-void Test7()
-{
-}
-
-void Test8()
-{
-}
 // 75yy
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
@@ -205,6 +164,18 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
     for(auto v: _vec)
     {
         out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+template<typename T1, typename T2>
+std::ostream & operator << (std::ostream &out, std::unordered_map<T1, T2> &_umap)
+{
+    std::cout << "unordered_map size: " << _umap.size() << std::endl;
+    out << "[  ";
+    for (auto iter = _umap.begin(); iter != _umap.end(); iter++ )
+    {
+        out << "(" << iter->first << "," << iter->second<< "), ";//<<std::endl;
     }
     out << "\b\b ]" ;
     return out;
@@ -271,6 +242,56 @@ int printunordered_map(const std::unordered_map<T1,T2> &v)
     }
     std::cout << std::endl;
     return v.size();
+}
+void Test1()
+{
+    std::string s = "cbaebabacd";
+    std::string p = "abc";
+    std::vector<int> expect = {0, 6};
+    Test("Test1", s, p, expect);
+}
+void Test2()
+{
+    std::string s = "abab";
+    std::string p = "ab";
+    std::vector<int> expect = {0, 1, 2};
+    Test("Test2", s, p, expect);
+}
+
+void Test3()
+{
+    std::string s = "ppqp";
+    std::string p = "pq";
+    std::vector<int> expect = {1, 2};
+    Test("Test3", s, p, expect);
+}
+
+void Test4()
+{
+    std::string s = "abbcabc";
+    std::string p = "abc";
+    std::vector<int> expect = {2, 3, 4};
+    Test("Test4", s, p, expect);
+}
+
+void Test5()
+{
+    std::string s = "";
+    std::string p = "a";
+    std::vector<int> expect = {};
+    Test("Test4", s, p, expect);
+}
+
+void Test6()
+{
+}
+
+void Test7()
+{
+}
+
+void Test8()
+{
 }
 
 int main()
