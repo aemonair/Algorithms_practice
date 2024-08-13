@@ -62,46 +62,11 @@
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 
-template<typename T>
-int printvector(std::vector<T> v);
-
-template <typename T>
-int printstack(std::stack<T> s);
-
-template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v);
-
 class Solution {
 public:
     std::vector<int> sortedSquares(std::vector<int>& nums)
     {
         return std::vector<int>{};
-    }
-
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            //std::cout << "'" << *iter << "', ";//<<std::endl;
-            std::cout << *iter << "| ";//<<std::endl;
-        }
-        //std::cout <<"\b\b" <<  std::endl;
-        std::cout << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
     }
 };
 
@@ -113,7 +78,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -122,8 +87,7 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "nums:" << std::endl;
-    solution.printvector(nums);
+    std::cout << "nums:" << nums << std::endl;
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
@@ -139,8 +103,7 @@ const static int TEST_1    = 0;
 
         //decltype(expected)
         std::vector<int> && result = solution.sortedSquares(nums);
-        std::cout << "result:" << std::endl;
-        solution.printvector(result);
+        std::cout << "result:" << result << std::endl;
         //decltype(val) solution_result = solution.removeElement (numbers, val);
 
         if(result == expected)
@@ -151,8 +114,7 @@ const static int TEST_1    = 0;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::endl;
-            solution.printvector(expected);
+            std::cout << RED << "expected:" << expected << std::endl;
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -166,6 +128,19 @@ const static int TEST_1    = 0;
     {
     }
 }
+
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+
 void Test1()
 {
     std::vector<int> nums   = {-4, -1, 0, 3, 10};
@@ -194,81 +169,7 @@ void Test5()
 {
 }
 
-// 75 yy
-template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
-template<typename T>
-int printvector(std::vector<T> v)
-{
-    if(0 == v.size())
-    {
-        std::cout << "Empty vector." << std::endl;
-        return 0;
-    }
-    std::cout << "[ " ;
-    for(auto i: v)
-    {
-        std::cout << i << ", ";
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return v.size();
-}
-template<typename T>
-int printstack (std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template<typename T>
-int printvector(std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v)
-{
-    std::cout << "unordered_map size: " << v.size() << std::endl;
-    for (auto iter = v.begin(); iter != v.end(); iter++ )
-    {
-        std::cout << "(" << iter->first << "," << iter->second<< "), ";//<<std::endl;
-    }
-    std::cout << std::endl;
-    return v.size();
-}
+
 int main()
 {
     Test1();

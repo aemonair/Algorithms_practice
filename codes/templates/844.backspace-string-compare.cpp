@@ -48,6 +48,7 @@
 #include <algorithm>
 #include <iostream>
 #include <chrono>
+#include <thread>
 #include <vector>
 #include <string>
 #include <queue>
@@ -78,17 +79,14 @@
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 
-template<typename T>
-int printvector(std::vector<T> v);
-
 class Solution
 {
 public:
-    bool backspaceCompare0(std::string S, std::string T)
+    bool backspaceCompare0(std::string s, std::string t)
     {
         return false;
     }
-    bool backspaceCompare(std::string S, std::string T)
+    bool backspaceCompare(std::string s, std::string t)
     {
         return false;
     }
@@ -96,13 +94,13 @@ public:
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-        std::string S, std::string T,
+        std::string s, std::string t,
         bool expected
         )
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -111,8 +109,8 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "S: \"" << S << "\""<< std::endl;
-    std::cout << "T: \"" << T << "\""<< std::endl;
+    std::cout << "s: \"" << s << "\""<< std::endl;
+    std::cout << "t: \"" << t << "\""<< std::endl;
 
 const static int TEST_TIME = 0;
 const static int TEST_0    = 1;
@@ -125,7 +123,7 @@ const static int TEST_1    = 0;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.backspaceCompare0(S, T);
+        decltype(expected) result = solution.backspaceCompare0(s, t);
         std::cout << std::boolalpha << result << std::endl;
 
         if(result == expected)
@@ -154,7 +152,7 @@ const static int TEST_1    = 0;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.backspaceCompare(S, T);
+        decltype(expected) result = solution.backspaceCompare(s, t);
         std::cout << std::boolalpha << result << std::endl;
 
         if(result == expected)
@@ -189,139 +187,76 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
     out << "\b\b ]" ;
     return out;
 }
-template<typename T>
-int printvector(std::vector<T> v)
-{
-    if(0 == v.size())
-    {
-        std::cout << "[ ] Empty vector." << std::endl;
-        return 0;
-    }
-    std::cout << "[ " ;
-    for(auto i: v)
-    {
-        std::cout << i << ", ";
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return v.size();
-}
-template<typename T>
-int printstack (std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template<typename T>
-int printvector(std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v)
-{
-    std::cout << "unordered_map size: " << v.size() << std::endl;
-    for (auto iter = v.begin(); iter != v.end(); iter++ )
-    {
-        std::cout << "(" << iter->first << "," << iter->second<< "), ";//<<std::endl;
-    }
-    std::cout << std::endl;
-    return v.size();
-}
 
 void Test1()
 {
-    std::string S = "ab#c";
-    std::string T = "ad#c";
+    std::string s = "ab#c";
+    std::string t = "ad#c";
     bool expect = true ;
-    Test("Test1", S, T, expect);
+    Test("Test1", s, t, expect);
 }
 void Test2()
 {
-    std::string S = "ab##";
-    std::string T = "c#d#";
+    std::string s = "ab##";
+    std::string t = "c#d#";
     bool expect = true;
-    Test("Test2", S, T, expect);
+    Test("Test2", s, t, expect);
 }
 
 void Test3()
 {
-    std::string S = "a##c";
-    std::string T = "#a#c";
+    std::string s = "a##c";
+    std::string t = "#a#c";
     bool expect = true;
-    Test("Test3", S, T, expect);
+    Test("Test3", s, t, expect);
 }
 
 void Test4()
 {
-    std::string S = "a#c";
-    std::string T = "b";
+    std::string s = "a#c";
+    std::string t = "b";
     bool expect = false;
-    Test("Test4", S, T, expect);
+    Test("Test4", s, t, expect);
 }
 
 void Test5()
 {
-    std::string S = "xy#z";
-    std::string T = "xzz#";
+    std::string s = "xy#z";
+    std::string t = "xzz#";
     bool expect = true;
-    Test("Test5", S, T, expect);
+    Test("Test5", s, t, expect);
 }
 
 void Test6()
 {
-    std::string S = "xy#z";
-    std::string T = "xyz#";
+    std::string s = "xy#z";
+    std::string t = "xyz#";
     bool expect = false;
-    Test("Test6", S, T, expect);
+    Test("Test6", s, t, expect);
 }
 
 void Test7()
 {
-    std::string S = "###z####";
-    std::string T = "";
+    std::string s = "###z####";
+    std::string t = "";
     bool expect = true;
-    Test("Test7", S, T, expect);
+    Test("Test7", s, t, expect);
 }
 
 void Test8()
 {
-    std::string S = "bbbextm";
-    std::string T = "bbb#extm";
+    std::string s = "bbbextm";
+    std::string t = "bbb#extm";
     bool expect = false;
-    Test("Test8", S, T, expect);
+    Test("Test8", s, t, expect);
 }
 
 void Test9()
 {
-    std::string S = "nzp#o#g";
-    std::string T = "b#nzp#o#g";
+    std::string s = "nzp#o#g";
+    std::string t = "b#nzp#o#g";
     bool expect = true;
-    Test("Test9", S, T, expect);
+    Test("Test9", s, t, expect);
 }
 
 int main()

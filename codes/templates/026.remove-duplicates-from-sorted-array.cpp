@@ -70,38 +70,14 @@
 #define BOLDBLUE    "\033[1m\033[34m"      /* Bold Blue    */
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan    */
 
-template <typename T>
-int printvector(const std::vector<T> &v);
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 
 class Solution {
 public:
     int removeDuplicates(std::vector<int>& nums)
     {
         return 0;
-    }
-
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << "| ";//<<std::endl;
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
     }
 };
 
@@ -114,7 +90,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -123,8 +99,7 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "numbers:" << std::endl;
-    solution.printvector(numbers);
+    std::cout << "numbers:" << numbers << std::endl;
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
@@ -140,10 +115,16 @@ const static int TEST_1    = 0;
 
         decltype(target) solution_result = solution.removeDuplicates(numbers);
         std::cout << "solution result:" << solution_result << std::endl;
-        std::cout << "expect numbers:" << std::endl;
-        solution.printvector(numbers);
+        std::cout << "solution numbers:" << numbers << std::endl;
+        std::cout << "expect numbers:" << expected << std::endl;
+        int check = 0;
+        for (check=0; check < expected.size(); ++check) {
+            if (numbers[check] != expected[check]) {
+                break;
+            }
+        }
 
-        if(numbers == expected)
+        if(check == solution_result)
         {
             //10yy
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
@@ -151,8 +132,7 @@ const static int TEST_1    = 0;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::endl;
-            solution.printvector(expected);
+            std::cout << RED << "expected:" << expected << std::endl;
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -165,6 +145,17 @@ const static int TEST_1    = 0;
     if (TEST_1)
     {
     }
+}
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
 }
 void Test1()
 {

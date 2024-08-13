@@ -64,27 +64,15 @@
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 
-template<typename T>
-int printvector(std::vector<T> v);
-
-template <typename T>
-int printstack(std::stack<T> s);
-
-template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v);
-
 class Solution
 {
 public:
-///////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////
     std::vector<std::vector<int>> threeSum(std::vector<int>& nums)
     {
-
         int left = 0;
         int right = nums.size()-1;
-
         std::vector<std::vector<int>> resultv;
-        printvector(resultv);
         return resultv;
     }
     std::vector<std::vector<int>> threeSum0(std::vector<int>& nums)
@@ -101,7 +89,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -110,8 +98,7 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "nums:" << std::endl;
-    printvector(nums);
+    std::cout << "nums:" << nums << std::endl;
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
@@ -126,8 +113,7 @@ const static int TEST_1    = 0;
 
         //decltype(expected)
         std::vector<std::vector<int>> && result = solution.threeSum(nums);
-        std::cout << "result:" << std::endl;
-        printvector(result);
+        std::cout << "result:" << result << std::endl;
 
         if(result == expected)
         {
@@ -151,7 +137,6 @@ const static int TEST_1    = 0;
     {
     }
 }
-// 75 yy
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
 {
@@ -163,69 +148,7 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
     out << "\b\b ]" ;
     return out;
 }
-template<typename T>
-int printvector(std::vector<T> v)
-{
-    if(0 == v.size())
-    {
-        std::cout << "Empty vector." << std::endl;
-        return 0;
-    }
-    std::cout << "[ " ;
-    for(auto i: v)
-    {
-        std::cout << i << ", ";
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return v.size();
-}
-template<typename T>
-int printstack (std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template<typename T>
-int printvector(std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v)
-{
-    std::cout << "unordered_map size: " << v.size() << std::endl;
-    for (auto iter = v.begin(); iter != v.end(); iter++ )
-    {
-        std::cout << "(" << iter->first << "," << iter->second<< "), ";//<<std::endl;
-    }
-    std::cout << std::endl;
-    return v.size();
-}
+
 void Test1()
 {
     std::vector<int> nums   = {-1,0,1,2,-1,-4};
