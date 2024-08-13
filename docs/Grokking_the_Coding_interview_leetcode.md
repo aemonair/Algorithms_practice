@@ -728,7 +728,6 @@ Solution0 passed.
 ### LC 567 (567.Permutation_in_Sring)                      PC1:                                                 : @
 
 
-[[567.Permutation_in_Sring  字符串的排列]]
 ```cpp
    bool checkInclusion(std::string s1, std::string s2)
     {
@@ -834,7 +833,6 @@ Solution0 passed.
 
 
 ### LC 438 (438.Find_All_Anagrams_in_a_String)             PC2:                                                 : @
-[[438.Find_All_Anagrams_in_a_String 找到字符串中所有字母异位词]]
 > \438. Find All Anagrams in a String
 >
 > Medium
@@ -931,7 +929,6 @@ Solution0 passed.
 
 
 ### LC 076 (076.Minimum_Window_Substring)                  PC3:                                                 : @
-[[076.Minimum_Window_Substring 最小覆盖子串]]
 
 ```cpp
 class Solution {
@@ -990,7 +987,6 @@ public:
 
 ### LC 030 (030.Substring_with_Concatenation_of_All_Words) PC4:                                                 : @
 > 30. Substring with Concatenation of All Words
-> [[030.Substring_with_Concatenation_of_All_Words 串联所有单词的子串]]
 > Hard
 > You are given a string s and an array of strings words of the same length. Return all starting indices of substring(s) in s that is a concatenation of each word in words exactly once, in any order, and without any intervening characters.
 > 
@@ -1062,7 +1058,6 @@ public:
 ```
 
 ## Pattern 3: Two Pointers (11)
-[[001.Two_Sum_两数之和]]
 ### LC 1   (001.Two_Sum)                               Pair with Target Sum                         (easy)  : @
 
 ```cpp
