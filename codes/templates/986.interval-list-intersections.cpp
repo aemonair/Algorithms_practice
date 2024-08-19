@@ -8,8 +8,8 @@
  *
  * Return the intersection of these two interval lists.
  *
- * (Formally, a closed interval [a, b] (with a <= b) denotes the set of real numbers x with a <= x <= b. 
- * The intersection of two closed intervals is a set of real numbers that is either empty, or can be represented as a closed interval. 
+ * (Formally, a closed interval [a, b] (with a <= b) denotes the set of real numbers x with a <= x <= b.
+ * The intersection of two closed intervals is a set of real numbers that is either empty, or can be represented as a closed interval.
  * For example, the intersection of [1, 3] and [2, 4] is [2, 3].)
  *
  ******************************************************************
@@ -17,7 +17,7 @@
  *  A  [ ]  [    ]  [         ][]
  *  B   [   ]  [   ]  [        ][]
  *
- *ans   []  |  [ ]    [       ]|| 
+ *ans   []  |  [ ]    [       ]||
  *     0   4   8   C   16      24
  *
  * Input: A = [[0,2],[5,10],[13,23],[24,25]], B = [[1,5],[8,12],[15,24],[25,26]]
@@ -86,15 +86,6 @@
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 
-template<typename T>
-int printvector(std::vector<T> v);
-
-template <typename T>
-int printstack(std::stack<T> s);
-
-template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v);
-
 class Solution {
 public:
     std::vector<std::vector<int>> intervalIntersection(
@@ -132,10 +123,8 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "firstList:" <<  std::endl;
-    printvector(firstList);
-    std::cout << "secondList:" <<  std::endl;
-    printvector(secondList);
+    std::cout << "firstList:" << firstList << std::endl;
+    std::cout << "secondList:" << secondList << std::endl;
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 0;
@@ -143,8 +132,7 @@ const static int TEST_1    = 0;
     {
         std::vector<std::vector<int>>&& result =
             solution.intervalIntersection(firstList, secondList);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
 
         if(result == expected)
         {
@@ -169,8 +157,7 @@ const static int TEST_1    = 0;
     {
         std::vector<std::vector<int>>&& result =
             solution.intervalIntersection1(firstList, secondList);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
 
         if(result == expected)
         {
@@ -204,69 +191,6 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
     }
     out << "\b\b ]" ;
     return out;
-}
-template<typename T>
-int printvector(std::vector<T> v)
-{
-    if(0 == v.size())
-    {
-        std::cout << "Empty vector." << std::endl;
-        return 0;
-    }
-    std::cout << "[ " ;
-    for(auto i: v)
-    {
-        std::cout << i << ", ";
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return v.size();
-}
-template<typename T>
-int printstack (std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template<typename T>
-int printvector(std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v)
-{
-    std::cout << "unordered_map size: " << v.size() << std::endl;
-    for (auto iter = v.begin(); iter != v.end(); iter++ )
-    {
-        std::cout << "(" << iter->first << "," << iter->second<< "), ";//<<std::endl;
-    }
-    std::cout << std::endl;
-    return v.size();
 }
 
 void Test1()

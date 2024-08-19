@@ -65,15 +65,6 @@
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 
-template<typename T>
-int printvector(std::vector<T> v);
-
-template <typename T>
-int printstack(std::stack<T> s);
-
-template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v);
-
 struct Interval
 {
     int start;
@@ -81,20 +72,23 @@ struct Interval
     Interval() : start(0), end(0) {}
     Interval(int s, int e) : start(s), end(e) {}
 };
-template<>
-int printvector(std::vector<Interval> v);
 
 class Solution {
 public:
-    int minMeetingRooms(std::vector<Interval>& intervals)
+    int minMeetingRooms(std::vector<std::vector<int>>& intervals)
+    {
+        return 0;
+    }
+    int minMeetingRooms(std::vector<std::pair<int,int>>& intervals)
     {
         return 0;
     }
 };
 
 // ==================== TEST Codes====================
+template<typename T>
 void Test(const std::string& testName,
-          std::vector<Interval>& intervals,
+          std::vector<T>& intervals,
           int  expected)
 {
     if(testName.length() > 0)
@@ -108,8 +102,7 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "intervals:" <<  std::endl;
-    printvector(intervals);
+    std::cout << "intervals:" << intervals << std::endl;
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 0;
@@ -150,130 +143,74 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
     out << "\b\b ]" ;
     return out;
 }
-template<typename T>
-int printvector(std::vector<T> v)
+template<typename T1,typename T2>
+std::ostream & operator << (std::ostream &out, std::pair<T1,T2> &_pair)
 {
-    if(0 == v.size())
-    {
-        std::cout << "Empty vector." << std::endl;
-        return 0;
-    }
-    std::cout << "[ " ;
-    for(auto i: v)
-    {
-        std::cout << i << ", ";
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return v.size();
+    out << "( " << _pair.first << ", "  << _pair.second << " ) ";
+    return out;
 }
-template<>
-int printvector(std::vector<Interval> v)
+
+void Test0()
 {
-    std::cout << "{  " ;// << std::endl;
-    for (auto iter = v.begin(); iter != v.end(); iter++ )
-    {
-        std::cout << "[" << (*iter).start << ", "<< (*iter).end << "] ,";//<<std::endl;
-    }
-    std::cout << "\b  }" << std::endl;
-    return v.size();
-}
-template<typename T>
-int printstack (std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template<typename T>
-int printvector(std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v)
-{
-    std::cout << "unordered_map size: " << v.size() << std::endl;
-    for (auto iter = v.begin(); iter != v.end(); iter++ )
-    {
-        std::cout << "(" << iter->first << "," << iter->second<< "), ";//<<std::endl;
-    }
-    std::cout << std::endl;
-    return v.size();
+    //std::vector<Interval> intervals  = {Interval(0,30),Interval(5,10),Interval(15,20)};
+    //int                result     = 2;
+    //Test("Test0", intervals, result);
 }
 
 void Test1()
 {
-    std::vector<Interval> intervals  = {Interval(0,30),Interval(5,10),Interval(15,20)};
+    std::vector<std::vector<int>> intervals  = {{0,30},{5,10},{15,20}};
     int                result     = 2;
     Test("Test1", intervals, result);
 }
 
 void Test2()
 {
-    std::vector<Interval> intervals  = {Interval(7,10),Interval(2,4)};
+    std::vector<std::vector<int>> intervals  = {{7,10},{2,4}};
     int                result     = 1;
     Test("Test2", intervals, result);
 }
 
 void Test3()
 {
-    std::vector<Interval> intervals  = {Interval(1,4),Interval(2,5),Interval(7,9)};
+    std::vector<std::vector<int>> intervals  = {{1,4},{2,5},{7,9}};
     int                result     = 2;
     Test("Test3", intervals, result);
 }
 
 void Test4()
 {
-    std::vector<Interval> intervals  = {Interval(6,7),Interval(2,4),Interval(8,12)};
+    std::vector<std::vector<int>> intervals  = {{6,7},{2,4},{8,12}};
     int                result     = 1;
     Test("Test4", intervals, result);
 }
 
 void Test5()
 {
-    std::vector<Interval> intervals  = {Interval(1,4),Interval(2,3),Interval(3,6)};
+    std::vector<std::vector<int>> intervals  = {{1,4},{2,3},{3,6}};
     int                result     = 2;
     Test("Test5", intervals, result);
 }
 
 void Test6()
 {
-    std::vector<Interval> intervals  = {{4,5},{2,3},{2,4},{3,5}};
-    //std::vector<Interval> intervals  = {Interval(4,5),Interval(2,3),Interval(2,4),Interval(3,5)};
+    std::vector<std::vector<int>> intervals  = {{4,5},{2,3},{2,4},{3,5}};
     int                result     = 2;
     Test("Test6", intervals, result);
 }
 
 void Test7()
 {
-    std::vector<Interval> intervals  = {{4,5},{2,3},{2,4},{2,5}};
-    //std::vector<Interval> intervals  = {Interval(4,5),Interval(2,3),Interval(2,4),Interval(3,5)};
+    std::vector<std::vector<int>> intervals  = {{4,5},{2,3},{2,4},{2,5}};
     int                result     = 3;
     Test("Test7", intervals, result);
+}
+
+void Test8()
+{
+    std::vector<std::pair<int,int>> intervals  = {{4,5},{2,3},{2,4},{2,5}};
+    int                result     = 3;
+    Test("Test8", intervals, result);
 }
 
 
@@ -286,6 +223,7 @@ int main()
     Test5();
     Test6();
     Test7();
+    Test8();
 
     return 0;
 

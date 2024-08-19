@@ -72,6 +72,8 @@ int printstack(std::stack<T> s);
 template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
 
+//      ---  ---  ---    ---
+//  ---     ---    ---        ---
 class Solution {
 public:
     std::vector<std::vector<int>> merge(
@@ -283,7 +285,14 @@ void Test5()
 {
     std::vector<std::vector<int>> intervals = {{1,4},{2,6},{3,5}};
     std::vector<std::vector<int>> result = {{1,6}};
-    Test("Test1", intervals, result);
+    Test("Test5", intervals, result);
+}
+
+void Test6()
+{
+    std::vector<std::vector<int>> intervals = {{1,2},{3,4},{2,5}};
+    std::vector<std::vector<int>> result = {{1,5}};
+    Test("Test6", intervals, result);
 }
 int main()
 {
@@ -292,6 +301,7 @@ int main()
     Test3();
     Test4();
     Test5();
+    Test6();
 
     return 0;
 

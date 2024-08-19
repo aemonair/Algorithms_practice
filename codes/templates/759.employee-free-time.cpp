@@ -91,16 +91,6 @@
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 
-template<typename T>
-int printvector(std::vector<T> v);
-
-
-template <typename T>
-int printstack(std::stack<T> s);
-
-template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v);
-
 template <typename ...T>
 int printqueue(std::priority_queue<T... > big_queue);
 
@@ -113,29 +103,70 @@ struct Interval
     bool operator == (Interval const& other) const {
         return this->start == other.start && this->end == other.end;
     }
+    friend std::ostream & operator << (std::ostream &out, const Interval & a) {
+        out << "(" << a.start << "," << a.end << ") " ;
+        return out;
+    }
 };
-int printvector(std::vector<Interval> v);
-std::ostream & operator << (std::ostream &out, const Interval & a);
+
+
 bool operator == (Interval &a, Interval & b) {
     return a.start == b.start && a.end == b.end;
 }
 
+template <typename T>
+int printvector(std::vector<T> _vec) {
+    for(int i=0; i< _vec[0]; ++i) {
+        std::cout << "  " ; //<< std::endl;
+    }
+    for(int i= _vec[0]; i< _vec[1]; ++i) {
+        std::cout << "- " ; //<< std::endl;
+    }
+    std::cout << std::endl;
+}
+int printvector(Interval _vec) {
+    for(int i=0; i< _vec.start; ++i) {
+        std::cout << "  " ; //<< std::endl;
+    }
+    for(int i= _vec.start; i< _vec.end; ++i) {
+        std::cout << "- " ; //<< std::endl;
+    }
+    std::cout << std::endl;
+}
+int printvector(std::pair<int,int> _vec) {
+    for(int i=0; i< _vec.first; ++i) {
+        std::cout << "  " ; //<< std::endl;
+    }
+    for(int i= _vec.first; i< _vec.second; ++i) {
+        std::cout << "- " ; //<< std::endl;
+    }
+    std::cout << std::endl;
+}
 class Solution {
 public:
-    std::vector<Interval> employeeFreeTime(std::vector<std::vector<Interval>>& schedule)
+    std::vector<std::vector<int>> employeeFreeTime0(std::vector<std::vector<std::vector<int>>>& schedule)
+    {
+        return {{}};
+    }
+    std::vector<std::vector<int>> employeeFreeTime1(std::vector<std::vector<std::vector<int>>>& schedule)
+    {
+        return {{}};
+    }
+    std::vector<std::pair<int,int>> employeeFreeTime0(std::vector<std::vector<std::pair<int,int>>>& schedule)
+    {
+        return {{}};
+    }
+    std::vector<Interval> employeeFreeTime0(std::vector<std::vector<Interval>>& schedule)
     {
         return std::vector<Interval>{};
-    }
-    std::vector<Interval> employeeFreeTime1(std::vector<std::vector<Interval>>& schedule)
-    {
-        return {};
     }
 };
 
 // ==================== TEST Codes====================
+template<typename T>
 void Test(const std::string& testName,
-          std::vector<std::vector<Interval>>& schedule,
-          std::vector<            Interval >& expected)
+          std::vector<std::vector<T>>& schedule,
+          std::vector<            T>& expected)
 {
     if(testName.length() > 0)
     {
@@ -148,19 +179,22 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "intervals:" <<  std::endl;
-    printvector(schedule);
+    std::cout << "intervals:" << schedule << std::endl;
+    for (auto i: schedule) {
+        for (auto j: i) {
+            printvector(j);
+        }
+    }
 const static int TEST_TIME = 1;
-const static int TEST_0    = 0;
-const static int TEST_1    = 1;
+const static int TEST_0    = 1;
+const static int TEST_1    = 0;
     if (TEST_0)
     {
         if (TEST_TIME) {
             start = std::chrono::system_clock::now();
         }
-        std::vector<Interval> && result = solution.employeeFreeTime(schedule);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
+        std::vector<T>  result = solution.employeeFreeTime0(schedule);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
 
         if(result == expected)
         {
@@ -169,8 +203,7 @@ const static int TEST_1    = 1;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::endl;
-            printvector(expected);
+            std::cout << RED << "expected:" << expected << std::endl;
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -187,9 +220,8 @@ const static int TEST_1    = 1;
         {
            start = std::chrono::system_clock::now();
         }
-        std::vector<Interval> && result = solution.employeeFreeTime1(schedule);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        printvector(result);
+        std::vector<T> result = solution.employeeFreeTime0(schedule);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
 
         if(result == expected)
         {
@@ -198,8 +230,7 @@ const static int TEST_1    = 1;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::endl;
-            printvector(expected);
+            std::cout << RED << "expected:" << expected << std::endl;
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -224,90 +255,29 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
     out << "\b\b ]" ;
     return out;
 }
-std::ostream & operator << (std::ostream &out, const Interval & a)
-{
-    out << "(" << a.start << "," << a.end << ") " ;
-    return out;
-}
+//std::ostream & operator << (std::ostream &out, const Interval & a)
+//{
+//    out << "(" << a.start << "," << a.end << ") " ;
+//    return out;
+//}
 std::ostream & operator << (std::ostream &out, const std::pair<int,int> & a)
 {
     out << "[" << a.first << "," << a.second << "] " ;
     return out;
 }
-template<typename T>
-int printvector(std::vector<T> v)
-{
-    if(0 == v.size())
-    {
-        std::cout << "Empty vector." << std::endl;
-        return 0;
-    }
-    std::cout << "[ " ;
-    for(auto i: v)
-    {
-        std::cout << i << ", ";
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return v.size();
-}
-//template<>
-int printvector(std::vector<Interval> v)
-{
-    std::cout << "{  " ;// << std::endl;
-    for (auto iter = v.begin(); iter != v.end(); iter++ )
-    {
-        std::cout << "[" << (*iter).start << ", "<< (*iter).end << "] ,";//<<std::endl;
-    }
-    std::cout << "\b  }" << std::endl;
-    return v.size();
-}
-template<typename T>
-int printstack (std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template<typename T>
-int printvector(std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
+
 template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v)
+std::ostream & operator << (std::ostream &out, const std::unordered_map<T1,T2> &v)
 {
-    std::cout << "unordered_map size: " << v.size() << std::endl;
+    out << "unordered_map size: " << v.size() << std::endl;
     for (auto iter = v.begin(); iter != v.end(); iter++ )
     {
-        std::cout << "{" << iter->first << "," << iter->second<< "}, ";//<<std::endl;
+        out << "{" << iter->first << "," << iter->second<< "}, ";//<<std::endl;
     }
-    std::cout << std::endl;
-    return v.size();
+    out << std::endl;
+    return out;
 }
+
 template <typename ...T>
 int printqueue(std::priority_queue<T... > big_queue)
 {
@@ -327,10 +297,21 @@ int printqueue(std::priority_queue<T... > big_queue)
     return bsize;
 }
 
+void Test0()
+{
+    std::vector<std::vector<std::pair<int, int>>> schedule  = {{{1,3},{5,6}},{{2,3},{6,8}}};
+    std::vector<std::pair<int,int>> result    = {{3,5}};
+    Test("Test0", schedule, result);
+}
+
 void Test1()
 {
-    std::vector<std::vector<Interval>> schedule  = {{{1,3},{5,6}},{{2,3},{6,8}}};
-    std::vector<            Interval > result    = {{3,5}};
+    //std::vector<std::vector<Interval>> schedule  = {{{1,3},{5,6}},{{2,3},{6,8}}};
+    //std::vector<            Interval > result    = {{3,5}};
+    //std::vector<std::vector<std::vector<int>>> schedule  = {{{1,3},{5,6}},{{2,3},{6,8}}};
+    //std::vector<            std::vector<int> > result    = {{3,5}};
+    std::vector<std::vector<std::pair<int,int>>> schedule  = {{{1,3},{5,6}},{{2,3},{6,8}}};
+    std::vector<            std::pair<int,int> > result    = {{3,5}};
     Test("Test1", schedule, result);
  /* _1_2_3_4_5_6_7_8_9_A_B_C_D_E
   *  ____
@@ -343,29 +324,43 @@ void Test1()
 
 void Test2()
 {
-    std::vector<std::vector<Interval>> schedule  = {{{1,3},{9,12}},{{2,4}},{{6,8}}};
-    std::vector<            Interval > result    = {{4,6},{8,9}};
+    //std::vector<std::vector<Interval>> schedule  = {{{1,3},{9,12}},{{2,4}},{{6,8}}};
+    //std::vector<            Interval > result    = {{4,6},{8,9}};
+    //std::vector<std::vector<std::vector<int>>> schedule  = {{{1,3},{9,12}},{{2,4}},{{6,8}}};
+    //std::vector<            std::vector<int> > result    = {{4,6},{8,9}};
+    std::vector<std::vector<std::pair<int,int>>> schedule  = {{{1,3},{9,12}},{{2,4}},{{6,8}}};
+    std::vector<            std::pair<int,int> > result    = {{4,6},{8,9}};
     Test("Test2", schedule, result);
 }
 
 void Test3()
 {
-    std::vector<std::vector<Interval>> schedule  = {{{1,3}},{{2,4}},{{3,5}},{{7,9}}};
-    std::vector<            Interval > result    = {{5,7}};
+    //std::vector<std::vector<Interval>> schedule  = {{{1,3}},{{2,4}},{{3,5}},{{7,9}}};
+    //std::vector<            Interval > result    = {{5,7}};
+    //std::vector<std::vector<std::vector<int>>> schedule  = {{{1,3}},{{2,4}},{{3,5}},{{7,9}}};
+    //std::vector<            std::vector<int> > result    = {{5,7}};
+    std::vector<std::vector<std::pair<int,int>>> schedule  = {{{1,3}},{{2,4}},{{3,5}},{{7,9}}};
+    std::vector<            std::pair<int,int> > result    = {{5,7}};
     Test("Test3", schedule, result);
 }
 
 void Test4()
 {
-    std::vector<std::vector<Interval>> schedule  = {{{1,2}},{{5,6}},{{1,3}},{{4,10}}};
-    std::vector<            Interval > result    = {{3,4}};
+    //std::vector<std::vector<Interval>> schedule  = {{{1,2}},{{5,6}},{{1,3}},{{4,10}}};
+    //std::vector<            Interval > result    = {{3,4}};
+    std::vector<std::vector<std::pair<int,int>>> schedule  = {{{1,2}},{{5,6}},{{1,3}},{{4,10}}};
+    std::vector<            std::pair<int,int> > result    = {{3,4}};
     Test("Test4", schedule, result);
 }
 
 void Test5()
 {
-    std::vector<std::vector<Interval>> schedule  = {{{1,3}},{{6,7}},{{2,4}},{{2,5},{9,12}}};
-    std::vector<            Interval > result    = {{5,6},{7,9}};
+    //std::vector<std::vector<Interval>> schedule  = {{{1,3}},{{6,7}},{{2,4}},{{2,5},{9,12}}};
+    //std::vector<            Interval > result    = {{5,6},{7,9}};
+    //std::vector<std::vector<std::vector<int>>> schedule  = {{{1,3}},{{6,7}},{{2,4}},{{2,5},{9,12}}};
+    //std::vector<            std::vector<int> > result    = {{5,6},{7,9}};
+    std::vector<std::vector<std::pair<int,int>>> schedule  = {{{1,3}},{{6,7}},{{2,4}},{{2,5},{9,12}}};
+    std::vector<            std::pair<int,int> > result    = {{5,6},{7,9}};
     Test("Test5", schedule, result);
 }
 
@@ -380,6 +375,7 @@ void Test7()
 
 int main()
 {
+    Test0();
     Test1();
     Test2();
     Test3();
