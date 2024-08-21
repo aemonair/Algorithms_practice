@@ -24,6 +24,7 @@
 
 // 44 yy
 #include <unordered_map>
+#include <unordered_set>
 #include <algorithm>
 #include <iostream>
 #include <climits>
@@ -63,6 +64,7 @@ typedef struct ListNode
     ListNode() : val(0), next(nullptr) {}
     ListNode(int x) : val(x), next(nullptr) {}
     ListNode(int x, ListNode *next) : val(x), next(next) {}
+    friend std::ostream & operator << (std::ostream &out, ListNode * head);
 }ListNode;
 
 class Solution {
@@ -88,27 +90,6 @@ public:
         return false;
     }
     /////////////////////////////////////////////////////////////////
-    std::vector<int> printList(ListNode* head)
-    {
-        std::vector<int> ret ; // = new ArrayList<>();
-        ListNode *listNode = head;
-        if (head)
-        {
-            std::cout << "head" << listNode->val << std::endl;
-        }
-        else
-        {
-            std::cout << "null" << std::endl;
-        }
-        while (listNode != nullptr) // && listNode->next != nullptr)
-        {
-            std::cout << listNode->val << " " ; // << std::endl;
-            ret.push_back(listNode->val);
-            listNode = listNode->next;
-        }
-        std::cout << std::endl;
-        return ret;
-    }
 };
 
 // ==================== TEST Codes====================
@@ -118,7 +99,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -132,7 +113,7 @@ const static int TEST_0    = 1;
 const static int TEST_1    = 0;
 const static int TEST_2    = 0;
 const static int TEST_3    = 0;
-    solution.printList(head);
+    std::cout << "head:" << head << std::endl;
     if (TEST_0)
     {
         std::cout << "Solution0 start.........." << std::endl;
@@ -225,6 +206,31 @@ const static int TEST_3    = 0;
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         std::cout << "Solution3 costs " << elapsed.count() <<"micros" << std::endl;
     }
+}
+std::ostream & operator << (std::ostream &out, ListNode * head)
+{
+        ListNode *listNode = head;
+        std::unordered_set<ListNode *> uset;
+        if (head)
+        {
+            out << "head" << listNode->val << std::endl;
+        }
+        else
+        {
+            out << "null" << std::endl;
+        }
+        while (listNode != nullptr) // && listNode->next != nullptr)
+        {
+            std::cout << listNode->val << " " ; // << std::endl;
+            listNode = listNode->next;
+            if (uset.count(listNode) > 0) {
+                out << " ∞ ";
+                break;
+            }
+            uset.insert(listNode);
+        }
+        out << std::endl;
+        return out;
 }
 void Test1()
 {

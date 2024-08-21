@@ -82,10 +82,6 @@ class Solution
 {
 public:
     //
-    std::vector<int> findSubstring_old(std::string s, std::vector<std::string>& words)
-    {
-        return {};
-    }
     std::vector<int> findSubstring0(std::string s, std::vector<std::string>& words)
     {
         return {};

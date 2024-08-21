@@ -70,21 +70,12 @@
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 
-template<typename T>
-int printvector(std::vector<T> v);
-
-template <typename T>
-int printstack(std::stack<T> s);
-
-template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v);
-
 class Solution {
 public:
 ////////////////////////////////////////////////////////////////////////
     bool isHappy(int n)
     {
-        return true;
+        return false;
     }
 ////////////////////////////////////////////////////////////////////////
 };
@@ -97,7 +88,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -110,6 +101,7 @@ const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 0;
 
+    std::cout << "n:" << n << std::endl;
     if (TEST_0)
     {
         std::cout << "Solution0 start.........." << std::endl;
@@ -154,69 +146,6 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
     }
     out << "\b\b ]" ;
     return out;
-}
-template<typename T>
-int printvector(std::vector<T> v)
-{
-    if(0 == v.size())
-    {
-        std::cout << "Empty vector." << std::endl;
-        return 0;
-    }
-    std::cout << "[ " ;
-    for(auto i: v)
-    {
-        std::cout << i << ", ";
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return v.size();
-}
-template<typename T>
-int printstack (std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template<typename T>
-int printvector(std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v)
-{
-    std::cout << "unordered_map size: " << v.size() << std::endl;
-    for (auto iter = v.begin(); iter != v.end(); iter++ )
-    {
-        std::cout << "(" << iter->first << "," << iter->second<< "), ";//<<std::endl;
-    }
-    std::cout << std::endl;
-    return v.size();
 }
 
 void Test1()

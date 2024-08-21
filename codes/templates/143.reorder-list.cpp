@@ -60,6 +60,8 @@ typedef struct ListNode
     ListNode() : val(0), next(nullptr) {}
     ListNode(int x) : val(x), next(nullptr) {}
     ListNode(int x, ListNode *next) : val(x), next(next) {}
+    friend std::ostream & operator << (std::ostream &out, ListNode * head);
+    friend bool isSame(ListNode *head1, ListNode * head2);
 }ListNode;
 
 class Solution {
@@ -74,62 +76,16 @@ public:
         return;
     }
     /////////////////////////////////////////////////////////////////
-    bool isSame(ListNode * head1, ListNode * head2)
-    {
-        if(head1==nullptr && head2== nullptr)
-        {
-            return true;
-        }
-        if(head1==nullptr || head2== nullptr)
-        {
-            return false;
-        }
-        if (head1->val == head2->val)
-        {
-            return isSame(head1->next , head2->next);
-        }
-        else
-        {
-            return false;
-        }
-    }
-    std::vector<int> printList(ListNode* head)
-    {
-        std::vector<int> ret ; // = new ArrayList<>();
-        std::unordered_set<int> set ; // = new ArrayList<>();
-        ListNode *listNode = head;
-        if (head)
-        {
-            std::cout << "head" << listNode->val << " : " ; //std::endl;
-        }
-        else
-        {
-            std::cout << "null" << std::endl;
-        }
-        while (listNode != nullptr) // && listNode->next != nullptr)
-        {
-            std::cout << listNode->val << " -> " ; // << std::endl;
-            ret.push_back(listNode->val);
-            if (set.count(listNode->val) > 0) {
-                break;
-            } else {
-                set.insert(listNode->val);
-            }
-            listNode = listNode->next;
-        }
-        std::cout << "\b\b\b    " << std::endl;
-        return ret;
-    }
 };
 
 void Test(const std::string& testName,
         ListNode * head,
-        ListNode * target
+        ListNode * expected
         )
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -138,7 +94,7 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    solution.printList(head);
+    std::cout << "head :" << head << std::endl;
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
@@ -153,8 +109,7 @@ const static int TEST_1    = 0;
         }
 
         solution.reorderList0(head);
-        //solution.printList(head);
-        if(solution.isSame( head ,target))
+        if(isSame( head ,expected))
         {
             //10yy
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
@@ -162,8 +117,8 @@ const static int TEST_1    = 0;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << "expected:";  // << std::endl;
-            solution.printList(target);
+            std::cout << "result head: " << head << std::endl;
+            std::cout << "expected:" << expected << std::endl;
             std::cout << RESET ; //<< std::endl;
         }
         if (TEST_TIME)
@@ -177,6 +132,41 @@ const static int TEST_1    = 0;
     {
     }
 }
+std::ostream & operator << (std::ostream &out, ListNode * head)
+{
+    ListNode *listNode = head;
+    std::unordered_set<ListNode *> uset;
+    if (head)
+    {
+        out << "head" << listNode->val << std::endl;
+    }
+    else
+    {
+        out << "null" << std::endl;
+    }
+    while (listNode != nullptr) // && listNode->next != nullptr)
+    {
+        std::cout << listNode->val << " " ; // << std::endl;
+        listNode = listNode->next;
+        if (uset.count(listNode) > 0) {
+            out << " ∞ ";
+            break;
+        }
+        uset.insert(listNode);
+    }
+    out << std::endl;
+    return out;
+}
+bool isSame(ListNode * head1 ,ListNode * head2)
+{
+    if(head1==nullptr && head2== nullptr) {return true;}
+    if(head1==nullptr || head2== nullptr) {return false;}
+    if (head1->val == head2->val)    {
+        return isSame(head1->next , head2->next);
+    } else {
+        return false;
+    }
+}
 void Test1()
 {
     /*
@@ -188,7 +178,7 @@ void Test1()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-   
+
     p1->next = p2;
     p2->next = p3;
     p3->next = p4;
@@ -272,7 +262,7 @@ int main()
 /*
  *
  *         1 -> 2 -> 3 -> 4 -> 5
- *              ↖            ↙ 
+ *              ↖            ↙
  *                ← ← ← ← ← ←
  *
  */

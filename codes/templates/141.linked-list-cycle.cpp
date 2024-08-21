@@ -8,8 +8,8 @@
  *
  * Example 1:
  *
- *     3 -> 2 -> 0 -> -4 
- *          ↖        ↙ 
+ *     3 -> 2 -> 0 -> -4
+ *          ↖        ↙
  *            ← ← ← ←
  *
  * Input: head = [3,2,0,-4], pos = 1
@@ -18,8 +18,8 @@
  *
  * Example 2:
  *
- *          1 - > 2  
- *          ↖   ↙ 
+ *          1 - > 2
+ *          ↖   ↙
  *            ←
  * Input: head = [1,2], pos = 0
  * Output: true
@@ -35,6 +35,7 @@
  *
  */
 #include <unordered_map>
+#include <unordered_set>
 #include <algorithm>
 #include <iostream>
 #include <climits>
@@ -75,6 +76,8 @@ typedef struct ListNode
     ListNode(int x) : val(x), next(nullptr) {}
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 }ListNode;
+
+std::ostream & operator << (std::ostream &out, ListNode * head);
 
 class Solution {
 public:
@@ -118,7 +121,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
     Solution solution;
 
@@ -127,6 +130,7 @@ void Test(const std::string& testName,
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
     //solution.printList(head);
+    std::cout << head << std::endl;
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 1;
@@ -177,12 +181,36 @@ const static int TEST_1    = 1;
         std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
     }
 }
-
+std::ostream & operator << (std::ostream &out, ListNode * head)
+{
+        ListNode *listNode = head;
+        std::unordered_set<ListNode *> uset;
+        if (head)
+        {
+            out << "head" << listNode->val << std::endl;
+        }
+        else
+        {
+            out << "null" << std::endl;
+        }
+        while (listNode != nullptr) // && listNode->next != nullptr)
+        {
+            std::cout << listNode->val << " " ; // << std::endl;
+            listNode = listNode->next;
+            if (uset.count(listNode) > 0) {
+                out << " ∞ ";
+                break;
+            }
+            uset.insert(listNode);
+        }
+        out << std::endl;
+        return out;
+}
 void Test1()
 {
     /*
      *         1 -> 2 -> 3 -> 4 -> 5
-     *              ↖            ↙ 
+     *              ↖            ↙
      *                ← ← ← ← ← ←
      */
     struct ListNode * p1 = new ListNode(1);
@@ -190,7 +218,7 @@ void Test1()
     struct ListNode * p3 = new ListNode(3);
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
-   
+
     struct ListNode * q1 = new ListNode(6);
     p1->next = p2;
     p2->next = p3;
