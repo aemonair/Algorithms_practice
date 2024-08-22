@@ -65,15 +65,6 @@
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 
-template<typename T>
-int printvector(std::vector<T> v);
-
-template <typename T>
-int printstack(std::stack<T> s);
-
-template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v);
-
 struct ListNode {
     int val;
     ListNode *next;
@@ -86,7 +77,7 @@ struct ListNode {
         ListNode *head2= &hhead2;
         while (head1 && head2)
         {
-            std::cout << head1->val << "," << head2->val << std::endl;
+            std::cout << head1->val << "," << head2->val << " -> " ; //<< std::endl;
             if(head1->val != head2->val)
             {
                 return false;
@@ -102,53 +93,20 @@ struct ListNode {
     }
 };
 std::ostream & operator << (std::ostream &out, ListNode *_node);
+
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head)
-    {
-        return nullptr;
-    }
-    ListNode* reverseListre(ListNode* head)
-    {
-        return nullptr;
-    }
     ListNode *reverseListK(ListNode *head, int n)
     {
-        return head;
+        return nullptr;
+    }
+    ListNode *reverseListK1(ListNode *head, int n)
+    {
+        return nullptr;
     }
     ListNode* reverseBetween(ListNode* head, int m, int n)
     {
         return nullptr;
-    }
-    ListNode* reverseBetween1(ListNode* head, int m, int n)
-    {
-        return nullptr;
-    }
-    ListNode* reverseBetween2(ListNode* head, int m, int n)
-    {
-        return nullptr;
-    }
-
-    std::vector<int> printList(ListNode* head)
-    {
-        std::vector<int> ret ; // = new ArrayList<>();
-        ListNode *listNode = head;
-        if (head)
-        {
-            std::cout << "head" << listNode->val << std::endl;
-        }
-        else
-        {
-            std::cout << "null" << std::endl;
-        }
-        while (listNode != nullptr) // && listNode->next != nullptr)
-        {
-            std::cout << listNode->val << " " ; // << std::endl;
-            ret.push_back(listNode->val);
-            listNode = listNode->next;
-        }
-        std::cout << std::endl;
-        return ret;
     }
 };
 
@@ -169,29 +127,26 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    // solution.printList(head);
+    std::cout << "k:" << k << std::endl;
     std::cout << head << std::endl;
 
     // getpermutataion
 const static int TEST_TIME = 1;
-const static int TEST_0    = 1;
-const static int TEST_1    = 0;
+const static int TEST_0    = 0;
+const static int TEST_1    = 1;
 const static int TEST_2    = 0;
 const static int TEST_3    = 0;
     if(TEST_0)
     {
-        solution.printList(head);
         if (TEST_TIME)
         {
             start = std::chrono::system_clock::now();
         }
 
-        std::cout << "k:" << k << std::endl;
         decltype(expected) result = solution.reverseListK(head, k);
-        std::cout << "solution result:" << result << std::endl;
+        std::cout << "solution0 result:" << result << std::endl;
 
-        //solution.printList(result);
-        if(result == expected)
+        if(*result == *expected)
         {
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
         }
@@ -200,7 +155,6 @@ const static int TEST_3    = 0;
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
             // std::cout << RED << "expected:" << std::endl;
             std::cout << RED << "expected:" << expected << std::endl;
-            // solution.printList(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -214,6 +168,33 @@ const static int TEST_3    = 0;
     }
     if (TEST_1)
     {
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.reverseListK1(head, k);
+        std::cout << "solution1 result:" << result << std::endl;
+
+        if(*result == *expected)
+        {
+            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
+            // std::cout << RED << "expected:" << std::endl;
+            std::cout << RED << "expected:" << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        head = solution.reverseListK(result, k);
+        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
     if (TEST_2)
     {
@@ -247,69 +228,6 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
     out << "\b\b ]" ;
     return out;
 }
-template<typename T>
-int printvector(std::vector<T> v)
-{
-    if(0 == v.size())
-    {
-        std::cout << "Empty vector." << std::endl;
-        return 0;
-    }
-    std::cout << "[ " ;
-    for(auto i: v)
-    {
-        std::cout << i << ", ";
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return v.size();
-}
-template<typename T>
-int printstack (std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template<typename T>
-int printvector(std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v)
-{
-    std::cout << "unordered_map size: " << v.size() << std::endl;
-    for (auto iter = v.begin(); iter != v.end(); iter++ )
-    {
-        std::cout << "(" << iter->first << "," << iter->second<< "), ";//<<std::endl;
-    }
-    std::cout << std::endl;
-    return v.size();
-}
 
 void Test1()
 {
@@ -319,13 +237,21 @@ void Test1()
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
 
+    ListNode * q5 = new ListNode(5);
+    ListNode * q4 = new ListNode(4, q5);
+    ListNode * q3 = new ListNode(3, q4);
+    ListNode * q1 = new ListNode(1, q3);
+    ListNode * q2 = new ListNode(2, q1);
 
     p1->next = p2;
     p2->next = p3;
     p3->next = p4;
     p4->next = p5;
 
-    Test("Test1", p1, 2, p2);
+    // solution1 result:[  3 -> 2 -> 1 -> 4 -> 5  ]
+    // 3,2 -> Solution1 failed.
+    // expected:[  2 -> 1 -> 3 -> 4 -> 5  ]
+    Test("Test1", p1, 2, q2);
 }
 
 void Test2()
@@ -336,13 +262,19 @@ void Test2()
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
 
+    struct ListNode * q5 = new ListNode(5);
+    struct ListNode * q4 = new ListNode(4, q5);
+    struct ListNode * q1 = new ListNode(1, q4);
+    struct ListNode * q2 = new ListNode(2, q1);
+    struct ListNode * q3 = new ListNode(3, q2);
+    // 3 2 1 4 5
 
     p1->next = p2;
     p2->next = p3;
     p3->next = p4;
     p4->next = p5;
 
-    Test("Test2", p1, 3, p3);
+    Test("Test2", p1, 3, q3);
 }
 
 void Test3()
@@ -382,8 +314,13 @@ void Test5()
     p2->next = p3;
     p3->next = p4;
     p4->next = p5;
+    struct ListNode * q1 = new ListNode(1);
+    struct ListNode * q2 = new ListNode(2, q1);
+    struct ListNode * q3 = new ListNode(3, q2);
+    struct ListNode * q4 = new ListNode(4, q3);
+    struct ListNode * q5 = new ListNode(5, q4);
 
-    Test("Test5", p1, 5, p5);
+    Test("Test5", p1, 5, q5);
 }
 
 int main()

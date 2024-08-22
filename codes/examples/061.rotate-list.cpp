@@ -61,6 +61,23 @@ class Solution {
 public:
     ListNode* rotateRight (ListNode* head, int k)
     {
+        ListNode * curr =head;
+        int len =1;
+        while (curr && curr->next) {
+            curr = curr->next;
+            ++len;
+        }
+        ListNode * tail = curr;
+        ListNode * ptail = curr;
+        tail->next = head;
+        std::cout << "len:" << len << ",tail:" << tail->val << std::endl;
+        for (int i= 0; i< len - k%len ; ++i) {
+            ptail = ptail->next;
+        }
+        auto temp = ptail->next;
+        ptail->next = nullptr;
+
+        return temp;
         return nullptr;
     }
     ListNode* rotateRight1(ListNode* head, int k)

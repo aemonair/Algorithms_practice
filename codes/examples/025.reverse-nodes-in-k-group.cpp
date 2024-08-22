@@ -73,13 +73,108 @@ std::ostream & operator << (std::ostream &out, ListNode *_node);
 
 class Solution {
 public:
+    ListNode *reverse(ListNode * prev, int &k)
+    {
+        ListNode * head = prev->next;
+        ListNode * curr = head;
+        for (int i = 1; i< k && curr; ++i) {
+            if (curr){
+                curr=curr->next;
+            } else {
+                break;
+            }
+        }
+        if (!curr) {
+            std::cout << "return :" << std::endl;
+            return head;
+        }
+        curr = head;
+        //for (int i = 1; i< k && curr && curr->next; ++i)
+        for (; --k > 0&& curr && curr->next;) {
+            ListNode * next = curr->next->next;
+            curr->next->next = prev->next;
+            prev->next = curr->next;
+            curr->next = next;
+        }
+        std::cout << "k:" <<  k << std::endl;
+        return curr;
+    }
+    ListNode* reverseKGroup0(ListNode* head, int k)
+    {
+        ListNode *dummy =new ListNode(-1, head);
+        ListNode * prev = dummy;
+        ListNode * curr = head;
+
+        int _k = k;
+        do {
+            _k = k;
+            if (prev) {
+                std::cout << "prev:" << prev->val << " " << std::endl;
+            }
+            ListNode * newhead = reverse(prev, _k);
+            prev = newhead;
+            if (newhead) {
+            std::cout << "newhead:" << newhead->val << " " << std::endl;
+            }
+            std::cout << "_k" << _k << dummy << std::endl;
+        }while (_k <= 1 && prev);
+
+        return dummy->next;
+    }
     ListNode* reverseKGroup(ListNode* head, int k)
     {
-        return nullptr;
+        ListNode *dummy = new ListNode(-1, head);
+        ListNode * prev = dummy;
+        ListNode * curr = prev->next;
+        while (curr) {
+            curr = prev->next;
+            for (int i =0; i < k && curr; ++i) {
+                curr = curr->next;
+            }
+            if (!curr) {
+                break;
+            }
+            curr = prev->next;
+            for (int i =1; i < k && prev; ++i) {
+                ListNode * next = curr->next->next;
+                curr->next->next = prev->next;
+                prev->next = curr->next;
+                curr->next = next;
+            }
+            prev = curr;
+        }
+        return dummy->next;
+    }
+    ListNode* reverseKGroup1(ListNode* head, int i, int k)
+    {
+        ListNode * curr = head;
+        for (int i=1; i< k; ++i) {
+            if (curr) {
+                curr = curr->next;
+            } else {
+                return head;
+            }
+        }
+        if (!curr) {
+            return head;
+        }
+        ListNode * prev = new ListNode(-1, head);
+        curr = head;
+        for (int i =1; i < k; ++i) {
+            ListNode *next = curr->next->next;
+            curr->next->next = prev->next;
+            prev->next = curr->next;
+            curr->next = next;
+        }
+        std::cout << " :" << prev << std::endl;
+        curr->next = reverseKGroup1(curr->next, 1, k);
+        std::cout << " =" << prev << std::endl;
+        return prev->next;
     }
     ListNode* reverseKGroup1(ListNode* head, int k)
     {
-        return nullptr;
+        ListNode * newhead = reverseKGroup1(head, 1, k);
+        return newhead;
     }
 };
 

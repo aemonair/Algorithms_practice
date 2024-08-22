@@ -94,7 +94,7 @@ class ListNode {
         ListNode *head2= &hhead2;
         while (head1 && head2)
         {
-            std::cout << head1->val << "," << head2->val << std::endl;
+            // std::cout << head1->val << "," << head2->val << std::endl;
             if(head1->val != head2->val)
             {
                 return false;
@@ -116,15 +116,38 @@ class Solution {
 public:
     ListNode* reverseList(ListNode* head)
     {
-        return nullptr;
+        ListNode *prev = nullptr;
+        ListNode *curr = head;
+        while (curr) {
+            ListNode * next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
     }
     ListNode* reverseList1(ListNode* head)
     {
+        ListNode * prev = new ListNode (-1, head);
+        ListNode * curr= head;
+
+        while (curr && curr->next) {
+            ListNode * next = curr->next->next;
+            curr->next->next=prev->next;
+            prev->next= curr->next;
+            curr->next = next;
+        }
+        return prev->next;
         return nullptr;
     }
-    ListNode * reverseList2(ListNode *head)
-    {
-        return nullptr;
+    ListNode * reverseList2(ListNode *head) {
+        if (head == nullptr || head->next == nullptr) {
+            return head;
+        }
+        ListNode * newhead = reverseList2(head->next);
+        head->next->next = head;
+        head->next = nullptr;
+        return newhead;
     }
     ListNode* reverseList3(ListNode* head)
     {
@@ -152,9 +175,10 @@ void Test(const std::string& testName,
     std::cout << phead << std::endl;
 
 const static int TEST_TIME = 1;
-const static int TEST_0    = 1;
-const static int TEST_1    = 1;
+const static int TEST_0    = 0;
+const static int TEST_1    = 0;
 const static int TEST_2    = 1;
+const static int TEST_3    = 0;
     if (TEST_0)
     {
         std::cout << "Solution0 start.........." << std::endl;
@@ -242,6 +266,9 @@ const static int TEST_2    = 1;
            std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
         }
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
+    }
+    if (TEST_3)
+    {
     }
 }
 // 76 yy

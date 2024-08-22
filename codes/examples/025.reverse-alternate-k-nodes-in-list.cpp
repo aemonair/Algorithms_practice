@@ -53,6 +53,35 @@ class Solution {
 public:
     ListNode* reversealternateK(ListNode* head, int k)
     {
+        ListNode * dummy = new ListNode(-1, head);
+        ListNode * prev = dummy;
+        ListNode * curr = head;
+        while(prev) {
+            ListNode * p_prev = prev;
+            for (int i =0; i< k && p_prev; ++i) {
+                p_prev = p_prev->next;
+            }
+            if (!p_prev) {
+                break;
+            }
+            curr = prev->next;
+            std::cout << "p:" << prev << std::endl;
+            for (int i=1; i< k && curr; ++i) {
+                auto next = curr->next->next;
+                curr->next->next = prev->next;
+                prev->next = curr->next;
+                curr->next = next;
+            }
+            std::cout << " p:" << prev << std::endl;
+            prev = curr;
+            for (int i =0; i< k && prev; ++i) {
+                prev = prev->next;
+            }
+            if (!prev) {
+                break;
+            }
+        }
+        return dummy->next;
         return nullptr;
     }
     ListNode* reversealternateK1(ListNode* head, int k)

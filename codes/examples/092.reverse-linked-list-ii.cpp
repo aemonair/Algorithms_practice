@@ -62,6 +62,7 @@
 #define BOLDRED     "\033[1m\033[31m"      /* Bold Red     */
 
 struct ListNode {
+    public:
     int val;
     ListNode *next;
     ListNode(int x) : val(x), next(NULL) {}
@@ -72,6 +73,7 @@ struct ListNode {
     {
         ListNode *head1= this;
         ListNode *head2= &hhead2;
+        std::cout << "==" << std::endl;
         while (head1 && head2)
         {
             std::cout << head1->val << "," << head2->val << std::endl;
@@ -130,14 +132,100 @@ public:
     }
     ListNode* reverseBetween(ListNode* head, int m, int n)
     {
+        ListNode * prev = (-1, head);
+        ListNode * curr = head;
+        int i= 1;
+        while (i < m-1 && curr) {
+            i++;
+            prev = prev->next;
+            curr = curr->next;
+        }
+        if (curr->next ==nullptr) {
+            std::cout << "empty:" << std::endl;
+            return head;}
+        ListNode *P = prev;
+        prev = nullptr;
+        std::cout << head << std::endl;
+        std::cout << "P" << P->val << std::endl;
+        ListNode * oldcurr = curr; //P->next;
+        i = m;
+        while (i <= n+1 && curr && curr->next) {
+            i++;
+            ListNode * next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+            std::cout << " i:" << i<< std::endl;
+            std::cout << " prev:" << prev->val << std::endl;
+            std::cout << " curr:" << curr->val << std::endl;
+            std::cout << " next:" << next->val << std::endl;
+        std::cout << head << std::endl;
+        }
+        std::cout << "prev:" << prev->val << std::endl;
+        std::cout << "curr:" << curr->val << std::endl;
+        std::cout << "P" << P->val << std::endl;
+        std::cout << head << std::endl;
+        // 1 2   3 4 5
+        // P       p c
+        P->next = prev;
+        //std::cout << P << std::endl;
+        oldcurr->next = curr;
+        std::cout << P << std::endl;
+        return head;
         return nullptr;
     }
     ListNode* reverseBetween1(ListNode* head, int m, int n)
     {
+        ListNode * dummy = new ListNode(-1, head);
+        ListNode * prev = dummy;
+        ListNode * curr = head ;
+        for (int i=1; i < m && curr; ++i) {
+            prev = prev -> next;
+            curr = curr->next;
+        }
+        for (int i =m ; i < n && curr && curr->next; ++i) {
+#if 1
+            ListNode * next = curr->next;
+            curr->next = curr->next->next;
+            next->next = prev->next;
+            prev->next = next;
+#elif 0
+            ListNode * next = curr->next->next;
+            curr->next->next = prev->next;
+            prev->next = curr->next;
+            curr -> next = next;
+#endif
+        }
+        return dummy->next;
         return nullptr;
+    }
+    ListNode *next = nullptr;
+    ListNode * reverse(ListNode *curr, int i, int n) {
+        if (curr==nullptr || curr->next==nullptr || i == n) {
+            if (curr) {
+                next = curr->next;
+            }
+            return curr;
+        }
+        ListNode *newhead =reverse(curr->next, i+1, n);
+        curr->next->next = curr;
+        curr->next = nullptr;
+        return newhead;
     }
     ListNode* reverseBetween2(ListNode* head, int m, int n)
     {
+        ListNode * dummy = new ListNode(-1, head);
+        ListNode * prev = dummy;
+        for (int i = 1; i< m && prev; ++i) {
+            prev = prev->next;
+        }
+        if (nullptr == prev) {return head;}
+        ListNode * cur = prev->next;
+        if (!cur) {return head;}
+        ListNode * newhead = reverse(cur, m , n);
+        prev->next->next = next   ;
+        prev->next = newhead;
+        return dummy->next;
         return nullptr;
     }
 
@@ -164,9 +252,10 @@ void Test(const std::string& testName,
     std::cout << "m:" << m << ",n: " << n<< std::endl;
 
 const static int TEST_TIME = 1;
-const static int TEST_0    = 1;
+const static int TEST_0    = 0;
 const static int TEST_1    = 0;
-const static int TEST_2    = 0;
+const static int TEST_2    = 1;
+const static int TEST_3    = 0;
     if(TEST_0)
     {
         if (TEST_TIME)
