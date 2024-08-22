@@ -61,6 +61,24 @@ public:
     }
 };
 
+bool is_same( const ListNode *head1, const ListNode * head2)
+{
+    while (head1 && head2)
+    {
+        std::cout << head1->val << "," << head2->val << " -> " ; //<< std::endl;
+        if(head1->val != head2->val)
+        {
+            return false;
+        }
+        head1=head1->next;
+        head2=head2->next;
+    }
+    if(head1 == nullptr && head2==nullptr) {
+        return true;
+    } else {
+        return false;
+    }
+}
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
         ListNode * head,
@@ -78,12 +96,11 @@ void Test(const std::string& testName,
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
 const static int TEST_TIME = 1;
-const static int TEST_0    = 0;
-const static int TEST_1    = 1;
+const static int TEST_0    = 1;
+const static int TEST_1    = 0;
     if(TEST_0)
     {
         std::cout << "k:" << k << " " << head << " ";
-        //solution.printList(head);
         if (TEST_TIME)
         {
             start = std::chrono::system_clock::now();
@@ -92,8 +109,7 @@ const static int TEST_1    = 1;
         decltype(expected) result = solution.reversealternateK(head, k);
 
         std::cout << "result: " << result << " ";
-        // solution.printList(result);
-        if(result == expected)
+        if(is_same(result , expected))
         {
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
         }
@@ -101,7 +117,6 @@ const static int TEST_1    = 1;
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
             std::cout << RED << "expected:" << expected << std::endl;
-            // solution.printList(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -114,7 +129,6 @@ const static int TEST_1    = 1;
     if(TEST_1)
     {
         std::cout << "k:" << k << " " << head << " ";
-        //solution.printList(head);
         if (TEST_TIME)
         {
             start = std::chrono::system_clock::now();
@@ -123,7 +137,6 @@ const static int TEST_1    = 1;
         decltype(expected) result = solution.reversealternateK1(head, k);
 
         std::cout << "result: " << result << " ";
-        // solution.printList(result);
         if(result == expected)
         {
             std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
@@ -132,7 +145,6 @@ const static int TEST_1    = 1;
         {
             std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
             std::cout << RED << "expected:" << expected << std::endl;
-            // solution.printList(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -151,43 +163,17 @@ void Test0()
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
 
+    ListNode * q5 = new ListNode(5);
+    ListNode * q4 = new ListNode(4, q5);
+    ListNode * q3 = new ListNode(3, q4);
+    ListNode * q1 = new ListNode(1, q3);
+    ListNode * q2 = new ListNode(2, q1);
     p1->next = p2;
     p2->next = p3;
     p3->next = p4;
     p4->next = p5;
 
-    Test("Test0", p1, 2, p2);
-#if 0
-    Solution solution;
-    ListNode *head = p1;
-    ListNode * rev = solution.reverseList(head);
-    std::cout << "reverseList List:" << std::endl;
-    solution.printList(rev);
-
-    std::cout << "List:" << std::endl;
-    solution.reverseList(rev);
-    solution.printList(head);
-
-    std::cout << "reverseList List, p2 & p4:" << std::endl;
-    ListNode *new_head = solution.reverseList(p2, p4);
-    solution.printList(new_head);
-    // 3 -> 2
-
-    p1 -> next = new_head;
-    // 1 -> 3
-
-    p2 -> next = p4;
-    // 2 -> 4
-
-    solution.printList(head);
-    // 1 -> 3 -> 2 -> 4 -> 5
-
-    //std::cout << "reverseListre List, p3 & p1:" << std::endl;
-    //solution.reverseList(p3  , p1);
-    //std::cout << "List:" << std::endl;
-    //solution.printList(head);
-    std::cout << "" << std::endl;
-#endif
+    Test("Test0", p1, 2, q2);
 }
 
 void Test1()
@@ -202,7 +188,18 @@ void Test1()
     struct ListNode * p2 = new ListNode(2, p3);
     struct ListNode * p1 = new ListNode(1, p2);
 
-    Test("Test1", p1, 2, p2);
+    ListNode * q9 = new ListNode(9 );
+    ListNode * q8 = new ListNode(8, q9);
+    ListNode * q7 = new ListNode(7, q8);
+    ListNode * q5 = new ListNode(5, q7);
+    ListNode * q6 = new ListNode(6, q5);
+    ListNode * q4 = new ListNode(4, q6);
+    ListNode * q3 = new ListNode(3, q4);
+    ListNode * q1 = new ListNode(1, q3);
+    ListNode * q2 = new ListNode(2, q1);
+    // 2 1 3 4 6 5 7 8 9
+
+    Test("Test1", p1, 2, q2);
 }
 
 void Test2()
@@ -213,23 +210,35 @@ void Test2()
     struct ListNode * p4 = new ListNode(4);
     struct ListNode * p5 = new ListNode(5);
 
+    ListNode * q5 = new ListNode(5    );
+    ListNode * q4 = new ListNode(4, q5);
+    ListNode * q1 = new ListNode(1, q4);
+    ListNode * q2 = new ListNode(2, q1);
+    ListNode * q3 = new ListNode(3, q2);
+
+    // 3 2 1 4 5
 
     p1->next = p2;
     p2->next = p3;
     p3->next = p4;
     p4->next = p5;
 
-    Test("Test2", p1, 3, p3);
+    Test("Test2", p1, 3, q3);
 }
 
 void Test3()
 {
-    struct ListNode * p1 = new ListNode(1);
-    struct ListNode * p2 = new ListNode(2);
-    struct ListNode * p3 = new ListNode(3);
-    struct ListNode * p4 = new ListNode(4);
-    struct ListNode * p5 = new ListNode(5);
+    ListNode * p1 = new ListNode(1);
+    ListNode * p2 = new ListNode(2);
+    ListNode * p3 = new ListNode(3);
+    ListNode * p4 = new ListNode(4);
+    ListNode * p5 = new ListNode(5);
 
+    ListNode * q5 = new ListNode(5    );
+    ListNode * q4 = new ListNode(4, q5);
+    ListNode * q3 = new ListNode(3, q4);
+    ListNode * q2 = new ListNode(2, q3);
+    ListNode * q1 = new ListNode(1, q2);
 
     p1->next = p2;
     p2->next = p3;
@@ -247,17 +256,28 @@ void Test4()
 }
 void Test5()
 {
-    struct ListNode * p9 = new ListNode(9 );
-    struct ListNode * p8 = new ListNode(8, p9);
-    struct ListNode * p7 = new ListNode(7, p8);
-    struct ListNode * p6 = new ListNode(6, p7);
-    struct ListNode * p5 = new ListNode(5, p6);
-    struct ListNode * p4 = new ListNode(4, p5);
-    struct ListNode * p3 = new ListNode(3, p4);
-    struct ListNode * p2 = new ListNode(2, p3);
-    struct ListNode * p1 = new ListNode(1, p2);
+    ListNode * p9 = new ListNode(9 );
+    ListNode * p8 = new ListNode(8, p9);
+    ListNode * p7 = new ListNode(7, p8);
+    ListNode * p6 = new ListNode(6, p7);
+    ListNode * p5 = new ListNode(5, p6);
+    ListNode * p4 = new ListNode(4, p5);
+    ListNode * p3 = new ListNode(3, p4);
+    ListNode * p2 = new ListNode(2, p3);
+    ListNode * p1 = new ListNode(1, p2);
 
-    Test("Test1", p1, 3, p3);
+    ListNode * q7 = new ListNode(7    );
+    ListNode * q8 = new ListNode(8, q7);
+    ListNode * q9 = new ListNode(9, q8);
+    ListNode * q6 = new ListNode(6, q9);
+    ListNode * q5 = new ListNode(5, q6);
+    ListNode * q4 = new ListNode(4, q5);
+    ListNode * q1 = new ListNode(1, q4);
+    ListNode * q2 = new ListNode(2, q1);
+    ListNode * q3 = new ListNode(3, q2);
+    // 3 2 1 4 5 6 9 8 7
+
+    Test("Test1", p1, 3, q3);
 }
 
 int main()

@@ -81,15 +81,6 @@
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 
-template<typename T>
-int printvector(std::vector<T> v);
-
-template <typename T>
-int printstack(std::stack<T> s);
-
-template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v);
-
 class ListNode {
     public:
     int val;
@@ -131,34 +122,13 @@ public:
     {
         return nullptr;
     }
-    ListNode* reverseList2(ListNode* head)
+    ListNode * reverseList2(ListNode *head)
     {
         return nullptr;
     }
     ListNode* reverseList3(ListNode* head)
     {
         return nullptr;
-    }
-    std::vector<int> printList(ListNode* head)
-    {
-        std::vector<int> ret ; // = new ArrayList<>();
-        ListNode *listNode = head;
-        if (head)
-        {
-            std::cout << "head" << listNode->val << std::endl;
-        }
-        else
-        {
-            std::cout << "null" << std::endl;
-        }
-        while (listNode != nullptr) // && listNode->next != nullptr)
-        {
-            std::cout << listNode->val << " " ; // << std::endl;
-            ret.push_back(listNode->val);
-            listNode = listNode->next;
-        }
-        std::cout << std::endl;
-        return ret;
     }
 };
 
@@ -179,14 +149,12 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    //solution.printList(phead);
     std::cout << phead << std::endl;
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 1;
 const static int TEST_2    = 1;
-const static int TEST_3    = 1;
     if (TEST_0)
     {
         std::cout << "Solution0 start.........." << std::endl;
@@ -197,7 +165,6 @@ const static int TEST_3    = 1;
 
         decltype(expected)  result = solution.reverseList(phead);
         std::cout << "solution result:" << result << std::endl;
-        // solution.printList(result);
 
         if(*result == *expected)
         {
@@ -207,7 +174,6 @@ const static int TEST_3    = 1;
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
             std::cout << RED << "expected:" << expected << std::endl;
-            // solution.printList(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -229,7 +195,6 @@ const static int TEST_3    = 1;
 
         decltype(expected)  result = solution.reverseList1(phead);
         std::cout << "solution result:" << result << std::endl;
-        // solution.printList(result);
 
         if(*result == *expected)
         {
@@ -239,7 +204,6 @@ const static int TEST_3    = 1;
         {
             std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
             std::cout << RED << "expected:" << expected << std::endl;
-            // solution.printList(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -252,9 +216,32 @@ const static int TEST_3    = 1;
     }
     if (TEST_2)
     {
-    }
-    if (TEST_3)
-    {
+        std::cout << "Solution2 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected)  result = solution.reverseList2(phead);
+        std::cout << "solution result:" << result << std::endl;
+
+        if(*result == *expected)
+        {
+            std::cout << GREEN << "Solution2 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
 }
 // 76 yy
@@ -285,69 +272,6 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
     }
     out << "\b\b ]" ;
     return out;
-}
-template<typename T>
-int printvector(std::vector<T> v)
-{
-    if(0 == v.size())
-    {
-        std::cout << "Empty vector." << std::endl;
-        return 0;
-    }
-    std::cout << "[ " ;
-    for(auto i: v)
-    {
-        std::cout << i << ", ";
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return v.size();
-}
-template<typename T>
-int printstack (std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template<typename T>
-int printvector(std::stack <T> s)
-{
-    if(s.empty())
-    {
-        std::cout << "Empty stack ." << std::endl;
-        return 0;
-    }
-    std::cout <<  "The stack size is: " << s.size() << std::endl;
-    std::cout << "[ " ;
-    while (!s.empty())
-    {
-        std::cout << s.top() << ", ";
-        s.pop();
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return s.size();
-}
-template <typename T1, typename T2>
-int printunordered_map(const std::unordered_map<T1,T2> &v)
-{
-    std::cout << "unordered_map size: " << v.size() << std::endl;
-    for (auto iter = v.begin(); iter != v.end(); iter++ )
-    {
-        std::cout << "(" << iter->first << "," << iter->second<< "), ";//<<std::endl;
-    }
-    std::cout << std::endl;
-    return v.size();
 }
 
 void Test1()
