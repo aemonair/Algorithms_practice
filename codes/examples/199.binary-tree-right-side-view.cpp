@@ -1,36 +1,34 @@
 /*
- * 104. Maximum Depth of Binary Tree
- * Easy
  ************************************************************
- * Given the root of a binary tree, return its maximum depth.
+ * 199. Binary Tree Right Side View
+ * Medium
+ ************************************************************
+ * Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
  *
- * A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
- ************************************************************
- * Note: A leaf is a node with no children.
  ************************************************************
  * Example 1:
  *
- *
- *     3
- *    / \
- *   9  20
- *     /  \
- *    15   7
- *
- * Input: root = [3,9,20,null,null,15,7]
- * Output: 3
+ *      1
+ *     / \
+ *    2   3
+ *     \   \
+ *      5   4
+ * Input: root = [1,2,3,null,5,null,4]
+ * Output: [1,3,4]
  ************************************************************
  * Example 2:
  *
- *    1
- *     \
- *      2
- * Input: root = [1,null,2]
- * Output: 2
+ * Input: root = [1,null,3]
+ * Output: [1,3]
+ ************************************************************
+ * Example 3:
+ *
+ * Input: root = []
+ * Output: []
  ************************************************************
  * Constraints:
  *
- * The number of nodes in the tree is in the range [0, 10^4].
+ * The number of nodes in the tree is in the range [0, 100].
  * -100 <= Node.val <= 100
  ************************************************************
  */
@@ -85,36 +83,39 @@ std::ostream & operator << (std::ostream &out, TreeNode *root)
 class Solution {
 public:
     //
-    int maxDepth(TreeNode* root)
+    std::vector<int> rightSideView(TreeNode* root)
     {
-        if (root == nullptr) {
-            return 0;
+        std::queue<TreeNode *> queue;
+        if (!root) {
+            return {};
         }
-        std::queue<TreeNode*> q;
-        q.push(root);
-        int level = 0;
-        while (!q.empty()) {
-            int size = q.size();
-            for (int i =0; i< size; ++i) {
-                auto curr = q.front();
-                if (curr->left) {
-                    q.push(curr->left);
+        queue.push(root);
+        // std::vector<std::vector<int>> result;
+        std::vector<int> result;
+        while (!queue.empty()) {
+            int size = queue.size();
+            for (int i =0; i <size; ++i) {
+                TreeNode * top = queue.front();
+                if (top->left) {
+                    queue.push(top->left);
                 }
-                if (curr->right) {
-                    q.push(curr->right);
+                if (top->right) {
+                    queue.push(top->right);
                 }
-                q.pop();
+                queue.pop();
+                if (i == size-1) {
+                    result.emplace_back(top->val);
+                }
             }
-            level += 1;
         }
-        return level;
+        return result;
     }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
         TreeNode *root,
-        int expected)
+        std::vector<int> expected)
 {
     if(testName.length() > 0)
     {
@@ -127,7 +128,7 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "Tree:" << root << std::endl;
+    std::cout << "Tree" << root << std::endl;
 const static int TEST_TIME = 1;
     {
         if (TEST_TIME)
@@ -135,7 +136,7 @@ const static int TEST_TIME = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.maxDepth(root);
+        decltype(expected) result = solution.rightSideView(root);
         std::cout << "result:" << result << std::endl;
 
         if(result == expected)
@@ -157,9 +158,10 @@ const static int TEST_TIME = 1;
     }
     std::cout << "-----------------------------" << std::endl;
 }
+
 void Test0()
 {
-    Test("Test0", nullptr, 0);
+    Test("Test0", nullptr, std::vector<int>());
 }
 void Test1()
 {
@@ -177,7 +179,7 @@ void Test1()
     pnode3 ->right = pnode20;
     pnode20->left  = pnode15;
     pnode20->right = pnode7 ;
-    Test("Test1", pnode3, 3);
+    Test("Test1", pnode3, std::vector<int>{3, 20, 7} );
 }
 void Test2()
 {
@@ -201,7 +203,7 @@ void Test2()
     TreeNode * pnode4 = new TreeNode(4, nullptr, pnode5);
     TreeNode * pnode3 = new TreeNode(3, nullptr, pnode4);
     TreeNode * pnode2 = new TreeNode(2, nullptr, pnode3);
-    Test("Test2", pnode2, 5);
+    Test("Test2", pnode2, std::vector<int>{2, 3, 4, 5, 6} );
 }
 
 void Test3()
@@ -228,7 +230,7 @@ void Test3()
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;
     pnode4->left   = pnode5;
-    Test("Test3", pnode1,4);
+    Test("Test3", pnode1,std::vector<int>{1, 2, 4, 5} );
 }
 
 void Test4()
@@ -249,9 +251,25 @@ void Test4()
     TreeNode * p1 = new TreeNode(1, p2, p3);
 
     int expected = 3;
-    Test("Test1", p1, expected);
+    Test("Test1", p1, std::vector<int>{1, 3, 7} );
 }
+void Test5()
+{
+    //Test("Test4", 6, 6, 3);
+    std::cout << "      12        " << std::endl;
+    std::cout << "    /   \\      " << std::endl;
+    std::cout << "   7     1      " << std::endl;
+    std::cout << " /       / \\   " << std::endl;
+    std::cout << "9       10  5   " << std::endl;
 
+    struct TreeNode * p9 = new TreeNode(9 );
+    struct TreeNode * p5 = new TreeNode(5 );
+    struct TreeNode * p10= new TreeNode(10);
+    struct TreeNode * p7 = new TreeNode(7, p9, nullptr);
+    struct TreeNode * p1 = new TreeNode(1, p10, p5);
+    struct TreeNode * p12= new TreeNode(12,p7 , p1);
+    Test("Test2", p12, std::vector<int>{12, 1, 5});
+}
 
 int main()
 {
@@ -261,6 +279,8 @@ int main()
     Test1();
     Test2();
     Test3();
+    Test4();
+    Test5();
 
     return 0;
 

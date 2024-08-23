@@ -54,30 +54,7 @@ class Solution {
 public:
     std::vector<std::vector<int>> levelOrderBottom(TreeNode* root)
     {
-        std::queue<TreeNode *> q;
-        if (!root ) {
-            return {};
-        }
-        q.push(root);
-        std::vector<std::vector<int>> result;
-        while (!q.empty()) {
-            int size = q.size();
-            std::vector<int> res;
-            for (int i =0; i< size; ++i) {
-                auto curr = q.front();
-                if(curr->left ) {
-                    q.push(curr->left );
-                }
-                if(curr->right) {
-                    q.push(curr->right);
-                }
-                res.push_back(curr->val);
-                q.pop();
-            }
-            result.insert(result.begin(), res);
-        }
-        return result;
-        return std::vector<std::vector<int>>();
+        return {};
     }
 };
 
@@ -98,7 +75,6 @@ void Test(const std::string& testName,
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
     std::cout << "Tree:" << root << std::endl;
-    // solution.printtree(root);
 const static int TEST_TIME = 1;
     {
         if (TEST_TIME)
@@ -109,7 +85,6 @@ const static int TEST_TIME = 1;
         decltype(expected) result = solution.levelOrderBottom(root);
 
         std::cout << "result: " << result << std::endl;
-        // solution.printvectorvector(result);
         if(result == expected)
         {
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
@@ -118,7 +93,6 @@ const static int TEST_TIME = 1;
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
             std::cout << RED << "expected:" << expected << std::endl;
-            // solution.printvectorvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)

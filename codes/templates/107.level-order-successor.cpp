@@ -67,77 +67,11 @@ struct TreeNode
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+int getheight(TreeNode *root);
+std::ostream & operator << (std::ostream &out, TreeNode *root);
 template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
-int getheight(TreeNode *root)
-{
-    if (root == nullptr) {
-        return 0;
-    }
-    return 1+std::max(getheight(root->left), getheight(root->right));
-}
-std::ostream & operator << (std::ostream &out, TreeNode *root)
-{
-    int height = getheight(root);
-    // out << "height:" << height << std::endl;
-        if(root==nullptr)
-        {
-            out << "[ null ]"<< std::endl;
-            return out;
-        }
-        out << std::endl;
-        std::vector<std::vector<int>> result;
-        std::queue<TreeNode *> queue;
-        queue.push(root);
-        int level = 0;
-        while(queue.empty() == false)
-        {
-            int levelsize = queue.size();
-            for (int j = 0; j < height - level ; j++) {
-                out << " " ;
-            }
-            for(int i =0; i < levelsize; i++)
-            {
-                TreeNode * curr = queue.front();
-                if (curr) {
-                    out << (curr->val) << " ";
-                    queue.push(curr->left);
-                    queue.push(curr->right);
-                } else {
-                    // out << "N ";
-                    out << "  ";
-                }
-                for (int j = 1; j < height - level ; j++) {
-                    out << " ";
-                }
-                queue.pop();
-            }
-            out << std::endl;
-            ++ level;
-            // result.push_back(vec);
-        }
-        return out;
-}
-// std::ostream & operator << (std::ostream &out, TreeNode *root)
-// {
-//     if (root == nullptr) {
-//         out << "N" << ",";
-//         return out;
-//     }
-//     out << root->val << ",";
-//     out << (root->left) ;
-//     out << (root->right);
-//     return out;
-// }
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
+
 class Solution {
 public:
     //
@@ -211,6 +145,66 @@ const static int TEST_TIME = 1;
     std::cout << "-----------------------------" << std::endl;
 }
 
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+int getheight(TreeNode *root)
+{
+    if (root == nullptr) {
+        return 0;
+    }
+    return 1+std::max(getheight(root->left), getheight(root->right));
+}
+std::ostream & operator << (std::ostream &out, TreeNode *root)
+{
+    int height = getheight(root);
+    // out << "height:" << height << std::endl;
+    if(root==nullptr)
+    {
+        out << "[ null ]"<< std::endl;
+        return out;
+    }
+    out << std::endl;
+    std::vector<std::vector<int>> result;
+    std::queue<TreeNode *> queue;
+    queue.push(root);
+    int level = 0;
+    while(queue.empty() == false)
+    {
+        int levelsize = queue.size();
+        for (int j = 0; j < height - level ; j++) {
+            out << " " ;
+        }
+        for(int i =0; i < levelsize; i++)
+        {
+            TreeNode * curr = queue.front();
+            if (curr) {
+                out << (curr->val) << " ";
+                queue.push(curr->left);
+                queue.push(curr->right);
+            } else {
+                // out << "N ";
+                out << "  ";
+            }
+            for (int j = 1; j < height - level ; j++) {
+                out << " ";
+            }
+            queue.pop();
+        }
+        out << std::endl;
+        ++ level;
+        // result.push_back(vec);
+    }
+    return out;
+}
 void Test0()
 {
     Test("Test0", nullptr, 2, nullptr);
@@ -303,7 +297,7 @@ void Test4()
     TreeNode * p1 = new TreeNode(1, p2, p3);
 
     int expected = 3;
-    Test("Test1", p1, 3, p4);
+    Test("Test4", p1, 3, p4);
 }
 void Test5()
 {
@@ -320,8 +314,8 @@ void Test5()
     struct TreeNode * p7 = new TreeNode(7, p9, nullptr);
     struct TreeNode * p1 = new TreeNode(1, p10, p5);
     struct TreeNode * p12= new TreeNode(12,p7 , p1);
-    Test("Test2", p12, 9, p10);
-    Test("Test3", p12, 12, p7);
+    Test("Test5.1", p12, 9, p10);
+    Test("Test5.2", p12, 12, p7);
 }
 
 int main()

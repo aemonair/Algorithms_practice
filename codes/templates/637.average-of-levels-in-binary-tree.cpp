@@ -48,33 +48,15 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
-std::ostream & operator << (std::ostream &out, TreeNode *root)
-{
-    if (root == nullptr) {
-        out << "N" << ",";
-        return out;
-    }
-    out << root->val << ",";
-    out << (root->left) ;
-    out << (root->right);
-    return out;
-}
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
+std::ostream & operator << (std::ostream &out, TreeNode *root);
+
 class Solution {
 public:
 
     std::vector<double> averageOfLevels(TreeNode* root)
     {
-        return std::vector<double>();
+        return {};
     }
 };
 
@@ -123,6 +105,28 @@ const static int TEST_TIME = 1;
         }
     }
     std::cout << "-----------------------------" << std::endl;
+}
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+std::ostream & operator << (std::ostream &out, TreeNode *root)
+{
+    if (root == nullptr) {
+        out << "N" << ",";
+        return out;
+    }
+    out << root->val << ",";
+    out << (root->left) ;
+    out << (root->right);
+    return out;
 }
 void Test0()
 {
@@ -209,7 +213,7 @@ void Test4()
     TreeNode * p1 = new TreeNode(1, p2, p3);
 
     std::vector<double> expected = {{1},{2.5},{5.5}};
-    Test("Test1", p1, expected);
+    Test("Test4", p1, expected);
 }
 void Test5()
 {
@@ -228,7 +232,7 @@ void Test5()
     struct TreeNode * p12= new TreeNode(12,p7 , p1);
 
     std::vector<double> expected = {{12},{4.0},{6.5}};
-    Test("Test2", p12, expected);
+    Test("Test5", p12, expected);
 }
 
 int main()

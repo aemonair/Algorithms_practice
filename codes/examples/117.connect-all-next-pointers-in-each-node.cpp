@@ -77,7 +77,31 @@ class Solution {
 public:
     Node* connect(Node* root)
     {
-        return nullptr;
+        std::queue<Node *> queue;
+        if (!root) {
+            return {};
+        }
+        queue.push(root);
+        Node * prev = nullptr;
+        // std::vector<std::vector<int>> result;
+        while (!queue.empty()) {
+            int size = queue.size();
+            while(size > 0) {
+                Node * top = queue.front();
+                if (top->left) {
+                    queue.push(top->left);
+                }
+                if (top->right) {
+                    queue.push(top->right);
+                }
+                --size;
+                queue.pop();
+                if (prev)
+                    prev->next = top;
+                prev = top;
+            }
+        }
+        return root  ;
     }
     int printtreenext  (const Node * root)
     {

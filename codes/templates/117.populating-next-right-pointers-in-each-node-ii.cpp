@@ -73,50 +73,14 @@ public:
         : val(_val), left(_left), right(_right), next(_next) {}
 };
 template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
-std::ostream & operator << (std::ostream &out, Node *root)
-{
-     //        2^height;
-     // height ,
-     //123456789XABCDE
-     //       1            2
-     //   2      3      x      y
-     // 4   5   6   7
-     //8 9 X A B C D E
-     // i ,left =2i,right=2i+1
-     // 7space 1
-     // 3space 2 6space 3
-     // 1space 4 3space 5..6..7
-     // 0space 8 1space 9..X..A...E
-    if (root == nullptr) {
-        // out << "N" << ",";
-        return out;
-    }
-    out << root->val << " " ;
-    if (root->next) {
-        out << "->" << root->next->val << ");";
-    } else {
-        out << "->N);" ;
-    }
-    out << (root->left) ;
-    out << (root->right);
-    return out;
-}
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
+std::ostream & operator << (std::ostream &out, Node *root);
 
 class Solution {
 public:
     Node* connect(Node* root)
     {
-        return nullptr;
+        return root;
     }
 };
 
@@ -166,6 +130,101 @@ const static int TEST_TIME = 1;
     }
     std::cout << "-----------------------------" << std::endl;
 }
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+std::ostream & operator << (std::ostream &out, Node *root)
+{
+    if (root == nullptr) {
+        // out << "N" << ",";
+        return out;
+    }
+    out << root->val << " " ;
+    if (root->next) {
+        out << "->" << root->next->val << ");";
+    } else {
+        out << "->N);" ;
+    }
+    out << (root->left) ;
+    out << (root->right);
+    return out;
+}
+int maxDepth(Node* root) {
+    if (!root) return 0;
+    return 1 + std::max(maxDepth(root->left), maxDepth(root->right));
+}
+int printTreeGrid(Node* root, bool printline=false)
+{
+    int depth = maxDepth(root);
+    int last_layer_offset = 1 ; //(1 << (depth - 1)) - 1; // 最后一层的offset
+    int max_width = (last_layer_offset * 2 + 1) * (1 << (depth - 1)); // 确保最后一层有足够的空间
+    //std::cout << "last_layer_offset:" << last_layer_offset << ",max_width:" << max_width << std::endl;
+
+    std::vector<std::vector<char>> grid(depth * 2 - 1, std::vector<char>(max_width, ' '));
+
+    std::queue<std::tuple<Node*, int, int>> q; // (node, row, col)
+    q.push({root, 0, (max_width - 1) / 2}); // 根节点在第一行中间
+
+    std::vector<int> offsets(depth, 0); // 存储每一层的offset
+    offsets[depth - 1] = last_layer_offset;
+
+    // 计算每一层的offset
+    for (int i = depth - 2; i >= 0; --i) {
+        offsets[i] = offsets[i + 1] * 2;
+        //std::cout << "offset:" << i << " :" << offsets[i] << std::endl;
+    }
+    for (auto i=0; i< offsets.size(); ++i) {
+        //std::cout << "offset:" << i << " :" << offsets[i] << std::endl;
+    }
+
+    while (!q.empty()) {
+        auto [node, row, col] = q.front();
+        //std::cout << "row:" << row << ",col:" << col << ",value:" << node->val << std::endl;
+        q.pop();
+        grid[row][col] = node->val + '0'; // 将数值转换为字符
+
+        int next_row = row + 2; // 下一层的行索引，考虑到行间距
+        int current_offset = offsets[row/2];
+        //std::cout << "row:" << row << ";current_offset:" << current_offset << std::endl;
+
+        if (node->left) {
+            int left_col = col - current_offset/2;
+            //std::cout << "left_col:" << col-current_offset/2 << std::endl;
+            q.push({node->left, next_row, left_col});
+            if (printline) {
+                grid[row + 1][col - (current_offset / 4)] = '/'; // 斜杠位置
+            }
+        }
+        if (node->right) {
+            int right_col = col + current_offset/2;
+            //std::cout << "right_col:" << col+current_offset/2 << std::endl;
+            q.push({node->right, next_row, right_col});
+            if (printline) {
+                grid[row + 1][col + (current_offset / 4)] = '\\'; // 斜杠位置
+            }
+        }
+    }
+
+    for (const auto& row : grid) {
+        for (char c : row) {
+            if (c == ' ' ||( c > '0' && c < '9') || (c=='\\' || c == '/')) {
+                std::cout << c << " ";
+            } else {
+                std::cout << static_cast<int>(c-'0') << " ";
+            }
+        }
+        std::cout << std::endl;
+    }
+    return 0;
+}
 void Test0()
 {
     Test("Test0", nullptr, 0);
@@ -186,6 +245,7 @@ void Test1()
     pnode3 ->right = pnode20;
     pnode20->left  = pnode15;
     pnode20->right = pnode7 ;
+    printTreeGrid(pnode3, true);
     Test("Test1", pnode3, pnode3);
 }
 void Test2()

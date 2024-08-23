@@ -54,30 +54,30 @@ class Solution {
 public:
     std::vector<std::vector<int>> levelOrderBottom(TreeNode* root)
     {
-        std::queue<TreeNode *> q;
-        if (!root ) {
+        if(!root) {
             return {};
         }
-        q.push(root);
+        std::queue<TreeNode *> queue ;
+        queue.push(root);
         std::vector<std::vector<int>> result;
-        while (!q.empty()) {
-            int size = q.size();
+        while (!queue.empty()) {
+            int size = queue.size();
             std::vector<int> res;
-            for (int i =0; i< size; ++i) {
-                auto curr = q.front();
-                if(curr->left ) {
-                    q.push(curr->left );
+            while (size > 0) {
+                auto top = queue.front();
+                queue.pop();
+                res.push_back(top->val);
+                if (top->left) {
+                    queue.push(top->left);
                 }
-                if(curr->right) {
-                    q.push(curr->right);
+                if (top->right) {
+                    queue.push(top->right);
                 }
-                res.push_back(curr->val);
-                q.pop();
+                size--;
             }
             result.insert(result.begin(), res);
         }
         return result;
-        return std::vector<std::vector<int>>();
     }
 };
 
@@ -98,7 +98,6 @@ void Test(const std::string& testName,
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
     std::cout << "Tree:" << root << std::endl;
-    // solution.printtree(root);
 const static int TEST_TIME = 1;
     {
         if (TEST_TIME)
@@ -109,7 +108,6 @@ const static int TEST_TIME = 1;
         decltype(expected) result = solution.levelOrderBottom(root);
 
         std::cout << "result: " << result << std::endl;
-        // solution.printvectorvector(result);
         if(result == expected)
         {
             std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
@@ -118,7 +116,6 @@ const static int TEST_TIME = 1;
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
             std::cout << RED << "expected:" << expected << std::endl;
-            // solution.printvectorvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
