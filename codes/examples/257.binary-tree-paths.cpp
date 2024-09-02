@@ -3,51 +3,26 @@
  * 257. Binary Tree Paths
  * Easy
  ************************************************************
- * Given a Binary Tree, find the maximum sum path from a leaf to root.
+ * Given the root of a binary tree, return all root-to-leaf paths in any order.
+ * A leaf is a node with no children.
  ************************************************************
- *
  * Example 1:
- *
- * Input:
- *         1
- *        / \
- *       2   3
- * Output:
- * 4
- * Explanation:
- * Following the path 3 -> 1, results in a
- * sum of 4, which is the maximum path sum
- * from leaf to root for the given tree.
+ *      1
+ *     / \
+ *    2   3
+ *     \
+ *       5
+ * Input: root = [1,2,3,null,5]
+ * Output: ["1->2->5","1->3"]
  ************************************************************
  * Example 2:
- *
- * Input:
- *        10
- *       /  \
- *     -2    7
- *     / \
- *    8  -4
- * Output:
- * 17
- * Explanation :
- * Following the path 7 -> 10, results in a
- * sum of 17, which is the maximum path sum
- * from leaf to root for the given tree.
+ * Input: root = [1]
+ * Output: ["1"]
  ************************************************************
- * Your task :
+ * Constraints:
  *
- * Expected Time Complexity: O(n) , where n = number of nodes
- * Expected Auxiliary Space: O(1)
- *
- * Constraints :
- * 1 <= Number of nodes <= 10^5
- * -106 <= max sum path <= 106
- *
- *                10
- *             /      \
- *           -2        7
- *         /   \
- *        8     -4
+ * The number of nodes in the tree is in the range [1, 100].
+ * -100 <= Node.val <= 100
  ************************************************************
  */
 
@@ -81,24 +56,113 @@ struct TreeNode
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 std::ostream & operator << (std::ostream &out, TreeNode *root);
-
 class Solution {
 public:
     //
-    int binaryTreeMaxPaths(TreeNode* root)
+    int binaryTreePaths(TreeNode* root, std::vector<int> &str, std::vector<std::string> &result)
     {
+        if (!root) {
+            return 0;
+        }
+        str.push_back(root->val);
+        if (!root->left && !root->right) {
+            std::string curr;
+            int size = str.size();
+            for (int i = 0; i < size-1; ++i) {
+                curr += std::to_string(str[i]);
+                curr += "->";
+            }
+            curr += std::to_string(str[size-1]);
+            result.push_back(curr);
+        }
+        binaryTreePaths(root->left, str, result);
+        binaryTreePaths(root->right,str, result);
+        str.pop_back();
         return 0;
     }
-    int binaryTreeMaxPaths1(TreeNode* root)
+    std::vector<std::string>  binaryTreePaths(TreeNode* root)
     {
-        return 0;
+        if (!root) {
+            return {};
+        }
+        std::vector<std::string> result;
+        std::vector<int> str;
+        binaryTreePaths(root, str, result);
+        return result;
+    }
+
+    int dfs(TreeNode *root, std::string path, std::vector<std::string> &paths)
+    {
+        if (!root) {
+            return 0;
+        }
+        path += std::to_string(root->val);
+        if (!root->left && !root->right) {
+            paths.emplace_back(path);
+        } else {
+            path += "->";
+            dfs(root->left, path, paths);
+            dfs(root->right, path, paths);
+        }
+    }
+    std::vector<std::string>  binaryTreePaths1(TreeNode* root)
+    {
+        if (!root) {return {};}
+        std::vector<std::string> paths;
+        dfs(root, "", paths);
+        return paths;
+    }
+    std::vector<std::string>  binaryTreePaths2(TreeNode* root)
+    {
+        std::queue<std::pair<TreeNode *, std::string>> queue;
+        if (!root) {
+            return {};
+        }
+        std::vector<std::string> result;
+        queue.push({root, std::to_string(root->val)});
+        while (!queue.empty()) {
+            int size = queue.size();
+            for (int i =0; i < size; ++i) {
+                auto top = queue.front();
+                queue.pop();
+                if (!top.first->left && !top.first->right ) {
+                    result.push_back(top.second);
+                }
+                if (top.first->right){
+                    queue.push({top.first->right,top.second + std::string("->") + std::to_string(top.first->right->val)});
+                }
+                if (top.first->left) {
+                    queue.push({top.first->left, top.second + std::string("->") + std::to_string(top.first->left->val)});
+                }
+            }
+        }
+        return result;
+    }
+    std::vector<std::string>  binaryTreePaths3(TreeNode* root)
+    {
+        if (!root) {
+            return {};
+        }
+        if (!root->left && !root->right) {
+            return {std::to_string(root->val)};
+        }
+        std::vector<std::string> res;
+        auto left = binaryTreePaths3(root->left);
+        for (auto x: left) {
+            res.push_back(std::to_string(root->val) + "->" + x);
+        }
+        auto right= binaryTreePaths3(root->right);
+        for (auto x: right) {
+            res.push_back(std::to_string(root->val) + "->" + x);
+        }
+        return res;
     }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
         TreeNode *root,
-        int expected)
+        std::vector<std::string>  expected)
 {
     if(testName.length() > 0)
     {
@@ -116,6 +180,8 @@ void Test(const std::string& testName,
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 1;
+const static int TEST_2    = 1;
+const static int TEST_3    = 1;
 
     if(TEST_0)
     {
@@ -124,9 +190,10 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.binaryTreeMaxPaths(root);
+        decltype(expected) result = solution.binaryTreePaths(root);
+        //std::vector<std::string> result = solution.binaryTreePaths(root);
         std::cout << "result  :" << std::boolalpha << result << std::endl;
-        // std::cout << "expected:" << std::boolalpha << expected << std::endl;
+        //std::cout << "expected:" << std::boolalpha << expected << std::endl;
 
         if(result == expected)
         {
@@ -144,6 +211,7 @@ const static int TEST_1    = 1;
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution0 costs " << elapsed.count() <<"micros" << std::endl;
         }
+        std::cout << "-----------------------------" << std::endl;
     }
     if(TEST_1)
     {
@@ -152,7 +220,7 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.binaryTreeMaxPaths1(root);
+        decltype(expected) result = solution.binaryTreePaths1(root);
         std::cout << "result  :" << std::boolalpha << result << std::endl;
         // std::cout << "expected:" << std::boolalpha << expected << std::endl;
 
@@ -174,6 +242,66 @@ const static int TEST_1    = 1;
         }
         std::cout << "-----------------------------" << std::endl;
     }
+    if(TEST_2)
+    {
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.binaryTreePaths2(root);
+        //std::vector<std::string> result = solution.binaryTreePaths(root);
+        std::cout << "result  :" << std::boolalpha << result << std::endl;
+        //std::cout << "expected:" << std::boolalpha << expected << std::endl;
+
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution2 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        std::cout << "-----------------------------" << std::endl;
+    }
+    if(TEST_3)
+    {
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.binaryTreePaths3(root);
+        //std::vector<std::string> result = solution.binaryTreePaths(root);
+        std::cout << "result  :" << std::boolalpha << result << std::endl;
+        //std::cout << "expected:" << std::boolalpha << expected << std::endl;
+
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution3 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution3 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution3 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        std::cout << "-----------------------------" << std::endl;
+    }
 }
 
 template<typename T>
@@ -182,7 +310,8 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
     out << "[  ";
     for(auto v: _vec)
     {
-        out << "(" << v << "), ";
+        //out << "(" << v << "), ";
+        out << "\"" << v << "\" ";
     }
     out << "\b\b ]" ;
     return out;
@@ -198,10 +327,9 @@ std::ostream & operator << (std::ostream &out, TreeNode *root)
     out << (root->right);
     return out;
 }
-
 void Test0()
 {
-    int expected = 0;
+    std::vector<std::string> expected = {};
     Test("Test0", nullptr,  expected);
 }
 void Test1()
@@ -221,7 +349,7 @@ void Test1()
     pnode20->left  = pnode15;
     pnode20->right = pnode7 ;
 
-    int expected = 3+20+15;
+    std::vector<std::string> expected = {"3->9","3->20->15","3->20->7"};
 
     Test("Test1", pnode3, expected);
 }
@@ -247,7 +375,7 @@ void Test2()
     TreeNode * pnode4 = new TreeNode(4, nullptr, pnode5);
     TreeNode * pnode3 = new TreeNode(3, nullptr, pnode4);
     TreeNode * pnode2 = new TreeNode(2, nullptr, pnode3);
-    int expected = 2+3+4+5+6;
+    std::vector<std::string> expected = {"2->3->4->5->6"};
     Test("Test2", pnode2, expected);
 }
 
@@ -275,7 +403,7 @@ void Test3()
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;
     pnode4->left   = pnode5;
-    int expected = 1+2+4+5;
+    std::vector<std::string> expected = { "1->2->3", "1->2->4->5"};
     Test("Test3", pnode1, expected);
 }
 
@@ -296,7 +424,7 @@ void Test4()
     TreeNode * p2 = new TreeNode(2, p4, p5);
     TreeNode * p1 = new TreeNode(1, p2, p3);
 
-    int expected = 1+3+7;
+    std::vector<std::string> expected = {"1->2->4", "1->2->5", "1->3->6", "1->3->7" };
     Test("Test4", p1, expected);
 }
 void Test5()
@@ -314,7 +442,7 @@ void Test5()
     struct TreeNode * p7 = new TreeNode(7, p9, nullptr);
     struct TreeNode * p1 = new TreeNode(1, p10, p5);
     struct TreeNode * p12= new TreeNode(12,p7 , p1);
-    int expected = 12+7+9;
+    std::vector<std::string> expected = { "12->7->9", "12->1->10", "12->1->5"};
     Test("Test5", p12, expected );
 }
 void Test6()
@@ -337,26 +465,8 @@ void Test6()
     struct TreeNode * p_4= new TreeNode(4 , p11, nullptr);
     struct TreeNode * p8 = new TreeNode(8, p13, p4 );
     struct TreeNode * p5 = new TreeNode(5 ,p_4, p8);
-    int expected = 5+4+11+7;
+    std::vector<std::string> expected = {"5->4->11->7", "5->4->11->2", "5->8->13", "5->8->4->5", "5->8->4->1" };
     Test("Test6", p5, expected );
-}
-void Test7()
-{
-    //Test("Test4", 6, 6, 3);
-    std::cout << "     10         " << std::endl;
-    std::cout << "    /   \\      " << std::endl;
-    std::cout << "  -2     7      " << std::endl;
-    std::cout << " /   \\         " << std::endl;
-    std::cout << "8    -4         " << std::endl;
-
-    TreeNode * p7 = new TreeNode(7);
-    TreeNode * p8 = new TreeNode(8);
-    TreeNode * p4 = new TreeNode(-4);
-    TreeNode * p2 = new TreeNode(-2, p8, p4);
-    TreeNode * p10= new TreeNode(10, p2, p7);
-
-    int expected = 10+7;
-    Test("Test7", p10, expected);
 }
 int main()
 {
@@ -369,7 +479,6 @@ int main()
     Test4();
     Test5();
     Test6();
-    Test7();
 
     return 0;
 

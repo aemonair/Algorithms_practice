@@ -67,39 +67,23 @@ std::ostream & operator << (std::ostream &out, TreeNode *root);
 
 class Solution {
 public:
-    //
+    ///////////////////////////////////////////////////////
     int  pathSum(TreeNode* root, int sum)
     {
         return 0;
     }
+    ///////////////////////////////////////////////////////
     int  pathSum1(TreeNode* root, int sum)
+    {
+        return 0;
+    }
+    //////////////////////////////////////////////////////
+    int  pathSum2(TreeNode* root, int sum)
     {
         return 0;
     }
 };
 
-template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << "(" << v << "), ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
-std::ostream & operator << (std::ostream &out, TreeNode *root)
-{
-    if (root == nullptr) {
-        out << "N" << ",";
-        return out;
-    }
-    out << root->val << ",";
-    out << (root->left) ;
-    out << (root->right);
-    return out;
-}
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
         TreeNode *root,
@@ -118,10 +102,10 @@ void Test(const std::string& testName,
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
     std::cout << "find sum:" << sum << " " << root << std::endl;
-    // solution.printtree(root);
 const static int TEST_TIME = 1;
-const static int TEST_0    = 0;
+const static int TEST_0    = 1;
 const static int TEST_1    = 1;
+const static int TEST_2    = 1;
 
     if(TEST_0)
     {
@@ -179,6 +163,57 @@ const static int TEST_1    = 1;
         }
         std::cout << "-----------------------------" << std::endl;
     }
+    if(TEST_2)
+    {
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.pathSum2(root, sum);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
+
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution2 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        std::cout << "-----------------------------" << std::endl;
+    }
+}
+
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << "(" << v << "), ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+std::ostream & operator << (std::ostream &out, TreeNode *root)
+{
+    if (root == nullptr) {
+        out << "N" << ",";
+        return out;
+    }
+    out << root->val << ",";
+    out << (root->left) ;
+    out << (root->right);
+    return out;
 }
 
 void Test0()
@@ -286,7 +321,7 @@ void Test4()
 
     int sum = 12;
     int expected = 3;
-    Test("Test1", p1, sum, expected);
+    Test("Test4", p1, sum, expected);
 }
 void Test5()
 {
@@ -305,7 +340,7 @@ void Test5()
     struct TreeNode * p12= new TreeNode(12,p7 , p1);
     int sum = 11;
     int expected = 2;
-    Test("Test2", p12, sum,  expected );
+    Test("Test5", p12, sum,  expected );
 }
 void Test6()
 {
@@ -333,8 +368,6 @@ void Test6()
 }
 int main()
 {
-    Solution solution;
-
     Test0();
     Test1();
     Test2();
@@ -344,5 +377,4 @@ int main()
     Test6();
 
     return 0;
-
 }

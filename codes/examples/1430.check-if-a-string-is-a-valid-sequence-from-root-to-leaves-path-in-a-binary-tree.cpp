@@ -90,13 +90,85 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 std::ostream & operator << (std::ostream &out, TreeNode *root);
 class Solution {
 public:
+    bool isValidSequence(TreeNode* root, int index, std::vector<int> &arr) {
+        if (root == nullptr) {
+            return false;
+        }
+        if (index >= arr.size()) {
+            return false;
+        }
+        if (root->val == arr[index]) {
+            if (root->left == nullptr && root->right == nullptr
+                    && arr.size() == index + 1) {
+                std::cout << root->val << " ";
+                return true;
+            } else {
+                return isValidSequence(root->left, index+1, arr) ||
+                    isValidSequence(root->right, index+1, arr);
+            }
+        }
+        return false;
+    }
+    bool dfs(TreeNode* root, int index, std::vector<int> &arr)
+    {
+        if (root==nullptr) return false;
+        if (index >= arr.size()) return false;
+        if (root->val == arr[index]) {
+            if (!root->left &&!root->right && index == arr.size() -1) {
+                return true;
+            } else {
+                return dfs(root->left, index+1, arr) ||
+                    dfs(root->right, index+1, arr);
+            }
+        }
+        return false;
+    }
     bool isValidSequence(TreeNode* root, std::vector<int> &arr)
     {
-        return true;
+        return dfs(root, 0, arr);
+    }
+    bool isValidSequence1(TreeNode* root, int index, std::vector<int> &arr)
+    {
+        if (root==nullptr) {
+            return false;
+        }
+        if (root->val == arr[index]) {
+            if (!root->left && !root->right) {
+                if (index == arr.size() -1) {
+                    return true;
+                }
+            }
+            return isValidSequence1(root->left, index+1, arr) ||
+                isValidSequence1(root->right, index+1, arr);
+        }
+        return false;
     }
     bool isValidSequence1(TreeNode* root, std::vector<int> &arr)
     {
-        return true;
+        return isValidSequence1(root, 0, arr);
+    }
+    bool isValidSequence2(TreeNode* root, std::vector<int> &arr)
+    {
+        return isValidSequence2(root, 0, arr);
+    }
+    bool isValidSequence2(TreeNode* root, int index, std::vector<int> &arr)
+    {
+        // 当前节点为空或数组已检查完，但节点不匹配，路径无效
+        if (root == nullptr || index == arr.size()) {
+            return false;
+        }
+        // 节点值与数组对应位置的值匹配
+        if (root->val == arr[index]) {
+            // 如果是叶子节点且是数组最后一个元素，路径有效
+            if (root->left == nullptr && root->right == nullptr && index == arr.size() - 1) {
+                return true;
+            }
+            // 继续探索左子树或右子树
+            return isValidSequence2(root->left, index + 1, arr) ||
+                isValidSequence2(root->right, index + 1, arr);
+        }
+        // 当前节点值与数组值不匹配，路径无效
+        return false;
     }
 };
 
@@ -119,7 +191,7 @@ void Test(const std::string& testName,
 
     std::cout << "find arr:" << " " << arr << " " << root << std::endl;
 const static int TEST_TIME = 1;
-const static int TEST_0    = 1;
+const static int TEST_0    = 0;
 const static int TEST_1    = 1;
 
     if(TEST_0)

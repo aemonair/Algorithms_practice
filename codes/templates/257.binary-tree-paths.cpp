@@ -61,36 +61,21 @@ public:
     //
     std::vector<std::string>  binaryTreePaths(TreeNode* root)
     {
-        reutrn {};
+        return {};
+    }
+    std::vector<std::string>  binaryTreePaths1(TreeNode* root)
+    {
+        return {};
+    }
+    std::vector<std::string>  binaryTreePaths2(TreeNode* root)
+    {
+        return {};
+    }
+    std::vector<std::string>  binaryTreePaths3(TreeNode* root)
+    {
+        return {};
     }
 };
-template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << "(" << v << "), ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
-std::ostream & operator << (std::ostream &out, TreeNode *root)
-{
-    if (root == nullptr) {
-        out << "N" << ",";
-        return out;
-    }
-    out << root->val << ",";
-    out << (root->left) ;
-    out << (root->right);
-    // 转为数组
-    // 1 2 4 8
-    //   0    0,
-    //  1 2   1, 2^i-1
-    // 34 56  2, 2^i-1,
-    return out;
-}
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
@@ -112,7 +97,9 @@ void Test(const std::string& testName,
     //solution.printtree(root);
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
-const static int TEST_1    = 1;
+const static int TEST_1    = 0;
+const static int TEST_2    = 0;
+const static int TEST_3    = 0;
 
     if(TEST_0)
     {
@@ -122,8 +109,9 @@ const static int TEST_1    = 1;
         }
 
         decltype(expected) result = solution.binaryTreePaths(root);
+        //std::vector<std::string> result = solution.binaryTreePaths(root);
         std::cout << "result  :" << std::boolalpha << result << std::endl;
-        std::cout << "expected:" << std::boolalpha << expected << std::endl;
+        //std::cout << "expected:" << std::boolalpha << expected << std::endl;
 
         if(result == expected)
         {
@@ -145,9 +133,118 @@ const static int TEST_1    = 1;
     }
     if(TEST_1)
     {
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.binaryTreePaths1(root);
+        std::cout << "result  :" << std::boolalpha << result << std::endl;
+        // std::cout << "expected:" << std::boolalpha << expected << std::endl;
+
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        std::cout << "-----------------------------" << std::endl;
+    }
+    if(TEST_2)
+    {
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.binaryTreePaths2(root);
+        //std::vector<std::string> result = solution.binaryTreePaths(root);
+        std::cout << "result  :" << std::boolalpha << result << std::endl;
+        //std::cout << "expected:" << std::boolalpha << expected << std::endl;
+
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution2 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        std::cout << "-----------------------------" << std::endl;
+    }
+    if(TEST_3)
+    {
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.binaryTreePaths3(root);
+        //std::vector<std::string> result = solution.binaryTreePaths(root);
+        std::cout << "result  :" << std::boolalpha << result << std::endl;
+        //std::cout << "expected:" << std::boolalpha << expected << std::endl;
+
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution3 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution3 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution3 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        std::cout << "-----------------------------" << std::endl;
     }
 }
 
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        //out << "(" << v << "), ";
+        out << "\"" << v << "\" ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+std::ostream & operator << (std::ostream &out, TreeNode *root)
+{
+    if (root == nullptr) {
+        out << "N" << ",";
+        return out;
+    }
+    out << root->val << ",";
+    out << (root->left) ;
+    out << (root->right);
+    return out;
+}
 void Test0()
 {
     std::vector<std::string> expected = {};

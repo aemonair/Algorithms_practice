@@ -1,56 +1,39 @@
 /*
  ************************************************************
- * 257. Binary Tree Paths
- * Easy
+ * 437. Path Sum III
+ * Medium
  ************************************************************
- * Given a Binary Tree, find the maximum sum path from a leaf to root.
+ * You are given a binary tree in which each node contains an integer value.
+ *
+ * Find the number of paths that sum to a given value.
+ *
+ * The path does not need to start or end at the root or a leaf, but it must go downwards (traveling only from parent nodes to child nodes).
+ *
+ * The tree has no more than 1,000 nodes and the values are in the range -1,000,000 to 1,000,000.
+ *
  ************************************************************
+ * Example:
  *
- * Example 1:
+ * root = [10,5,-3,3,2,null,11,3,-2,null,1], sum = 8
  *
- * Input:
- *         1
- *        / \
- *       2   3
- * Output:
- * 4
- * Explanation:
- * Following the path 3 -> 1, results in a
- * sum of 4, which is the maximum path sum
- * from leaf to root for the given tree.
- ************************************************************
- * Example 2:
+ *       10
+ *      /  \
+ *     5   -3
+ *    / \    \
+ *   3   2   11
+ *  / \   \
+ * 3  -2   1
  *
- * Input:
- *        10
- *       /  \
- *     -2    7
- *     / \
- *    8  -4
- * Output:
- * 17
- * Explanation :
- * Following the path 7 -> 10, results in a
- * sum of 17, which is the maximum path sum
- * from leaf to root for the given tree.
- ************************************************************
- * Your task :
+ * Return 3. The paths that sum to 8 are:
  *
- * Expected Time Complexity: O(n) , where n = number of nodes
- * Expected Auxiliary Space: O(1)
- *
- * Constraints :
- * 1 <= Number of nodes <= 10^5
- * -106 <= max sum path <= 106
- *
- *                10
- *             /      \
- *           -2        7
- *         /   \
- *        8     -4
+ * 1.  5 -> 3
+ * 2.  5 -> 2 -> 1
+ * 3. -3 -> 11
+
  ************************************************************
  */
 
+#include <unordered_map>
 #include <algorithm>
 #include <iostream>
 #include <chrono>
@@ -85,20 +68,87 @@ std::ostream & operator << (std::ostream &out, TreeNode *root);
 class Solution {
 public:
     //
-    int binaryTreeMaxPaths(TreeNode* root)
+    int  pathSum(TreeNode* root, int sum)
     {
+        std::vector<int> vec;
+        return pathSum(root, vec, sum);
         return 0;
     }
-    int binaryTreeMaxPaths1(TreeNode* root)
+    int  pathSum(TreeNode* root, std::vector<int> &vec, int sum)
     {
-        return 0;
+        if (!root) {
+            return 0;
+        }
+        int res = 0;
+        int cur = 0;
+        vec.push_back(root->val);
+        for (auto rb = vec.rbegin(); rb != vec.rend(); ++rb) {
+            cur += *rb;
+            std::cout << "+" << *rb << "=" << cur << " ";
+            if (cur == sum) {
+                res++;
+            }
+        }
+        res += pathSum(root->left, vec, sum);
+        res += pathSum(root->right, vec, sum);
+        vec.pop_back();
+        return  res;
+    }
+    ///////////////////////////////////////////////////////
+    int rootSum(TreeNode *root, int sum)
+    {
+        // 判断以当前节点作为根节点，下方是否有和为target的个数
+        // 节点 root 为起点向下且满足路径总和为 val 的路径数目
+        if (!root) {
+            return 0;
+        }
+        int ret = 0;
+        if (root->val == sum) {
+            ret += 1;
+        }
+        return rootSum(root->left, sum - root->val) + rootSum(root->right, sum - root->val) + ret;
+    }
+    int  pathSum1(TreeNode* root, int sum)
+    {
+        if (!root) {
+            return 0;
+        }
+        // 得到root作为根节点时，所有的和符合的个数
+        int count = rootSum(root, sum);
+        count += pathSum1(root->left, sum );
+        count += pathSum1(root->right, sum);
+        return count;
+    }
+    //////////////////////////////////////////////////////
+    std::unordered_map<long long, int> prefix;
+    int  pathSum2(TreeNode* root, int sum)
+    {
+        prefix[0] = 1;
+        dfs(root, 0, sum);
+    }
+    int dfs(TreeNode * root, long long curr, long target)
+    {
+        if (!root) {
+            return 0;
+        }
+        int ret =0;
+        curr += root->val;
+        if (prefix.count(curr - target)) {
+            ret = prefix[curr - target];
+        }
+        prefix[curr] ++;
+        ret += dfs(root->left, curr, target);
+        ret += dfs(root->right,curr, target);
+        prefix[curr]--;
+        return ret;
     }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
         TreeNode *root,
-        int expected)
+        int sum,
+        int  expected)
 {
     if(testName.length() > 0)
     {
@@ -111,11 +161,12 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "Tree:" << root << std::endl;
-    //solution.printtree(root);
+    std::cout << "find sum:" << sum << " " << root << std::endl;
+    // solution.printtree(root);
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 1;
+const static int TEST_2    = 1;
 
     if(TEST_0)
     {
@@ -124,9 +175,8 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.binaryTreeMaxPaths(root);
-        std::cout << "result  :" << std::boolalpha << result << std::endl;
-        // std::cout << "expected:" << std::boolalpha << expected << std::endl;
+        decltype(expected) result = solution.pathSum(root, sum);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
 
         if(result == expected)
         {
@@ -144,6 +194,7 @@ const static int TEST_1    = 1;
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution0 costs " << elapsed.count() <<"micros" << std::endl;
         }
+        std::cout << "-----------------------------" << std::endl;
     }
     if(TEST_1)
     {
@@ -152,9 +203,8 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.binaryTreeMaxPaths1(root);
-        std::cout << "result  :" << std::boolalpha << result << std::endl;
-        // std::cout << "expected:" << std::boolalpha << expected << std::endl;
+        decltype(expected) result = solution.pathSum1(root, sum);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
 
         if(result == expected)
         {
@@ -171,6 +221,34 @@ const static int TEST_1    = 1;
            end = std::chrono::system_clock::now();
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        std::cout << "-----------------------------" << std::endl;
+    }
+    if(TEST_2)
+    {
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.pathSum2(root, sum);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
+
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution2 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
         }
         std::cout << "-----------------------------" << std::endl;
     }
@@ -201,29 +279,33 @@ std::ostream & operator << (std::ostream &out, TreeNode *root)
 
 void Test0()
 {
-    int expected = 0;
-    Test("Test0", nullptr,  expected);
+    int sum = 11;
+    int expected = 0 ;
+    Test("Test0", nullptr, sum, expected);
 }
 void Test1()
 {
-    std::cout << "      3         " << std::endl;
-    std::cout << "    /   \\      " << std::endl;
-    std::cout << "   9     20     " << std::endl;
-    std::cout << "         / \\   " << std::endl;
-    std::cout << "       15   7   " << std::endl;
+    std::cout << "       10         " << std::endl;
+    std::cout << "      /  \\       " << std::endl;
+    std::cout << "     5   -3       " << std::endl;
+    std::cout << "    / \\   \\     " << std::endl;
+    std::cout << "   3   2   11     " << std::endl;
+    std::cout << "  / \\  \\        " << std::endl;
+    std::cout << " 3  -2   1        " << std::endl;
     TreeNode * pnode3 = new TreeNode(3);
-    TreeNode * pnode9 = new TreeNode(9);
-    TreeNode * pnode20= new TreeNode(20);
-    TreeNode * pnode15= new TreeNode(15);
-    TreeNode * pnode7 = new TreeNode(7);
-    pnode3 ->left  = pnode9 ;
-    pnode3 ->right = pnode20;
-    pnode20->left  = pnode15;
-    pnode20->right = pnode7 ;
+    TreeNode * pnode_2= new TreeNode(-2);
+    TreeNode * pnode1 = new TreeNode(1);
+    TreeNode * pnode3_= new TreeNode(3, pnode3, pnode_2);
+    TreeNode * pnode2 = new TreeNode(2, nullptr, pnode1);
+    TreeNode * pnode11= new TreeNode(11);
+    TreeNode * pnode5 = new TreeNode(5, pnode3_,pnode2);
+    TreeNode * pnode_3= new TreeNode(-3, nullptr, pnode11);
+    TreeNode * pnode10= new TreeNode(10,pnode5, pnode_3);
 
-    int expected = 3+20+15;
+    int sum = 8 ;
+    int expected = 3 ;
 
-    Test("Test1", pnode3, expected);
+    Test("Test1", pnode10, sum, expected);
 }
 void Test2()
 {
@@ -247,8 +329,9 @@ void Test2()
     TreeNode * pnode4 = new TreeNode(4, nullptr, pnode5);
     TreeNode * pnode3 = new TreeNode(3, nullptr, pnode4);
     TreeNode * pnode2 = new TreeNode(2, nullptr, pnode3);
-    int expected = 2+3+4+5+6;
-    Test("Test2", pnode2, expected);
+    int sum = 11;
+    int expected = 1 ;
+    Test("Test2", pnode2, sum, expected);
 }
 
 void Test3()
@@ -275,8 +358,9 @@ void Test3()
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;
     pnode4->left   = pnode5;
-    int expected = 1+2+4+5;
-    Test("Test3", pnode1, expected);
+    int sum = 6 ;
+    int expected = 2 ;
+    Test("Test3", pnode1, sum, expected);
 }
 
 void Test4()
@@ -284,20 +368,21 @@ void Test4()
     //Test("Test4", 6, 6, 3);
     std::cout << "      1         " << std::endl;
     std::cout << "    /   \\      " << std::endl;
-    std::cout << "   2     3      " << std::endl;
+    std::cout << "   7     9      " << std::endl;
     std::cout << " /   \\  / \\   " << std::endl;
-    std::cout << "4     5 6   7   " << std::endl;
+    std::cout << "6     5 2   3   " << std::endl;
 
-    TreeNode * p7 = new TreeNode(7);
-    TreeNode * p6 = new TreeNode(6);
+    TreeNode * p3 = new TreeNode(3);
+    TreeNode * p2 = new TreeNode(2);
     TreeNode * p5 = new TreeNode(5);
-    TreeNode * p4 = new TreeNode(4);
-    TreeNode * p3 = new TreeNode(3, p6, p7);
-    TreeNode * p2 = new TreeNode(2, p4, p5);
-    TreeNode * p1 = new TreeNode(1, p2, p3);
+    TreeNode * p6 = new TreeNode(6);
+    TreeNode * p9 = new TreeNode(9, p2, p3);
+    TreeNode * p7 = new TreeNode(7, p6, p5);
+    TreeNode * p1 = new TreeNode(1, p7, p9);
 
-    int expected = 1+3+7;
-    Test("Test4", p1, expected);
+    int sum = 12;
+    int expected = 3;
+    Test("Test4", p1, sum, expected);
 }
 void Test5()
 {
@@ -306,16 +391,17 @@ void Test5()
     std::cout << "    /   \\      " << std::endl;
     std::cout << "   7     1      " << std::endl;
     std::cout << " /       / \\   " << std::endl;
-    std::cout << "9       10  5   " << std::endl;
+    std::cout << "4       10  5   " << std::endl;
 
-    struct TreeNode * p9 = new TreeNode(9 );
+    struct TreeNode * p4 = new TreeNode(4 );
     struct TreeNode * p5 = new TreeNode(5 );
     struct TreeNode * p10= new TreeNode(10);
-    struct TreeNode * p7 = new TreeNode(7, p9, nullptr);
+    struct TreeNode * p7 = new TreeNode(7, p4, nullptr);
     struct TreeNode * p1 = new TreeNode(1, p10, p5);
     struct TreeNode * p12= new TreeNode(12,p7 , p1);
-    int expected = 12+7+9;
-    Test("Test5", p12, expected );
+    int sum = 11;
+    int expected = 2;
+    Test("Test5", p12, sum,  expected );
 }
 void Test6()
 {
@@ -337,31 +423,12 @@ void Test6()
     struct TreeNode * p_4= new TreeNode(4 , p11, nullptr);
     struct TreeNode * p8 = new TreeNode(8, p13, p4 );
     struct TreeNode * p5 = new TreeNode(5 ,p_4, p8);
-    int expected = 5+4+11+7;
-    Test("Test6", p5, expected );
-}
-void Test7()
-{
-    //Test("Test4", 6, 6, 3);
-    std::cout << "     10         " << std::endl;
-    std::cout << "    /   \\      " << std::endl;
-    std::cout << "  -2     7      " << std::endl;
-    std::cout << " /   \\         " << std::endl;
-    std::cout << "8    -4         " << std::endl;
-
-    TreeNode * p7 = new TreeNode(7);
-    TreeNode * p8 = new TreeNode(8);
-    TreeNode * p4 = new TreeNode(-4);
-    TreeNode * p2 = new TreeNode(-2, p8, p4);
-    TreeNode * p10= new TreeNode(10, p2, p7);
-
-    int expected = 10+7;
-    Test("Test7", p10, expected);
+    int sum = 15;
+    int expected = 1;
+    Test("Test6", p5, sum,  expected );
 }
 int main()
 {
-    Solution solution;
-
     Test0();
     Test1();
     Test2();
@@ -369,8 +436,6 @@ int main()
     Test4();
     Test5();
     Test6();
-    Test7();
 
     return 0;
-
 }

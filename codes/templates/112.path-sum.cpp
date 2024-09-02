@@ -74,9 +74,9 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 std::ostream & operator << (std::ostream &out, TreeNode *root);
 template <typename T>
 std::ostream & operator << (std::ostream &out, std::stack<T> s);
+
 class Solution {
 public:
-    //
     bool hasPathSum(TreeNode* root, int targetSum)
     {
         return false;
@@ -85,97 +85,15 @@ public:
     {
         return false;
     }
+    bool hasPathSum2(TreeNode* root, int targetSum)
+    {
+        return false;
+    }
+    bool hasPathSum3(TreeNode* root, int targetSum)
+    {
+        return false;
+    }
 };
-template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
-std::ostream & operator << (std::ostream &out, TreeNode *root)
-{
-    if (root == nullptr) {
-        out << "N" << ",";
-        return out;
-    }
-    out << root->val << ",";
-    out << (root->left) ;
-    out << (root->right);
-    // 转为数组
-    // 1 2 4 8
-    //   0    0,
-    //  1 2   1, 2^i-1
-    // 34 56  2, 2^i-1,
-    return out;
-}
-template <typename T>
-std::ostream & operator << (std::ostream &out, std::stack<T> s)
-{
-    if (s.empty())
-    {
-        out << "The stack is empty." << std::endl;
-        return out;
-    }
-    out <<  "The stack size is: " << s.size() << std::endl;
-    std::stack<T> tmp(s);
-    while (!tmp.empty())
-    {
-        out << tmp.top() << ", ";
-        tmp.pop();
-    }
-    out <<  std::endl;
-    return out;
-}
-template <typename T1, typename T2>
-std::ostream & operator << (std::ostream &out, std::pair <T1,T2> t)
-{
-    out << "(" << t.first << "," << t.second << ") ";
-}
-template <typename T2>
-std::ostream & operator << (std::ostream &out, std::pair <TreeNode *,T2> t)
-{
-    out << "(" << t.first->val << "," << t.second << ") ";
-}
-// template <typename T>
-// int printstack(std::stack<T> s)
-// {
-//     if (s.empty())
-//     {
-//         std::cout << "The stack is empty." << std::endl;
-//         return 0;
-//     }
-//     std::cout <<  "The stack size is: " << s.size() << std::endl;
-//     std::stack<T> tmp(s);
-//     while (!tmp.empty())
-//     {
-//         std::cout << tmp.top() << ", ";
-//         tmp.pop();
-//     }
-//     std::cout <<  std::endl;
-//     return tmp.size();
-// }
-// int printstack(std::stack<std::pair <TreeNode *, int>> s)
-// {
-//     if (s.empty())
-//     {
-//         std::cout << "The TreeNode pair stack is empty." << std::endl;
-//         return 0;
-//     }
-//     std::cout <<  "The TreeNode stack size is: " << s.size() << std::endl;
-//     std::stack<std::pair<TreeNode *, int>> tmp(s);
-//     while (!tmp.empty())
-//     {
-//         std::cout << "(" << (tmp.top()).first->val << ", " << tmp.top().second << ");";
-//         tmp.pop();
-//     }
-//     std::cout << "\b]" << std::endl;
-//     return tmp.size();
-// }
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
@@ -194,10 +112,12 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "Tree:" << root << std::endl;
+    std::cout << "targetSum: " << targetSum << " Tree:" << root << std::endl;
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 1;
+const static int TEST_2    = 1;
+const static int TEST_3    = 1;
 
     if(TEST_0)
     {
@@ -253,9 +173,113 @@ const static int TEST_1    = 1;
            std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
         }
     }
+    if(TEST_2)
+    {
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.hasPathSum(root, targetSum);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
+
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution2 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+    }
+    if(TEST_3)
+    {
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.hasPathSum(root, targetSum);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
+
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution3 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution3 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution3 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+    }
     std::cout << "-----------------------------" << std::endl;
 }
 
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+std::ostream & operator << (std::ostream &out, TreeNode *root)
+{
+    if (root == nullptr) {
+        out << "N" << ",";
+        return out;
+    }
+    out << root->val << ",";
+    out << (root->left) ;
+    out << (root->right);
+    return out;
+}
+template <typename T>
+std::ostream & operator << (std::ostream &out, std::stack<T> s)
+{
+    if (s.empty())
+    {
+        out << "The stack is empty." << std::endl;
+        return out;
+    }
+    out <<  "The stack size is: " << s.size() << std::endl;
+    std::stack<T> tmp(s);
+    while (!tmp.empty())
+    {
+        out << tmp.top() << ", ";
+        tmp.pop();
+    }
+    out <<  std::endl;
+    return out;
+}
+template <typename T1, typename T2>
+std::ostream & operator << (std::ostream &out, std::pair <T1,T2> t)
+{
+    out << "(" << t.first << "," << t.second << ") ";
+}
+template <typename T2>
+std::ostream & operator << (std::ostream &out, std::pair <TreeNode *,T2> t)
+{
+    out << "(" << t.first->val << "," << t.second << ") ";
+}
 void Test0()
 {
     Test("Test0", nullptr, 0, false);

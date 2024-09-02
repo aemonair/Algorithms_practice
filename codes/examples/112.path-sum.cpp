@@ -1,9 +1,10 @@
 /*
  ************************************************************
- * 113. Path Sum II
- * Medium
+ * 112. Path Sum
+ * Easy
  ************************************************************
- * Given the root of a binary tree and an integer targetSum, return all root-to-leaf paths where each path's sum equals targetSum.
+ * Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
+ *
  * A leaf is a node with no children.
  ************************************************************
  * Example 1:
@@ -12,10 +13,10 @@
  *        4   8
  *       /   / \
  *      11  13  4
- *     / \     / \
- *    7   2   5   1
- * Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
- * Output: [[5,4,11,2],[5,8,4,5]]
+ *     / \       \
+ *    7   2       1
+ * Input: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
+ * Output: true
  ************************************************************
  * Example 2:
  *
@@ -23,7 +24,7 @@
  *     / \
  *    2   3
  * Input: root = [1,2,3], targetSum = 5
- * Output: []
+ * Output: false
  ************************************************************
  * Example 3:
  *
@@ -31,7 +32,7 @@
  *     /
  *    2
  * Input: root = [1,2], targetSum = 0
- * Output: []
+ * Output: false
  *
  ************************************************************
  * Constraints:
@@ -49,7 +50,6 @@
 #include <string>
 #include <queue>
 #include <stack>
-#include <deque>
 #include <map>
 
 #define RESET   "\033[0m"
@@ -71,27 +71,85 @@ struct TreeNode
 
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
+std::ostream & operator << (std::ostream &out, TreeNode *root);
 template <typename T>
 std::ostream & operator << (std::ostream &out, std::stack<T> s);
-template<typename T>
-std::ostream & operator << (std::ostream &out, std::deque <T> &_vec);
-template<typename T>
-std::ostream & operator << (std::ostream &out, std::deque <TreeNode *> &_vec);
-std::ostream & operator << (std::ostream &out, TreeNode *root);
 
 class Solution {
 public:
-    std::vector<std::vector<int>>  pathSum(TreeNode* root, int targetSum)
+    // BFS
+    bool hasPathSum(TreeNode* root, int targetSum)
     {
-        return {};
+        if (!root) {
+            return false;
+        }
+        std::queue<std::pair<TreeNode *, int>> queue;
+        queue.push({root, root->val});
+        while (!queue.empty()) {
+            int size = queue.size();
+            for (int i=0; i< size;++i) {
+                auto top = queue.front();
+                queue.pop();
+                if (!top.first->left && !top.first->right && top.second == targetSum) {
+                    return true;
+                }
+                if (top.first->left) {
+                    queue.push({top.first->left, top.second + top.first->left->val});
+                }
+                if (top.first->right) {
+                    queue.push({top.first->right,top.second + top.first->right->val});
+                }
+            }
+        }
+        return false;
     }
-    std::vector<std::vector<int>>  pathSum1(TreeNode* root, int targetSum)
+    bool hasPathSum1(TreeNode* root, int targetSum)
     {
-        return {};
+        if (!root) {
+            return false;
+        }
+        if (!root->left && !root->right && root->val == targetSum) {
+            return true;
+        }
+        return hasPathSum1(root->left, targetSum - root->val) || hasPathSum1(root->right, targetSum- root->val);
+        return false;
     }
-    std::vector<std::vector<int>>  pathSum2(TreeNode* root, int targetSum)
+    bool dfs(TreeNode *root, int targetSum, int pathSum)
     {
-        return {};
+        if (!root) {return false;}
+        if (pathSum == targetSum && !root->left && !root->right) {
+            return true;
+        }
+        return dfs(root->left, targetSum, root->left->val + pathSum) ||
+            dfs(root->right, targetSum, root->right->val + pathSum);
+    }
+    bool hasPathSum2(TreeNode* root, int targetSum)
+    {
+        if (!root) {
+            return false;
+        }
+        return dfs(root, targetSum, root->val);
+    }
+    bool hasPathSum3(TreeNode* root, int targetSum)
+    {
+        if (!root) {
+            return false;
+        }
+        std::stack<std::pair<TreeNode *, int>> stack;
+        stack.push({root, root->val});
+        while (!stack.empty()) {
+            auto top = stack.top();
+            if (!top.first->left && !top.first->right && top.second == targetSum) {
+                return true;
+            }
+            if (top.first->left) {
+                stack.push({top.first->left, top.second + top.first->left->val});
+            }
+            if (top.first->right){
+                stack.push({top.first->right,top.second + top.first->right->val});
+            }
+        }
+        return false;
     }
 };
 
@@ -99,7 +157,7 @@ public:
 void Test(const std::string& testName,
         TreeNode *root,
         int targetSum,
-        std::vector<std::vector<int>>  expected)
+        bool expected)
 {
     if(testName.length() > 0)
     {
@@ -112,12 +170,12 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "find targetSum:" << targetSum << " " << root << std::endl;
-    // solution.printtree(root);
+    std::cout << "targetSum: " << targetSum << " Tree:" << root << std::endl;
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 1;
 const static int TEST_2    = 1;
+const static int TEST_3    = 1;
 
     if(TEST_0)
     {
@@ -126,9 +184,8 @@ const static int TEST_2    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.pathSum(root, targetSum);
+        decltype(expected) result = solution.hasPathSum(root, targetSum);
         std::cout << "result:" << std::boolalpha << result << std::endl;
-        //solution.printvectorvector(result);
 
         if(result == expected)
         {
@@ -138,7 +195,6 @@ const static int TEST_2    = 1;
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
             std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
-            // solution.printvectorvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -155,9 +211,8 @@ const static int TEST_2    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.pathSum1(root, targetSum);
+        decltype(expected) result = solution.hasPathSum1(root, targetSum);
         std::cout << "result:" << std::boolalpha << result << std::endl;
-        // solution.printvectorvector(result);
 
         if(result == expected)
         {
@@ -167,7 +222,6 @@ const static int TEST_2    = 1;
         {
             std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
             std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
-            // solution.printvectorvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -177,16 +231,15 @@ const static int TEST_2    = 1;
            std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
         }
     }
-    if (TEST_2)
+    if(TEST_2)
     {
         if (TEST_TIME)
         {
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.pathSum2(root, targetSum);
+        decltype(expected) result = solution.hasPathSum(root, targetSum);
         std::cout << "result:" << std::boolalpha << result << std::endl;
-        // solution.printvectorvector(result);
 
         if(result == expected)
         {
@@ -196,7 +249,6 @@ const static int TEST_2    = 1;
         {
             std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
             std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
-            // solution.printvectorvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -206,31 +258,36 @@ const static int TEST_2    = 1;
            std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
         }
     }
+    if(TEST_3)
+    {
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.hasPathSum(root, targetSum);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
+
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution3 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution3 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution3 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+    }
     std::cout << "-----------------------------" << std::endl;
 }
 
-template<typename T>
-std::ostream & operator << (std::ostream &out, std::deque <T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
-template<typename T>
-std::ostream & operator << (std::ostream &out, std::deque <TreeNode *> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v->val << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
 {
@@ -249,8 +306,8 @@ std::ostream & operator << (std::ostream &out, TreeNode *root)
         return out;
     }
     out << root->val << ",";
-    out << root->left << ",";
-    out << root->right << ",";
+    out << (root->left) ;
+    out << (root->right);
     return out;
 }
 template <typename T>
@@ -271,33 +328,19 @@ std::ostream & operator << (std::ostream &out, std::stack<T> s)
     out <<  std::endl;
     return out;
 }
-template <typename T>
-int printdeque(const std::deque<T> &v)
+template <typename T1, typename T2>
+std::ostream & operator << (std::ostream &out, std::pair <T1,T2> t)
 {
-    std::cout << "vector size: " << v.size() << std::endl;
-    std::cout << "[  " ;
-    for (auto iter = v.begin(); iter != v.end(); iter++ )
-    {
-        std::cout << *iter << ", "; //<<std::endl;
-    }
-    std::cout << "\b\b]" << std::endl;
-    return v.size();
+    out << "(" << t.first << "," << t.second << ") ";
 }
-int printdeque(const std::deque<TreeNode *> &v)
+template <typename T2>
+std::ostream & operator << (std::ostream &out, std::pair <TreeNode *,T2> t)
 {
-    std::cout << "vector size: " << v.size() << std::endl;
-    std::cout << "[  " ;
-    for (auto iter = v.begin(); iter != v.end(); iter++ )
-    {
-        std::cout << (*iter) ->val << ", "; //<<std::endl;
-    }
-    std::cout << "\b\b]" << std::endl;
-    return v.size();
+    out << "(" << t.first->val << "," << t.second << ") ";
 }
 void Test0()
 {
-    std::vector<std::vector<int>> expected = {};
-    Test("Test0", nullptr, 0, expected);
+    Test("Test0", nullptr, 0, false);
 }
 void Test1()
 {
@@ -315,10 +358,7 @@ void Test1()
     pnode3 ->right = pnode20;
     pnode20->left  = pnode15;
     pnode20->right = pnode7 ;
-
-    std::vector<std::vector<int>> expected = {};
-
-    Test("Test1", pnode3, 25, expected);
+    Test("Test1", pnode3, 25, false);
 }
 void Test2()
 {
@@ -342,8 +382,7 @@ void Test2()
     TreeNode * pnode4 = new TreeNode(4, nullptr, pnode5);
     TreeNode * pnode3 = new TreeNode(3, nullptr, pnode4);
     TreeNode * pnode2 = new TreeNode(2, nullptr, pnode3);
-    std::vector<std::vector<int>> expected = {};
-    Test("Test2", pnode2, 34, expected);
+    Test("Test2", pnode2, 34, false);
 }
 
 void Test3()
@@ -370,8 +409,7 @@ void Test3()
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;
     pnode4->left   = pnode5;
-    std::vector<std::vector<int>> expected = {{1,2,4,5}};
-    Test("Test3", pnode1, 12, expected);
+    Test("Test3", pnode1, 12, true);
 }
 
 void Test4()
@@ -391,8 +429,8 @@ void Test4()
     TreeNode * p2 = new TreeNode(2, p4, p5);
     TreeNode * p1 = new TreeNode(1, p2, p3);
 
-    std::vector<std::vector<int>> expected = {};
-    Test("Test1", p1, 23, expected);
+    int expected = 3;
+    Test("Test4", p1, 23, false);
 }
 void Test5()
 {
@@ -409,32 +447,47 @@ void Test5()
     struct TreeNode * p7 = new TreeNode(7, p9, nullptr);
     struct TreeNode * p1 = new TreeNode(1, p10, p5);
     struct TreeNode * p12= new TreeNode(12,p7 , p1);
-    std::vector<std::vector<int>> expected = {{12,1,10}};
-    Test("Test2", p12, 23,  expected );
+    Test("Test5", p12, 23, true );
 }
 void Test6()
 {
-    std::cout << "      5         " << std::endl;
-    std::cout << "     / \\       " << std::endl;
-    std::cout << "    4   8       " << std::endl;
-    std::cout << "   /   / \\     " << std::endl;
-    std::cout << "  11  13  4     " << std::endl;
-    std::cout << " / \\    / \\   " << std::endl;
-    std::cout << "7   2   5   1   " << std::endl;
+    //Test("Test4", 6, 6, 3);
+    std::cout << "      12        " << std::endl;
+    std::cout << "    /   \\      " << std::endl;
+    std::cout << "   7     1      " << std::endl;
+    std::cout << " /       / \\   " << std::endl;
+    std::cout << "9       10  5   " << std::endl;
 
-    struct TreeNode * p7 = new TreeNode(7 );
-    struct TreeNode * p2 = new TreeNode(2 );
-    struct TreeNode * p_5= new TreeNode(5 );
-    struct TreeNode * p1 = new TreeNode(1 );
+    struct TreeNode * p9 = new TreeNode(9 );
+    struct TreeNode * p5 = new TreeNode(5 );
+    struct TreeNode * p10= new TreeNode(10);
+    struct TreeNode * p7 = new TreeNode(7, p9, nullptr);
+    struct TreeNode * p1 = new TreeNode(1, p10, p5);
+    struct TreeNode * p12= new TreeNode(12,p7 , p1);
+    Test("Test6", p12, 12, false );
+}
+void Test7()
+{
+    std::cout << "        5       " << std::endl;
+    std::cout << "       / \\     " << std::endl;
+    std::cout << "     4    8     " << std::endl;
+    std::cout << "    /    / \\   " << std::endl;
+    std::cout << "   11   13  4   " << std::endl;
+    std::cout << "  / \\        \\" << std::endl;
+    std::cout << " 7   2        1 " << std::endl;
+
+    struct TreeNode * p1  = new TreeNode(1);
+    struct TreeNode * p2  = new TreeNode(2);
+    struct TreeNode * p7  = new TreeNode(7);
+    struct TreeNode * p4_ = new TreeNode(4, nullptr,p1 );
     struct TreeNode * p13= new TreeNode(13);
     struct TreeNode * p11= new TreeNode(11, p7, p2);
-    struct TreeNode * p4 = new TreeNode(4 , p_5, p1);
-    struct TreeNode * p_4= new TreeNode(4 , p11, nullptr);
-    struct TreeNode * p8 = new TreeNode(8, p13, p4 );
-    struct TreeNode * p5 = new TreeNode(5 ,p_4, p8);
-    std::vector<std::vector<int>> expected = {{5,4,11,2},{5,8,4,5}};
-    Test("Test2", p5, 22,  expected );
+    struct TreeNode * p8 = new TreeNode(8, p13, p4_);
+    struct TreeNode * p4 = new TreeNode(4, p11, nullptr);
+    struct TreeNode * p5 = new TreeNode(5, p4 , p8);
+    Test("Test7", p5, 22, true  );
 }
+
 int main()
 {
     Solution solution;
@@ -446,6 +499,7 @@ int main()
     Test4();
     Test5();
     Test6();
+    Test7();
 
     return 0;
 

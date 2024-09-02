@@ -1,53 +1,37 @@
 /*
  ************************************************************
- * 257. Binary Tree Paths
+ * 543. Diameter of Binary Tree
  * Easy
  ************************************************************
- * Given a Binary Tree, find the maximum sum path from a leaf to root.
- ************************************************************
+ * Given the root of a binary tree, return the length of the diameter of the tree.
  *
+ * The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
+ *
+ * The length of a path between two nodes is represented by the number of edges between them.
+ ************************************************************
  * Example 1:
  *
- * Input:
- *         1
- *        / \
- *       2   3
- * Output:
- * 4
- * Explanation:
- * Following the path 3 -> 1, results in a
- * sum of 4, which is the maximum path sum
- * from leaf to root for the given tree.
+ *      1
+ *     / \
+ *    2   3
+ *   / \
+ *  4   5
+ * Input: root = [1,2,3,4,5]
+ * Output: 3
+ * Explanation: 3is the length of the path [4,2,1,3] or [5,2,1,3].
  ************************************************************
  * Example 2:
  *
- * Input:
- *        10
- *       /  \
- *     -2    7
- *     / \
- *    8  -4
- * Output:
- * 17
- * Explanation :
- * Following the path 7 -> 10, results in a
- * sum of 17, which is the maximum path sum
- * from leaf to root for the given tree.
+ *      1
+ *     /
+ *    2
+ * Input: root = [1,2]
+ * Output: 1
  ************************************************************
- * Your task :
+ * Constraints:
  *
- * Expected Time Complexity: O(n) , where n = number of nodes
- * Expected Auxiliary Space: O(1)
- *
- * Constraints :
- * 1 <= Number of nodes <= 10^5
- * -106 <= max sum path <= 106
- *
- *                10
- *             /      \
- *           -2        7
- *         /   \
- *        8     -4
+ * The number of nodes in the tree is in the range [1, 104].
+ * -100 <= Node.val <= 100
  ************************************************************
  */
 
@@ -85,16 +69,55 @@ std::ostream & operator << (std::ostream &out, TreeNode *root);
 class Solution {
 public:
     //
-    int binaryTreeMaxPaths(TreeNode* root)
+    int diameterOfBinaryTree(TreeNode* root)
     {
-        return 0;
+        if (!root) {
+            return 0;
+        }
+        int max = 0;
+        diameterOfBinaryTree(root, max);
+        return max;
     }
-    int binaryTreeMaxPaths1(TreeNode* root)
+    int diameterOfBinaryTree(TreeNode* root, int &max) {
+        if(!root) {
+            return 0;
+        }
+        if (!root->left && !root->right) {
+            return 1;
+        }
+        int lefthight = diameterOfBinaryTree(root->left, max);
+        int righthight = diameterOfBinaryTree(root->right,max);
+        max = std::max(max, lefthight + righthight);
+        return 1 + std::max(lefthight, righthight);
+    }
+    int diameterOfBinaryTree1(TreeNode* root)
     {
         return 0;
     }
 };
 
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << "(" << v << "), ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+std::ostream & operator << (std::ostream &out, TreeNode *root)
+{
+    if (root == nullptr) {
+        out << "N" << ",";
+        return out;
+    }
+    out << root->val << ",";
+    out << (root->left) ;
+    out << (root->right);
+    return out;
+}
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
         TreeNode *root,
@@ -115,7 +138,7 @@ void Test(const std::string& testName,
     //solution.printtree(root);
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
-const static int TEST_1    = 1;
+const static int TEST_1    = 0;
 
     if(TEST_0)
     {
@@ -124,9 +147,8 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.binaryTreeMaxPaths(root);
-        std::cout << "result  :" << std::boolalpha << result << std::endl;
-        // std::cout << "expected:" << std::boolalpha << expected << std::endl;
+        decltype(expected) result = solution.diameterOfBinaryTree(root);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
 
         if(result == expected)
         {
@@ -152,9 +174,8 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.binaryTreeMaxPaths1(root);
-        std::cout << "result  :" << std::boolalpha << result << std::endl;
-        // std::cout << "expected:" << std::boolalpha << expected << std::endl;
+        decltype(expected) result = solution.diameterOfBinaryTree1(root);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
 
         if(result == expected)
         {
@@ -172,58 +193,32 @@ const static int TEST_1    = 1;
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
         }
-        std::cout << "-----------------------------" << std::endl;
     }
-}
-
-template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << "(" << v << "), ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
-std::ostream & operator << (std::ostream &out, TreeNode *root)
-{
-    if (root == nullptr) {
-        out << "N" << ",";
-        return out;
-    }
-    out << root->val << ",";
-    out << (root->left) ;
-    out << (root->right);
-    return out;
+    std::cout << "-----------------------------" << std::endl;
 }
 
 void Test0()
 {
     int expected = 0;
-    Test("Test0", nullptr,  expected);
+    Test("Test0", nullptr, expected);
 }
 void Test1()
 {
-    std::cout << "      3         " << std::endl;
+    std::cout << "      1         " << std::endl;
     std::cout << "    /   \\      " << std::endl;
-    std::cout << "   9     20     " << std::endl;
-    std::cout << "         / \\   " << std::endl;
-    std::cout << "       15   7   " << std::endl;
+    std::cout << "   2     3      " << std::endl;
+    std::cout << "  / \\          " << std::endl;
+    std::cout << " 4   5          " << std::endl;
+    TreeNode * pnode4 = new TreeNode(4);
+    TreeNode * pnode5 = new TreeNode(5);
+    TreeNode * pnode2 = new TreeNode(2, pnode4, pnode5);
     TreeNode * pnode3 = new TreeNode(3);
-    TreeNode * pnode9 = new TreeNode(9);
-    TreeNode * pnode20= new TreeNode(20);
-    TreeNode * pnode15= new TreeNode(15);
-    TreeNode * pnode7 = new TreeNode(7);
-    pnode3 ->left  = pnode9 ;
-    pnode3 ->right = pnode20;
-    pnode20->left  = pnode15;
-    pnode20->right = pnode7 ;
+    TreeNode * pnode1 = new TreeNode(1, pnode2, pnode3);
 
-    int expected = 3+20+15;
+    int expected = 3;
 
-    Test("Test1", pnode3, expected);
+    std::cout << "3 is the length of the path [4,2,1,3] or [5,2,1,3]." << std::endl;
+    Test("Test1", pnode1, expected);
 }
 void Test2()
 {
@@ -234,20 +229,20 @@ void Test2()
     //       n 5
     //         n 6
     std::cout << "      2           " << std::endl;
-    std::cout << "        \\        " << std::endl;
-    std::cout << "         3        " << std::endl;
-    std::cout << "           \\     " << std::endl;
-    std::cout << "            4     " << std::endl;
+    std::cout << "       \\        " << std::endl;
+    std::cout << "        3        " << std::endl;
+    std::cout << "          \\     " << std::endl;
+    std::cout << "           4     " << std::endl;
     std::cout << "             \\   " << std::endl;
     std::cout << "              5   " << std::endl;
-    std::cout << "               \\ " << std::endl;
-    std::cout << "                6 " << std::endl;
+    std::cout << "                \\ " << std::endl;
+    std::cout << "                 6 " << std::endl;
     TreeNode * pnode6 = new TreeNode(6);
     TreeNode * pnode5 = new TreeNode(5, nullptr, pnode6);
     TreeNode * pnode4 = new TreeNode(4, nullptr, pnode5);
     TreeNode * pnode3 = new TreeNode(3, nullptr, pnode4);
     TreeNode * pnode2 = new TreeNode(2, nullptr, pnode3);
-    int expected = 2+3+4+5+6;
+    int expected = 4;
     Test("Test2", pnode2, expected);
 }
 
@@ -275,47 +270,52 @@ void Test3()
     pnode2->left   = pnode3;
     pnode2->right  = pnode4;
     pnode4->left   = pnode5;
-    int expected = 1+2+4+5;
+    int expected =  3;
     Test("Test3", pnode1, expected);
 }
 
 void Test4()
 {
-    //Test("Test4", 6, 6, 3);
     std::cout << "      1         " << std::endl;
     std::cout << "    /   \\      " << std::endl;
     std::cout << "   2     3      " << std::endl;
-    std::cout << " /   \\  / \\   " << std::endl;
-    std::cout << "4     5 6   7   " << std::endl;
+    std::cout << "  /     / \\    " << std::endl;
+    std::cout << " 4     5   6    " << std::endl;
 
-    TreeNode * p7 = new TreeNode(7);
     TreeNode * p6 = new TreeNode(6);
     TreeNode * p5 = new TreeNode(5);
     TreeNode * p4 = new TreeNode(4);
-    TreeNode * p3 = new TreeNode(3, p6, p7);
-    TreeNode * p2 = new TreeNode(2, p4, p5);
+    TreeNode * p3 = new TreeNode(3, p5, p6);
+    TreeNode * p2 = new TreeNode(2, p4, nullptr);
     TreeNode * p1 = new TreeNode(1, p2, p3);
 
-    int expected = 1+3+7;
-    Test("Test4", p1, expected);
+    int expected = 4;
+    Test("Test1", p1, expected);
 }
 void Test5()
 {
-    //Test("Test4", 6, 6, 3);
-    std::cout << "      12        " << std::endl;
+    std::cout << "      1         " << std::endl;
     std::cout << "    /   \\      " << std::endl;
-    std::cout << "   7     1      " << std::endl;
-    std::cout << " /       / \\   " << std::endl;
-    std::cout << "9       10  5   " << std::endl;
+    std::cout << "   2     3      " << std::endl;
+    std::cout << "        / \\    " << std::endl;
+    std::cout << "       5   6    " << std::endl;
+    std::cout << "      / \\  \\  " << std::endl;
+    std::cout << "     7   8   9  " << std::endl;
+    std::cout << "        /   /   " << std::endl;
+    std::cout << "       10  11   " << std::endl;
 
-    struct TreeNode * p9 = new TreeNode(9 );
-    struct TreeNode * p5 = new TreeNode(5 );
+    struct TreeNode * p11= new TreeNode(11);
     struct TreeNode * p10= new TreeNode(10);
-    struct TreeNode * p7 = new TreeNode(7, p9, nullptr);
-    struct TreeNode * p1 = new TreeNode(1, p10, p5);
-    struct TreeNode * p12= new TreeNode(12,p7 , p1);
-    int expected = 12+7+9;
-    Test("Test5", p12, expected );
+    struct TreeNode * p9 = new TreeNode(9 ,p11, nullptr);
+    struct TreeNode * p8 = new TreeNode(8 ,p10, nullptr);
+    struct TreeNode * p7 = new TreeNode(7 );
+    struct TreeNode * p6 = new TreeNode(6 ,nullptr, p9);
+    struct TreeNode * p5 = new TreeNode(5 , p7 , p8);
+    struct TreeNode * p3 = new TreeNode(3 , p5 , p6);
+    struct TreeNode * p2 = new TreeNode(2 );
+    struct TreeNode * p1 = new TreeNode(1, p2 , p3);
+    int expected = 6;
+    Test("Test2", p1, expected );
 }
 void Test6()
 {
@@ -323,7 +323,7 @@ void Test6()
     std::cout << "     / \\       " << std::endl;
     std::cout << "    4   8       " << std::endl;
     std::cout << "   /   / \\     " << std::endl;
-    std::cout << "  11  13  4     " << std::endl;
+    std::cout << "  3   9   4     " << std::endl;
     std::cout << " / \\    / \\   " << std::endl;
     std::cout << "7   2   5   1   " << std::endl;
 
@@ -331,32 +331,14 @@ void Test6()
     struct TreeNode * p2 = new TreeNode(2 );
     struct TreeNode * p_5= new TreeNode(5 );
     struct TreeNode * p1 = new TreeNode(1 );
-    struct TreeNode * p13= new TreeNode(13);
-    struct TreeNode * p11= new TreeNode(11, p7, p2);
+    struct TreeNode * p9 = new TreeNode(9 );
+    struct TreeNode * p3 = new TreeNode(3 , p7, p2);
     struct TreeNode * p4 = new TreeNode(4 , p_5, p1);
-    struct TreeNode * p_4= new TreeNode(4 , p11, nullptr);
-    struct TreeNode * p8 = new TreeNode(8, p13, p4 );
+    struct TreeNode * p_4= new TreeNode(4 , p3 , nullptr);
+    struct TreeNode * p8 = new TreeNode(8, p9 , p4 );
     struct TreeNode * p5 = new TreeNode(5 ,p_4, p8);
-    int expected = 5+4+11+7;
+    int expected = 6;
     Test("Test6", p5, expected );
-}
-void Test7()
-{
-    //Test("Test4", 6, 6, 3);
-    std::cout << "     10         " << std::endl;
-    std::cout << "    /   \\      " << std::endl;
-    std::cout << "  -2     7      " << std::endl;
-    std::cout << " /   \\         " << std::endl;
-    std::cout << "8    -4         " << std::endl;
-
-    TreeNode * p7 = new TreeNode(7);
-    TreeNode * p8 = new TreeNode(8);
-    TreeNode * p4 = new TreeNode(-4);
-    TreeNode * p2 = new TreeNode(-2, p8, p4);
-    TreeNode * p10= new TreeNode(10, p2, p7);
-
-    int expected = 10+7;
-    Test("Test7", p10, expected);
 }
 int main()
 {
@@ -369,7 +351,6 @@ int main()
     Test4();
     Test5();
     Test6();
-    Test7();
 
     return 0;
 

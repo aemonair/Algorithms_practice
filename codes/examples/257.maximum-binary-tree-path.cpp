@@ -85,13 +85,38 @@ std::ostream & operator << (std::ostream &out, TreeNode *root);
 class Solution {
 public:
     //
-    int binaryTreeMaxPaths(TreeNode* root)
+    int  binaryTreeMaxPaths(TreeNode* root)
     {
+        if (!root) {
+            return std::numeric_limits<int>::min();
+        }
+        if (!root->left && !root->right) {
+            return root->val;
+        }
+        return std::max(binaryTreeMaxPaths(root->left), binaryTreeMaxPaths(root->right)) + root->val;
         return 0;
     }
-    int binaryTreeMaxPaths1(TreeNode* root)
+    int binaryTreeMaxPathsHelper(TreeNode* node, int& maxSum) {
+        if (!node) return 0; // 空节点返回0，表示没有贡献路径和
+
+        // 递归计算左右子树的最大路径和（到叶子节点）
+        int leftSum = binaryTreeMaxPathsHelper(node->left, maxSum);
+        int rightSum = binaryTreeMaxPathsHelper(node->right, maxSum);
+
+        // 当前节点到叶子节点的最大路径和（包括当前节点）
+        int currentSum = std::max(leftSum, rightSum) + node->val;
+
+        // 更新全局最大路径和
+        maxSum = std::max(maxSum, currentSum);
+
+        // 返回当前节点到叶子节点的最大路径和（但不包括在全局更新中再次使用）
+        return currentSum;
+    }
+    int  binaryTreeMaxPaths1(TreeNode* root)
     {
-        return 0;
+        int maxSum = std::numeric_limits<int>::min();
+        binaryTreeMaxPathsHelper(root, maxSum);
+        return maxSum;
     }
 };
 

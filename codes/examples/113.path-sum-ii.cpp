@@ -81,17 +81,113 @@ std::ostream & operator << (std::ostream &out, TreeNode *root);
 
 class Solution {
 public:
+    bool pathSum0(TreeNode* root, std::vector<int> res, int targetSum, std::vector<std::vector<int>> &result)
+    {
+        if (!root) {
+            return false;
+        }
+        res.push_back(root->val);
+        int sum = 0;
+        for (auto x: res) {
+            sum += x;
+        }
+        if (!root->left && !root->right && sum == targetSum) {
+            result.push_back(res);
+            return true;
+        }
+        if (root->left) {
+            pathSum0(root->left, res, targetSum, result);
+        }
+        if (root->right) {
+            pathSum0(root->right, res, targetSum, result);
+        }
+        return true;
+    }
+    bool pathSum(TreeNode* root, std::vector<int> res, int targetSum, std::vector<std::vector<int>> &result)
+    {
+        if (!root) {
+            return false;
+        }
+        res.push_back(root->val);
+        if (!root->left && !root->right && root->val == targetSum) {
+            result.push_back(res);
+            return true;
+        }
+        if (root->left) {
+            pathSum(root->left, res, targetSum-root->val, result);
+        }
+        if (root->right) {
+            pathSum(root->right, res, targetSum-root->val, result);
+        }
+        return true;
+    }
     std::vector<std::vector<int>>  pathSum(TreeNode* root, int targetSum)
     {
+        if(!root) {
+            return {};
+        }
+        std::vector<int> res;
+        std::vector<std::vector<int>> result;
+        pathSum(root, res, targetSum, result);
+        return result;
         return {};
     }
+    std::vector<std::vector<int>> result;
+    std::vector<int> path;
+    void dfs(TreeNode *root, int targetSum)
+    {
+        if (!root) {
+            return ;
+        }
+        path.emplace_back(root->val);
+        targetSum -= root->val;
+        if (!root->left && !root->right && targetSum == 0) {
+            result.emplace_back(path);
+        }
+        dfs(root->left, targetSum);
+        dfs(root->right,targetSum);
+        path.pop_back();
+        return ;
+    }
+
     std::vector<std::vector<int>>  pathSum1(TreeNode* root, int targetSum)
     {
-        return {};
+        result.clear();
+        path.clear();
+        if (!root) {
+            return {};
+        }
+        dfs(root, targetSum);
+        return result;
     }
     std::vector<std::vector<int>>  pathSum2(TreeNode* root, int targetSum)
     {
-        return {};
+        if (!root) {
+            return {};
+        }
+        std::vector<std::vector<int>> result;
+        std::queue<std::tuple<TreeNode *, std::vector<int>, int>> queue;
+        queue.push({root, {}, 0});
+        while (!queue.empty()){
+            auto [node, path, pathSum] = queue.front();
+            queue.pop();
+            std::vector<int> temp(path);
+            temp.push_back(node->val);
+            //std::cout << node->val << " " << temp << std::endl;
+            if (!node->left && !node->right) {
+                if (node->val + pathSum == targetSum) {
+                    //std::cout << pathSum << std::endl;
+                    result.push_back(temp);
+                }
+            }
+            if (node->left) {
+                queue.push({node->left, temp, pathSum + node->val});
+            }
+            if (node->right) {
+                queue.push({node->right, temp, pathSum + node->val});
+            }
+        }
+        return result;
     }
 };
 

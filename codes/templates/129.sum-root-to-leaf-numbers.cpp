@@ -94,29 +94,15 @@ public:
     {
         return 0;
     }
-};
-template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
+    int sumNumbers3(TreeNode* root)
     {
-        out << "(" << v << "), ";
+        return 0;
     }
-    out << "\b\b ]" ;
-    return out;
-}
-std::ostream & operator << (std::ostream &out, TreeNode *root)
-{
-    if (root == nullptr) {
-        out << "N" << ",";
-        return out;
+    int sumNumbers4(TreeNode* root)
+    {
+        return 0;
     }
-    out << root->val << ",";
-    out << (root->left) ;
-    out << (root->right);
-    return out;
-}
+};
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
@@ -137,9 +123,11 @@ void Test(const std::string& testName,
     //solution.printtree(root);
     std::cout << "Tree:" << root << std::endl;
 const static int TEST_TIME = 1;
-const static int TEST_0    = 0;
-const static int TEST_1    = 0;
+const static int TEST_0    = 1;
+const static int TEST_1    = 1;
 const static int TEST_2    = 1;
+const static int TEST_3    = 1;
+const static int TEST_4    = 1;
 
     if(TEST_0)
     {
@@ -225,6 +213,85 @@ const static int TEST_2    = 1;
         }
         std::cout << "-----------------------------" << std::endl;
     }
+    if (TEST_3)
+    {
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.sumNumbers3(root);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
+
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution3 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution3 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution3 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        std::cout << "-----------------------------" << std::endl;
+    }
+    if (TEST_4)
+    {
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.sumNumbers4(root);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
+
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution4 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution4 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution4 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        std::cout << "-----------------------------" << std::endl;
+    }
+}
+
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << "(" << v << "), ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+std::ostream & operator << (std::ostream &out, TreeNode *root)
+{
+    if (root == nullptr) {
+        out << "N" << ",";
+        return out;
+    }
+    out << root->val << ",";
+    out << (root->left) ;
+    out << (root->right);
+    return out;
 }
 
 void Test0()
