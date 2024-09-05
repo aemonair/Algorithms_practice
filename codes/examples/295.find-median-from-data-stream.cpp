@@ -78,24 +78,77 @@
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
 
-template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 class MedianFinder
 {
 public:
     /** initialize your data structure here. */
+    std::priority_queue<int, std::vector<int>, std::less   <int>> pq1;
+    std::priority_queue<int, std::vector<int>, std::greater<int>> pq2;
     MedianFinder()
     {
     }
 
     void addNum(int num)
     {
+        if (pq1.empty() || pq1.top() >= num) {
+            pq1.push(num);
+        } else {
+            pq2.push(num);
+        }
+        // 如果使用减法，当一个队列的大小小于另一个队列的大小时，可能会导致溢出。
+        // std::cout <<  pq1.size() - pq2.size()  << std::endl;
+        // if (pq1.size() - pq2.size() > 1)
+        // 这是因为 std::size_t 是一个无符号整数类型，当进行减法运算时，
+        // 如果结果是负数，它实际上会变成一个非常大的正数（因为无符号整数类型的溢出会循环回到最大值）。
+
+        if (pq1.size() > pq2.size() + 1)
+        {
+            pq2.push(pq1.top());
+            pq1.pop();
+        } else if (pq1.size() < pq2.size()){
+            pq1.push(pq2.top());
+            pq2.pop();
+        }
     }
 
     double findMedian()
     {
+        if (pq1.size() > pq2.size()) {
+            return pq1.top();
+        } else {
+            return static_cast<double>(pq1.top()+pq2.top())/2.0;
+        }
     }
 public:
+    template <typename T>
+    int printvector(std::vector<T> v)
+    {
+        std::cout << "vector size: " << v.size() << std::endl;
+        for (auto iter = v.begin(); iter != v.end(); iter++ )
+        {
+            std::cout << *iter << ", ";
+        }
+        std::cout << std::endl;
+        return v.size();
+    }
+    template <typename T>
+    int printstack(std::stack<T> s)
+    {
+        if (s.empty())
+        {
+            std::cout << "The stack is empty." << std::endl;
+            return 0;
+        }
+        std::cout <<  "The stack size is: " << s.size() << std::endl;
+        std::stack<T> tmp;
+        while (!s.empty())
+        {
+            std::cout << s.top() << ", ";
+            s.pop();
+        }
+        std::cout <<  std::endl;
+        return s.size();
+    }
     template <class... Types>
     int printtuple(std::tuple<Types...>  tu)
     {
@@ -145,51 +198,6 @@ public:
     }
 
 };
-template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
-template<typename T>
-std::ostream operator << (std::ostream &out, std::priority_queue<T> big_queue)
-//std::priority_queue<int, std::vector<int>, std::greater<int>> small_queue)
-{
-#if 1
-        std::priority_queue<int> Big_queue = big_queue;
-        //std::priority_queue<int, std::vector<int>, std::greater<int>> Small_queue=small_queue;
-        int bsize = Big_queue.size();
-        //int ssize = Small_queue.size();
-        if (Big_queue.empty())
-        {
-            std::cout << "The big queue is empty. "<< std::endl;
-        }
-        //if (Small_queue.empty())
-        //{
-            //std::cout << "The small queue is empty. "<< std::endl;
-        //}
-        while (bsize--)
-        {
-            std::cout << Big_queue.top() << ", " ;
-            Big_queue.pop();
-        }
-        std::cout << " | ";
-        //while (ssize--)
-        //{
-            //std::cout << Small_queue.top() << ", " ;
-            //Small_queue.pop();
-        //}
-        std::cout << std::endl ;
-        return bsize;
-#endif
-        return 0;
-    }
-
 
 // ==================== TEST Codes====================
 template <class... T>
@@ -264,7 +272,8 @@ const static int TEST_1    = 0;
         delete obj;
         obj = nullptr;
 
-        std::cout << "result:" << std::boolalpha << result << std::endl;
+        std::cout << "result:" << std::boolalpha << std::endl;
+        solution.printvector(result);
 
         if(result[3] == expec_1 && result[5] == expec_2)
         {

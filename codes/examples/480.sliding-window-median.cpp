@@ -57,32 +57,194 @@ std::ostream & operator << (std::ostream &out, std::priority_queue<T...> big_que
 class Solution
 {
 public:
+    // insert/erase
+    std::priority_queue<int, std::vector<int>, std::less <int>> small;
+    std::priority_queue<int, std::vector<int>, std::greater<int>> big;
+    int bigsize = 0;
+    int smallsize = 0;
+    std::unordered_map<int, int> umap;
+
+    int insert(int num)
+    {
+        if (small.empty() || small.top() >= num) {
+            small.push(num);
+            ++smallsize;
+        } else {
+            big.push(num);
+            ++bigsize;
+        }
+        reblance();
+    }
+    void reblance()
+    {
+        while (!small.empty()) {
+            auto top = small.top();
+            if (umap.count(top)) {
+                small.pop();
+                if (--umap[top] == 0) {
+                    umap.erase(top);
+                }
+            } else {
+                break;
+            }
+        }
+        while (!big  .empty()) {
+            auto top = big  .top();
+            if (umap.count(top)) {
+                big  .pop();
+                if (--umap[top] == 0) {
+                    umap.erase(top);
+                }
+            } else {
+                break;
+            }
+        }
+        if (smallsize > bigsize+1) {
+            big.push(small.top());
+            small.pop();
+            smallsize--;
+            bigsize++;
+        } else if (smallsize < bigsize) {
+            small.push(big.top());
+            big.pop();
+            bigsize--;
+            smallsize++;
+        }
+        //std::cout << "small:" << smallsize << ",bigsize:" << bigsize << std::endl;
+    }
+    int erase(int num)
+    {
+        umap[num]++;
+        if (num <= small.top()) {
+            --smallsize;
+        } else {
+            --bigsize;
+        }
+        reblance();
+    }
+    double findmid()
+    {
+        reblance();
+        if (smallsize > bigsize) {
+            return small.top();
+        } else {
+            return (static_cast<double>(small.top())+ big.top() )/ 2.0;
+        }
+    }
     std::vector<double> medianSlidingWindow(
             std::vector<int>& nums, int k
             )
     {
-        return {};
+        int bigsize = 0;
+        int smallsize = 0;
+        std::vector<double> medians;
+        int size = nums.size();
+        for (int i =0; i < size; ++i) {
+            insert(nums[i]);
+            if (i >= k-1) {
+                medians.emplace_back(findmid());
+                erase(nums[i-k+1]);
+            }
+        }
+        return medians;
     }
 };
 class Solution1
 {
 public:
-
     std::vector<double> medianSlidingWindow1(
             std::vector<int>& nums, int k
             )
     {
-        return {};
+        std::vector<double> res;
+        std::multiset<double> st;
+        for (int i = 0; i < nums.size(); ++i) {
+            if (st.size() >= k) st.erase(st.find(nums[i - k]));
+            st.insert(nums[i]);
+            if (i >= k - 1) {
+                auto mid = st.begin();
+                std::advance(mid, k / 2);
+                res.push_back((*mid + *prev(mid, (1 - k % 2))) / 2);
+            }
+        }
+        return res;
+        std::vector<double> ans;
+        return ans;
     }
 };
 class Solution2
 {
 public:
+    std::priority_queue<int> small;
+    std::priority_queue<int, std::vector<int>, std::greater<int>> big;
+    std::unordered_map<int, int> umap;
+    double get(int k){
+        if (k%2) {
+            return small.top();
+        }
+        return 0.5* ( (long long)small.top() + big.top() );
+    }
     std::vector<double> medianSlidingWindow2(
             std::vector<int>& nums, int k
             )
     {
-        return {};
+        for (int i = 0; i< k; ++i) {
+            small.push(nums[i]);
+        }
+        for (int i = 0; i< k/2; ++i) {
+            big  .push(small.top());
+            small.pop();
+        }
+        std::cout << small << big << std::endl;
+        std::vector<double> ans{get(k)};
+        for (int i = k; i < nums.size(); ++i) {
+            int balance = 0;
+            int l = nums[i-k];
+            umap[l]++;
+            if (!small.empty() && l <= small.top()) {
+                balance--;
+            } else {
+                balance++;
+            }
+            //std::cout << "erase "<<l << " " << balance << std::endl;
+            if (!small.empty() && nums[i] <= small.top()) {
+                small.push(nums[i]);
+                balance++;
+            } else {
+                big.push(nums[i]);
+                balance--;
+            }
+            //std::cout << "add   "<< nums[i] << balance << std::endl;
+            while (!small.empty() && umap[small.top()]> 0) {
+                umap[small.top()]--;
+                small.pop();
+            }
+            while (!big  .empty() && umap[big  .top()]> 0) {
+                umap[big  .top()]--;
+                big  .pop();
+            }
+            //std::cout << balance << std::endl;
+            if (balance >0) {
+                big.push(small.top());
+                small.pop();
+            }
+            if (balance < 0) {
+                small.push(big.top());
+                big.pop();
+            }
+            while (!big  .empty() && umap[big  .top()]> 0) {
+                umap[big  .top()]--;
+                big  .pop();
+            }
+            while (!small.empty() && umap[small.top()]> 0) {
+                umap[small.top()]--;
+                small.pop();
+            }
+            //std::cout << small << big << std::endl;
+            //std::cout << balance << std::endl;
+            ans.push_back(get(k));
+        }
+        return ans;
     }
 };
 
@@ -108,8 +270,8 @@ void Test(const std::string& testName,
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
 const static int TEST_TIME = 1;
-const static int TEST_0    = 1;
-const static int TEST_1    = 1;
+const static int TEST_0    = 0;
+const static int TEST_1    = 0;
 const static int TEST_2    = 1;
 
     if(TEST_0)

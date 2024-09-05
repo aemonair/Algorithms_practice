@@ -70,15 +70,86 @@ class Solution
 public:
     std::vector<int> findRightInterval(std::vector<std::vector<int>>& intervals)
     {
-        return {};
+        std::cout << intervals << std::endl;
+        std::vector<int> ans(intervals.size(), -1);
+        std::vector<std::pair<int, int> > startInterval;
+        for (int i=0; i< intervals.size(); ++i) {
+            startInterval.emplace_back(intervals[i][0], i);
+        }
+        std::cout << startInterval << std::endl;
+        sort(startInterval.begin(), startInterval.end());
+        std::cout << startInterval << std::endl;
+        for (int i=0; i< startInterval.size(); ++i) {
+            auto it = std::lower_bound(startInterval.begin(), startInterval.end(), std::make_pair(intervals[i][1], 0));
+            if (it != startInterval.end()) {
+                ans[i] = it->second;
+                std::cout << "ans[i] " << i << " " << it->second;
+            }
+        }
+
+        return ans;
     }
     std::vector<int> findRightInterval1(std::vector<std::vector<int>>& intervals)
     {
-        return {};
+        std::vector<std::pair<int, int>> startIntervals;
+        std::vector<std::pair<int, int>> endIntervals;
+        int n = intervals.size();
+        for (int i = 0; i < n; i++) {
+            startIntervals.emplace_back(intervals[i][0], i);
+            endIntervals.emplace_back(intervals[i][1], i);
+        }
+        std::cout << startIntervals << std::endl;
+        std::cout << endIntervals << std::endl;
+        sort(startIntervals.begin(), startIntervals.end());
+        sort(endIntervals.begin(), endIntervals.end());
+        std::cout << startIntervals << std::endl;
+        std::cout << endIntervals << std::endl;
+
+        std::vector<int> ans(n, -1);
+        for (int i = 0, j = 0; i < n && j < n; i++) {
+            std::cout << "i:" << i << "j:" << j << " " << endIntervals[i] << " "<< startIntervals[j];
+            while (j < n && endIntervals[i].first > startIntervals[j].first) {
+                j++;
+            }
+            std::cout << "i:" << i << "j:" << j << " " << endIntervals[i]<<" " << startIntervals[j] << std::endl;
+            if (j < n) {
+                ans[endIntervals[i].second] = startIntervals[j].second;
+                std::cout << "ans[" << endIntervals[i].second << "=" << startIntervals[j].second << std::endl;
+            }
+        }
+        return ans;
     }
     std::vector<int> findRightInterval2(std::vector<std::vector<int>>& intervals)
     {
-        return {};
+        auto com0 = [](std::vector<int> &a, std::vector<int> &b){return a[0] < b[0];};
+        auto com1 = [](std::vector<int> &a, std::vector<int> &b){return a[1] < b[1];};
+        std::unordered_map<int,int> hash;
+        std::vector<int> result(intervals.size(), 0);
+        std::priority_queue<std::vector<int>, std::vector<std::vector<int>>, decltype(com0)> pq1(com0);
+        std::priority_queue<std::vector<int>, std::vector<std::vector<int>>, decltype(com1)> pq2(com1);
+        for (int i = 0; i< intervals.size(); ++i) {
+            pq1.push(intervals[i]);
+            pq2.push(intervals[i]);
+            hash[intervals[i][0]] = i;
+        }
+
+        while (!pq2.empty() && !pq1.empty()) {
+            if (pq2.top()[1] > pq1.top()[0]) {
+                result [ hash[pq2.top()[0]] ] = -1;
+            } else {
+                auto topstart = pq1.top();
+                while (!pq1.empty() && pq2.top()[1] <= pq1.top()[0]) {
+                    result [ hash[pq2.top()[0]] ] = hash[pq1.top()[0]];
+                    topstart = pq1.top();
+                    pq1.pop();
+                }
+                pq1.push(topstart); // 有可能是其他区间的右侧区间,加回来
+            }
+            pq2.pop();
+            //std::cout << pq1 << pq2 << std::endl;
+            std::cout <<  pq2 << std::endl;
+        }
+        return result;
     }
 };
 

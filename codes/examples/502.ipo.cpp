@@ -69,10 +69,49 @@ class Solution
 public:
     int findMaximizedCapital( int k, int w, std::vector<int>& profits, std::vector<int> &capital )
     {
+        std::vector<std::pair<int,int>> arr;
+        std::priority_queue<int ,std::vector<int>, std::less<int>> pq;
+        for (int i =0; i < profits.size(); ++i) {
+            arr.push_back({capital[i], profits[i]});
+        }
+        int curr = 0;
+        sort(arr.begin(), arr.end());
+        for (int i =0; i < k; ++i) {
+            while (curr <arr.size() && arr[curr].first <= w) {
+                pq.push(arr[curr].second);
+                curr++;
+            }
+            if (!pq.empty()) {
+                w+= pq.top();
+                pq.pop();
+            } else {
+                break;
+            }
+        }
         return w;
     }
     int findMaximizedCapital1( int k, int w, std::vector<int>& profits, std::vector<int> &capital )
     {
+        // 最大堆 存利益
+        auto lesser = [](std::pair<int, int> &a, std::pair<int, int> &b){return a.second < b.second;};
+        // 最小堆 存资本 能访问的项目
+        auto greater = [](std::pair<int, int> &a, std::pair<int, int> &b){return a.first > b.first ;};
+        std::priority_queue<std::pair<int,int>, std::vector<std::pair<int,int>>, decltype(greater) > minheap(greater);
+        std::priority_queue<std::pair<int,int>, std::vector<std::pair<int,int>>, decltype(lesser) > maxheap(lesser);
+        for (int i =0; i< profits.size(); ++i) {
+            minheap.push({capital[i], profits[i]});
+        }
+        for (int i=0; i <k; ++i) {
+            while (!minheap.empty() && w >= minheap.top().first) {
+                maxheap.push(minheap.top());
+                minheap.pop();
+            }
+            if (maxheap.empty()) {
+                break;
+            }
+            w+= maxheap.top().second;
+            maxheap.pop();
+        }
         return w;
     }
 };
@@ -103,7 +142,7 @@ void Test(const std::string& testName,
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
-const static int TEST_1    = 0;
+const static int TEST_1    = 1;
 
     if(TEST_0)
     {
