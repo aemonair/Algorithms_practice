@@ -69,89 +69,63 @@
 #define BOLDRED     "\033[1m\033[31m"      /* Bold Red     */
 
 template<typename T>
-std::ostream & operator << (std::ostream &out, const std::queue <T> &_queue)
-{
-    auto Q(_queue);
-    out << "queue :[  ";
-    while (!Q.empty()) {
-        out << Q.front() << ", ";
-        Q.pop();
-    }
-    out << "\b\b ]" ;
-    return out;
-}
+std::ostream & operator << (std::ostream &out, const std::queue <T> &_queue);
 template<typename T>
-std::ostream & operator << (std::ostream &out, const std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
+std::ostream & operator << (std::ostream &out, const std::vector<T> &_vec);
+
 class Solution {
 public:
     std::vector<std::string> letterCasePermutation(std::string s) {
+        std::string path = s;
+        int size = s.size();
         std::vector<std::string> res;
-        std::queue<std::string> queue;
-        for (auto ch : s) {
-            std::vector<char> curr;
-            if (std::isdigit(ch)) {
-                std::cout << ch << "是数字" << std::endl;
-                // 遍历并添加到每个中
-            } else if (std::islower(ch)) {
-                // 将小写字母转换为大写字母
-                //char uppercase = toupper(character);
-                curr.push_back(toupper(ch));
-            } else if (std::isupper(ch)) {
-                // 将大写字母转换为小写字母
-                //char lowercase = tolower(character);
-                curr.push_back(tolower(ch));
+        auto dfs = [&](auto &&dfs, int i) {
+            if (i == size) {
+                res.push_back(path);
+                return;
             }
-            // 添加 大小字母 到每个中
-            curr.push_back(ch);
-            std::cout << "curr:" << curr << std::endl;
-            if (res.empty()){
-                for (int j = 0; j < curr.size(); j++) {
-                    std::cout << (curr[j]) << std::endl;
-                    res.push_back(std::string(1,curr[j]));
-                }
-                std::cout << "empty" <<res << std::endl;
-                continue;
+            dfs(dfs, i+1);
+            if (isalpha(path[i])) {
+                path[i] ^= 32;
+                dfs(dfs, i+1);
+                path[i] ^= 32;
             }
-            std::cout << "res:" <<res << std::endl;
-            int size = res.size();
-            for (int i = 0; i < size; i++) {
-                for (int j = 0; j < curr.size(); j++) {
-                    auto temp(res[i]);
-                    temp += (curr[j]);
-                    res.push_back(temp);
-                    std::cout << res << std::endl;
-                }
-                // res.erase(res.begin());
-            }
-            res.erase(res.begin(), res.begin()+size);
-            std::cout << res << std::endl;
-        }
+        };
+        dfs(dfs, 0);
         return res;
     }
     std::vector<std::string> letterCasePermutation1(std::string s) {
-        // 针对每个字符,添加到已有的字符串中;
-        std::vector<std::string> res({s});
-        for (int i = 0; i < s.size(); ++i) {
-            if (isalpha(s[i]) ) {
-                int size = res.size();
-                for (int j = 0; j < size; ++j) {
-                    std::string temp(res[j]);
-                    if(isupper(s[i])) {
-                        temp[i] = tolower(temp[i]);
-                    }
-                    if (islower(s[i])) {
-                        temp[i] = toupper(temp[i]);
-                    }
-                    res.push_back(temp);
+        std::string path = s;
+        int size = s.size();
+        std::vector<std::string> res;
+        auto dfs = [&](auto &&dfs, int i) {
+            if (i == size){
+                return;
+            }
+            res.push_back(path);
+            for (int j = i; j < size; ++j) {
+                if (isalpha(path[j])) {
+                    path[j] ^= 32;
+                    dfs(dfs, j+1);
+                    path[j] ^= 32;
+                }
+            }
+            return;
+        };
+        dfs(dfs, 0);
+        return res;
+        return {};
+    }
+    std::vector<std::string> letterCasePermutation2(std::string s) {
+        int size = s.size();
+        std::vector<std::string> res{s};
+        for (int i =0; i< size; ++i) {
+            int resize = res.size();
+            if (isalpha(s[i])) {
+                for (int j = 0; j < resize; ++j) {
+                    std::string path(res[j]);
+                    path[i] ^= 32;
+                    res.push_back(path);
                 }
             }
         }
@@ -178,9 +152,10 @@ void Test(const std::string& testName,
     std::sort(expected.begin(), expected.end());
 
 const static int TEST_TIME = 1;
-const static int TEST_0    = 0;
+const static int TEST__    = 1;
 const static int TEST_1    = 1;
-    if (TEST_0)
+const static int TEST_2    = 1;
+    if (TEST__)
     {
         std::cout << "Solution0 start.........." << std::endl;
         if (TEST_TIME)
@@ -241,6 +216,60 @@ const static int TEST_1    = 1;
         }
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
+    if (TEST_2)
+    {
+        std::cout << "Solution2 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) &&result = solution.letterCasePermutation2(s);
+        std::cout << "result:" << result << std::endl;
+        std::sort(result.begin(), result.end());
+
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution2 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            // solution.printvectorvector(expected);
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
+    }
+}
+template<typename T>
+std::ostream & operator << (std::ostream &out, const std::queue <T> &_queue)
+{
+    auto Q(_queue);
+    out << "queue :[  ";
+    while (!Q.empty()) {
+        out << Q.front() << ", ";
+        Q.pop();
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+template<typename T>
+std::ostream & operator << (std::ostream &out, const std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
 }
 void Test1()
 {

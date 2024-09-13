@@ -1,9 +1,9 @@
 /*
  ************************************************************
- * 96. Unique Binary Search Trees
+ * 95. Unique Binary Search Trees II
  * Medium
  ************************************************************
- * Given an integer n, return the number of structurally unique BST's (binary search trees) which has exactly n nodes of unique values from 1 to n.
+ * Given an integer n, return all the structurally unique BST's (binary search trees), which has exactly n nodes of unique values from 1 to n. Return the answer in any order.
  ************************************************************
  * Example 1:
  *      1       1          2          3       3
@@ -11,22 +11,29 @@
  *        3       2     1     3     2       1
  *       /         \               /         \
  *      2           3             1            2
+ *
  * Input: n = 3
- * Output: 5
+ * Output: [[1,null,2,null,3],[1,null,3,2],[2,1,3],[3,1,null,null,2],[3,2,null,1]]
  ************************************************************
  * Example 2:
  *
  * Input: n = 1
- * Output: 1
+ * Output: [[1]]
  ************************************************************
  * Constraints:
  *
- * 1 <= n <= 19
+ * 1 <= n <= 8
+ ************************************************************
+ *
+ *     -10
+ *     /  \
+ *    9    20
+ *        / \
+ *       15  7
  *
  ************************************************************
  */
 
-#include <unordered_map>
 #include <algorithm>
 #include <iostream>
 #include <chrono>
@@ -54,33 +61,105 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
-
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 std::ostream & operator << (std::ostream &out, TreeNode *root);
 
 class Solution {
 public:
-    int numTrees(int n)
-    {
-        return 0;
+    //
+    std::vector<TreeNode*> dfs(int left, int right) {
+        std::vector<TreeNode *> res;
+        if (left > right) {
+            return {nullptr};
+        }
+        for (int i = left; i<= right; ++i) {
+            auto leftres = dfs(left, i-1);
+            auto rightres= dfs(i+1, right);
+            for (auto l: leftres) {
+                for (auto r: rightres) {
+                    TreeNode * node = new TreeNode(i);
+                    node->left= l;
+                    node->right = r;
+                    res.push_back(node);
+                }
+            }
+        }
+        return res;
     }
-    int numTrees1(int n)
+    std::vector<TreeNode*> generateTrees(int n)
     {
-        return 0;
+        return dfs(1, n);
+    }
+    std::vector<TreeNode*> generateTrees1(int n)
+    {
+        return std::vector<TreeNode *>{};
     }
 };
+bool isSimilar(TreeNode *r1, TreeNode *r2)
+{
+    if(r1==nullptr && r2 == nullptr)
+    {
+        return true;
+    }
+    if(r1 ==nullptr || r2 == nullptr)
+    {
+        return false;
+    }
+    if(r1->val != r2->val )
+    {
+        return false;
+    }
+    return isSimilar(r1->left, r2->left) && isSimilar(r1->right, r2->right);
+}
+bool isSimilar(std::vector<TreeNode*>& v1,std::vector<TreeNode*> &v2)
+{
+    int size = v1.size();
+    if(size != v2.size())
+    {
+        return false;
+    }
+    for(int i = 0; i< size; i++)
+    {
+        if(isSimilar(v1[i], v2[i]) == false)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+std::ostream & operator << (std::ostream &out, TreeNode *root)
+{
+    if (root == nullptr) {
+        out << "N" << ",";
+        return out;
+    }
+    out << root->val << ",";
+    out << (root->left) ;
+    out << (root->right);
+    return out;
+}
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
         int n,
-        int expected)
+        std::vector<TreeNode *> expected)
 {
     if(testName.length() > 0)
     {
         std::cout <<testName << " begins: "<< std::endl;
     }
-    std::cout << "n:" << n << std::endl;
 
     Solution solution;
 
@@ -90,7 +169,7 @@ void Test(const std::string& testName,
 
 const static int TEST_TIME = 1;
 const static int TEST__    = 1;
-const static int TEST_1    = 1;
+const static int TEST_1    = 0;
 
     if(TEST__)
     {
@@ -99,16 +178,16 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.numTrees(n);
+        decltype(expected) result = solution.generateTrees(n);
         std::cout << "result:" << std::boolalpha << result << std::endl;
 
-        if(result == expected)
+        if(isSimilar(result ,expected))
         {
-            std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
+            std::cout << GREEN << "Solution passed." << RESET <<  std::endl;
         }
         else
         {
-            std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
+            std::cout << RED << "Solution failed." <<  RESET << std::endl;
             std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
             std::cout << RESET << std::endl;
         }
@@ -116,7 +195,7 @@ const static int TEST_1    = 1;
         {
            end = std::chrono::system_clock::now();
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-           std::cout << "Solution0 costs " << elapsed.count() <<"micros" << std::endl;
+           std::cout << "Solution costs " << elapsed.count() <<"micros" << std::endl;
         }
     }
     if(TEST_1)
@@ -126,10 +205,10 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        decltype(expected) result = solution.numTrees1(n);
+        decltype(expected) result = solution.generateTrees1(n);
         std::cout << "result:" << std::boolalpha << result << std::endl;
 
-        if(result == expected)
+        if(isSimilar(result ,expected))
         {
             std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
         }
@@ -158,12 +237,12 @@ void Test1()
     std::cout << "      1        2" << std::endl;
     std::cout << "        \\    / " << std::endl;
     std::cout << "         2  1   " << std::endl;
-    //TreeNode * pnode2 = new TreeNode(2);
-    //TreeNode * pnode1 = new TreeNode(1, nullptr, pnode2);
+    TreeNode * pnode2 = new TreeNode(2);
+    TreeNode * pnode1 = new TreeNode(1, nullptr, pnode2);
 
-    //TreeNode * p_node1 = new TreeNode(1);
-    //TreeNode * p_node2 = new TreeNode(2, p_node1, nullptr);
-    int expected = 2;
+    TreeNode * p_node1 = new TreeNode(1);
+    TreeNode * p_node2 = new TreeNode(2, p_node1, nullptr);
+    std::vector<TreeNode *> expected = {pnode1, p_node2};
     Test("Test1", n, expected);
 }
 void Test2()
@@ -174,27 +253,27 @@ void Test2()
     std::cout << "     2       3     1     3    1       2            " << std::endl;
     std::cout << "      \\     /                  \\    /             " << std::endl;
     std::cout << "       3   2                    2  1              " << std::endl;
-    // TreeNode * p1node3 = new TreeNode(3);
-    // TreeNode * p1node2 = new TreeNode(2, nullptr, p1node3);
-    // TreeNode * p1node1 = new TreeNode(1, nullptr, p1node2);
+    TreeNode * p1node3 = new TreeNode(3);
+    TreeNode * p1node2 = new TreeNode(2, nullptr, p1node3);
+    TreeNode * p1node1 = new TreeNode(1, nullptr, p1node2);
 
-    // TreeNode * p2node2 = new TreeNode(2);
-    // TreeNode * p2node3 = new TreeNode(3, p2node2, nullptr);
-    // TreeNode * p2node1 = new TreeNode(1, nullptr, p2node3);
+    TreeNode * p2node2 = new TreeNode(2);
+    TreeNode * p2node3 = new TreeNode(3, p2node2, nullptr);
+    TreeNode * p2node1 = new TreeNode(1, nullptr, p2node3);
 
-    // TreeNode * p3node1 = new TreeNode(1);
-    // TreeNode * p3node3 = new TreeNode(3);
-    // TreeNode * p3node2 = new TreeNode(2, p3node1, p3node3);
+    TreeNode * p3node1 = new TreeNode(1);
+    TreeNode * p3node3 = new TreeNode(3);
+    TreeNode * p3node2 = new TreeNode(2, p3node1, p3node3);
 
-    // TreeNode * p4node2 = new TreeNode(2);
-    // TreeNode * p4node1 = new TreeNode(1, nullptr, p4node2);
-    // TreeNode * p4node3 = new TreeNode(3, p4node1, nullptr);
+    TreeNode * p4node2 = new TreeNode(2);
+    TreeNode * p4node1 = new TreeNode(1, nullptr, p4node2);
+    TreeNode * p4node3 = new TreeNode(3, p4node1, nullptr);
 
-    // TreeNode * p5node1 = new TreeNode(1);
-    // TreeNode * p5node2 = new TreeNode(2, p5node1, nullptr);
-    // TreeNode * p5node3 = new TreeNode(3, p5node2, nullptr);
+    TreeNode * p5node1 = new TreeNode(1);
+    TreeNode * p5node2 = new TreeNode(2, p5node1, nullptr);
+    TreeNode * p5node3 = new TreeNode(3, p5node2, nullptr);
 
-    int expected = 5;
+    std::vector<TreeNode *> expected = {p1node1, p2node1, p3node2, p4node3, p5node3};
 
     Test("Test2", n, expected);
 }
@@ -220,7 +299,6 @@ void Test8()
 }
 int main()
 {
-
     Test0();
     Test1();
     Test2();

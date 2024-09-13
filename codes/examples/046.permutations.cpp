@@ -63,24 +63,94 @@ public:
     ////////////////////////////////////////////////////////////////////////////////
     std::vector<std::vector<int>> permute (std::vector<int>& nums)
     {
-        return {};
+        sort(nums.begin(), nums.end());
+        std::vector<std::vector<int>> res;
+        do{res.push_back(nums);} while(std::next_permutation(nums.begin(), nums.end()));
+        return res;
     }
     ////////////////////////////////////////////////////////////////////////////////
+    std::vector<int> path;
+    std::vector<std::vector<int>> res;
+    void dfs(std::vector<int>& nums, std::vector<bool> &used)
+    {
+        int size = nums.size();
+        if (path.size() == size) {
+            res.push_back(path);
+            return;
+        }
+        for (int i = 0; i < size; ++i) {
+            if (used[i]) {
+                continue;
+            }
+            path.push_back(nums[i]);
+            used[i]=true;
+            dfs(nums, used);
+            path.pop_back();
+            used[i]=false;
+        }
+    }
     std::vector<std::vector<int>> permute1(std::vector<int>& nums)
     {
-        return {};
+        res.clear();
+        path.clear();
+        sort(nums.begin(), nums.end());
+        std::vector<bool> used(nums.size(), false);
+        dfs(nums, used);
+        return res;
     }
-    ////////////////////////////////////////////////////////////////////////////////
     std::vector<std::vector<int>> permute2(std::vector<int>& nums)
     {
-        return {};
+        int size = nums.size();
+        std::vector<int> path(size, 0);
+        std::vector<bool> used(size, false);
+        std::vector<std::vector<int>> ans;
+        sort(nums.begin(), nums.end());
+        auto dfs = [&](auto &&dfs, int i){
+            if (i == size) {
+                ans.push_back(path);
+                return;
+            }
+            for (int j = 0; j < size; ++j) {
+                if (!used[j]) {
+                    path[i] = nums[j];
+                    used[j]= true;
+                    dfs(dfs, i+1);
+                    used[j]= false;
+                }
+            }
+        };
+        dfs(dfs, 0);
+        return ans;
     }
-    ////////////////////////////////////////////////////////////////////////////////
     std::vector<std::vector<int>> permute3(std::vector<int>& nums)
     {
-        return {};
+        std::vector<std::vector<int>> result;
+        std::queue<std::vector<int>> queue;
+        queue.push({});
+        // 第一个 for 遍历nums;
+        for (int i = 0; i < nums.size(); ++i) {
+            int queuesize = queue.size();
+            // 第二个 for 遍历queue;
+            for (int k = 0; k < queuesize; ++k) {
+                auto oldpermupution = queue.front();
+                //std::cout << oldpermupution << std::endl;
+                queue.pop();
+                int size = oldpermupution.size();
+                // 第三个for遍历当前vector可插入的位置
+                for (int j = 0; j <= size; ++j) {
+                    auto temp(oldpermupution);
+                    temp.insert(temp.begin()+j, nums[i]);
+                    //std::cout << temp << std::endl;
+                    if (temp.size() == nums.size()) {
+                        result.push_back(temp);
+                    } else {
+                        queue.push(temp);
+                    }
+                }
+            }
+        }
+        return result;
     }
-    ////////////////////////////////////////////////////////////////////////////////
     int getpermutataion(std::vector<int> nums, std::vector<std::vector<int>> & permutation)
     {
         std::sort(nums.begin(), nums.end());

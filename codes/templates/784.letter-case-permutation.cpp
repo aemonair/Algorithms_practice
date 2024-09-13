@@ -69,34 +69,19 @@
 #define BOLDRED     "\033[1m\033[31m"      /* Bold Red     */
 
 template<typename T>
-std::ostream & operator << (std::ostream &out, const std::queue <T> &_queue)
-{
-    auto Q(_queue);
-    out << "queue :[  ";
-    while (!Q.empty()) {
-        out << Q.front() << ", ";
-        Q.pop();
-    }
-    out << "\b\b ]" ;
-    return out;
-}
+std::ostream & operator << (std::ostream &out, const std::queue <T> &_queue);
 template<typename T>
-std::ostream & operator << (std::ostream &out, const std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
+std::ostream & operator << (std::ostream &out, const std::vector<T> &_vec);
+
 class Solution {
 public:
-    std::vector<std::string> letterCasePermutation(std::string s) {
+    std::vector<std::string> letterCasePermutation (std::string s) {
         return {};
     }
     std::vector<std::string> letterCasePermutation1(std::string s) {
+        return {};
+    }
+    std::vector<std::string> letterCasePermutation2(std::string s) {
         return {};
     }
 };
@@ -120,9 +105,10 @@ void Test(const std::string& testName,
     std::sort(expected.begin(), expected.end());
 
 const static int TEST_TIME = 1;
-const static int TEST_0    = 1;
-const static int TEST_1    = 0;
-    if (TEST_0)
+const static int TEST__    = 1;
+const static int TEST_1    = 1;
+const static int TEST_2    = 1;
+    if (TEST__)
     {
         std::cout << "Solution0 start.........." << std::endl;
         if (TEST_TIME)
@@ -183,6 +169,60 @@ const static int TEST_1    = 0;
         }
         std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
+    if (TEST_2)
+    {
+        std::cout << "Solution2 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) &&result = solution.letterCasePermutation2(s);
+        std::cout << "result:" << result << std::endl;
+        std::sort(result.begin(), result.end());
+
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution2 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            // solution.printvectorvector(expected);
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
+    }
+}
+template<typename T>
+std::ostream & operator << (std::ostream &out, const std::queue <T> &_queue)
+{
+    auto Q(_queue);
+    out << "queue :[  ";
+    while (!Q.empty()) {
+        out << Q.front() << ", ";
+        Q.pop();
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+template<typename T>
+std::ostream & operator << (std::ostream &out, const std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
 }
 void Test1()
 {

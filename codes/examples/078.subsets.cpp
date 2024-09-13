@@ -62,27 +62,129 @@ public:
 ////////////////////////////////////////////////////////////////////////
     std::vector<std::vector<int>> subsets0(std::vector<int> nums)
     {
-        return {};
+        std::vector<std::vector<int>> results = {{}};
+        // []
+        // [] [1]
+        // [] [1] [2] [12]
+        for (int i = 0; i < nums.size(); ++i) {
+            int size = results.size();
+            for (int j =0; j < size; ++j)
+            {
+                std::vector<int> temp(results[j]);
+                temp.push_back(nums[i]);
+                results.push_back(temp);
+            }
+        }
+        return results;
     }
 ////////////////////////////////////////////////////////////////////////
-    std::vector<std::vector<int>> subsets1(std::vector<int>& nums)
+    std::vector<std::vector<int>> subsets1(std::vector<int>& nums_)
     {
+        std::vector<int> nums(nums_);
+        if (nums.empty()){
+            return {{}};
+        }
+        auto x = nums.back();
+        nums.pop_back();
+        auto result = subsets1(nums);
+        int size = result.size();
+        for (int i =0; i< size; ++i) {
+            auto temp(result[i]);
+            temp.push_back(x);
+            result.push_back(temp);
+        }
+        return result;
+    }
+    /*
+    {
+        if (nums.empty()){
+            return {{}};
+        }
+        auto x = nums.front();
+        nums.erase(nums.begin());
+        auto result = subsets1(nums);
+        int size = result.size();
+        for (int i =0; i< size; ++i) {
+            auto temp(result[i]);
+            temp.push_back(x);
+            result.push_back(temp);
+        }
+        return result;
         return {};
     }
+    */
+
 ////////////////////////////////////////////////////////////////////////
     std::vector<std::vector<int>> subsets2(std::vector<int>& nums)
     {
-        return {};
+        std::vector<int> path;
+        int n = nums.size();
+        std::vector<std::vector<int>> ans;
+        auto dfs = [&](auto &&dfs, int i) -> void {
+            if (i == n) {
+                ans.push_back(path);
+                return;
+            }
+            dfs(dfs,i+1); // path不选
+
+            path.push_back(nums[i]);
+            dfs(dfs,i+1); // path中选当前
+            path.pop_back(); // 恢复现场
+        };
+        dfs(dfs, 0);
+        return ans;
     }
 ////////////////////////////////////////////////////////////////////////
+    std::vector<int> path;
+    std::vector<std::vector<int>> result;
+    void backtracking(std::vector<int> &nums, int index)
+    {
+        result.push_back(path);
+        if (index > nums.size()) {return;}
+        for (int i =index; i < nums.size(); ++i) {
+            path.push_back(nums[i]);
+            backtracking(nums, i+1);
+            path.pop_back();
+        }
+    }
     std::vector<std::vector<int>> subsets3(std::vector<int>& nums)
     {
-        return {};
+        path.clear();
+        result.clear();
+        backtracking(nums, 0);
+        return result;
     }
-////////////////////////////////////////////////////////////////////////
+    void dfs(std::vector<int> &nums, int index)
+    {
+        result.push_back(path);
+        for (int i = index; i < nums.size(); ++i) {
+            path.push_back(nums[i]);
+            dfs(nums, i+1);
+            path.pop_back();
+        }
+    }
     std::vector<std::vector<int>> subsets4(std::vector<int>& nums)
     {
-        return {};
+        result.clear();
+        path.clear();
+        dfs(nums, 0);
+        return result;
+    }
+    std::vector<std::vector<int>> subsets5(std::vector<int>& nums)
+    {
+        int mask = 0;
+        int n = nums.size();
+        std::vector<std::vector<int>> res;
+        for (int i=0; i< (1<<n); ++i) {
+            std::vector<int> curr;
+            for (int j = 0; j < n; ++j) {
+                if ((1<<j) & i ) {
+                    curr.push_back(nums[j]);
+                }
+            }
+            res.push_back(curr);
+        }
+        return res;
     }
 ////////////////////////////////////////////////////////////////////////
 };

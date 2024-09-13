@@ -38,16 +38,8 @@
 #define GREEN   "\033[32m"      /* Green */
 
 template<typename T>
-std::ostream & operator << (std::ostream &out, const std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
+std::ostream & operator << (std::ostream &out, const std::vector<T> &_vec);
+
 class Solution {
 public:
 ////////////////////////////////////////////////////////////////////////
@@ -56,6 +48,14 @@ public:
         return {};
     }
     std::vector<std::string> generateParenthesis1(int n)
+    {
+        return {};
+    }
+    std::vector<std::string> generateParenthesis2(int n)
+    {
+        return {};
+    }
+    std::vector<std::string> generateParenthesis3(int n)
     {
         return {};
     }
@@ -81,43 +81,135 @@ void Test(const std::string& testName,
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
 const static int TEST_TIME = 1;
-const static int TEST_0    = 1;
+const static int TEST__    = 1;
 const static int TEST_1    = 1;
-    if (TEST_0)
+const static int TEST_2    = 1;
+const static int TEST_3    = 1;
+    if (TEST__)
     {
-        std::cout << "Solution0 start.........." << std::endl;
+        std::cout << "Solution start.........." << std::endl;
         if (TEST_TIME)
         {
             start = std::chrono::system_clock::now();
         }
         decltype(expected) result = solution.generateParenthesis(n);
         std::cout << "solution result:" << result << std::endl;
-        // solution.printvector(result);
 
         sort(result.begin(), result.end());
         if(result == expected)
         {
-            std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
+            std::cout << GREEN << "Solution passed." << RESET <<  std::endl;
         }
         else
         {
-            std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
+            std::cout << RED << "Solution failed." <<  RESET << std::endl;
             std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
-            // solution.printvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
         {
            end = std::chrono::system_clock::now();
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-           std::cout << "Solution0 costs " << elapsed.count() <<"micros" << std::endl;
+           std::cout << "Solution costs " << elapsed.count() <<"micros" << std::endl;
         }
     }
     if (TEST_1)
     {
+        std::cout << "Solution1 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+        decltype(expected) result = solution.generateParenthesis1(n);
+        std::cout << "solution1 result:" << result << std::endl;
+
+        sort(result.begin(), result.end());
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+    }
+    if (TEST_2)
+    {
+        std::cout << "Solution2 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+        decltype(expected) result = solution.generateParenthesis2(n);
+        std::cout << "solution2 result:" << result << std::endl;
+
+        sort(result.begin(), result.end());
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution2 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+    }
+    if (TEST_3)
+    {
+        std::cout << "Solution3 start.........." << std::endl;
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+        decltype(expected) result = solution.generateParenthesis3(n);
+        std::cout << "solution3 result:" << result << std::endl;
+
+        sort(result.begin(), result.end());
+        if(result == expected)
+        {
+            std::cout << GREEN << "Solution3 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution3 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution3 costs " << elapsed.count() <<"micros" << std::endl;
+        }
     }
 }
 
+template<typename T>
+std::ostream & operator << (std::ostream &out, const std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
 void Test1()
 {
     int n = 3;

@@ -66,10 +66,75 @@ public:
 //
     std::vector<int> diffWaysToCompute(std::string input)
     {
-        return {};
+        int size = input.size();
+        int num = 0;
+        std::vector<int> result;
+        for (int i = 0; i < size; ++i) {
+            if (isdigit(input[i])) {
+                if (num != 0) {
+                    num *= 10;
+                }
+                //num += std::stoi(input[i]);
+                num += (input[i] - '0');
+            } else {
+                auto left = diffWaysToCompute(input.substr(0, i));
+                auto right= diffWaysToCompute(input.substr(i+1));
+                for (auto l: left) {
+                    for(auto r: right) {
+                        std::cout << l << input[i] << r << " ";
+                        switch (input[i]) {
+                            case '+':
+                                result.push_back(l+r);
+                                break;
+                            case '-':
+                                result.push_back(l-r);
+                                break;
+                            case '*':
+                                result.push_back(l*r);
+                                break;
+                            case '/':
+                                //result.push_back(l/r);
+                                break;
+                        }
+
+                    }
+                }
+            }
+        }
+        if (result.empty()) {
+            result.push_back(num);
+        }
+        return result;
+    }
+    std::vector<int> dfs(std::string input, int left, int right) {
+        std::vector<int> res;
+        for(int i=left; i < right; ++i) {
+            if (input[i]>='0' && input[i] <='9') {
+                continue;
+            }
+            auto lres = dfs(input, left, i-1);
+            auto rres = dfs(input, i+1, right);
+            for (auto &l : lres) {
+                for (auto &r: rres) {
+                    if(input[i] == '+') { res.push_back(l+r); }
+                    if(input[i] == '*') { res.push_back(l*r); }
+                    if(input[i] == '-') { res.push_back(l-r); }
+                }
+            }
+        }
+        if (res.empty()) {
+            int temp = 0;
+            for (int i =left; i < right; ++i) {
+                temp = temp * 10 + (input[i] - '0');
+            }
+            res.push_back(temp);
+        }
+        return res;
     }
     std::vector<int> diffWaysToCompute1(std::string input)
     {
+        int len = input.size();
+        return dfs(input, 0, len -1);
         return {};
     }
 };

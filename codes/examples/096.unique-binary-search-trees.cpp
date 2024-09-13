@@ -61,13 +61,49 @@ std::ostream & operator << (std::ostream &out, TreeNode *root);
 
 class Solution {
 public:
+    int numTrees(int left, int right) {
+        int res = 0;
+        if (left > right) {
+            return 0;
+        }
+        if (left == right) {
+            return 1;
+        }
+        for (int i = left; i <= right; ++i) {
+            auto leftres = numTrees(left, i-1);
+            auto rightres = numTrees(i+1, right);
+            if (leftres * rightres) {
+                res += leftres * rightres;
+            } else if (leftres) {
+                res += leftres;
+            } else if (rightres) {
+                res += rightres;
+            }
+        }
+        return res;
+    }
     int numTrees(int n)
     {
+        return numTrees(1, n);
         return 0;
     }
+    std::unordered_map<int,int>umap;
     int numTrees1(int n)
     {
-        return 0;
+        int res = 0;
+        if (n <= 1) {
+            return 1;
+        }
+        if (umap.count(n) ) {
+            return umap[n];
+        }
+        for(int i=1; i<= n; ++i) {
+            auto left = numTrees1(i-1);
+            auto right= numTrees1(n-i);
+            res += left * right;
+        }
+        umap[n] = res;
+        return res;
     }
 };
 

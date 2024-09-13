@@ -60,19 +60,108 @@ class Solution {
 public:
     std::vector<std::vector<int>> subsetsWithDup (std::vector<int>& nums)
     {
-        return {};
+        int size = nums.size();
+        sort(nums.begin(), nums.end());
+        std::vector<std::vector<int>> result ={{}};
+        int end = 0;
+        int start = 0;
+        for (int i = 0; i< size; ++i) {
+            int n = result.size();
+            start = 0;
+            if (i >= 1 && nums[i] == nums[i-1]) {
+                start = end;
+            }
+            end = n;
+            for (int j = start; j < n; ++j) {
+                auto temp(result[j]);
+                temp.push_back(nums[i]);
+                result.push_back(temp);
+            }
+        }
+        return result;
     }
-    std::vector<std::vector<int>> subsetsWithDup1(std::vector<int>& nums)
-    {
-        return {};
+    std::vector<std::vector<int>> result;
+    std::vector<int> path;
+    void backtracking(std::vector<int>& nums, int startIndex, std::vector<bool>& used) {
+        result.push_back(path);
+        for (int i = startIndex; i < nums.size(); i++) {
+            // used[i - 1] == true，说明同一树枝candidates[i - 1]使用过
+            // used[i - 1] == false，说明同一树层candidates[i - 1]使用过
+            // 而我们要对同一树层使用过的元素进行跳过
+            if (i > 0 && nums[i] == nums[i - 1] && used[i - 1] == false) {
+                continue;
+            }
+            path.push_back(nums[i]);
+            used[i] = true;
+            backtracking(nums, i + 1, used);
+            used[i] = false;
+            path.pop_back();
+        }
     }
-    std::vector<std::vector<int>> subsetsWithDup2(std::vector<int>& nums)
+
+public:
+    std::vector<std::vector<int>> subsetsWithDup1(std::vector<int>& nums) {
+        result.clear();
+        path.clear();
+        std::vector<bool> used(nums.size(), false);
+        sort(nums.begin(), nums.end()); // 去重需要排序
+        dfs(nums, path, 0, used);
+        //backtracking(nums, 0, used);
+        return result;
+    }
+    void dfs(std::vector<int> &nums, std::vector<int> &curr, int index , std::vector<bool> &used)
     {
-        return {};
+        result.push_back(curr);
+        int size = nums.size();
+        std::cout << "curr:" << curr << "used:" << used << std::endl;
+        for (int i = index; i < size; ++i) {
+            if (i>0 && nums[i] == nums[i-1] && used[i-1] == false) {
+                std::cout << " " <<  nums[i] << "==" <<  nums[i-1] << "used:" << used[i-1] << std::endl;
+                continue;
+            }
+            curr.push_back(nums[i]);
+            used[i] = true;
+            dfs(nums, curr, i+1, used);
+            used[i] = false;
+            curr.pop_back();
+        }
+    }
+    void backtracking(std::vector<int> &nums, int index)
+    {
+        result.push_back(path);
+        for (int i = index; i < nums.size(); ++i) {
+            if (i>index &&nums[i] == nums[i-1]) {
+                continue;
+            }
+            path.push_back(nums[i]);
+            backtracking(nums, i+1);
+            path.pop_back();
+        }
+    }
+    std::vector<std::vector<int>> subsetsWithDup2(std::vector<int>& nums) {
+        path.clear();
+        result.clear();
+        sort(nums.begin(), nums.end());
+        backtracking(nums, 0);
+        return result;
+    }
+    void backtrack(std::vector<std::vector<int>>& res, std::vector<int>& path, std::vector<int>& nums, int index) {
+        if (index > nums.size()) return;
+        res.push_back(path);
+        for (int i = index; i < nums.size(); ++i) {
+            if (i != index && nums[i] == nums[i - 1]) continue;
+            path.push_back(nums[i]);
+            backtrack(res, path, nums, i + 1);
+            path.pop_back();
+        }
     }
     std::vector<std::vector<int>> subsetsWithDup3(std::vector<int>& nums)
     {
-        return {};
+        sort(nums.begin(), nums.end());
+        std::vector<std::vector<int>> res;
+        std::vector<int> path;
+        backtrack(res, path, nums, 0);
+        return res;
     }
 
 };

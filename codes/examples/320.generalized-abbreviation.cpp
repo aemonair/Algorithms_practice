@@ -26,7 +26,6 @@
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
-#define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> _vec);
 
@@ -35,19 +34,104 @@ public:
 ////////////////////////////////////////////////////////////////////////
     std::vector<std::string> generateAbbreviations (std::string word)
     {
-        return {};
+        int size = word.size();
+        std::vector<std::string> res;
+        auto dfs = [&](auto &&dfs, std::string temp, int i, int count) {
+            if (i == size) {
+                if (count> 0) {
+                    temp += (std::to_string(count));
+                }
+                res.push_back(temp);
+                return;
+            }
+            dfs(dfs, temp, i+1, count+1);
+            if (count > 0) {
+                temp += std::to_string(count);
+            }
+            temp += word[i];
+            dfs(dfs, temp, i+1, 0);
+        };
+        dfs(dfs, "", 0, 0);
+        return res;
     }
     std::vector<std::string> generateAbbreviations1(std::string word)
     {
-        return {};
+        std::string temp;
+        int size = word.size();
+        std::vector<std::string> res;
+        auto dfs = [&](auto &&dfs, int i, int cnt){
+            if (i == size) {
+                if (cnt> 0) {
+                    temp += std::to_string(cnt);
+                }
+                res.push_back(temp);
+                return;
+            }
+            size_t oldsize = temp.size();
+            dfs(dfs, i+1, cnt+1); // 数字+1
+            temp.resize(oldsize);
+
+            if (cnt > 0) {
+                temp += std::to_string(cnt);
+            }
+            temp+= (word[i]);
+            dfs(dfs, i+1, 0);
+            temp.resize(oldsize);
+        };
+        dfs(dfs, 0, 0);
+        return res;
     }
     std::vector<std::string> generateAbbreviations2(std::string word)
     {
-        return {};
+        int n = word.size();
+        std::vector<std::string> res;
+        auto dfs = [&](auto &&dfs, int i, std::string str) {
+            if (i == n) {
+                res.push_back(str);
+                return;
+            }
+            // 保持原始字符串不变，创建一个新的字符串进行操作
+            std::string temp = str;
+            for (int j = i; j < n; ++j) {
+                if (j > i) {
+                    temp += std::to_string(j - i); // 添加数字
+                }
+                temp += word[j]; // 添加字符
+                dfs(dfs, j + 1, temp); // 递归调用，从下一个位置开始
+                temp = str; // 恢复字符串状态
+            }
+            // 如果到了末尾，则添加剩余字符的数量
+            dfs(dfs, n, str + std::to_string(n - i));
+        };
+        dfs(dfs, 0, "");
+        return res;
+    }
+    void helper( int pos, std::string word, std::vector<std::string>& res) {
+        for (int i = pos; i < word.size(); ++i) {
+            for (int j = 1; i +j  <= word.size(); ++j) {
+                std::string t = word.substr(0, i);
+                t += std::to_string(j) + word.substr(i+j);
+                res.push_back(t);
+                helper(i+1+std::to_string(j).size(), t, res);
+            }
+        }
     }
     std::vector<std::string> generateAbbreviations3(std::string word)
     {
-        return {};
+        std::vector<std::string> res = {word};
+        auto dfs = [&](auto &&dfs, int pos, std::string word) -> void {
+            for (int i = pos; i < word.size(); ++i) {
+                for (int j = 1; i+j <= word.size(); ++j) {
+                    std::string t = word.substr(0, i);
+                    t += std::to_string(j) + word.substr(i+j);
+                    res.push_back(t);
+                    dfs(dfs, i+1+std::to_string(j).size(), t);
+                }
+            }
+        };
+        dfs(dfs, 0, word);
+        //helper(0, word, res);
+        return res;
     }
 ////////////////////////////////////////////////////////////////////////
 };
@@ -60,7 +144,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
+        std::cout <<testName << " begins: "<< std::endl;
     }
 
     Solution solution;
@@ -94,8 +178,8 @@ const static int TEST_3    = 1;
         else
         {
             std::cout << RED << "Solution failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << expected << RESET << std::endl;
-            //std::cout << RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
         {
@@ -103,7 +187,6 @@ const static int TEST_3    = 1;
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution costs " << elapsed.count() <<"micros" << std::endl;
         }
-        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
     if (TEST_1)
     {
@@ -123,8 +206,8 @@ const static int TEST_3    = 1;
         else
         {
             std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << expected << RESET << std::endl;
-            //std::cout << RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
         {
@@ -132,7 +215,6 @@ const static int TEST_3    = 1;
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
         }
-        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
     if (TEST_2)
     {
@@ -152,8 +234,8 @@ const static int TEST_3    = 1;
         else
         {
             std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << expected << RESET << std::endl;
-            //std::cout << RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
         {
@@ -161,7 +243,6 @@ const static int TEST_3    = 1;
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
         }
-        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
     if (TEST_3)
     {
@@ -174,6 +255,9 @@ const static int TEST_3    = 1;
         std::cout << "solution result:" << result << std::endl;
 
         std::sort(result.begin(), result.end());
+        std::sort(expected.begin(), expected.end());
+        std::cout << "solution result:" << result << std::endl;
+        std::cout << "expected result:" << expected << std::endl;
         if(result == expected)
         {
             std::cout << GREEN << "Solution3 passed." << RESET <<  std::endl;
@@ -181,8 +265,8 @@ const static int TEST_3    = 1;
         else
         {
             std::cout << RED << "Solution3 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << expected << RESET << std::endl;
-            //std::cout << RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
         {
@@ -190,7 +274,6 @@ const static int TEST_3    = 1;
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution3 costs " << elapsed.count() <<"micros" << std::endl;
         }
-        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
 }
 

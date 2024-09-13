@@ -1,66 +1,94 @@
 /*
  *********************************************
- * 320. Generalized Abbreviation
- * Write a function to generate the generalized abbreviations of a word.
+ *  47. Permutations II
+ * Medium
  *********************************************
- * Example:
+ * Given a collection of numbers, nums, that might contain duplicates, return all possible unique permutations in any order.
+ *********************************************
+ * Example 1:
  *
- * Given word ="word", return the following list (order does not matter):
+ * Input: nums = [1,1,2]
+ * Output:
+ * [[1,1,2],
+ *  [1,2,1],
+ *  [2,1,1]]
+ *********************************************
+ * Example 2:
  *
- * ["word", "1ord", "w1rd", "wo1d", "wor1", "2rd", "w2d", "wo2", "1o1d", "1or1", "w1r1", "1o2", "2r1", "3d", "w3", "4"]
+ * Input: nums = [1,2,3]
+ * Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+ *********************************************
+ * Constraints:
+ *
+ * 1 <= nums.length <= 8
+ * -10 <= nums[i] <= 10
  *********************************************
  *
  */
 
-#include <stack>
-#include <queue>
-#include <tuple>
+#include <algorithm>
+#include <iostream>
 #include <chrono>
 #include <vector>
 #include <string>
-#include <cstring>
-#include <iostream>
-#include <algorithm>
+#include <queue>
+#include <map>
 
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
-#define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
+
 template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> _vec);
+std::ostream & operator << (std::ostream &out, const std::queue <T> &_queue);
+
+template<typename T>
+std::ostream & operator << (std::ostream &out, const std::vector<T> &_vec);
 
 class Solution {
 public:
-////////////////////////////////////////////////////////////////////////
-    std::vector<std::string> generateAbbreviations (std::string word)
+    //
+    ////////////////////////////////////////////////////////////////////////////////
+    std::vector<std::vector<int>> permuteUnique (std::vector<int>& nums)
     {
         return {};
     }
-    std::vector<std::string> generateAbbreviations1(std::string word)
+    ////////////////////////////////////////////////////////////////////////////////
+    std::vector<std::vector<int>> permuteUnique1(std::vector<int>& nums)
     {
         return {};
     }
-    std::vector<std::string> generateAbbreviations2(std::string word)
+    ////////////////////////////////////////////////////////////////////////////////
+    std::vector<std::vector<int>> permuteUnique2(std::vector<int>& nums)
     {
         return {};
     }
-    std::vector<std::string> generateAbbreviations3(std::string word)
+    ////////////////////////////////////////////////////////////////////////////////
+    std::vector<std::vector<int>> permuteUnique3(std::vector<int>& nums)
     {
         return {};
     }
-////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    int getpermutataion(std::vector<int> nums, std::vector<std::vector<int>> & permutation)
+    {
+        std::sort(nums.begin(), nums.end());
+        permutation.clear();
+        do
+        {
+            permutation.push_back(std::vector<int>{nums});
+        } while ( std::next_permutation(nums.begin(), nums.end() ));
+        return permutation.size();
+    }
 };
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
-        std::string &word,
-        std::vector<std::string> &expected
-        )
+        std::vector<int>  nums ,
+        std::vector<std::vector<int>> expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
+        std::cout <<testName << " begins: "<< std::endl;
     }
 
     Solution solution;
@@ -68,14 +96,17 @@ void Test(const std::string& testName,
     auto start = std::chrono::system_clock::now();
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    std::sort(expected.begin(), expected.end());
-    std::cout << "word: "<< word << std::endl;
+
+    std::cout << " nums: "<< std::endl;
+    std::vector<std::vector<int>> permutation;
+    solution.getpermutataion(nums, permutation);
+    std::cout << permutation << std::endl;
 
 const static int TEST_TIME = 1;
-const static int TEST__    = 1;
+const static int TEST__    = 0;
 const static int TEST_1    = 1;
-const static int TEST_2    = 1;
-const static int TEST_3    = 1;
+const static int TEST_2    = 0;
+const static int TEST_3    = 0;
     if (TEST__)
     {
         std::cout << "Solution start.........." << std::endl;
@@ -83,8 +114,9 @@ const static int TEST_3    = 1;
         {
             start = std::chrono::system_clock::now();
         }
-        auto result = solution.generateAbbreviations(word);
-        std::cout << "solution result:" << result << std::endl;
+
+        std::vector<std::vector<int>> &&result = solution.permuteUnique (nums);
+        std::cout << "result:" << result << std::endl;
 
         std::sort(result.begin(), result.end());
         if(result == expected)
@@ -94,8 +126,8 @@ const static int TEST_3    = 1;
         else
         {
             std::cout << RED << "Solution failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << expected << RESET << std::endl;
-            //std::cout << RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
         {
@@ -103,7 +135,6 @@ const static int TEST_3    = 1;
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution costs " << elapsed.count() <<"micros" << std::endl;
         }
-        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
     if (TEST_1)
     {
@@ -112,10 +143,11 @@ const static int TEST_3    = 1;
         {
             start = std::chrono::system_clock::now();
         }
-        auto result = solution.generateAbbreviations1(word);
-        std::cout << "solution result:" << result << std::endl;
 
+        std::vector<std::vector<int>> &&result = solution.permuteUnique1(nums);
+        std::cout << "result:" << result << std::endl;
         std::sort(result.begin(), result.end());
+
         if(result == expected)
         {
             std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
@@ -123,8 +155,8 @@ const static int TEST_3    = 1;
         else
         {
             std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << expected << RESET << std::endl;
-            //std::cout << RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
         {
@@ -132,7 +164,6 @@ const static int TEST_3    = 1;
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
         }
-        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
     if (TEST_2)
     {
@@ -141,10 +172,11 @@ const static int TEST_3    = 1;
         {
             start = std::chrono::system_clock::now();
         }
-        auto result = solution.generateAbbreviations2(word);
-        std::cout << "solution result:" << result << std::endl;
 
+        std::vector<std::vector<int>> &&result = solution.permuteUnique2(nums);
+        std::cout << "result:" << result << std::endl;
         std::sort(result.begin(), result.end());
+
         if(result == expected)
         {
             std::cout << GREEN << "Solution2 passed." << RESET <<  std::endl;
@@ -152,8 +184,8 @@ const static int TEST_3    = 1;
         else
         {
             std::cout << RED << "Solution2 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << expected << RESET << std::endl;
-            //std::cout << RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
         {
@@ -161,7 +193,6 @@ const static int TEST_3    = 1;
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution2 costs " << elapsed.count() <<"micros" << std::endl;
         }
-        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
     if (TEST_3)
     {
@@ -170,10 +201,11 @@ const static int TEST_3    = 1;
         {
             start = std::chrono::system_clock::now();
         }
-        auto result = solution.generateAbbreviations3(word);
-        std::cout << "solution result:" << result << std::endl;
 
+        std::vector<std::vector<int>> &&result = solution.permuteUnique3(nums);
+        std::cout << "result:" << result << std::endl;
         std::sort(result.begin(), result.end());
+
         if(result == expected)
         {
             std::cout << GREEN << "Solution3 passed." << RESET <<  std::endl;
@@ -181,8 +213,8 @@ const static int TEST_3    = 1;
         else
         {
             std::cout << RED << "Solution3 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << expected << RESET << std::endl;
-            //std::cout << RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
         {
@@ -190,55 +222,57 @@ const static int TEST_3    = 1;
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
            std::cout << "Solution3 costs " << elapsed.count() <<"micros" << std::endl;
         }
-        std::cout << "- - - - - - - - - - - - - - - - - - -" << std::endl;
     }
 }
-
 template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> _vec)
+std::ostream & operator << (std::ostream &out, const std::queue <T> &_queue)
+{
+    auto Q(_queue);
+    out << "queue :[  ";
+    while (!Q.empty()) {
+        out << Q.front() << ", ";
+        Q.pop();
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+template<typename T>
+std::ostream & operator << (std::ostream &out, const std::vector<T> &_vec)
 {
     out << "[  ";
-    for (auto &x: _vec) {
-        std::cout << x << ", ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
     }
-    out << "\b\b ]" << std::endl;
+    out << "\b\b ]" ;
     return out;
 }
 void Test1()
 {
-    std::string word = "word";
-    std::vector<std::string> expect = {"word", "1ord", "w1rd", "wo1d", "wor1", "2rd", "w2d", "wo2", "1o1d", "1or1", "w1r1", "1o2", "2r1", "3d", "w3", "4"};
-    Test("Test1", word, expect);
+    Test("Test1", std::vector<int> {1,1,2},
+        {{1,1,2},{1,2,1},{2,1,1}}
+    );
 }
 void Test2()
 {
-    std::string word = "BAT";
-    std::vector<std::string> expect = {"BAT", "BA1", "B1T", "B2", "1AT", "1A1", "2T", "3"};
-    Test("Test2", word, expect);
+    Test("Test2", std::vector<int> {3}, {{3}});
 }
 
 void Test3()
 {
-    std::string word = "code";
-    std::vector<std::string> expect = {"code", "cod1", "co1e", "co2", "c1de", "c1d1", "c2e", "c3", "1ode", "1od1", "1o1e", "1o2", "2de", "2d1", "3e", "4"};
-    Test("Test3", word, expect);
+    Test("Test3", std::vector<int> {1,2,3},
+            {{1,2,3},{1,3,2},{2,1,3},{2,3,1},{3,1,2},{3,2,1}}
+            );
 }
 
-void Test4()
-{
-}
 
-void Test5()
-{
-}
 
 int main()
 {
     Test1();
     Test2();
     Test3();
-    Test4();
-    Test5();
 
     return 0;
+
 }

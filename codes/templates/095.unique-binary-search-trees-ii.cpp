@@ -62,6 +62,130 @@ struct TreeNode
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
+std::ostream & operator << (std::ostream &out, TreeNode *root);
+
+class Solution {
+public:
+    std::vector<TreeNode*> generateTrees(int n)
+    {
+        return {};
+    }
+    std::vector<TreeNode*> generateTrees1(int n)
+    {
+        return std::vector<TreeNode *>{};
+    }
+};
+bool isSimilar(TreeNode *r1, TreeNode *r2)
+{
+    if(r1==nullptr && r2 == nullptr)
+    {
+        return true;
+    }
+    if(r1 ==nullptr || r2 == nullptr)
+    {
+        return false;
+    }
+    if(r1->val != r2->val )
+    {
+        return false;
+    }
+    return isSimilar(r1->left, r2->left) && isSimilar(r1->right, r2->right);
+}
+bool isSimilar(std::vector<TreeNode*>& v1,std::vector<TreeNode*> &v2)
+{
+    int size = v1.size();
+    if(size != v2.size())
+    {
+        return false;
+    }
+    for(int i = 0; i< size; i++)
+    {
+        if(isSimilar(v1[i], v2[i]) == false)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+// ==================== TEST Codes====================
+void Test(const std::string& testName,
+        int n,
+        std::vector<TreeNode *> expected)
+{
+    if(testName.length() > 0)
+    {
+        std::cout <<testName << " begins: "<< std::endl;
+    }
+
+    Solution solution;
+
+    auto start = std::chrono::system_clock::now();
+    decltype(start) end ;
+    auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+const static int TEST_TIME = 1;
+const static int TEST__    = 1;
+const static int TEST_1    = 0;
+
+    if(TEST__)
+    {
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.generateTrees(n);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
+
+        if(isSimilar(result ,expected))
+        {
+            std::cout << GREEN << "Solution passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution costs " << elapsed.count() <<"micros" << std::endl;
+        }
+    }
+    if(TEST_1)
+    {
+        if (TEST_TIME)
+        {
+            start = std::chrono::system_clock::now();
+        }
+
+        decltype(expected) result = solution.generateTrees1(n);
+        std::cout << "result:" << std::boolalpha << result << std::endl;
+
+        if(isSimilar(result ,expected))
+        {
+            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
+        }
+        else
+        {
+            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            std::cout << RESET << std::endl;
+        }
+        if (TEST_TIME)
+        {
+           end = std::chrono::system_clock::now();
+           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
+        }
+    }
+    std::cout << "-----------------------------" << std::endl;
+}
+template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
 {
     out << "[  ";
@@ -82,255 +206,6 @@ std::ostream & operator << (std::ostream &out, TreeNode *root)
     out << (root->left) ;
     out << (root->right);
     return out;
-}
-
-class Solution {
-public:
-    //
-    std::vector<TreeNode*> generateTrees(int n)
-    {
-        return {};
-    }
-    std::vector<TreeNode*> generateTrees1(int n)
-    {
-        return std::vector<TreeNode *>{};
-    }
-    template <typename T>
-    int printstack(std::stack<T> s)
-    {
-        if (s.empty())
-        {
-            std::cout << "The stack is empty." << std::endl;
-            return 0;
-        }
-        std::cout <<  "The stack size is: " << s.size() << std::endl;
-        std::stack<T> tmp(s);
-        while (!tmp.empty())
-        {
-            std::cout << tmp.top() << ", ";
-            tmp.pop();
-        }
-        std::cout <<  std::endl;
-        return tmp.size();
-    }
-    int printstack(std::stack<std::pair <TreeNode *, int>> s)
-    {
-        if (s.empty())
-        {
-            std::cout << "The TreeNode pair stack is empty." << std::endl;
-            return 0;
-        }
-        std::cout <<  "The TreeNode stack size is: " << s.size() << std::endl;
-        std::stack<std::pair<TreeNode *, int>> tmp(s);
-        while (!tmp.empty())
-        {
-            std::cout << "(" << (tmp.top()).first->val << ", " << tmp.top().second << ");";
-            tmp.pop();
-        }
-        std::cout << "\b]" << std::endl;
-        return tmp.size();
-    }
-
-    template <typename T>
-    int printdeque(const std::deque<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", "; //<<std::endl;
-        }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
-    }
-    int printdeque(const std::deque<TreeNode *> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << (*iter) ->val << ", "; //<<std::endl;
-        }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
-    }
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", "; //<<std::endl;
-        }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
-    }
-    int printvector(const std::vector<TreeNode *> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printtree(*iter) ;
-        }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
-    }
-
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-    int printtree  (const TreeNode * root)
-    {
-        if (root==nullptr)
-        {
-            std::cout << "null tree. " << std::endl;
-            return 0;
-        }
-        std::cout << "root->val: " << root->val << std::endl;
-        printtreenode(root);
-        std::cout << std::endl;
-        return 0;
-    }
-    int printtreenode (const TreeNode * root)
-    {
-        if(root==nullptr)
-        {
-            std::cout << "N" << ",";
-        }
-        else
-        {
-            std::cout << root->val << ",";
-            printtreenode(root->left);
-            printtreenode(root->right);
-        }
-        return 0;
-    }
-    bool isSimilar(TreeNode *r1, TreeNode *r2)
-    {
-        if(r1==nullptr && r2 == nullptr)
-        {
-            return true;
-        }
-        if(r1 ==nullptr || r2 == nullptr)
-        {
-            return false;
-        }
-        if(r1->val != r2->val )
-        {
-            return false;
-        }
-        return isSimilar(r1->left, r2->left) && isSimilar(r1->right, r2->right);
-    }
-    bool isSimilar(std::vector<TreeNode*>& v1,std::vector<TreeNode*> &v2)
-    {
-        int size = v1.size();
-        if(size != v2.size())
-        {
-            return false;
-        }
-        for(int i = 0; i< size; i++)
-        {
-            if(isSimilar(v1[i], v2[i]) == false)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-};
-
-// ==================== TEST Codes====================
-void Test(const std::string& testName,
-        int n,
-        std::vector<TreeNode *> expected)
-{
-    if(testName.length() > 0)
-    {
-        std::cout <<testName << " begins: "<< std::endl;
-    }
-
-    Solution solution;
-
-    auto start = std::chrono::system_clock::now();
-    decltype(start) end ;
-    auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-
-const static int TEST_TIME = 1;
-const static int TEST_0    = 1;
-const static int TEST_1    = 0;
-
-    if(TEST_0)
-    {
-        if (TEST_TIME)
-        {
-            start = std::chrono::system_clock::now();
-        }
-
-        decltype(expected) result = solution.generateTrees(n);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        solution.printvector(result);
-
-        if(solution.isSimilar(result ,expected))
-        //if(result == expected)
-        {
-            std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
-        }
-        else
-        {
-            std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvector(expected);
-            std::cout << RESET << std::endl;
-        }
-        if (TEST_TIME)
-        {
-           end = std::chrono::system_clock::now();
-           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-           std::cout << "Solution0 costs " << elapsed.count() <<"micros" << std::endl;
-        }
-    }
-    if(TEST_1)
-    {
-        if (TEST_TIME)
-        {
-            start = std::chrono::system_clock::now();
-        }
-
-        decltype(expected) result = solution.generateTrees1(n);
-        std::cout << "result:" << std::boolalpha << std::endl;
-        solution.printvector(result);
-
-        //if(result == expected)
-        if(solution.isSimilar(result ,expected))
-        {
-            std::cout << GREEN << "Solution1 passed." << RESET <<  std::endl;
-        }
-        else
-        {
-            std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvector(expected);
-            std::cout << RESET << std::endl;
-        }
-        if (TEST_TIME)
-        {
-           end = std::chrono::system_clock::now();
-           elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-           std::cout << "Solution1 costs " << elapsed.count() <<"micros" << std::endl;
-        }
-    }
-    std::cout << "-----------------------------" << std::endl;
 }
 
 void Test0()
@@ -404,8 +279,6 @@ void Test8()
 }
 int main()
 {
-    Solution solution;
-
     Test0();
     Test1();
     Test2();
