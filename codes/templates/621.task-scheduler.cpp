@@ -59,100 +59,155 @@
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
 
+template <typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+template <typename T1, typename T2>
+std::ostream & operator << (std::ostream &out, std::pair <T1,T2> pair)
+{
+    out << "{" << pair.first << " ," << pair.second << "}, " ;
+    return out;
+}
+
+template <typename ...T>
+std::ostream & operator << (std::ostream &out, std::queue<T... > queue)
+{
+    std::queue<T...> _queue = queue;
+    int bsize = _queue.size();
+    if (_queue.empty())
+    {
+        out << "The big queue is empty. "<< std::endl;
+    }
+    out << "<< ";
+    while (bsize--)
+    {
+        out <<  _queue.front();
+        _queue.pop();
+    }
+    out << std::endl ;
+    return out;
+}
+
+template <typename ...T>
+std::ostream & operator << (std::ostream &out, std::priority_queue<T... > big_queue)
+{
+    std::priority_queue<T...> Big_queue = big_queue;
+    int bsize = Big_queue.size();
+    if (Big_queue.empty())
+    {
+        out << "The big queue is empty. "<< std::endl;
+    }
+    out << " | ";
+    while (bsize--)
+    {
+        out << " " << Big_queue.top() << " " ;
+        Big_queue.pop();
+    }
+    out << std::endl ;
+    return out;
+}
+///////////////////////////////////////////////////////////////
 class Solution {
 public:
 ///////////////////////////////////////////////////////////////
     int leastInterval(std::vector<char>& tasks, int n)
     {
-        return 0;
+        std::unordered_map<char,int> hash;
+        for (auto t: tasks) {
+            ++hash[t];
+        }
+        auto cmp = [](std::pair<char,int> &a,std::pair<char,int> &b){
+            return a.second < b.second;
+        };
+        std::priority_queue<std::pair<char,int>,
+            std::vector<std::pair<char,int>>,
+            decltype(cmp)> maxheap(cmp);
+        for (auto h: hash) {
+            maxheap.push(h);
+        }
+        std::queue<std::pair<char, int>> queue;
+        int result = 0;
+        while (!maxheap.empty()) {
+            int k = n+1;
+            for (; k>0 && !maxheap.empty(); k--) {
+                auto top = maxheap.top();
+                maxheap.pop();
+                if (top.second > 1) {
+                    --top.second;
+                    queue.push(top);
+                }
+                result ++;
+            }
+            while (!queue.empty()) {
+                maxheap.push(queue.front());
+                queue.pop();
+            }
+            if (!maxheap.empty()) {
+                if (k > 0) {
+                    result += k;
+                }
+            }
+        }
+        return result;
     }
-///////////////////////////////////////////////////////////////
-    template <typename T>
-    int printvector(std::vector<T> v)
+    int leastInterval1(std::vector<char>& tasks, int n)
     {
-        std::cout << "[  ";// <<  std::endl;
-        //std::cout << "vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", ";
+        std::unordered_map<char,int> hash;
+        for (auto &c: tasks) {
+            hash[c]++;
         }
-        std::cout << "\b\b ]" << std::endl;
-        return v.size();
+        auto cmp = [](std::pair<char,int> a, std::pair<char,int> b){
+            return a.second < b.second;
+        };
+        std::priority_queue<std::pair<char,int>,
+            std::vector<std::pair<char,int>>,
+            decltype(cmp)> maxheap(cmp);
+        for (auto &h: hash) {
+            maxheap.push(h);
+        }
+        std::queue<std::pair<char,int>> queue;
+        std::cout << maxheap;
+        int result = 0;
+        std::string str;
+        while (!maxheap.empty()) {
+            int k = n+1;
+            std::cout << maxheap << queue;
+            for (int i = n+1; i > 0 && !maxheap.empty(); i--) {
+                auto top = maxheap.top();
+                maxheap.pop();
+                top.second --;
+                if (top.second>0){
+                    queue.push(top);
+                }
+                str += top.first;
+                ++result;
+                k--;
+                std::cout << "\"" << str << "\"" << maxheap << "result :" << result << queue;
+            }
+            std::cout << maxheap << queue;
+            while (!queue.empty()) {
+                auto curr = queue.front();
+                queue.pop();
+                maxheap.push(curr);
+            }
+            if (!maxheap.empty()) {
+                result +=k;
+                if (k>0) {
+                    str += " ";
+                    std::cout << " idle" << std::endl;
+                }
+            }
+        }
+        return result;
     }
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-    /*
-    template <typename T>
-    int printdeque(const std::deque<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", "; //<<std::endl;
-        }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
-        }*/
-    template <typename ...T>
-    int printdeque(const std::deque<T...> &v)
-    {
-        //std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << (*iter).first << "-" << iter->second << ", "; //<<std::endl;
-        }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printstack(std::stack<T> s)
-    {
-        if (s.empty())
-        {
-            std::cout << "The stack is empty." << std::endl;
-            return 0;
-        }
-        std::cout <<  "The stack size is: " << s.size() << std::endl;
-        std::stack<T> tmp;
-        while (!s.empty())
-        {
-            std::cout << s.top() << ", ";
-            s.pop();
-        }
-        std::cout <<  std::endl;
-        return s.size();
-    }
-    template <typename ...T>
-    int printqueue(std::priority_queue<T... > big_queue)
-    {
-        std::priority_queue<T...> Big_queue = big_queue;
-        int bsize = Big_queue.size();
-        if (Big_queue.empty())
-        {
-            std::cout << "The big queue is empty. "<< std::endl;
-        }
-        std::cout << " | ";
-        while (bsize--)
-        {
-            std::cout << "(" << Big_queue.top().first << " ," << Big_queue.top().second << "), " ;
-            Big_queue.pop();
-        }
-        std::cout << std::endl ;
-        return bsize;
-    }
-
 ///////////////////////////////////////////////////////////////
 };
 // ==================== TEST Codes====================
@@ -173,8 +228,8 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "n:" << n << ",tasks:" << std::endl;
-    solution.printvector(tasks);
+    std::cout << "n:" << n << ",tasks:" << tasks << std::endl;
+    // solution.printvector(tasks);
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
@@ -233,10 +288,18 @@ void Test2()
 
 void Test3()
 {
+    std::vector<char> tasks = {'a', 'a', 'a', 'b', 'c', 'c'};
+    int n = 2;
+    int expect = 7;
+    Test("Test3", tasks, n, expect);
 }
 
 void Test4()
 {
+    std::vector<char> tasks = {'a', 'b', 'a'};
+    int n = 3;
+    int expect = 5;
+    Test("Test4", tasks, n, expect);
 }
 
 void Test5()

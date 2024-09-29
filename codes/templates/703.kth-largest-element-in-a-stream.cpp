@@ -54,6 +54,8 @@
 class KthLargest {
 public:
 ///////////////////////////////////////////////////////////////
+    int k ;
+    std::priority_queue<int, std::vector<int>, std::greater<int>> pq;
     KthLargest(int k, std::vector<int>& nums)
     {
     }
@@ -125,6 +127,7 @@ int test(KthLargest *kthlargest, int add, int expected)
         return -1;
     }
 }
+// ==================== TEST Codes====================
 void Test1()
 {
     int result = 0;

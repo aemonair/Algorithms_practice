@@ -38,36 +38,41 @@
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
+template <typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+template <typename ...T>
+std::ostream & operator << (std::ostream &out, std::priority_queue<T... > big_queue)
+{
+    std::priority_queue<T...> Big_queue = big_queue;
+    int bsize = Big_queue.size();
+    if (Big_queue.empty())
+    {
+        out << "The big queue is empty. "<< std::endl;
+    }
+    out << " | ";
+    while (bsize--)
+    {
+        out << "{" << Big_queue.top().first << " ," << Big_queue.top().second << "}, " ;
+        Big_queue.pop();
+    }
+    out << std::endl ;
+    return out;
+}
 class Solution {
 public:
     //
     std::vector<int> topKFrequent(std::vector<int>& nums, int k)
     {
         return std::vector<int>{};
-    }
-   
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << "| ";//<<std::endl;
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
     }
 };
 
@@ -80,8 +85,9 @@ void Test(const std::string& testName, std::vector<int> & nums,int k, std::vecto
     }
 
     Solution solution;
-    std::cout << "k " << k << " in nums:" << std::endl;
-    solution.printvector(nums);
+    std::cout << "k " << k << " in nums:" << nums << std::endl;
+    sort(expected.begin(), expected.end());
+    // solution.printvector(nums);
 
     auto start = std::chrono::system_clock::now();
     decltype(start) end ;
@@ -100,8 +106,9 @@ const static int TEST_1    = 1;
         std::cout << "find k:" << k << std::endl;
 
         std::vector<int> && result = solution.topKFrequent(nums, k);
-        std::cout << "result:" <<  std::endl;
-        solution.printvector(result);
+        std::cout << "result:" << result << std::endl;
+        sort(result.begin(), result.end());
+        // solution.printvector(result);
 
         if(result == expected)
         {
@@ -110,8 +117,8 @@ const static int TEST_1    = 1;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvector(expected);
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            // solution.printvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)

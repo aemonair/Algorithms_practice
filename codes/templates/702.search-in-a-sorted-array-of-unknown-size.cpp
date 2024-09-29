@@ -67,14 +67,13 @@ public:
     }
     friend std::ostream &operator << (std::ostream & out, ArrayReader &a)
     {
-        //out << "vector size: " << a.v.size() << std::endl;
         out<< "[  "; //a.v.size() << std::endl;
         for (auto iter = a.v.begin(); iter != a.v.end(); iter++ )
         {
-            out << *iter << ", ";//<<std::endl;
+            out << *iter << ", ";
         }
         out << "\b\b] " << std::endl;
-        return out ;//v.size();
+        return out ;
     }
 };
 class Solution {

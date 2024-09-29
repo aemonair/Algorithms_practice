@@ -235,6 +235,14 @@ void Test6()
     Test("Test6", s, words, expect);
 }
 
+void Test7()
+{
+    std::string s                   = "mississippi";
+    std::vector<std::string> words  = {"mississippis"};
+    std::vector<int>         expect = {};
+    Test("Test7", s, words, expect);
+}
+
 // 75yy
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
@@ -318,6 +326,7 @@ int main()
     Test4();
     Test5();
     Test6();
+    Test7();
 
     return 0;
 }

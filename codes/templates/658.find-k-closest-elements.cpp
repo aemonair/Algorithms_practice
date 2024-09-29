@@ -42,40 +42,29 @@
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
+
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+
 class Solution {
 public:
     //
-    std::vector<int> findClosestElements1(std::vector<int>& arr, int k,int x)
-    {
-        return {};
-    }
     std::vector<int> findClosestElements(std::vector<int>& arr, int k,int x)
     {
         return {};
     }
-
-    template <typename T>
-    int printvector(const std::vector<T> &v)
+    std::vector<int> findClosestElements1(std::vector<int>& arr, int k,int x)
     {
-        //std::cout << "vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << "| ";//<<std::endl;
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
+        return {};
     }
 };
 
@@ -88,8 +77,8 @@ void Test(const std::string& testName, std::vector<int> & arr,int k,int x, std::
     }
 
     Solution solution;
-    std::cout << "k: " << k << ",x:"<< x << " in arr:" << std::endl;
-    solution.printvector(arr);
+    std::cout << "k: " << k << ",x:"<< x << " in arr:" << arr << std::endl;
+    // solution.printvector(arr);
 
     auto start = std::chrono::system_clock::now();
     decltype(start) end ;
@@ -106,8 +95,8 @@ const static int TEST_1    = 0;
         }
 
         std::vector<int> && result = solution.findClosestElements(arr, k, x);
-        std::cout << "result:" <<  std::endl;
-        solution.printvector(result);
+        std::cout << "result:" << result << std::endl;
+        // solution.printvector(result);
 
         if(result == expected)
         {
@@ -116,8 +105,8 @@ const static int TEST_1    = 0;
         else
         {
             std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvector(expected);
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            // solution.printvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)
@@ -135,8 +124,8 @@ const static int TEST_1    = 0;
         }
 
         std::vector<int> && result = solution.findClosestElements1(arr, k, x);
-        std::cout << "result1:" <<  std::endl;
-        solution.printvector(result);
+        std::cout << "result1:" << result << std::endl;
+        // solution.printvector(result);
 
         if(result == expected)
         {
@@ -145,8 +134,8 @@ const static int TEST_1    = 0;
         else
         {
             std::cout << RED << "Solution1 failed." <<  RESET << std::endl;
-            std::cout << RED << "expected:" << std::boolalpha << std::endl;
-            solution.printvector(expected);
+            std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
+            // solution.printvector(expected);
             std::cout << RESET << std::endl;
         }
         if (TEST_TIME)

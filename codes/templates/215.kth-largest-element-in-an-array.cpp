@@ -68,16 +68,7 @@ public:
 ///////////////////////////////////////////////////////////////
     int findKthLargest(std::vector<int>& nums, int k)
     {
-        std::priority_queue<int, std::vector<int>, std::greater<int>> pq;
-        for (auto & n: nums) {
-            if (pq.size() <= k || pq.top() < n) {
-                pq.push(n);
-            }
-            while (pq.size() > k) {
-                pq.pop();
-            }
-        }
-        return pq.top();
+        return 0;
     }
     int findKthLargest1(std::vector<int>& nums, int k)
     {

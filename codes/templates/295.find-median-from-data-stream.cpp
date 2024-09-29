@@ -71,6 +71,7 @@
 #include <stack>
 #include <deque>
 #include <map>
+#include <set>
 
 
 #define RESET   "\033[0m"
@@ -94,6 +95,7 @@ public:
 
     double findMedian()
     {
+        return 0.0;
     }
 public:
     template <class... Types>

@@ -57,6 +57,40 @@ public:
     //
     std::vector<int> searchRange(std::vector<int>& nums, int target)
     {
+        int size = nums.size();
+        auto leftbound = [&](){
+            int left = 0;
+            int right = size-1;
+            while (left <= right) {
+                int mid = left+(right-left)/2;
+                if (nums[mid] < target) {
+                    left =mid+1;
+                }
+                else if (nums[mid] >= target) {
+                    right = mid-1;
+                }
+            }
+            return left;
+        };
+        auto rightbound = [&](){
+            int left = 0;
+            int right = size-1;
+            while (left <= right) {
+                int mid = left+(right-left)/2;
+                if (nums[mid] <= target) {
+                    left =mid+1;
+                }
+                else if (nums[mid] > target) {
+                    right = mid-1;
+                }
+            }
+            return right;
+        };
+        int left = leftbound();
+        int right = rightbound();
+        if (left <= right) {
+            return {left, right};
+        }
         return {-1, -1};
     }
     std::vector<int> searchRange1(std::vector<int>& nums, int target)

@@ -40,42 +40,22 @@
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
+
+template <typename T>
+std::ostream& operator<<(std::ostream &out ,std::vector<T> &v);
+
 class Solution {
 public:
     int searchmax(std::vector<int>& nums)
     {
         return -1;
     }
-    //
     int searchmax1(std::vector<int>& nums)
     {
         return -1;
     }
 
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;//<< std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", "; // <<std::endl;
-        }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
-    }
 
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
 };
 
 // ==================== TEST Codes====================
@@ -89,8 +69,7 @@ void Test(const std::string& testName,
     }
 
     Solution solution;
-    std::cout << "nums:" << std::endl;
-    solution.printvector(nums);
+    std::cout << "nums:" << nums << std::endl;
 
     auto start = std::chrono::system_clock::now();
     decltype(start) end ;
@@ -127,6 +106,18 @@ const static int TEST_1    = 1;
         }
     }
     std::cout << "-----------------------------" << std::endl;
+}
+template <typename T>
+std::ostream & operator << (std::ostream &out ,std::vector<T> &v)
+{
+    out << "vector size: " << v.size() << std::endl;
+    out << "[  " ;//<< std::endl;
+    for (auto iter = v.begin(); iter != v.end(); iter++ )
+    {
+        out << *iter << ", "; // <<std::endl;
+    }
+    out << "\b\b]" << std::endl;
+    return out;
 }
 void Test1()
 {

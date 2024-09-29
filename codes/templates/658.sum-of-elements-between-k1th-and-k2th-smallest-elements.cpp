@@ -28,7 +28,7 @@
  * Output:
  * 73
 ///////////////////////////////////////////////////////////////
- * Your Task: 
+ * Your Task:
  * You don't need to read input or print anything. Your task is to complete the function sumBetweenTwoKth() which takes the array A[], its size N and two integers K1 and K2 as inputs and returns the sum of all the elements between K1th and K2th smallest elements.
  * Expected Time Complexity: O(N. log(N))
  * Expected Auxiliary Space: O(N)
@@ -46,12 +46,26 @@
 #include <vector>
 #include <chrono>
 #include <iostream>
+#include <algorithm>
+#include <numeric>
 #include <queue>
 
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
+
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
 
 class Solution {
 public:
@@ -60,46 +74,14 @@ public:
     {
         return 0;
     }
-///////////////////////////////////////////////////////////////
-    template <typename T>
-    int printvector(std::vector<T> v)
+
+    int sumBetweenTwoKth1(std::vector<int>& nums, int k1, int k2)
     {
-        std::cout << "vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", ";
-        }
-        std::cout << std::endl;
-        return v.size();
+        return 0;
     }
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
+    int sumBetweenTwoKth2(std::vector<int>& nums, int k1, int k2)
     {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-    template <typename T>
-    int printstack(std::stack<T> s)
-    {
-        if (s.empty())
-        {
-            std::cout << "The stack is empty." << std::endl;
-            return 0;
-        }
-        std::cout <<  "The stack size is: " << s.size() << std::endl;
-        std::stack<T> tmp;
-        while (!s.empty())
-        {
-            std::cout << s.top() << ", ";
-            s.pop();
-        }
-        std::cout <<  std::endl;
-        return s.size();
+        return 0;
     }
 ///////////////////////////////////////////////////////////////
 };
@@ -121,8 +103,8 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "k1:" << k1 << ",k2:" << k2 << ",nums:" << std::endl;
-    solution.printvector(nums);
+    std::cout << "k1:" << k1 << ",k2:" << k2 << ",nums:" << nums << std::endl;
+    // solution.printvector(nums);
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;

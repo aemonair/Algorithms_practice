@@ -227,6 +227,12 @@ void Test3()
 
 void Test4()
 {
+    int k = 10;
+    int w = 0;
+    std::vector<int> profits = {1, 2, 3};
+    std::vector<int> capital = {0, 1, 2};
+    int expected = 6;
+    Test("Test4", k, w, profits, capital, expected);
 }
 
 void Test5()

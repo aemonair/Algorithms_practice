@@ -53,32 +53,7 @@ public:
     //
     std::string frequencySort(std::string s)
     {
-        return std::string();
-    }
-   
-    template <typename T>
-    int printvector(const std::vector<T> &v)
-    {
-        //std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;//<< std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", ";//<<std::endl;
-        }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
-    }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
+        return "";
     }
 };
 

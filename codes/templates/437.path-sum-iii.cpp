@@ -271,6 +271,8 @@ void Test2()
     int sum = 11;
     int expected = 1 ;
     Test("Test2", pnode2, sum, expected);
+
+    Test("Test2", pnode2, 5, 2);
 }
 
 void Test3()

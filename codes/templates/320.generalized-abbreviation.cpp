@@ -73,9 +73,9 @@ void Test(const std::string& testName,
 
 const static int TEST_TIME = 1;
 const static int TEST__    = 1;
-const static int TEST_1    = 1;
-const static int TEST_2    = 1;
-const static int TEST_3    = 1;
+const static int TEST_1    = 0;
+const static int TEST_2    = 0;
+const static int TEST_3    = 0;
     if (TEST__)
     {
         std::cout << "Solution start.........." << std::endl;

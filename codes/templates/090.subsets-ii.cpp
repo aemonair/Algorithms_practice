@@ -103,8 +103,8 @@ void Test(const std::string& testName,
 const static int TEST_TIME = 1;
 const static int TEST__    = 1;
 const static int TEST_1    = 1;
-const static int TEST_2    = 1;
-const static int TEST_3    = 1;
+const static int TEST_2    = 0;
+const static int TEST_3    = 0;
     if (TEST__)
     {
         std::cout << "Solution0 start.........." << std::endl;
@@ -267,6 +267,9 @@ void Test4()
 
 void Test5()
 {
+    std::vector<int> numbers   = {1, 2, 2, 2};
+    std::vector<std::vector<int>> expect = {{}, {1}, {2}, {1,2}, {1,2,2}, {2,2}, {2,2,2}, {1,2,2,2} };
+    Test("Test5", numbers, expect);
 }
 
 int main()

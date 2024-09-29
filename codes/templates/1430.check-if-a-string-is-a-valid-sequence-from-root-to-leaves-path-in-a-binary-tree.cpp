@@ -119,10 +119,10 @@ void Test(const std::string& testName,
 
     std::cout << "find arr:" << " " << arr << " " << root << std::endl;
 const static int TEST_TIME = 1;
-const static int TEST_0    = 1;
-const static int TEST_1    = 1;
+const static int TEST__    = 1;
+const static int TEST_1    = 0;
 
-    if(TEST_0)
+    if(TEST__)
     {
         if (TEST_TIME)
         {
@@ -134,11 +134,11 @@ const static int TEST_1    = 1;
 
         if(result == expected)
         {
-            std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
+            std::cout << GREEN << "Solution passed." << RESET <<  std::endl;
         }
         else
         {
-            std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
+            std::cout << RED << "Solution failed." <<  RESET << std::endl;
             std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
             std::cout << RESET << std::endl;
         }
@@ -146,7 +146,7 @@ const static int TEST_1    = 1;
         {
            end = std::chrono::system_clock::now();
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-           std::cout << "Solution0 costs " << elapsed.count() <<"micros" << std::endl;
+           std::cout << "Solution costs " << elapsed.count() <<"micros" << std::endl;
         }
         std::cout << "-----------------------------" << std::endl;
     }

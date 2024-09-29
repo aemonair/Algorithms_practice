@@ -146,10 +146,12 @@ class Solution {
 public:
     std::vector<std::vector<int>> employeeFreeTime0(std::vector<std::vector<std::vector<int>>>& schedule)
     {
-        return {{}};
+        // dont't use
+        return {};
     }
     std::vector<std::vector<int>> employeeFreeTime1(std::vector<std::vector<std::vector<int>>>& schedule)
     {
+        // dont't use
         return {{}};
     }
     std::vector<std::pair<int,int>> employeeFreeTime0(std::vector<std::vector<std::pair<int,int>>>& schedule)
@@ -158,6 +160,7 @@ public:
     }
     std::vector<Interval> employeeFreeTime0(std::vector<std::vector<Interval>>& schedule)
     {
+        // dont't use
         return std::vector<Interval>{};
     }
 };

@@ -42,6 +42,52 @@
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
 #define GREEN   "\033[32m"      /* Green */
+
+template <typename T1, typename T2>
+std::ostream & operator << (std::ostream &out, std::pair <T1,T2> pair)
+{
+    out << "{" << pair.first << " ," << pair.second << "}, " ;
+    return out;
+}
+
+template <typename ...T>
+std::ostream & operator << (std::ostream &out, std::queue<T... > queue)
+{
+    std::queue<T...> _queue = queue;
+    int bsize = _queue.size();
+    if (_queue.empty())
+    {
+        out << "The big queue is empty. "<< std::endl;
+    }
+    out << "<< ";
+    while (bsize--)
+    {
+        out <<  _queue.front();
+        _queue.pop();
+    }
+    out << std::endl ;
+    return out;
+}
+
+template <typename ...T>
+std::ostream & operator << (std::ostream &out, std::priority_queue<T... > big_queue)
+{
+    std::priority_queue<T...> Big_queue = big_queue;
+    int bsize = Big_queue.size();
+    if (Big_queue.empty())
+    {
+        out << "The big queue is empty. "<< std::endl;
+    }
+    out << " | ";
+    while (bsize--)
+    {
+        out << " " << Big_queue.top() << " " ;
+        Big_queue.pop();
+    }
+    out << std::endl ;
+    return out;
+}
+
 class Solution {
 public:
     //
@@ -49,50 +95,10 @@ public:
     {
         return "";
     }
-   
-    template <typename T>
-    int printvector(const std::vector<T> &v)
+    std::string rearrangeString1(std::string s, int k)
     {
-        //std::cout << "vector size: " << v.size() << std::endl;
-        std::cout << "[  " ;//<< std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            std::cout << *iter << ", ";//<<std::endl;
-        }
-        std::cout << "\b\b]" << std::endl;
-        return v.size();
+        return "";
     }
-
-    template <typename T>
-    int printvectorvector(const std::vector<T> &v)
-    {
-        std::cout << "this vector size: " << v.size() << std::endl;
-        for (auto iter = v.begin(); iter != v.end(); iter++ )
-        {
-            printvector( *iter );
-        }
-        std::cout << std::endl;
-        return v.size();
-    }
-    template <typename ...T>
-    int printqueue(std::priority_queue<T... > big_queue)
-    {
-        std::priority_queue<T...> Big_queue = big_queue;
-        int bsize = Big_queue.size();
-        if (Big_queue.empty())
-        {
-            std::cout << "The big queue is empty. "<< std::endl;
-        }
-        std::cout << " | ";
-        while (bsize--)
-        {
-            std::cout << "(" << Big_queue.top().first << " ," << Big_queue.top().second << "), " ;
-            Big_queue.pop();
-        }
-        std::cout << std::endl ;
-        return bsize;
-    }
-
 };
 
 // ==================== TEST Codes====================
@@ -122,9 +128,9 @@ const static int TEST_1    = 1;
             start = std::chrono::system_clock::now();
         }
 
-        std::cout << "s  :" << s  << ",k:" << k << std::endl;
+        std::cout << "s  :\"" << s  << "\",k:" << k << std::endl;
         std::string result = solution.rearrangeString( s, k );
-        std::cout << "result:" << result <<  std::endl;
+        std::cout << "result:\"" << result << "\"" << std::endl;
 
         if(expected.count(result))
         {
@@ -174,21 +180,46 @@ void Test3()
 
 void Test4()
 {
+    std::string s = "mmpp";
+    int k = 2;
+    std::set<std::string> expect = {"mpmp","pmpm"};
+    Test("Test4", s, k, expect);
 }
 
 void Test5()
 {
+    std::string s = "Programming";
+    int k = 3;
+    std::set<std::string> expect = {"rgmoargmiPn","rgmPrgmiano","gmringmrPoa","gmrPagimnor"};
+    Test("Test5", s, k, expect);
+}
+
+void Test6()
+{
+    std::string s = "aab";
+    int k = 2;
+    std::set<std::string> expect = {"aba"};
+    Test("Test6", s, k, expect);
+}
+
+void Test7()
+{
+    std::string s = "aappa";
+    int k = 3;
+    std::set<std::string> expect = {""};
+    Test("Test7", s, k, expect);
 }
 
 int main()
 {
-    Solution solution;
 
     Test1();
     Test2();
     Test3();
     Test4();
     Test5();
+    Test6();
+    Test7();
 
     return 0;
 

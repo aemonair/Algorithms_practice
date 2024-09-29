@@ -52,8 +52,50 @@ class Solution {
 public:
     int search(std::vector<int>& nums, int target)
     {
-        return -1;
+        int left = 0;
+        int size  = nums.size();
+        int right = size-1;
+        while (left <= right) {
+            int mid = left + (right-left)/2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+            if (nums[mid] > nums[mid+1]) {
+                right = mid-1;
+            } else if (nums[mid] < nums[mid+1]) {
+                left = mid+1;
+            }
+        }
+        auto find = [&](auto &&find, int left, int right){
+            bool isAsc= nums[left] < nums[right];
+            while (left <= right) {
+                int mid = left+(right-left)/2;
+                if (nums[mid] == target) {
+                    return mid;
+                } else if (nums[mid] < target) {
+                    if (isAsc) {
+                        left = mid+1;
+                    } else {
+                        right = mid-1;
+                    }
+                } else {
+                    if (isAsc){
+                        right = mid-1;
+                    } else {
+                        left = mid+1;
+                    }
+                }
+            }
+            return -1;
+        };
+        // 0~left
+        int index = find(find, 0, left);
+        if (index == -1) {
+            index = find(find,left,nums.size()-1);
+        }
+        return index;
     }
+
 };
 
 // ==================== TEST Codes====================
