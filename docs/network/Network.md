@@ -1180,7 +1180,198 @@ AES-128, AES-192 和 AES-256 都是属于 AES ，AES 的全称是`Advanced Encry
 
 其中 `RSA` 加密算法是最重要的、最出名的一个了。例如 `DHE_RSA_CAMELLIA128_GCM_SHA256`。它的安全性基于 `整数分解`，使用两个超大素数的乘积作为生成密钥的材料，想要从公钥推算出私钥是非常困难的。
 
+## 9.6 TLS/SSL
+TLS（Transport Layer Security，传输层安全协议）和SSL（Secure Sockets Layer，安全套接层协议）都是用于加密互联网通信的安全协议。它们的主要目的是保护客户端和服务器之间的数据传输免受窃听、篡改和消息伪造等攻击。
 
+### 9.6.1 SSL vs TLS 的主要区别
+
+#### 1. **历史背景**
+- **SSL** 是由 Netscape 开发的第一种安全协议，最初版本为 SSL 1.0（从未公开发布），后续发布了 SSL 2.0 和 SSL 3.0。
+- **TLS** 是 IETF（Internet Engineering Task Force，互联网工程任务组）在 SSL 的基础上发展而来，旨在标准化 SSL 协议，并改进其中的一些弱点。TLS 的第一个版本是 TLS 1.0，发布于 1999 年。
+
+#### 2. **协议版本**
+- **SSL** 的版本主要包括 SSL 1.0（未发布）、SSL 2.0 和 SSL 3.0。
+- **TLS** 的版本主要包括 TLS 1.0、TLS 1.1、TLS 1.2 和 TLS 1.3。
+
+#### 3. **安全性**
+- **SSL** 的早期版本存在一些已知的安全漏洞，例如 POODLE 攻击针对 SSL 3.0。
+- **TLS** 在安全性方面进行了改进，修复了一些 SSL 中存在的漏洞，并引入了更强大的加密算法和技术。
+
+#### 4. **握手协议**
+- **SSL** 和 **TLS** 的握手协议略有不同，TLS 在握手过程中增加了更多的安全机制。
+- 例如，TLS 引入了 Client Key Exchange、Server Key Exchange 等阶段，并且增强了身份验证过程。
+
+#### 5. **加密算法**
+- **TLS** 支持更多种类的加密算法，包括更现代的加密套件，例如 AES（Advanced Encryption Standard）等。
+- **TLS 1.3** 特别强调了对加密算法的支持，移除了许多不再安全的算法，并引入了新的密钥交换机制，如 ECDHE（Elliptic Curve Diffie-Hellman Ephemeral）。
+
+#### 6. **性能**
+- **TLS 1.3** 在性能方面做了优化，减少了握手次数，并支持了0-RTT（零往返时间）握手，从而提高了连接建立的速度。
+
+### 9.6.2 TLS/SSL总结
+
+- **SSL** 通常指的是 SSL 3.0 及其之前的版本，由于存在安全漏洞，现在已经被弃用。
+- **TLS** 是当前广泛使用的安全协议标准，它继承了 SSL 的基本思想，但进行了大量改进，以提高安全性、可靠性和性能。
+- 在实际应用中，我们通常说的“SSL证书”实际上是指支持TLS协议的数字证书，尽管名称上仍然保留了“SSL”这一术语。
+
+### 9.6.3 TLS/SSL实际应用中的建议
+
+在实际部署中，应尽可能使用最新的 TLS 版本（目前是 TLS 1.3），以获得最佳的安全性和性能。同时，应该禁用 SSL 3.0 及更早的版本，以防止潜在的安全风险。
+
+### 9.6.4 程序中选择TLS/SSL在不同库中的实现
+在程序中控制使用 TLS（传输层安全协议）或 SSL（安全套接字层）通常取决于你使用的库和上下文。TLS 是 SSL 的继任者，提供了更安全的加密和认证机制。现代应用程序通常推荐使用 TLS 而不是 SSL。
+
+#### 9.6.4.1 OpenSSL使用SSL/TLS
+OpenSSL 是一个广泛使用的开源库，支持 SSL 和 TLS 协议。你可以通过设置适当的选项来指定使用 TLS 或 SSL。
+
+```cpp
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+
+// 初始化 OpenSSL 库
+SSL_library_init();
+SSL_load_error_strings();
+OpenSSL_add_all_algorithms();
+
+// 创建 SSL 上下文
+const SSL_METHOD *method;
+SSL_CTX *ctx;
+
+// 使用 TLSv1.2 方法
+method = TLS_method(); // 使用 TLS
+// method = SSLv23_method(); // 兼容模式，可以协商使用 SSLv2, SSLv3, TLSv1, TLSv1.1, TLSv1.2
+
+ctx = SSL_CTX_new(method);
+if (ctx == NULL) {
+    ERR_print_errors_fp(stderr);
+    exit(EXIT_FAILURE);
+}
+
+// 设置 SSL/TLS 版本
+SSL_CTX_set_min_proto_version(ctx, TLS1_2_VERSION); // 最低版本为 TLS 1.2
+SSL_CTX_set_max_proto_version(ctx, TLS1_2_VERSION); // 最高版本为 TLS 1.2
+
+// 创建 SSL 连接
+SSL *ssl = SSL_new(ctx);
+BIO *bio = BIO_new_ssl_connect(ctx);
+
+// 设置连接参数
+BIO_set_conn_hostname(bio, "example.com:443");
+
+// 连接到服务器
+if (BIO_do_connect(bio) <= 0) {
+    ERR_print_errors_fp(stderr);
+    exit(EXIT_FAILURE);
+}
+
+// 执行 SSL 握手
+if (SSL_do_handshake(ssl) <= 0) {
+    ERR_print_errors_fp(stderr);
+    exit(EXIT_FAILURE);
+}
+
+// 现在可以进行加密通信了
+```
+
+#### 9.6.4.2 GnuTLS的TLS 和 SSL 协议
+GnuTLS 是另一个常用的库，支持 TLS 和 SSL 协议。
+
+```c
+#include <gnutls/gnutls.h>
+
+int main() {
+    gnutls_certificate_credentials_t xcred;
+    gnutls_session_t session;
+
+    // 初始化 GnuTLS 库
+    gnutls_global_init();
+
+    // 创建证书凭据
+    gnutls_certificate_allocate_credentials(&xcred);
+
+    // 创建会话
+    gnutls_init(&session, GNUTLS_CLIENT);
+
+    // 设置优先级字符串以选择 TLS 版本
+    gnutls_priority_set_direct(session, "NORMAL:%COMPAT", NULL);
+
+    // 设置证书凭据
+    gnutls_credentials_set(session, GNUTLS_CRD_CERTIFICATE, xcred);
+
+    // 设置目标主机名
+    gnutls_server_name_set(session, GNUTLS_NAME_DNS, "example.com", 0);
+
+    // 建立连接（这里需要自己实现网络连接部分）
+    // ...
+
+    // 执行握手
+    gnutls_handshake(session);
+
+    // 现在可以进行加密通信了
+    // ...
+
+    // 清理资源
+    gnutls_deinit(session);
+    gnutls_certificate_free_credentials(xcred);
+    gnutls_global_deinit();
+
+    return 0;
+}
+```
+
+#### 9.6.4.3 Boost.Asio with OpenSSL
+如果你使用 Boost.Asio 结合 OpenSSL，可以通过设置 SSL/TLS 上下文来控制使用的协议版本。
+
+```cpp
+#include <boost/asio.hpp>
+#include <boost/asio/ssl.hpp>
+#include <iostream>
+
+int main() {
+    try {
+        boost::asio::io_context io_context;
+
+        // 创建 SSL 上下文
+        boost::asio::ssl::context ctx(boost::asio::ssl::context::tlsv12);
+
+        // 设置 SSL/TLS 版本
+        ctx.set_options(
+            boost::asio::ssl::context::default_workarounds |
+            boost::asio::ssl::context::no_sslv2 |
+            boost::asio::ssl::context::no_sslv3 |
+            boost::asio::ssl::context::single_dh_use
+        );
+
+        // 创建 SSL 流
+        boost::asio::ip::tcp::resolver resolver(io_context);
+        boost::asio::ssl::stream<boost::asio::ip::tcp::socket> ssl_stream(io_context, ctx);
+
+        // 解析目标地址
+        auto endpoints = resolver.resolve("example.com", "https");
+
+        // 连接到服务器
+        boost::asio::connect(ssl_stream.lowest_layer(), endpoints);
+
+        // 执行 SSL 握手
+        ssl_stream.handshake(boost::asio::ssl::stream_base::client);
+
+        // 现在可以进行加密通信了
+        std::cout << "Connected and handshake completed." << std::endl;
+
+    } catch (std::exception& e) {
+        std::cerr << "Exception: " << e.what() << "\n";
+    }
+
+    return 0;
+}
+```
+
+#### 9.6.4.4 TLS/SSL 库使用总结
+- **OpenSSL**：通过 `SSL_CTX_set_min_proto_version` 和 `SSL_CTX_set_max_proto_version` 来设置最小和最大协议版本。
+- **GnuTLS**：通过 `gnutls_priority_set_direct` 设置优先级字符串来选择协议版本。
+- **Boost.Asio with OpenSSL**：通过 `boost::asio::ssl::context` 构造函数和 `set_options` 方法来设置协议版本。
+
+这些方法允许你在程序中明确指定使用 TLS 或 SSL，并且可以根据需要选择具体的协议版本。
 # 十、TCP 三次握手的性能提升
 ### 10.1 TCP 三次握手的性能提升 - 客户端优化
 三次握手建立连接的首要目的是「同步序列号」。

@@ -127,6 +127,79 @@ struct random_access_iterator_tag:public bidirectional_iterator_tag{};
 | map                                   | 双向迭代器      |
 | multimap                              | 双向迭代器      |
 
+### 1.4.4 容器和适配器对应的插入删除方法
+
+#### 1.4.4.1 序列容器
+
+| 容器            | 插入方法                         | 删除方法                   |
+| ------------- | ---------------------------- | ---------------------- |
+| `std::vector` |                              |                        |
+|               | - `push_back(val)`           | - `pop_back()`         |
+|               | - `insert(pos, val)`         | - `erase(pos)`         |
+|               | - `insert(pos, n, val)`      | - `erase(first, last)` |
+|               | - `insert(pos, first, last)` | - `clear()`            |
+| `std::deque`  |                              |                        |
+|               | - `push_front(val)`          | - `pop_front()`        |
+|               | - `push_back(val)`           | - `pop_back()`         |
+|               | - `insert(pos, val)`         | - `erase(pos)`         |
+|               | - `insert(pos, n, val)`      | - `erase(first, last)` |
+|               | - `insert(pos, first, last)` | - `clear()`            |
+| `std::list`   |                              |                        |
+|               | - `push_front(val)`          | - `pop_front()`        |
+|               | - `push_back(val)`           | - `pop_back()`         |
+|               | - `insert(pos, val)`         | - `erase(pos)`         |
+|               | - `insert(pos, n, val)`      | - `erase(first, last)` |
+|               | - `insert(pos, first, last)` | - `clear()`            |
+
+#### 1.4.4.2 关联容器
+
+| 容器              | 插入方法                    | 删除方法           |
+| --------------- | ----------------------- | -------------- |
+| `std::set`      |                         |                |
+|                 | - `insert(val)`         | - `erase(pos)` |
+|                 | - `insert(first, last)` | - `erase(key)` |
+|                 | -                       | - `clear()`    |
+| `std::map`      |                         |                |
+|                 | - `insert(val)`         | - `erase(pos)` |
+|                 | - `insert(first, last)` | - `erase(key)` |
+|                 | -                       | - `clear()`    |
+| `std::multiset` |                         |                |
+|                 | - `insert(val)`         | - `erase(pos)` |
+|                 | - `insert(first, last)` | - `erase(key)` |
+|                 | -                       | - `clear()`    |
+| `std::multimap` |                         |                |
+|                 | - `insert(val)`         | - `erase(pos)` |
+|                 | - `insert(first, last)` | - `erase(key)` |
+|                 | -                       | - `clear()`    |
+
+#### 1.4.4.3 适配器
+
+| 适配器                   | 插入方法          | 删除方法      |
+| --------------------- | ------------- | --------- |
+| `std::stack`          | - `push(val)` | - `pop()` |
+| `std::queue`          | - `push(val)` | - `pop()` |
+| `std::priority_queue` | - `push(val)` | - `pop()` |
+
+- **序列容器**：包括`std::vector`、`std::deque`和`std::list`。这些容器提供了多种插入和删除方法，可以根据需要选择适当的方法。
+  - `push_back(val)`：向容器尾部添加元素。
+  - `insert(pos, val)`：在指定位置插入元素。
+  - `insert(pos, n, val)`：在指定位置插入`n`个值为`val`的元素。
+  - `insert(pos, first, last)`：在指定位置插入一个范围内的元素。
+  - `erase(pos)`：删除指定位置的元素。
+  - `erase(first, last)`：删除一个范围内的元素。
+  - `clear()`：清空整个容器。
+
+- **关联容器**：包括`std::set`、`std::map`、`std::multiset`和`std::multimap`。这些容器主要用于键值对的存储和检索。
+  - `insert(val)`：插入元素（对于`std::map`和`std::multimap`，插入键值对）。
+  - `insert(first, last)`：插入一个范围内的元素。
+  - `erase(pos)`：删除指定位置的元素。
+  - `erase(key)`：删除具有指定键的元素。
+  - `clear()`：清空整个容器。
+
+- **适配器**：包括`std::stack`、`std::queue`和`std::priority_queue`。这些适配器基于其他容器（如`std::deque`或`std::vector`）实现特定的数据结构。
+  - `push(val)`：添加元素。
+  - `pop()`：删除元素。
+
 ## 1.5 vector
 ### 1.5.0 vector
 单端开口 Array静态空间 vector动态 动态空间大小是重新开辟空间并将原先数据拷贝至新内存，所以原有迭代器失效

@@ -4438,11 +4438,14 @@ void bar(int& ref) {
 
 - 野指针就是指向一个已删除的对象或者未申请访问受限内存区域的指针,是指向不可用内存区域的指针。
 - 野指针不是NULL指针，是指向“垃圾”内存的指针.
+### 2.3.2 **悬挂指针**：
+一个原本合法的指针，但指向的内存已被释放或重新分配。当访问此指针指向的内存时，会导致未定义行为，因为那块内存数据可能已经不是期望的数据了。
 
-- 野指针的成因主要有3种:
+### 2.3.3 野指针/悬挂指针的成因主要有3种:
   * 指针变量没有被初始化, 任何指针变量在刚被创建的时候不会自动成为NULL指针，它的缺省值是随机的。所以指针变量在创建的时候，要么设置为NULL，要么指向合法的内存
   * 指针p被free/delete之后，没有置为NULL(最好加一句p = NULL;)
   * 指针操作超越了变量的作用范围。不要返回指向栈内存的指针或引用，因为栈内存在函数结束时会被释放
+
 
 ## 2.4 C++内存管理详解
 ### 2.4.1 C++内存管理 分配简介
@@ -4731,6 +4734,7 @@ Runtime Type IdentificationI
   - C++具有封装、继承和多态三种特性
   - C++相比C，增加多许多类型安全的功能，比如强制类型转换、
   - C++支持范式编程，比如模板类、函数模板等
+  - C++的 STL 标准库能力比C语言丰富的多，比如vector、string、list、map等等，还有很多算法相关的能力，这些C语言都没有。
 
 ### 3.2 new与malloc的区别
 
@@ -4936,11 +4940,72 @@ int main()
 }
 ```
 ### 4.1.2 私有继承
-- 派生类不可访问基类的任何成员与函数
+私有继承是一种特殊的继承方式，它改变了基类成员的访问级别。与公有继承（`public`）和保护继承（`protected`）不同，私有继承（`private`）会使得基类的所有公有（`public`）和保护（`protected`）成员在派生类中变为私有（`private`）成员。这意味着这些成员只能在派生类的成员函数内部被访问，而不能通过派生类的对象直接访问。
+
+#### 4.1.2.1 私有继承的特点
+
+1. **访问控制**：
+    - 基类的公有成员和保护成员在派生类中变为私有成员。
+    - 基类的私有成员在派生类中仍然是不可访问的。
+2. **接口隐藏**：
+    - 由于基类的公有成员在派生类中变为私有，因此派生类对外不提供基类的接口。这可以用来实现接口的隐藏或重新设计。
+3. **实现继承**：
+    - 私有继承主要用于实现继承，即派生类继承基类的实现细节，但不希望用户看到基类的接口。
+4. 派生类不可访问基类的任何成员与函数
+
+#### 4.1.2.2 私有继承访问示例
+```cpp
+#include <iostream>
+
+// 基类
+class Base {
+public:
+    void publicFunc() { std::cout << "Base::publicFunc()" << std::endl; }
+protected:
+    void protectedFunc() { std::cout << "Base::protectedFunc()" << std::endl; }
+private:
+    void privateFunc() { std::cout << "Base::privateFunc()" << std::endl; }
+};
+
+// 派生类，私有继承自Base
+class Derived : private Base {
+public:
+    void useBase() {
+        publicFunc();    // 可以访问，但在Derived中是私有的
+        protectedFunc(); // 可以访问，但在Derived中是私有的
+        // privateFunc();  // 无法访问，因为它是Base的私有成员
+    }
+
+    // 如果需要暴露某些功能，可以通过包装函数来实现
+    void exposePublicFunc() {
+        publicFunc();
+    }
+};
+
+int main() {
+    Derived d;
+
+    // d.publicFunc();  // 错误：publicFunc 在Derived中是私有的
+    // d.protectedFunc();  // 错误：protectedFunc 在Derived中是私有的
+    // d.privateFunc();  // 错误：privateFunc 在Base中是私有的
+
+    d.useBase();  // 正确：通过Derived的成员函数访问
+    d.exposePublicFunc();  // 正确：通过包装函数暴露功能
+
+    return 0;
+}
+```
+1. **基类 `Base`**：
+    - 包含三个成员函数：`publicFunc`（公有）、`protectedFunc`（保护）和 `privateFunc`（私有）。
+2. **派生类 `Derived`**：
+    - 私有继承自 `Base`。
+    - 在 `Derived` 中，`publicFunc` 和 `protectedFunc` 都变成了私有成员。
+    - `privateFunc` 仍然不可访问，因为它在 `Base` 中是私有的。
+    - `useBase` 成员函数展示了如何在 `Derived` 内部访问基类的成员。
+    - `exposePublicFunc` 是一个包装函数，用于暴露 `publicFunc` 的功能，使其可以通过 `Derived` 对象访问。
+
+#### 4.1.2.3 私有继承使用using示例代码：
 通过私有继承并使用 using 声明，可以在派生类中使用基类的成员。私有继承意味着基类的公共和保护成员在派生类中变为私有成员，但仍然可以通过 using 声明来提供对这些成员的访问权限。
-
-下面是一个示例代码：
-
 ```cpp
 #include <iostream>
 
@@ -4973,6 +5038,14 @@ int main() {
 在上述示例中，Derived 类私有继承了 Base 类，并使用 `using` 声明来让 Base 类的 `publicFunction()` 成员在 Derived 类中可见和访问。通过 `callBaseFunction()` 函数和 `derived.publicFunction()` 的调用，我们可以看到基类的公共函数在派生类中仍然可以被访问和使用。
 
 需要注意的是，私有继承意味着基类的公共和保护成员在派生类中变为私有成员，因此除非通过 using 声明提供访问权限，否则这些成员对派生类的外部是不可见的。
+#### 4.1.2.4 私有继承使用场景注意事项
+场景：
+- **实现继承**：当你只需要继承基类的实现细节，而不希望用户提供基类的接口时，可以使用私有继承。
+- **组合替代继承**：在某些情况下，私有继承可以作为组合的一种替代方案，特别是在你需要重用基类的实现细节但不需要其接口时。
+注意：
+- **接口隐藏**：私有继承会隐藏基类的接口，这可能会导致代码难以理解和维护。
+- **多重继承**：如果多个基类中有同名的成员，私有继承可能导致名称冲突。
+- **性能考虑**：私有继承可能会引入额外的间接性，影响性能。
 ### 4.1.3 保护继承
 - 派生方式为protected的继承称为保护继承，在这种继承方式下，
   * 基类的public成员在派生类中会变成protected成员，
@@ -8578,3 +8651,109 @@ int main() {
 ```
 
 以上是`std::bind`的一些基本用法。在现代C++中，`std::bind`的使用不如以前那么常见，因为在C++14之后引入了lambda表达式，后者通常提供了更简洁的方式来达到类似的效果。不过，了解`std::bind`的用法仍然是很有帮助的，特别是在需要延迟绑定或在一些特定的库接口中。
+
+## 5.18 final
+`final` 关键字在C++11中引入，它主要用于防止类被继承或防止虚函数被覆盖。
+
+### 5.18.1 **防止类被继承**：
+当一个类被声明为 `final`，这个类不能被进一步继承。
+
+`class Base final {     // 类的实现 }; `
+// 下面的代码会导致编译错误
+`class Derived : public Base {     // 类的实现 };`
+
+### 5.18.2 **防止虚函数被覆盖**：
+当一个虚函数被声明为 `final`，这个虚函数在派生类中不能被重新定义。
+
+```
+class Base {
+public:
+    virtual void doSomething() final {
+        // 函数实现
+    }
+};
+class Derived : public Base {
+public:
+    // 下面的代码会导致编译错误
+    virtual void doSomething() override {
+        // 函数实现
+    }
+};
+```
+## 5.19 RAII
+RAII 是 Resource Acquisition Is Initialization 的缩写，中文可以翻译为“资源获取即初始化”。这是 C++ 编程语言中的一种重要编程技术和设计模式，主要用于资源管理，确保资源（如内存、文件句柄、网络连接等）在对象的生命周期内被正确管理和释放。
+
+### 5.19.1 RAII 的核心思想
+
+1. **资源获取**：在对象构造时获取资源。
+2. **资源管理**：在对象的生命周期内管理资源。
+3. **资源释放**：在对象析构时自动释放资源。
+
+### 5.19.2 RAII主要优点
+
+- **异常安全**：即使在发生异常的情况下，也能确保资源被正确释放。这是因为 C++ 保证了局部对象的析构函数会在控制流离开其作用域时被调用。
+- **简化代码**：通过将资源管理封装在类中，可以避免手动管理资源的繁琐和容易出错的操作。
+- **减少泄漏**：自动化的资源管理减少了内存泄漏和其他资源泄漏的可能性。
+
+### 5.19.3 RAII示例
+
+以下是一个简单的 RAII 示例，展示了如何使用 RAII 管理文件资源：
+
+```cpp
+#include <iostream>
+#include <fstream>
+#include <stdexcept>
+
+class FileHandler {
+public:
+    // 构造函数中打开文件
+    FileHandler(const std::string& filename) : file(filename, std::ios::in) {
+        if (!file.is_open()) {
+            throw std::runtime_error("Failed to open file: " + filename);
+        }
+    }
+
+    // 析构函数中关闭文件
+    ~FileHandler() {
+        if (file.is_open()) {
+            file.close();
+        }
+    }
+
+    // 禁止拷贝构造和赋值操作
+    FileHandler(const FileHandler&) = delete;
+    FileHandler& operator=(const FileHandler&) = delete;
+
+    // 提供读取文件内容的方法
+    std::string read() {
+        std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+        return content;
+    }
+
+private:
+    std::ifstream file;
+};
+
+int main() {
+    try {
+        FileHandler handler("example.txt");
+        std::string content = handler.read();
+        std::cout << "File content: " << content << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+
+    return 0;
+}
+```
+
+### 5.19.4 RAII示例解释
+
+1. **构造函数**：`FileHandler` 的构造函数尝试打开文件。如果文件打开失败，抛出异常。
+2. **析构函数**：`FileHandler` 的析构函数在对象销毁时自动关闭文件。
+3. **禁用拷贝操作**：通过删除拷贝构造函数和赋值操作符，防止对象被拷贝，从而避免资源管理问题。
+4. **读取方法**：提供一个 `read` 方法来读取文件内容。
+
+### 5.19.5 RAII总结
+
+RAII 是一种强大的资源管理技术，它利用 C++ 的对象生命周期特性来确保资源的正确获取和释放。通过将资源管理封装在类中，RAII 可以显著提高代码的健壮性和可维护性。
