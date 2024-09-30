@@ -45,16 +45,7 @@
 #define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
 
 template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 
 class Solution {
 public:
@@ -85,16 +76,15 @@ void Test(const std::string& testName,
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
     std::cout << "nums:" << nums << std::endl;
-    // solution.printvector(nums);
 
 const static int TEST_TIME = 1;
-const static int TEST_0    = 1;
+const static int TEST__    = 1;
 const static int TEST_1    = 0;
 const static int TEST_2    = 0;
 const static int TEST_3    = 0;
-    if (TEST_0)
+    if (TEST__)
     {
-        std::cout << "Solution0 start.........." << std::endl;
+        std::cout << "Solution start.........." << std::endl;
         if (TEST_TIME)
         {
             start = std::chrono::system_clock::now();
@@ -104,11 +94,11 @@ const static int TEST_3    = 0;
 
         if(solution_result == expected)
         {
-            std::cout << GREEN << "Solution0 passed." << RESET <<  std::endl;
+            std::cout << GREEN << "Solution passed." << RESET <<  std::endl;
         }
         else
         {
-            std::cout << RED << "Solution0 failed." <<  RESET << std::endl;
+            std::cout << RED << "Solution failed." <<  RESET << std::endl;
             std::cout << RED << "expected:" << std::boolalpha << expected << std::endl;
             std::cout << RESET << std::endl;
         }
@@ -116,7 +106,7 @@ const static int TEST_3    = 0;
         {
            end = std::chrono::system_clock::now();
            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-           std::cout << "Solution0 costs " << elapsed.count() <<"micros" << std::endl;
+           std::cout << "Solution costs " << elapsed.count() <<"micros" << std::endl;
         }
     }
     if (TEST_1)
@@ -130,6 +120,17 @@ const static int TEST_3    = 0;
     }
 }
 
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
 void Test1()
 {
     std::vector<int> nums   = {2,2,1};
