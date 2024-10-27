@@ -3531,7 +3531,57 @@ SELECT c FROM t WHERE c BETWEEN 10 and 20 FOR UPDATE;
 
 [《面试笔记》——MySQL终结篇（30问与答）](https://mp.weixin.qq.com/s/gxU5RPoCZKPUbdoAg9Aneg)
 
+悲观锁和乐观锁是处理并发控制的两种不同策略，它们在数据库操作中用于确保数据的一致性。下面我将分别介绍如何在SQL语句中实现这两种锁定机制。
 
+### 13.3.1 悲观锁 (Pessimistic Locking)
+
+悲观锁假定最坏的情况，即默认其他事务会修改数据，因此在整个数据处理过程中对数据进行加锁。在SQL中，通常使用 `SELECT ... FOR UPDATE` 或者 `SELECT ... FOR SHARE` 语句来实现悲观锁。
+
+- **FOR UPDATE**：这条命令会在读取数据时对选定的数据行加上排他锁（X锁），直到当前事务结束。这意味着其他事务无法在此期间修改这些数据。
+- **FOR SHARE**：这条命令会在读取数据时对选定的数据行加上共享锁（S锁），这允许其他事务也获取共享锁，但阻止其他事务获取排他锁。
+
+例如，在MySQL中使用悲观锁：
+
+```sql
+BEGIN; -- 开始一个事务
+
+-- 选择需要更新的数据，并对其进行锁定
+SELECT * FROM some_table WHERE id = 123 FOR UPDATE;
+
+-- 在这里可以执行更新或其他操作
+UPDATE some_table SET column1 = 'new_value' WHERE id = 123;
+
+COMMIT; -- 提交事务，释放锁
+```
+
+### 13.3.2 乐观锁 (Optimistic Locking)
+
+乐观锁假设最好的情况，即默认不会发生并发冲突，只有在提交更新时才会检查数据是否被其他事务修改过。这种情况下，通常会通过添加版本号或时间戳字段来实现。
+
+- **版本号方式**：在表中增加一个版本号字段，每次更新时都递增这个版本号。当执行更新操作时，先比较版本号，如果版本号与上次读取时不一致，则说明数据已被其他事务修改，这时可以选择抛出异常或重试。
+- **时间戳方式**：类似于版本号，但是使用的是时间戳字段。原理相同，只是用时间戳来代替版本号。
+
+例如，使用版本号实现乐观锁的SQL示例：
+
+```sql
+-- 假设some_table有一个version字段
+BEGIN; -- 开始一个事务
+
+-- 读取数据及当前版本号
+SELECT id, column1, version FROM some_table WHERE id = 123;
+
+-- 假设读取到的版本号是5
+-- 执行更新操作，同时检查版本号是否变化
+UPDATE some_table
+SET column1 = 'new_value', version = version + 1
+WHERE id = 123 AND version = 5;
+
+-- 如果受影响的行数为0，则说明更新失败，因为版本号不匹配
+-- 这里可以根据业务逻辑决定是回滚事务还是重试
+COMMIT; -- 提交事务
+```
+
+需要注意的是，具体的SQL语法可能因不同的数据库系统而有所差异，上述例子主要基于MySQL。在实际应用中，你需要根据你使用的数据库类型查阅相关文档以了解具体的支持细节。
 
 # 14. MYSQL调优篇
 

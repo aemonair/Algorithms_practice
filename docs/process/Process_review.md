@@ -535,7 +535,7 @@ int main() {
 ### 2.2.8 套接字SOCKET：
 socket也是一种进程间通信机制，与其他通信机制不同的是，它可用于不同主机之间的进程通信。
 
-### 2.2 线程间通信的方式:
+### 2.2.9 线程间通信的方式:
 * 临界区：
   - 通过多线程的串行化来访问公共资源或一段代码，速度快，适合控制数据访问；
 * 互斥量Synchronized/Lock：
@@ -553,6 +553,203 @@ socket也是一种进程间通信机制，与其他通信机制不同的是，�
 管道（Pipes）：虽然通常用于进程间通信，但它们也可以用于线程间通信。一个线程向管道写数据，而另一个线程从管道读数据。
 消息队列：线程将消息发送到队列，其他线程可以从队列中读取消息。这是一种避免共享数据并减少同步问题的方法。
 
+### 2.2.10 barrier
+#### 2.2.10.1 atomic原子操作计数器
+在C++中，内存屏障（memory barrier）或内存栅栏（memory fence）是一种同步机制，它确保了某些内存操作的顺序。这对于多线程编程非常重要，因为它可以帮助防止由于编译器优化和处理器乱序执行导致的数据竞争问题。
+
+C++11引入了`std::atomic`库来提供原子操作，并且通过这些原子类型提供了内置的内存顺序保证。`std::atomic`允许你指定不同的内存顺序，从而控制内存屏障的行为。以下是一些常用的内存顺序：
+
+- `std::memory_order_relaxed`：最弱的内存顺序，只保证原子操作本身的原子性，不提供任何顺序上的保证。
+- `std::memory_order_acquire`：获取操作，确保所有后续读取或写入都发生在该操作之后。
+- `std::memory_order_release`：释放操作，确保所有先前的读取或写入都发生在该操作之前。
+- `std::memory_order_acq_rel`：获取-释放操作，结合了`acquire`和`release`的特点。
+- `std::memory_order_seq_cst`：序列一致性，最强的内存顺序，确保所有线程看到的操作顺序是一致的。
+
+下面是一个简单的例子，展示了如何使用`std::atomic`和内存顺序来实现一个线程安全的计数器：
+
+```cpp
+#include <iostream>
+#include <thread>
+#include <atomic>
+
+std::atomic<int> counter(0);
+
+void increment() {
+    for (int i = 0; i < 100000; ++i) {
+        // 使用memory_order_relaxed，因为这里我们只关心计数器的原子性
+        counter.fetch_add(1, std::memory_order_relaxed);
+    }
+}
+
+void print_counter() {
+    // 在打印之前使用memory_order_acquire，确保能看到所有之前的更新
+    int value = counter.load(std::memory_order_acquire);
+    std::cout << "Counter: " << value << std::endl;
+}
+
+int main() {
+    std::thread t1(increment);
+    std::thread t2(increment);
+
+    t1.join();
+    t2.join();
+
+    // 在主线程中使用memory_order_acquire，确保能看到所有线程的更新
+    print_counter();
+
+    return 0;
+}
+```
+
+在这个例子中，`counter`是一个原子整数，用于在多个线程之间共享。`increment`函数在一个循环中递增计数器，而`print_counter`函数则打印计数器的值。
+
+- `fetch_add(1, std::memory_order_relaxed)`：这个调用使用了`relaxed`内存顺序，因为我们只需要保证单个操作的原子性，而不关心其他操作的顺序。
+- `load(std::memory_order_acquire)`：在打印计数器值之前，我们使用`acquire`内存顺序来确保能够看到所有之前的更新。
+
+如果你需要更严格的顺序保证，可以将`fetch_add`中的`memory_order_relaxed`替换为`memory_order_release`或其他适当的内存顺序。
+
+请注意，内存屏障的正确使用是非常微妙的，不当的使用可能会导致难以调试的并发错误。因此，在设计多线程程序时，务必仔细考虑你的需求并选择合适的内存顺序。
+
+在C++中实现多线程的内存栅格（也称为栅栏或屏障）通常是为了确保一组线程在继续执行之前都到达某个点。这可以用于协调多个线程，使得它们能够同步地进入下一个阶段的工作。
+
+#### 2.2.10.2 atomic+condition实现栅栏计数器
+C++11 标准引入了 `<thread>` 和 `<mutex>` 库，提供了基本的线程和互斥锁功能。然而，标准库并没有直接提供栅栏的功能。不过，我们可以使用 `std::condition_variable` 和 `std::mutex` 来手动实现一个简单的栅栏。
+
+下面是一个简单的栅栏实现示例：
+
+```cpp
+#include <iostream>
+#include <thread>
+#include <vector>
+#include <condition_variable>
+#include <mutex>
+
+class Barrier {
+public:
+    // 构造函数接受需要等待的线程数
+    explicit Barrier(int count) : count_(count), at_barrier_(0) {}
+
+    void wait() {
+        std::unique_lock<std::mutex> lock(mutex_);
+        ++at_barrier_;  // 计算到达栅栏的线程数量
+        if (at_barrier_ == count_) {  // 如果所有线程都到了
+            at_barrier_ = 0;  // 重置计数器
+            cond_.notify_all();  // 唤醒所有等待的线程
+        } else {
+            cond_.wait(lock);  // 等待被唤醒
+        }
+    }
+
+private:
+    int count_;  // 总共需要等待的线程数
+    int at_barrier_;  // 当前已经到达栅栏的线程数
+    std::mutex mutex_;
+    std::condition_variable cond_;
+};
+
+// 工作线程的函数
+void threadFunc(Barrier& barrier, int id) {
+    std::cout << "Thread " << id << " before the barrier.\n";
+    barrier.wait();
+    std::cout << "Thread " << id << " after the barrier.\n";
+}
+
+int main() {
+    const int num_threads = 5;
+    Barrier barrier(num_threads);
+    std::vector<std::thread> threads;
+
+    for (int i = 0; i < num_threads; ++i) {
+        threads.emplace_back(threadFunc, std::ref(barrier), i);
+    }
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    return 0;
+}
+```
+
+在这个例子中，`Barrier` 类维护了一个计数器 `at_barrier_` 来跟踪有多少个线程已经到达栅栏。当所有的线程都到达时，它会重置计数器并通知所有等待的线程。每个线程在调用 `barrier.wait()` 时都会检查是否所有线程都已经到达，如果没有，则该线程会被阻塞直到被唤醒。
+
+这个实现是基本的，并且适用于大多数情况。但是，对于更复杂的需求，可能需要考虑其他因素，比如错误处理、超时支持等。此外，如果你正在使用的是 C++20 或更高版本，可以考虑使用 `std::latch` 或 `std::barrier`，它们提供了更加方便的API来处理这种情况。
+#### 2.2.10.3 C++20的latch和barrier
+在C++20中，标准库引入了两个新的同步原语：`std::latch` 和 `std::barrier`。这两个工具可以用来简化多线程编程中的同步问题。
+
+##### 2.2.10.3.1 `std::latch`
+
+`std::latch` 是一个一次性的栅栏，它允许一组线程等待直到所有线程都到达某个点。一旦所有线程到达，栅栏就会被释放，并且不能再次使用。
+
+```cpp
+#include <iostream>
+#include <thread>
+#include <latch>
+
+void worker(std::latch& l, int id) {
+    std::cout << "Worker " << id << " before the latch.\n";
+    l.arrive_and_wait();  // 等待直到所有的线程都到达
+    std::cout << "Worker " << id << " after the latch.\n";
+}
+
+int main() {
+    const int num_workers = 5;
+    std::latch l(num_workers);  // 初始化latch，设置计数为num_workers
+
+    std::vector<std::thread> workers;
+    for (int i = 0; i < num_workers; ++i) {
+        workers.emplace_back(worker, std::ref(l), i);
+    }
+
+    for (auto& t : workers) {
+        t.join();
+    }
+
+    return 0;
+}
+```
+
+在这个例子中，`std::latch` 被初始化为等待5个线程。每个线程调用 `arrive_and_wait()` 来减少计数器并等待，直到计数器达到0。当所有线程都调用了 `arrive_and_wait()` 后，所有线程都会继续执行。
+
+##### 2.2.10.3.2 `std::barrier`
+
+`std::barrier` 与 `std::latch` 类似，但它允许多次使用。它会在所有线程到达后重置，以便下一轮的同步。
+
+```cpp
+#include <iostream>
+#include <thread>
+#include <barrier>
+
+void worker(std::barrier& b, int id) {
+    for (int round = 1; round <= 3; ++round) {
+        std::cout << "Worker " << id << " in round " << round << " before the barrier.\n";
+        b.arrive_and_wait();  // 等待直到所有的线程都到达
+        std::cout << "Worker " << id << " in round " << round << " after the barrier.\n";
+    }
+}
+
+int main() {
+    const int num_workers = 5;
+    std::barrier b(num_workers, []{  // 可选的回调函数
+        std::cout << "Barrier reached by all threads, ready for next round.\n";
+    });
+
+    std::vector<std::thread> workers;
+    for (int i = 0; i < num_workers; ++i) {
+        workers.emplace_back(worker, std::ref(b), i);
+    }
+
+    for (auto& t : workers) {
+        t.join();
+    }
+
+    return 0;
+}
+```
+
+在这个例子中，`std::barrier` 被初始化为等待5个线程，并提供了一个可选的回调函数，该函数在每次所有线程都到达屏障时执行。每个线程会循环三次，每轮中调用 `arrive_and_wait()`。当所有线程都到达屏障后，它们会继续执行下一轮，而屏障则自动重置以供下一轮使用。
+
+这些新特性使得编写多线程程序变得更加简洁和直观。如果你正在使用C++20或更高版本，推荐使用这些内置的同步原语来处理多线程同步问题。
 ## 2.3 为什么用进程间通信？
 ### 2.3.1 进程间通信 背景
 - 进程是一个独立的资源分配单元，不同进程（这里所说的进程通常指的是用户进程）之间的资源是独立的，没有关联，不能在一个进程中直接访问另一个进程的资源（例如打开的文件描述符）。
@@ -577,6 +774,92 @@ socket也是一种进程间通信机制，与其他通信机制不同的是，�
 1. ulimit -n <可以同时打开的文件数>
 2. vi /etc/security/limits.conf
 
+在 Linux 系统中，句柄（或称为文件描述符）的数量是有限制的。这些限制分为两种：系统级限制和用户级限制。
+
+### 3.3.1 系统级限制 `/proc/sys/fs/file-max`
+系统级限制指的是整个系统能够打开的最大文件描述符数量。这个限制可以通过 `/proc/sys/fs/file-max` 文件来查看和修改。
+
+#### 3.3.1.1 查看系统级限制
+```sh
+cat /proc/sys/fs/file-max
+```
+
+#### 3.3.1.2 修改系统级限制
+要修改这个值，你需要有超级用户权限（root）。你可以临时修改它，也可以永久修改它。
+
+- **临时修改**：
+  ```sh
+  echo 100000 > /proc/sys/fs/file-max
+  ```
+
+- **永久修改**：
+  编辑 `/etc/sysctl.conf` 文件，添加或修改以下行：
+  ```sh
+  fs.file-max = 100000
+  ```
+  然后运行 `sysctl -p` 使更改生效。
+
+### 3.3.2 用户级限制`ulimit`or`/etc/security/limits.conf`
+用户级限制指的是每个进程可以打开的最大文件描述符数量。这个限制可以通过 `ulimit` 命令或 `/etc/security/limits.conf` 文件来查看和修改。
+
+#### 3.3.2.1 查看用户级限制
+```sh
+ulimit -n
+```
+
+#### 3.3.2.2 修改用户级限制
+- **临时修改**：
+  你可以在当前 shell 会话中使用 `ulimit` 命令来临时修改限制：
+  ```sh
+  ulimit -n 4096
+  ```
+
+- **永久修改**：
+  要永久修改用户级限制，你需要编辑 `/etc/security/limits.conf` 文件。例如，要为所有用户设置软限制和硬限制为 4096：
+  ```sh
+  * soft nofile 4096
+  * hard nofile 4096
+  ```
+  如果你只想为特定用户设置限制，可以将 `*` 替换为用户名。例如，为用户 `john` 设置限制：
+  ```sh
+  john soft nofile 4096
+  john hard nofile 4096
+  ```
+
+  修改后，用户需要重新登录才能使新的限制生效。
+
+### 3.3.3 注意事项
+- **软限制 (soft limit)** 是用户可以自行修改的限制。
+- **硬限制 (hard limit)** 是管理员设置的上限，用户不能超过这个限制。
+
+### 3.3.4 验证修改
+你可以通过编写一个简单的程序或脚本来验证新的限制是否生效。例如，下面是一个简单的 C 程序来打开多个文件描述符并检查限制：
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int main() {
+    int fd, i;
+    for (i = 0; ; i++) {
+        char filename[20];
+        sprintf(filename, "/tmp/file%d", i);
+        fd = open(filename, O_CREAT | O_RDWR, 0644);
+        if (fd == -1) {
+            perror("open");
+            printf("Max file descriptors: %d\n", i);
+            return 0;
+        }
+    }
+    return 0;
+}
+```
+
+编译并运行这个程序，它会不断打开文件直到达到文件描述符的限制，并输出最大打开的文件描述符数量。
+
+通过以上方法，你可以查看和修改 Linux 系统中的文件描述符限制。根据你的需求，选择合适的方法进行调整。
 ### 3.4 并发(concurrency)和并行(parallelism)
 并发（concurrency）：
 - 指宏观上看起来两个程序在同时运行，比如说在单核cpu上的多任务。但是从微观上看两个程序的指令是交织着运行的，你的指令之间穿插着我的指令，我的指令之间穿插着你的，在单个周期内只运行了一个指令。这种并发并不能提高计算机的性能，只能提高效率。
@@ -1455,6 +1738,26 @@ C++11 的条件变量接口更加便利和类型安全，使用起来更加直�
 [关于一点pthread_cond_t条件锁的思考以及实验](https://www.cnblogs.com/liulipeng/p/3552767.html)
 [pthread_mutex_t 和 pthread_cond_t 配合使用的简要分析](https://blog.csdn.net/chengonghao/article/details/51779279)
 
+
+使用 `while` 循环来检查条件变量是一种常见的做法，这通常被称为“等待-通知”模式。这样做可以防止虚假唤醒（spurious wakeups）和错过通知的情况。伪代码如下所示：
+
+```cpp
+std::unique_lock<std::mutex> lock(m);
+while (!condition) {  // 注意这里使用的是 while 而不是 if
+    cond_var.wait(lock);  // 等待条件满足
+}
+// 条件满足后执行相应操作
+```
+
+在这段代码中，使用 `while` 循环而不是 `if` 语句是为了确保线程在每次从 `wait` 返回时都会重新检查条件。即使线程被错误地唤醒或者错过了之前的通知，它也会继续等待直到条件真正成立。
+
+**不会导致死循环**的原因是：
+1. 如果 `condition` 为假，那么线程会调用 `cond_var.wait(lock)` 并释放锁，然后进入阻塞状态。
+2. 当另一个线程改变了条件并调用了 `notify` 或 `notify_all` 之后，当前线程会被唤醒，并且会再次获取锁。
+3. 在获取到锁之后，线程会再次检查 `condition`。如果此时条件已经变为真，那么 `while` 循环就会结束，程序将继续执行后面的代码。
+4. 只有当条件一直不成立时，线程才会一直停留在 `wait` 中，而不会无休止地执行循环体。
+
+重要的是要确保 `condition` 最终会被设置为真，否则线程确实会无限期地等待下去。因此，在多线程应用中正确地管理和更新条件是非常重要的。同时，修改 `condition` 的代码部分应该在持有相应的互斥锁的情况下进行，以保证条件的原子性和一致性。
 ### 5.3 read-write lock（读写锁）
 共享-独占锁
 读共享，写独占的锁

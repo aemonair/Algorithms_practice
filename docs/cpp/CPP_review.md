@@ -1646,6 +1646,86 @@ int main() {
 
 `inline`关键字是C++中一个重要的优化工具，它可以帮助减少函数调用的开销，但其使用需要谨慎，以避免不必要的代码膨胀和性能下降。正确使用`inline`可以显著提升程序的性能，但过度使用则可能带来相反的效果。因此，在使用`inline`时，开发者应根据具体情况权衡其利弊。
 
+### 1.6.10 C++17 中的 `inline` 和 ODR
+在 C++17 之后，`inline` 关键字的作用得到了扩展，特别是在处理 One Definition Rule (ODR) 方面。ODR 是 C++ 标准中的一个规则，它要求每个程序中每个非内联函数或变量只能有一个定义。C++17 引入了对 `inline` 的新用法，使得某些类型的函数和变量可以有多个定义，但仍然符合 ODR。
+
+#### 1.6.10.1 内联函数
+在 C++17 之前，`inline` 函数可以在多个翻译单元（即源文件）中定义，但必须保证所有定义是相同的。C++17 进一步放宽了这个限制，允许 `inline` 函数在多个翻译单元中有不同的定义，只要这些定义在逻辑上是等价的。
+
+```cpp
+// 头文件 (my_functions.h)
+#ifndef MY_FUNCTIONS_H
+#define MY_FUNCTIONS_H
+
+inline void printMessage() {
+    std::cout << "Hello, World!" << std::endl;
+}
+
+#endif // MY_FUNCTIONS_H
+
+// 源文件1 (main.cpp)
+#include "my_functions.h"
+#include <iostream>
+
+int main() {
+    printMessage();
+    return 0;
+}
+
+// 源文件2 (another_file.cpp)
+#include "my_functions.h"
+
+void anotherFunction() {
+    printMessage();
+}
+```
+
+在这个例子中，`printMessage` 函数可以在多个源文件中定义，而不会违反 ODR。编译器会确保这些定义是等价的，并且最终只会生成一个实例。
+
+#### 1.6.10.2 内联变量
+C++17 引入了 `inline` 变量的概念，允许在多个翻译单元中定义相同的静态变量，而不会违反 ODR。这在需要共享常量或配置时非常有用。
+
+```cpp
+// 头文件 (config.h)
+#ifndef CONFIG_H
+#define CONFIG_H
+
+const int MAX_SIZE = 100;
+
+inline int globalCounter = 0;  // 内联变量
+
+#endif // CONFIG_H
+
+// 源文件1 (main.cpp)
+#include "config.h"
+#include <iostream>
+
+int main() {
+    std::cout << "MAX_SIZE: " << MAX_SIZE << std::endl;
+    std::cout << "globalCounter: " << globalCounter << std::endl;
+    ++globalCounter;
+    return 0;
+}
+
+// 源文件2 (another_file.cpp)
+#include "config.h"
+
+void anotherFunction() {
+    std::cout << "MAX_SIZE: " << MAX_SIZE << std::endl;
+    std::cout << "globalCounter: " << globalCounter << std::endl;
+    ++globalCounter;
+}
+```
+
+在这个例子中，`globalCounter` 变量可以在多个源文件中定义，而不会违反 ODR。编译器会确保这些定义是等价的，并且最终只会生成一个实例。
+
+#### 1.6.10.3 注意事项
+- **等价性**：虽然 `inline` 允许在多个翻译单元中定义相同的函数或变量，但这些定义必须是等价的。如果定义不等价，编译器可能会产生链接错误。
+- **初始化**：对于 `inline` 变量，必须在所有定义中提供相同的初始化值。
+- **静态存储期**：`inline` 变量具有静态存储期，这意味着它们在整个程序执行期间都存在。
+
+#### 1.6.10.4 总结
+C++17 通过引入 `inline` 变量并扩展 `inline` 函数的行为，使得某些类型的函数和变量可以在多个翻译单元中定义而不违反 ODR。这提高了代码的可重用性和灵活性，特别是在头文件中定义和使用常量和小函数时。不过，开发者仍然需要注意保持定义的一致性，以避免潜在的链接错误。
 ## 1.7  sizeof(class)大小
 ### 1.7.1 sizeof空类的大小为?字节
 ```cpp
@@ -8255,6 +8335,74 @@ valgrind --leak-check=yes ./newleck
 通过这些信息，我们可以找到泄漏发生的具体位置，并进行修复。
 
 希望这个例子能够帮助你理解如何使用 Valgrind 查看具体的内存泄漏位置。
+### 5.8.5 调试
+在程序正在运行的过程中调试内存泄漏或其他问题，确实可以使用 `gdb` 的 `attach` 功能。`gdb` 是一个强大的调试工具，可以用来检查程序的运行状态、内存使用情况等。但是，需要注意的是，`gdb` 附加到一个正在运行的进程时，会暂停该进程的所有线程，这可能会对程序的正常运行产生影响。因此，在生产环境中进行这样的操作需要格外小心。
+
+#### 5.8.5.1 使用 GDB Attach
+
+1. **找到进程ID**：
+   首先，你需要知道要调试的进程的PID（进程标识符）。你可以使用 `ps` 或 `pgrep` 命令来查找。
+   ```bash
+   ps aux | grep your_program_name
+   ```
+
+2. **启动 GDB 并 attach 到进程**：
+   使用 `gdb` 命令加上 `-p` 选项和目标进程的PID。
+   ```bash
+   gdb -p <PID>
+   ```
+
+3. **设置断点或查看内存**：
+   在 `gdb` 中，你可以设置断点、查看变量值、检查堆栈跟踪等。
+   ```gdb
+   (gdb) break some_function
+   (gdb) continue
+   (gdb) info threads
+   (gdb) thread apply all bt
+   (gdb) x/10x $rsp
+   ```
+
+4. **继续执行**：
+   当你完成调试后，可以使用 `continue` 命令让程序恢复执行。
+   ```gdb
+   (gdb) continue
+   ```
+
+5. **退出 GDB**：
+   完成调试后，输入 `quit` 退出 `gdb`。
+   ```gdb
+   (gdb) quit
+   ```
+
+#### 5.8.5.2 gdb调试影响及注意事项
+
+- **性能影响**：`gdb` 会显著降低程序的运行速度，因为它需要额外的时间来处理调试信息。
+- **资源消耗**：`gdb` 本身也会占用系统资源，包括CPU和内存。
+- **死锁风险**：如果程序中有复杂的锁机制，`gdb` 的介入可能导致死锁。
+- **数据一致性**：对于某些实时性要求很高的应用，暂停可能会影响数据的一致性和完整性。
+
+#### 5.8.5.3 调试的其他选择
+
+如果你担心 `gdb` 对程序的影响，或者程序运行在不允许中断的环境中，可以考虑以下替代方案：
+
+1. **Valgrind with Massif**：
+   Valgrind 提供了一个名为 Massif 的工具，用于分析内存使用情况，并生成详细的报告。这个工具可以在不中断程序的情况下工作，但仍然会对性能有较大影响。
+   ```bash
+   valgrind --tool=massif ./your_program
+   ms_print massif.out.<PID>
+   ```
+
+2. **动态追踪工具**：
+   - **DTrace**（Solaris, macOS, *BSD）和 **SystemTap**（Linux）提供了低开销的方式来监控运行中的程序。
+   - **perf** 工具（Linux）也可以用来监控性能指标，如 CPU 使用率、内存访问模式等。
+
+3. **日志记录**：
+   在关键位置添加日志输出，可以帮助你在不停止程序的情况下收集信息。不过，这需要预先设计好日志系统，并且可能会增加磁盘 I/O 开销。
+
+4. **性能分析工具**：
+   使用像 `gperftools` 这样的库来获取程序运行时的性能剖析数据，它可以在不明显影响程序性能的情况下收集有用的信息。
+
+总之，选择哪种方法取决于你的具体需求以及程序所处的环境。在生产环境中，通常建议使用非侵入式的方法来监控和诊断问题。
 ### 5.9 i++不是原子操作
 
 **i++分为三个阶段：**

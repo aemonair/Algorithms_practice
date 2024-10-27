@@ -174,11 +174,11 @@ struct random_access_iterator_tag:public bidirectional_iterator_tag{};
 
 #### 1.4.4.3 适配器
 
-| 适配器                   | 插入方法          | 删除方法      |
-| --------------------- | ------------- | --------- |
-| `std::stack`          | - `push(val)` | - `pop()` |
-| `std::queue`          | - `push(val)` | - `pop()` |
-| `std::priority_queue` | - `push(val)` | - `pop()` |
+| 适配器                   | 插入方法          | 删除方法      | 访问方法                          |
+| --------------------- | ------------- | --------- | ----------------------------- |
+| `std::stack`          | - `push(val)` | - `pop()` | - **front()**<br>- **back()** |
+| `std::queue`          | - `push(val)` | - `pop()` | `- top()`                     |
+| `std::priority_queue` | - `push(val)` | - `pop()` | `- top()`                     |
 
 - **序列容器**：包括`std::vector`、`std::deque`和`std::list`。这些容器提供了多种插入和删除方法，可以根据需要选择适当的方法。
   - `push_back(val)`：向容器尾部添加元素。
