@@ -19,6 +19,7 @@
  *^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
  */
 
+#include <unordered_map>
 #include <algorithm>
 #include <iostream>
 #include <chrono>
@@ -58,10 +59,6 @@ public:
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 
-template<typename T>
-int printvector(std::vector<T> v);
-
-
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
         std::vector<int> & nums,
@@ -71,7 +68,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -80,10 +77,9 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "sum:" <<  sum << " , nums:";
-    printvector(nums);
+    std::cout << "sum:" <<  sum << " , nums:" << nums << std::endl;
 
-    const static int TEST_TIME = 1;   
+    const static int TEST_TIME = 1;
     {
         if (TEST_TIME)
         {
@@ -131,6 +127,11 @@ void Test2()
 
 void Test3()
 {
+    std::vector<int> nums = {7, 5, 1, 2, 1};
+    int sum = 9;
+    int target = 3;
+    std::vector<std::vector<int>> expected = {{2,7},{1,7,1},{1,2,1,5}};
+    Test("Test2", nums, sum, target, expected);
 }
 
 void Test4()
@@ -151,22 +152,6 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
     }
     out << "\b\b ]" ;
     return out;
-}
-template<typename T>
-int printvector(std::vector<T> v)
-{
-    if(0 == v.size())
-    {
-        std::cout << "Empty vector." << std::endl;
-        return 0;
-    }
-    std::cout << "[ " ;
-    for(auto i: v)
-    {
-        std::cout << i << ", ";
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return v.size();
 }
 
 int main()

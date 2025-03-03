@@ -6,7 +6,7 @@
  * Example:
  *
  * Input: set[] = {3, 34, 4, 12, 5, 2}, sum = 9
- * Output: True 
+ * Output: True
  * There is a subset (4, 5) with sum 9.
  *
  * Input: set[] = {3, 34, 4, 12, 5, 2}, sum = 30
@@ -49,14 +49,14 @@ public:
     {
         return false;
     }
+    bool isSubsetSum1 (std::vector<int>& nums, int sum)
+    {
+        return false;
+    }
 };
 
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
-
-template<typename T>
-int printvector(std::vector<T> v);
-
 
 // ==================== TEST Codes====================
 void Test(const std::string& testName,
@@ -66,7 +66,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -75,10 +75,9 @@ void Test(const std::string& testName,
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "sum:" <<  sum << " , nums:";
-    printvector(nums);
+    std::cout << "sum:" <<  sum << " , nums:" << nums << std::endl;
 
-    const static int TEST_TIME = 1;   
+    const static int TEST_TIME = 1;
     {
         if (TEST_TIME)
         {
@@ -149,22 +148,6 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
     }
     out << "\b\b ]" ;
     return out;
-}
-template<typename T>
-int printvector(std::vector<T> v)
-{
-    if(0 == v.size())
-    {
-        std::cout << "Empty vector." << std::endl;
-        return 0;
-    }
-    std::cout << "[ " ;
-    for(auto i: v)
-    {
-        std::cout << i << ", ";
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return v.size();
 }
 
 int main()

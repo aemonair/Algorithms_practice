@@ -51,6 +51,18 @@ public:
     //
     std::vector<int> findClosestElements(std::vector<int>& arr, int k,int x)
     {
+        int left = 0;
+        int size = arr.size();
+        int right = size-k;
+        while (left <= right) {
+            int mid = left + (right-left)/2;
+            if (mid+k < size && x - arr[mid] > arr[mid+k]-x) {
+                left = mid+1;
+            } else {
+                right = mid-1;
+            }
+        }
+        return std::vector<int>(arr.begin()+left, arr.begin()+left +k);
         return {};
     }
     std::vector<int> findClosestElements1(std::vector<int>& arr, int k,int x)

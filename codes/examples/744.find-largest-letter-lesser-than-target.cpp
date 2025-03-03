@@ -73,7 +73,26 @@ public:
     //
     char nextLessLetter(std::vector<char>& letters, char target)
     {
-        return ' ';
+        if (letters.size() == 0) {
+            return ' ';
+        }
+        std::map<char,int> umap;
+        if (target <= letters[0]) {
+            return ' ';
+        }
+        for (auto c: letters) {
+            umap[c]++;
+        }
+        if (umap.count(target)) {
+            auto itr = umap.find(target);
+            (--itr);
+            return (*itr).first;
+        } else {
+            umap.insert({target,0});
+            auto itr = umap.find(target);
+            (--itr);
+            return itr->first;
+        }
     }
     char nextLessLetter1(std::vector<char>& letters, char target)
     {

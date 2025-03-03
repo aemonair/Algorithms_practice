@@ -61,9 +61,11 @@ public:
     //
     int LongestSubstringDistinct0(std::string & s, int k)
     {
+        return 0;
     }
     int LongestSubstringDistinct1(std::string & str, int k)
     {
+        return 0;
     }
 };
 

@@ -86,6 +86,52 @@ class Solution {
 public:
     int longestCommonSubsequence(std::string text1, std::string text2)
     {
+        int m = text1.length(), n = text2.length();
+        std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1));
+        for (int i = 1; i <= m; i++) {
+            char c1 = text1.at(i - 1);
+            for (int j = 1; j <= n; j++) {
+                char c2 = text2.at(j - 1);
+                if (c1 == c2) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = std::max(dp[i - 1][j], dp[i][j - 1]);
+                }
+                std::cout << i << " "<< text1.substr(0, i) << " "<< j << " " <<text2.substr(0,j) << " "<< dp[i][j] << " ,";
+            }
+            std::cout << std::endl;
+        }
+        return dp[m][n];
+    }
+    int longestCommonSubsequence2(std::string text1, std::string text2)
+    {
+        int size1= text1.size();
+        int size2= text2.size();
+        auto dfs = [&](auto &&dfs, int i, int j) {
+            if (i < 0 || j < 0) {
+                return 0;
+            }
+            if (text1[i] == text2[j]) {
+                return 1+dfs(dfs, i-1, j-1);
+            }
+            return std::max(dfs(dfs, i-1, j), dfs(dfs, i, j-1));
+        };
+        return dfs(dfs, size1-1, size2-1);
+    }
+    int longestCommonSubsequence1(std::string text1, std::string text2)
+    {
+        auto dfs = [&] (auto &&dfs, int i, int j){
+            if (i >= text1.size() || j >= text2.size()) {
+                return 0;
+            }
+            if (text1[i] == text2[j]) {
+                return 1 + dfs(dfs, i+1, j+1);
+            } else {
+                return std::max(dfs(dfs,i+1, j),
+                dfs(dfs,i, j+1));
+            }
+        };
+        return dfs(dfs, 0, 0);
         return 0;
     }
 };
@@ -97,7 +143,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -241,6 +287,9 @@ void Test3()
 
 void Test4()
 {
+    std::string text1 = "pmjghexybyrgzczy";
+    std::string text2 = "hafcdqbgncrcbihkd";
+    Test("Test4", text1, text2, 4);
 }
 
 void Test5()

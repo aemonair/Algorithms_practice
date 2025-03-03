@@ -57,11 +57,39 @@ public:
     //
     std::string rearrangeString(std::string s, int k)
     {
-        return "";
-    }
-    std::string rearrangeString2(std::string s, int k)
-    {
-        return "";
+        std::unordered_map<char, int> umap;
+        for (auto &c: s) {
+            umap[c]++;
+        }
+        std::priority_queue<std::pair<int,char>> max_heap;
+        for (auto [val,cnt] : umap) {
+            max_heap.push({cnt, val});
+        }
+        std::queue<std::pair<int, char>> cooldown_queue;
+        std::string result;
+
+        while (!max_heap.empty()) {
+            auto [freq, ch] = max_heap.top();
+            max_heap.pop();
+            // Append the current character to the result string
+            result += ch;
+            // Decrease the frequency and add character to cooldown queue
+            cooldown_queue.push({freq - 1, ch});
+
+            // If cooldown queue size reached k, release the front character from cooldown
+            if (cooldown_queue.size() >= k) {
+                auto [freq_count, front_char] = cooldown_queue.front();
+                cooldown_queue.pop();
+
+                // If the character still has remaining counts, add it back to the max heap
+                if (freq_count > 0) {
+                    max_heap.push({freq_count, front_char});
+                }
+            }
+        }
+
+        // If result size is different from input string size, rearrangement is not possible
+        return result.size() == s.size() ? result : "";
     }
     std::string rearrangeString1(std::string s, int k)
     {

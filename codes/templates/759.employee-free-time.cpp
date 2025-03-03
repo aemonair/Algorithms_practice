@@ -156,7 +156,7 @@ public:
     }
     std::vector<std::pair<int,int>> employeeFreeTime0(std::vector<std::vector<std::pair<int,int>>>& schedule)
     {
-        return {{}};
+        return {};
     }
     std::vector<Interval> employeeFreeTime0(std::vector<std::vector<Interval>>& schedule)
     {

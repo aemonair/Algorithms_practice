@@ -76,10 +76,88 @@ template <typename T1, typename T2>
 int printunordered_map(const std::unordered_map<T1,T2> &v);
 
 class Solution {
-public:
-    int findMaxForm(std::vector<std::string>& strs, int m, int n)
-    {
-        return 0;
+    public:
+        int findMaxForm(std::vector<std::string>& strs, int m, int n) {
+        auto get = [](std::string s) -> std::pair<int,int> {
+            int zero = 0;
+            int one = 0;
+            for (auto c: s) {
+                if (c=='1') one++;
+                if (c=='0') zero++;
+            }
+            return {zero,one};
+        };
+        std::vector<std::pair<int,int>> temp;
+        std::vector<std::pair<int,int>> path;
+        for (auto str: strs) {
+            auto [zero, one] = get(str);
+            temp.push_back ({zero,one});
+        }
+        int maxlen = 0;
+
+        int count = 0;
+        auto dfs = [&] (auto dfs,int i, int x, int y) -> void{
+            if (x <= m && y <= n) {
+                if (count > maxlen) {
+                    maxlen = count;
+                }
+            }
+            if (i >= strs.size()) {
+                return;
+            }
+            // auto [zero,one] = temp[i];
+            auto zero = temp[i].first;
+            auto one = temp[i].second;
+            dfs(dfs, i+1, x , y );
+            if (x + zero <= m && y+one <=n) {
+                // path.push_back(temp[i]);
+                count++;
+                dfs(dfs, i+1, x + zero, y + one);
+                count--;
+                // path.pop_back();
+            }
+        };
+        dfs(dfs, 0, 0, 0);
+        return maxlen;
+    }
+    int findMaxForm1(std::vector<std::string>& strs, int m, int n) {
+        auto get = [](std::string s) -> std::pair<int,int> {
+            int zero = 0;
+            int one = 0;
+            for (auto c: s) {
+                if (c=='1') one++;
+                if (c=='0') zero++;
+            }
+            return {zero,one};
+        };
+    std::vector<std::tuple<int,int,std::string>> temp;
+    std::vector<std::tuple<int,int,std::string>> path;
+        for (auto str: strs) {
+            auto [zero, one] = get(str);
+            temp.push_back ({zero,one,str});
+        }
+        int maxlen = 0;
+
+        auto dfs = [&] (auto dfs,int i, int x, int y) -> void{
+
+            if (x <= m && y <= n) {
+                if (path.size() > maxlen) {
+                    maxlen = path.size();
+                }
+            }
+            if (i >= strs.size()) {
+                return;
+            }
+            auto [zero,one,str] = temp[i];
+            dfs(dfs, i+1, x , y );
+            if (x + zero <= m && y+one <=n) {
+                path.push_back(temp[i]);
+                dfs(dfs, i+1, x + zero, y + one);
+                path.pop_back();
+            }
+        };
+        dfs(dfs, 0, 0, 0);
+        return maxlen;
     }
 };
 
@@ -92,7 +170,7 @@ void Test(const std::string& testName,
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -221,12 +299,18 @@ void Test1()
 
 void Test2()
 {
+    std::vector<std::string> strs = {"10","0","1"};
+    int expected = 2;
+    Test("Test2", strs, 1, 1, expected);
     //Test("Test2", s, "bb");
 }
 
 void Test3()
 {
-    std::string s = "a";
+    std::vector<std::string> strs = {
+        "0","11","1000","01","0","101","1","1","1","0","0","0","0","1","0","0110101","0","11","01","00","01111","0011","1","1000","0","11101","1","0","10","0111"};
+    int expected = 17;
+    Test("Test3", strs, 9, 80, expected);
     //Test("Test3", s, "a");
 }
 

@@ -59,6 +59,7 @@
 #include <queue>
 #include <iostream>
 #include <unordered_map>
+#include <unordered_set>
 
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
@@ -66,36 +67,20 @@
 #define GREEN   "\033[32m"      /* Green */
 
 template<typename T>
-std::ostream & operator << (std::ostream &out, std::multiset<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
+std::ostream & operator << (std::ostream &out, std::multiset<T> &_vec);
 template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
-#include <unordered_set>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
+
 class Solution {
 public:
 ///////////////////////////////////////////////////////////////
     int maxDistinctNum(std::vector<int>& nums, int k)
     {
+        return 0;
     }
     int maxDistinctNum1(std::vector<int>& nums, int k)
     {
+        return 0;
     }
 ///////////////////////////////////////////////////////////////
 };
@@ -118,12 +103,10 @@ void Test(const std::string& testName,
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
     std::cout << "k:" << k << ",nums:" << nums << std::endl;
-    // solution.printvector(nums);
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;
 const static int TEST_1    = 0;
-    // getpermutataion
     if (TEST_0)
     {
         std::cout << "Solution0 start.........." << std::endl;
@@ -156,6 +139,28 @@ const static int TEST_1    = 0;
     if (TEST_1)
     {
     }
+}
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::multiset<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
+}
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
 }
 void Test1()
 {

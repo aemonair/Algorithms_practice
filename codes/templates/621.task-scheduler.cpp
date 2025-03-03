@@ -120,93 +120,11 @@ public:
 ///////////////////////////////////////////////////////////////
     int leastInterval(std::vector<char>& tasks, int n)
     {
-        std::unordered_map<char,int> hash;
-        for (auto t: tasks) {
-            ++hash[t];
-        }
-        auto cmp = [](std::pair<char,int> &a,std::pair<char,int> &b){
-            return a.second < b.second;
-        };
-        std::priority_queue<std::pair<char,int>,
-            std::vector<std::pair<char,int>>,
-            decltype(cmp)> maxheap(cmp);
-        for (auto h: hash) {
-            maxheap.push(h);
-        }
-        std::queue<std::pair<char, int>> queue;
-        int result = 0;
-        while (!maxheap.empty()) {
-            int k = n+1;
-            for (; k>0 && !maxheap.empty(); k--) {
-                auto top = maxheap.top();
-                maxheap.pop();
-                if (top.second > 1) {
-                    --top.second;
-                    queue.push(top);
-                }
-                result ++;
-            }
-            while (!queue.empty()) {
-                maxheap.push(queue.front());
-                queue.pop();
-            }
-            if (!maxheap.empty()) {
-                if (k > 0) {
-                    result += k;
-                }
-            }
-        }
-        return result;
+        return 0;
     }
     int leastInterval1(std::vector<char>& tasks, int n)
     {
-        std::unordered_map<char,int> hash;
-        for (auto &c: tasks) {
-            hash[c]++;
-        }
-        auto cmp = [](std::pair<char,int> a, std::pair<char,int> b){
-            return a.second < b.second;
-        };
-        std::priority_queue<std::pair<char,int>,
-            std::vector<std::pair<char,int>>,
-            decltype(cmp)> maxheap(cmp);
-        for (auto &h: hash) {
-            maxheap.push(h);
-        }
-        std::queue<std::pair<char,int>> queue;
-        std::cout << maxheap;
-        int result = 0;
-        std::string str;
-        while (!maxheap.empty()) {
-            int k = n+1;
-            std::cout << maxheap << queue;
-            for (int i = n+1; i > 0 && !maxheap.empty(); i--) {
-                auto top = maxheap.top();
-                maxheap.pop();
-                top.second --;
-                if (top.second>0){
-                    queue.push(top);
-                }
-                str += top.first;
-                ++result;
-                k--;
-                std::cout << "\"" << str << "\"" << maxheap << "result :" << result << queue;
-            }
-            std::cout << maxheap << queue;
-            while (!queue.empty()) {
-                auto curr = queue.front();
-                queue.pop();
-                maxheap.push(curr);
-            }
-            if (!maxheap.empty()) {
-                result +=k;
-                if (k>0) {
-                    str += " ";
-                    std::cout << " idle" << std::endl;
-                }
-            }
-        }
-        return result;
+        return 0;
     }
 ///////////////////////////////////////////////////////////////
 };
@@ -229,7 +147,6 @@ void Test(const std::string& testName,
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
     std::cout << "n:" << n << ",tasks:" << tasks << std::endl;
-    // solution.printvector(tasks);
 
 const static int TEST_TIME = 1;
 const static int TEST_0    = 1;

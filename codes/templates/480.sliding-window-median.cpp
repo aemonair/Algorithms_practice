@@ -54,7 +54,7 @@ std::ostream & operator << (std::ostream &out, const std::vector<T> &_vec);
 template <typename ...T>
 std::ostream & operator << (std::ostream &out, std::priority_queue<T...> big_queue);
 
-class Solution
+class Solution0
 {
 public:
     std::vector<double> medianSlidingWindow(
@@ -62,6 +62,14 @@ public:
             )
     {
         return {};
+    }
+};
+
+using namespace std;
+
+class Solution {
+public:
+    vector<double> medianSlidingWindow(vector<int>& nums, int k) {
     }
 };
 class Solution1

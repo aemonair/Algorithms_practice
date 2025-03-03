@@ -31,6 +31,8 @@
 #include <vector>
 #include <string>
 #include <queue>
+#include <climits>
+#include <numeric>
 #include <map>
 #include <set>
 
@@ -59,13 +61,14 @@ public:
     {
         return 0;
     }
+    int canPartition1(std::vector<int>& nums)
+    {
+        return 0;
+    }
 };
 
 template<typename T>
 std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
-
-template<typename T>
-int printvector(std::vector<T> v);
 
 
 // ==================== TEST Codes====================
@@ -73,7 +76,7 @@ void Test(const std::string& testName, std::vector<int> & nums,int expected)
 {
     if(testName.length() > 0)
     {
-        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;       
+        std::cout << BOLDMAGENTA << testName << " begins: "<< RESET << std::endl;
     }
 
     Solution solution;
@@ -82,10 +85,9 @@ void Test(const std::string& testName, std::vector<int> & nums,int expected)
     decltype(start) end ;
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "nums:";
-    printvector(nums);
+    std::cout << "nums:" << nums << std::endl;
 
-    const static int TEST_TIME = 1;   
+    const static int TEST_TIME = 1;
     {
         if (TEST_TIME)
         {
@@ -149,22 +151,6 @@ std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
     }
     out << "\b\b ]" ;
     return out;
-}
-template<typename T>
-int printvector(std::vector<T> v)
-{
-    if(0 == v.size())
-    {
-        std::cout << "Empty vector." << std::endl;
-        return 0;
-    }
-    std::cout << "[ " ;
-    for(auto i: v)
-    {
-        std::cout << i << ", ";
-    }
-    std::cout << "\b\b ]" << std::endl;
-    return v.size();
 }
 
 int main()

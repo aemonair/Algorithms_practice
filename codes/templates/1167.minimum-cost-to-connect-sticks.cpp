@@ -69,16 +69,7 @@
 #define BOLDRED     "\033[1m\033[31m"      /* Bold Red     */
 
 template<typename T>
-std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
-{
-    out << "[  ";
-    for(auto v: _vec)
-    {
-        out << v << ", ";
-    }
-    out << "\b\b ]" ;
-    return out;
-}
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec);
 
 class Solution {
 public:
@@ -137,6 +128,17 @@ const static int TEST_1    = 1;
         }
     }
     std::cout << "-----------------------------" << std::endl;
+}
+template<typename T>
+std::ostream & operator << (std::ostream &out, std::vector<T> &_vec)
+{
+    out << "[  ";
+    for(auto v: _vec)
+    {
+        out << v << ", ";
+    }
+    out << "\b\b ]" ;
+    return out;
 }
 void Test1()
 {

@@ -33,7 +33,7 @@ std::ostream & operator << (std::ostream &out, std::vector<T> _vec);
 class Solution {
 public:
 ////////////////////////////////////////////////////////////////////////
-    std::vector<std::string> generateAbbreviations (std::string word)
+    std::vector<std::string> generateAbbreviations(std::string word)
     {
         return {};
     }

@@ -206,6 +206,13 @@ void Test6()
     Test("Test6", intervals, result);
 }
 
+void Test7()
+{
+    std::vector<std::vector<int>> intervals = {{1,1}, {2,3}, {4,5},{4,8}};
+    bool               result     = false;
+    Test("Test7", intervals, result);
+}
+
 int main()
 {
     Test0();
@@ -215,6 +222,7 @@ int main()
     Test4();
     Test5();
     Test6();
+    Test7();
 
     return 0;
 
