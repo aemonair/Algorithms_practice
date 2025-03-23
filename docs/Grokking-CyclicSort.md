@@ -15,4 +15,4 @@
 
 [1539.kth-missing-positive-number_第k个缺失的正整数](<leetcode/1539.kth-missing-positive-number_第k个缺失的正整数.md>)
 
-#CyclicSort;
+#cyclic-sort;

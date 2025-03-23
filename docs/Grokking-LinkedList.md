@@ -11,4 +11,4 @@
 
 [061.rotate-list_旋转链表](<leetcode/061.rotate-list_旋转链表.md>)
 
-#LinkedList;
+#linked-list;

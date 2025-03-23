@@ -5,4 +5,4 @@
 
 [437.path-sum-iii_路径总和III](<leetcode/437.path-sum-iii_路径总和III.md>)
 
-#PrefixSum;
+#prefix-sum;

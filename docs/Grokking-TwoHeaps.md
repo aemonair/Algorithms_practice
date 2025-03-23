@@ -7,4 +7,4 @@
 
 [436.find-right-interval_寻找右区间](<leetcode/436.find-right-interval_寻找右区间.md>)
 
-#TwoHeaps; #Heap;
+#two-heaps; #heap;

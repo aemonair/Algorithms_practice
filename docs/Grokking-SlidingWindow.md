@@ -19,4 +19,4 @@
 
 [030.substring-with-concatenation-of-all-words_串联所有单词的子串](<leetcode/030.substring-with-concatenation-of-all-words_串联所有单词的子串.md>)
 
-#SlidingWindow;
+#sliding-window;

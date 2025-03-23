@@ -17,4 +17,4 @@
 
 [124.binary-tree-maximum-path-sum_二叉树中的最大路径和](<leetcode/124.binary-tree-maximum-path-sum_二叉树中的最大路径和.md>)
 
-#DepthFirstSearch;
+#depth-first-search;

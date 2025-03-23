@@ -18,4 +18,4 @@
 
 [199.binary-tree-right-side-view_二叉树的右视图](<leetcode/199.binary-tree-right-side-view_二叉树的右视图.md>)
 
-#BreadthFirstSearch;
+#breadth-first-search;

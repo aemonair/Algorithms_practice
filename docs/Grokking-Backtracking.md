@@ -3,7 +3,7 @@
 
 [037.sudoku-solver_解数独](<leetcode/037.sudoku-solver_解数独.md>)
 
-[039.combination-sum_组合总数](<leetcode/039.combination-sum_组合总数.md>)
+[039.combination-sum_组合总和](<leetcode/039.combination-sum_组合总和.md>)
 
 [040.combination-sum-ii_组合总和II](<leetcode/040.combination-sum-ii_组合总和II.md>)
 

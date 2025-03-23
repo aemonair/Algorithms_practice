@@ -13,4 +13,4 @@
 
 [759.employee-free-time-员工空闲时间](<leetcode/759.employee-free-time-员工空闲时间.md>)
 
-#MergeIntervals;
+#merge-intervals;
