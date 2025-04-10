@@ -91,6 +91,242 @@ allocator模板类定义在头文件memory.h中，它帮助我们将内存分配
 如果要分配的内存大于128K则直接调用一级分配器
 为了节省维持链表的开销，采用了一个union结构体，分配器使用union里的next指针来指向下一个节点，而用户则使用union的空指针来表示该节点的地址。
 
+### 1.3.3 malloc/brk
+`malloc` 是 C 语言标准库中的一个函数，用于动态分配内存。它的实现因操作系统和库的不同而有所差异，但通常遵循一些共同的原则和步骤。下面是一个简化的 `malloc` 实现的概述，以及一些常见的优化技术。
+
+#### 1.3.3.1 基本原理
+
+1. **请求内核分配内存**：当 `malloc` 被调用时，它首先检查是否有足够的空闲内存块可用。如果没有，它会请求操作系统分配更多的内存。
+2. **内存管理**：`malloc` 需要管理已分配和未分配的内存块，以便有效地重用内存。
+3. **返回指针**：如果成功分配了内存，`malloc` 返回一个指向分配内存的指针；如果失败，则返回 `NULL`。
+
+#### 1.3.3.2 内存块管理
+
+`malloc` 通常使用一种称为“内存池”或“堆”的数据结构来管理内存块。常见的内存管理策略包括：
+
+1. **链表**：使用链表来记录空闲内存块。
+2. **位图**：使用位图来标记哪些内存块是空闲的。
+3. **分桶**：将不同大小的内存块分类存储，以便快速查找。
+
+#### 1.3.3.3 常见优化技术
+
+1. **合并空闲块**：当释放内存时，`free` 会尝试将相邻的空闲块合并成一个更大的空闲块，以减少内存碎片。
+2. **快速路径**：对于小内存块，使用特殊的快速路径来加速分配和释放。
+3. **多线程支持**：现代 `malloc` 实现通常支持多线程环境，使用锁或其他同步机制来保证线程安全。
+4. **预分配大块内存**：预先从操作系统分配一大块内存，然后在该大块内存中进行细粒度的分配和释放，以减少系统调用的开销。
+
+#### 1.3.3.4 简化版 `malloc` 实现
+
+以下是一个简化的 `malloc` 实现，仅用于说明基本原理。实际的 `malloc` 实现会更加复杂，包含更多的优化和错误处理。
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+#define CHUNK_SIZE (1024 * 1024)  // 初始分配的大块内存大小
+
+typedef struct FreeBlock {
+    size_t size;
+    struct FreeBlock *next;
+} FreeBlock;
+
+static FreeBlock *free_list = NULL;
+
+void *malloc(size_t size) {
+    if (size == 0) return NULL;
+
+    // 尝试从自由列表中找到合适的块
+    FreeBlock *prev = NULL;
+    FreeBlock *curr = free_list;
+    while (curr != NULL && curr->size < size) {
+        prev = curr;
+        curr = curr->next;
+    }
+
+    if (curr != NULL) {
+        // 找到了合适的块
+        if (prev == NULL) {
+            free_list = curr->next;
+        } else {
+            prev->next = curr->next;
+        }
+        return (void *)((char *)curr + sizeof(FreeBlock));
+    }
+
+    // 没有找到合适的块，请求新的内存
+    if (free_list == NULL || free_list->size < size + sizeof(FreeBlock)) {
+        size_t chunk_size = (size + sizeof(FreeBlock) > CHUNK_SIZE) ? size + sizeof(FreeBlock) : CHUNK_SIZE;
+        char *new_chunk = (char *)sbrk(chunk_size);
+        if (new_chunk == (char *)-1) {
+            return NULL;  // 内存分配失败
+        }
+
+        FreeBlock *new_block = (FreeBlock *)new_chunk;
+        new_block->size = chunk_size - sizeof(FreeBlock);
+        new_block->next = free_list;
+        free_list = new_block;
+    }
+
+    // 从新的块中分配内存
+    FreeBlock *block = free_list;
+    free_list = block->next;
+    return (void *)((char *)block + sizeof(FreeBlock));
+}
+
+void free(void *ptr) {
+    if (ptr == NULL) return;
+
+    FreeBlock *block = (FreeBlock *)((char *)ptr - sizeof(FreeBlock));
+    block->next = free_list;
+    free_list = block;
+}
+```
+
+#### 1.3.3.5 解释
+
+1. **初始化**：`free_list` 是一个链表，用于记录空闲内存块。
+2. **`malloc` 函数**：
+   - 首先检查自由列表中是否有合适大小的空闲块。
+   - 如果没有，使用 `sbrk` 系统调用从操作系统请求新的内存块。
+   - 返回分配的内存块的指针。
+3. **`free` 函数**：
+   - 将释放的内存块重新插入到自由列表中，供后续的 `malloc` 调用使用。
+
+#### 1.3.3.6 实际实现
+
+实际的 `malloc` 实现（如 glibc 中的 `malloc`）会包含更多的优化和错误处理机制，例如：
+
+- **多线程支持**：使用锁或其他同步机制。
+- **内存对齐**：确保返回的指针对齐。
+- **内存碎片管理**：通过合并相邻的空闲块来减少内存碎片。
+- **快速路径**：为小内存块提供专门的管理策略。
+
+这些优化使得 `malloc` 在实际应用中更加高效和可靠。
+### 1.3.4 brk
+
+`sbrk` 是一个 Unix 系统调用，用于动态调整进程的程序-break（program break），即数据段的结束地址。它通过内核来管理内存，而不是通过用户空间的内存管理机制。通过 `sbrk`，进程可以请求更多的内存或释放之前分配的内存。`sbrk` 主要用于实现动态内存分配器，如 `malloc` 和 `free`。
+#### 1.3.4.1 基本概念
+
+- **程序-break**：程序-break 是数据段的结束地址，也就是进程可以使用的最大虚拟地址。程序-break 之后的地址是不可访问的。
+- **数据段**：数据段包括全局变量和静态变量的存储区域。动态分配的内存也通常位于数据段中。
+#### 1.3.4.2 `sbrk` 的原型
+
+```c
+#include <unistd.h>
+
+void *sbrk(intptr_t increment);
+```
+
+- **参数**：
+  - `increment`：表示要调整的字节数。如果 `increment` 为正数，表示增加内存；如果为负数，表示减少内存。
+- **返回值**：
+  - 成功时，返回调整后的程序-break 地址。
+  - 失败时，返回 `(void *)-1`。
+
+#### 1.3.4.3 `sbrk` 的实现
+
+1. **系统调用**：
+   - 当用户程序调用 `sbrk` 时，它会触发一个系统调用。系统调用是一种从用户空间进入内核空间的机制，允许用户程序请求内核执行某些操作。
+   - 在 x86 架构上，通常使用 `int 0x80` 指令（在 Linux 系统上）或 `syscall` 指令（在现代 x86-64 系统上）来触发系统调用。
+
+2. **内核处理**：
+   - 内核接收到系统调用后，会检查请求的合法性，包括权限检查和参数验证。
+   - 内核会根据请求的增量 `increment` 调整程序-break。
+     - 如果 `increment` 为正数，内核会尝试扩展数据段，分配更多的内存。
+     - 如果 `increment` 为负数，内核会尝试缩减数据段，释放部分内存。
+
+3. **内存管理**：
+   - 内核会使用虚拟内存管理机制来处理内存分配和释放。虚拟内存管理包括页表管理和物理内存分配。
+   - 如果需要更多内存，内核会从空闲的物理内存中分配页面，并将这些页面映射到进程的虚拟地址空间。
+   - 如果需要释放内存，内核会解除这些页面的映射，并将它们标记为空闲，以便其他进程或系统使用。
+
+#### 1.3.4.4 内存中断
+
+- **内存中断**：内存中断通常是指硬件中断，例如页故障（page fault）。当进程访问一个未映射的虚拟地址时，会触发页故障中断。内核会处理这个中断，将相应的物理页面映射到虚拟地址空间。
+- **`sbrk` 与内存中断**：`sbrk` 本身不会直接触发内存中断，但它会影响内存映射。当 `sbrk` 调整程序-break 时，内核可能会创建新的页表条目，将新的虚拟地址映射到物理内存。如果进程随后访问这些新映射的地址，可能会触发页故障中断，内核会处理这些中断并完成内存映射。
+
+#### 1.3.4.5 sbrk具体实现步骤
+
+1. **用户空间调用 `sbrk`**：
+   ```c
+   void *ptr = sbrk(increment);
+   ```
+
+2. **触发系统调用**：
+   - 用户空间代码通过系统调用接口（如 `int 0x80` 或 `syscall`）进入内核空间。
+
+3. **内核处理系统调用**：
+   - 内核检查 `increment` 参数是否合法。
+   - 内核根据 `increment` 调整程序-break：
+     - 如果 `increment` 为正数，内核会分配新的物理页面，并将这些页面映射到进程的虚拟地址空间。
+     - 如果 `increment` 为负数，内核会解除部分页面的映射，并将这些页面标记为空闲。
+
+4. **返回结果**：
+   - 内核将调整后的程序-break 地址返回给用户空间。
+   - 如果操作成功，返回新的程序-break 地址。
+   - 如果操作失败，返回 `(void *)-1` 并设置 `errno`。
+
+#### 1.3.4.6 sbrk示例代码
+
+以下是一个简化的示例，展示了 `sbrk` 的使用：
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+
+int main() {
+    // 请求 1024 字节的内存
+    void *ptr = sbrk(1024);
+    if (ptr == (void *)-1) {
+        perror("sbrk");
+        return 1;
+    }
+
+    // 使用分配的内存
+    char *data = (char *)ptr;
+    strcpy(data, "Hello, World!");
+    printf("%s\n", data);
+
+    // 释放 1024 字节的内存
+    void *new_ptr = sbrk(-1024);
+    if (new_ptr == (void *)-1) {
+        perror("sbrk");
+        return 1;
+    }
+
+    return 0;
+}
+```
+
+
+#### 1.3.4.7 sbrk注意事项
+
+1. **内存对齐**：`sbrk` 返回的地址通常是按页对齐的，因此分配的内存可能会比请求的多。
+2. **线程安全**：`sbrk` 不是线程安全的。在多线程环境中，应避免直接使用 `sbrk`，而是使用线程安全的内存分配函数，如 `malloc` 和 `free`。
+3. **内存碎片**：频繁调用 `sbrk` 可能会导致内存碎片，影响内存管理的效率。
+4. **限制**：`sbrk` 只能在数据段的末尾增加或减少内存，不能在任意位置分配内存。这使得它不适合复杂的内存管理需求。
+
+#### 1.3.4.8 sbrk实际应用
+
+在实际的内存分配器（如 glibc 中的 `malloc`）中，`sbrk` 通常与其他内存管理技术结合使用，以提供更高效的内存分配和释放。例如：
+
+- **多级空闲列表**：使用多个空闲列表来管理不同大小的内存块。
+- **内存池**：预先分配一大块内存，然后在该大块内存中进行细粒度的分配和释放。
+- **内存对齐**：确保返回的指针对齐，以满足不同数据类型的要求。
+- **内存碎片管理**：通过合并相邻的空闲块来减少内存碎片。
+
+#### 1.3.4.9 sbrk总结
+
+- **`sbrk` 是一个系统调用**，用于调整进程的程序-break。
+- **内核处理**：内核负责管理内存分配和释放，包括虚拟内存管理和物理内存分配。
+- **内存中断**：`sbrk` 本身不会直接触发内存中断，但它会影响内存映射，可能导致后续的页故障中断。
+
+通过这些机制，`sbrk` 提供了一种简单但强大的方式来动态管理进程的内存。
+通过这些技术，`malloc` 和 `free` 可以在大多数情况下提供高效和可靠的内存管理。
 ## 1.4 迭代器iterator
 ### 1.4.0 迭代器iterator
 Iterator(迭代器)用于提供一种方法顺序访问一个聚合对象中各个元素, 而又不需暴露该对象的内部表示，相当于智能指针。
@@ -485,7 +721,7 @@ list插入和删除数据，需要对现有数据进行遍历，但在首部插�
     * 在中间删除：内存拷贝
   * 适用场景：经常随机访问，且不经常对非尾节点进行插入删除。
 ### 1.7.2 List
-- 动态链表，在堆上分配空间，每插入一个元数都会分配空间，每删除一个元素都会释放空间。
+- 动态链表，在堆上分配空间，每插入一个元素都会分配空间，每删除一个元素都会释放空间。
 - 底层：双向链表
 - 性能：
     - 访问：随机访问性能很差，只能快速访问头尾节点。
@@ -588,6 +824,140 @@ public:
 }
 ```
 迭代器修改为 `set<int,MyCompare>::iterator it = begin();`
+### 1.10.2 upper_bound/lower_bound
+在C++中，`lower_bound` 和 `upper_bound` 是 `<algorithm>` 头文件中定义的函数模板，通常用于有序范围内的二分查找。它们在标准库容器（如 `vector`、`list` 或 `array`）以及关联容器（如 `set` 和 `map`）上非常有用。这两个函数主要用于处理已排序的数据。
+
+#### 1.10.2.1 `lower_bound`不小于(大于等于)
+
+- **功能**：`lower_bound` 函数返回一个迭代器，指向第一个不小于给定值的元素位置。
+- **原型**：
+  ```cpp
+  forward_iterator lower_bound (forward_iterator first, forward_iterator last, const val& value);
+  ```
+  对于关联容器，如 `set` 或 `map`，可以使用带比较器的版本：
+  ```cpp
+  forward_iterator lower_bound (forward_iterator first, forward_iterator last, const val& value, Compare comp);
+  ```
+- **用法示例**：
+  ```cpp
+  #include <iostream>
+  #include <vector>
+  #include <algorithm>
+
+  int main() {
+      std::vector<int> vec = {1, 2, 3, 4, 4, 4, 5, 6};
+      auto it = std::lower_bound(vec.begin(), vec.end(), 4);
+      if (it != vec.end()) {
+          std::cout << "First element not less than 4 is: " << *it << std::endl;
+      } else {
+          std::cout << "No element found" << std::endl;
+      }
+      return 0;
+  }
+  ```
+
+#### 1.10.2.2 `upper_bound`大于
+
+- **功能**：`upper_bound` 函数返回一个迭代器，指向第一个大于给定值的元素位置。
+- **原型**：
+  ```cpp
+  forward_iterator upper_bound (forward_iterator first, forward_iterator last, const val& value);
+  ```
+  同样，对于关联容器，可以使用带比较器的版本：
+  ```cpp
+  forward_iterator upper_bound (forward_iterator first, forward_iterator last, const val& value, Compare comp);
+  ```
+- **用法示例**：
+  ```cpp
+  #include <iostream>
+  #include <vector>
+  #include <algorithm>
+
+  int main() {
+      std::vector<int> vec = {1, 2, 3, 4, 4, 4, 5, 6};
+      auto it = std::upper_bound(vec.begin(), vec.end(), 4);
+      if (it != vec.end()) {
+          std::cout << "First element greater than 4 is: " << *it << std::endl;
+      } else {
+          std::cout << "No element found" << std::endl;
+      }
+      return 0;
+  }
+  ```
+
+#### 1.10.2.3 区别
+
+- `lower_bound` 返回的是第一个不小于目标值的位置。
+- `upper_bound` 返回的是第一个大于目标值的位置。
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    std::vector<int> vec = {1, 2, 4, 4, 6, 7};// 查找第一个不小于3的元素的位置
+    auto lb = std::lower_bound(vec.begin(), vec.end(), 3);
+    if (lb != vec.end()) {
+        std::cout << "First element not less than 3 is: " << *lb << std::endl;
+    } else {
+        std::cout << "All elements are less than 3." << std::endl;
+    }
+    
+    // 查找第一个大于4的元素的位置
+    auto ub = std::upper_bound(vec.begin(), vec.end(), 4);
+    if (ub != vec.end()) {
+        std::cout << "First element greater than 4 is: " << *ub << std::endl;
+    } else {
+        std::cout << "All elements are less than or equal to 4." << std::endl;
+    }
+
+    return 0;
+}
+```
+- `lower_bound` 找到了第一个不小于 3 的元素，即 4。
+- `upper_bound` 找到了第一个大于 4 的元素，即 6。
+#### 1.10.2.4 使用场景
+
+这些函数特别适用于需要快速定位元素或范围的情况，尤其是在数据量较大且已经排序的情况下。例如，在实现区间查询、数据统计或者需要高效插入新元素到正确位置的算法中，`lower_bound` 和 `upper_bound` 都是非常有用的工具。
+
+#### 1.10.2.5 查找小于某个值的最大元素
+在 C++ 标准库中，`lower_bound` 和 `upper_bound` 主要用于查找不小于和大于某个值的元素。如果你需要查找小于某个值的最大元素，可以结合使用这些函数来实现。
+
+具体来说，你可以使用 `std::upper_bound` 来找到第一个大于目标值的元素位置，然后减去一个迭代器步长，得到小于目标值的最大元素的位置。
+
+下面是一个示例代码，展示了如何查找小于某个值的最大元素：
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    std::vector<int> vec = {1, 2, 4, 4, 6, 7};
+
+    // 要查找小于的目标值
+    int target = 5;
+
+    // 使用 upper_bound 找到第一个大于目标值的元素的位置
+    auto ub = std::upper_bound(vec.begin(), vec.end(), target);
+
+    if (ub != vec.begin()) {
+        // 减去一个迭代器步长，得到小于目标值的最大元素的位置
+        --ub;
+        std::cout << "The largest element less than " << target << " is: " << *ub << std::endl;
+    } else {
+        std::cout << "There are no elements less than " << target << "." << std::endl;
+    }
+
+    return 0;
+}
+```
+在这个例子中：
+- 我们使用 `std::upper_bound` 找到第一个大于 5 的元素的位置。
+- 然后通过 `--ub` 得到小于 5 的最大元素的位置，即 4。
+
+这样就可以实现查找小于某个值的最大元素的功能。
+
 ## 1.11 map/multimap容器
 ### 1.11.0 map/multimap容器
 同时拥有键值和实值 可以有两个相同实值不可以相同的键值 multimap可以重复

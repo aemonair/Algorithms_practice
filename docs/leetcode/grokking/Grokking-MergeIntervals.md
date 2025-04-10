@@ -7,7 +7,7 @@
 
 [252.meeting-rooms-会议室](<leetcode/252.meeting-rooms-会议室.md>)
 
-[253.meeting-rooms-ii-会议室ii](<leetcode/253.meeting-rooms-ii-会议室ii.md>)
+[253.meeting-rooms-ii_会议室ii](<253.meeting-rooms-ii_会议室ii.md>)
 
 [253.124554-maximum-cpu-load-最大cpu加载](<leetcode/253.124554-maximum-cpu-load-最大cpu加载.md>)
 
