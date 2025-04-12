@@ -3,76 +3,95 @@
 
 [nowcoder反转链表](https://www.nowcoder.com/practice/75e878df47f24fdc9dc3e400ec6058ca?tpId=295&tqId=23286&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
 栈／双链表／递归
-[[206.reverse-linked-list_反转链表]]
-[206.reverse-linked-list_反转链表](206.reverse-linked-list_反转链表.md)
+[206.reverse-linked-list_反转链表](leetcode/206.reverse-linked-list_反转链表.md)
 
 ### BM2 链表内指定区间反转
-[链表内指定区间反转](https://www.nowcoder.com/practice/b58434e200a648c589ca2063f1faf58c?tpId=295&tqId=654&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) [[092.reverseBetween_反转链表_II]]
+[链表内指定区间反转](https://www.nowcoder.com/practice/b58434e200a648c589ca2063f1faf58c?tpId=295&tqId=654&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[092.reverse-linked-list-ii_反转链表II](leetcode/092.reverse-linked-list-ii_反转链表II.md)
 找到m，从m反转到n
 
 ### BM3 链表中的节点每k个一组翻转
-[链表中的节点每k个一组翻转](https://www.nowcoder.com/practice/b49c3dc907814e9bbfa8437c251b028e?tpId=295&tqId=722&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) [[025.Reverse_Nodes_in_k-Group_K个一组翻转链表]]
+[链表中的节点每k个一组翻转](https://www.nowcoder.com/practice/b49c3dc907814e9bbfa8437c251b028e?tpId=295&tqId=722&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[025.reverse-nodes-in-k-group_K个一组翻转链表](leetcode/025.reverse-nodes-in-k-group_K个一组翻转链表.md)
 
 ### BM4 合并两个排序的链表
-[合并两个排序的链表](https://www.nowcoder.com/practice/d8b6b4358f774294a89de2a6ac4d9337?tpId=295&tqId=23267&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 021 [[021.Merge_Two_Sorted_Lists_合并两个有序链表]]
+[合并两个排序的链表](https://www.nowcoder.com/practice/d8b6b4358f774294a89de2a6ac4d9337?tpId=295&tqId=23267&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[021.merge-two-sorted-lists_合并两个有序链表](leetcode/021.merge-two-sorted-lists_合并两个有序链表.md)
 
 ### BM5 合并k个已排序的链表
-[合并k个已排序的链表](https://www.nowcoder.com/practice/65cfde9e5b9b4cf2b6bafa5f3ef33fa6?tpId=295&tqId=724&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) [[023.Merge_k_Sorted_Lists_合并 K 个升序链表]]
+[合并k个已排序的链表](https://www.nowcoder.com/practice/65cfde9e5b9b4cf2b6bafa5f3ef33fa6?tpId=295&tqId=724&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[023.merge-k-sorted-lists_合并K个升序链表](le e t co de023.merge-k-sorted-lists_合并K个升序链表.md)
 分而治之
 
 ### BM6 判断链表中是否有环
-[判断链表中是否有环](https://www.nowcoder.com/practice/650474f313294468a4ded3ce0f7898b9?tpId=295&tqId=605&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 141 [[141.Linked_List_Cycle_环形链表]]
+[判断链表中是否有环](https://www.nowcoder.com/practice/650474f313294468a4ded3ce0f7898b9?tpId=295&tqId=605&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[141.linked-list-cycle_环形链表](leetcode/141.linked-list-cycle_环形链表.md)
 
 ### BM7 链表中环的入口结点
-[链表中环的入口结点](https://www.nowcoder.com/practice/253d2c59ec3e4bc68da16833f79a38e4?tpId=295&tqId=23449&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 142 [[142.Linked_List_Cycle_II_环形链表_II]]
+[链表中环的入口结点](https://www.nowcoder.com/practice/253d2c59ec3e4bc68da16833f79a38e4?tpId=295&tqId=23449&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[142.linked-list-cycle-ii_环形链表-ii](leetcode/142.linked-list-cycle-ii_环形链表-ii.md)
 
 ### BM8 链表中倒数最后k个结点
 [链表中倒数最后k个结点](https://www.nowcoder.com/practice/886370fe658f41b498d40fb34ae76ff9?tpId=295&tqId=1377477&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
 
 ### BM9 删除链表(倒数第n个节点
-[删除链表的倒数第n个节点](https://www.nowcoder.com/practice/f95dcdafbde44b22a6d741baf71653f6?tpId=295&tqId=727&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 19 [[019.Remove_Nth_Node_From_End_of_List_删除链表的倒数第N个结点]]
+[删除链表的倒数第n个节点](https://www.nowcoder.com/practice/f95dcdafbde44b22a6d741baf71653f6?tpId=295&tqId=727&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[019.remove-nth-node-from-end-of-list_删除链表的倒数第N个结点](leetcode/019.remove-nth-node-from-end-of-list_删除链表的倒数第N个结点.md)
 
 ### BM10 两个链表的第一个公共结点
-[两个链表的第一个公共结点](https://www.nowcoder.com/practice/6ab1d9a29e88450685099d45c9e31e46?tpId=295&tqId=23257&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 160 [[160.Intersection_of_Two_Linked Lists_相交链表]]
+[两个链表的第一个公共结点](https://www.nowcoder.com/practice/6ab1d9a29e88450685099d45c9e31e46?tpId=295&tqId=23257&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[160.intersection-of-two-linked-lists_相交链表](leetcode/160.intersection-of-two-linked-lists_相交链表.md)
 
 ### BM11 链表相加(二)
-[链表相加(二)](https://www.nowcoder.com/practice/c56f6c70fb3f4849bc56e33ff2a50b6b?tpId=295&tqId=1008772&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 445 [[445.Add_Two_Numbers_II_两数相加_II]]
+[链表相加(二)](https://www.nowcoder.com/practice/c56f6c70fb3f4849bc56e33ff2a50b6b?tpId=295&tqId=1008772&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 445
+[445.Add_Two_Numbers_II_两数相加_II](leetcode/445.Add_Two_Numbers_II_两数相加_II.md)
 
 ### BM12 单链表的排序
-[单链表的排序](https://www.nowcoder.com/practice/f23604257af94d939848729b1a5cda08?tpId=295&tqId=1008897&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 148 [[148.Sort_List_排序链表]]
+[单链表的排序](https://www.nowcoder.com/practice/f23604257af94d939848729b1a5cda08?tpId=295&tqId=1008897&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 148
+[148.sort-list_排序链表](leetcode/148.sort-list_排序链表.md)
 
 ### BM13 判断一个链表是否为回文结构
-[判断一个链表是否为回文结构](https://www.nowcoder.com/practice/3fed228444e740c8be66232ce8b87c2f?tpId=295&tqId=1008769&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 234 [[234.Palindrome_Linked_List_回文链表]]
+[判断一个链表是否为回文结构](https://www.nowcoder.com/practice/3fed228444e740c8be66232ce8b87c2f?tpId=295&tqId=1008769&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 234
+[234.palindrome-linked-list_回文链表](leetcode/234.palindrome-linked-list_回文链表.md)
 
 ### BM14 链表的奇偶重排
-[链表的奇偶重排](https://www.nowcoder.com/practice/02bf49ea45cd486daa031614f9bd6fc3?tpId=295&tqId=1073463&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 328 [[328.Odd_Even_Linked_List_奇偶链表]]
+[链表的奇偶重排](https://www.nowcoder.com/practice/02bf49ea45cd486daa031614f9bd6fc3?tpId=295&tqId=1073463&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 328
+[328.odd-even-linked-list_奇偶链表](leetcode/328.odd-even-linked-list_奇偶链表.md)
 
 ### BM15删除有序链表中重复的元素-I
-[删除有序链表中重复的元素-I](https://www.nowcoder.com/practice/c087914fae584da886a0091e877f2c79?tpId=295&tqId=664&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 083 [[083.Remove_Duplicates_from_Sorted_List_删除排序链表中的重复元素]]
+[删除有序链表中重复的元素-I](https://www.nowcoder.com/practice/c087914fae584da886a0091e877f2c79?tpId=295&tqId=664&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 083
+[083.remove-duplicates-from-sorted-list_删除排序链表中的重复元素](leetcode/083.remove-duplicates-from-sorted-list_删除排序链表中的重复元素.md)
 
 ### BM16删除有序链表中重复的元素-II
-[删除有序链表中重复的元素-II](https://www.nowcoder.com/practice/71cef9f8b5564579bf7ed93fbe0b2024?tpId=295&tqId=663&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 082 [[082.Remove_Duplicates_from_Sorted_List_II_删除排序链表中的重复元素_II]]
+[删除有序链表中重复的元素-II](https://www.nowcoder.com/practice/71cef9f8b5564579bf7ed93fbe0b2024?tpId=295&tqId=663&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 082
+[082.remove-duplicates-from-sorted-list-ii_删除排序链表中的重复元素_II](leetcode/082.remove-duplicates-from-sorted-list-ii_删除排序链表中的重复元素_II.md)
 
 ## 二分查找/排序
 
 ### BM17 二分查找-I
-[二分查找-I](https://www.nowcoder.com/practice/d3df40bd23594118b57554129cadf47b?tpId=295&tqId=1499549&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 704 [[704.binary-search_二分查找]] [704](704.binary-search_二分查找.md)
+[二分查找-I](https://www.nowcoder.com/practice/d3df40bd23594118b57554129cadf47b?tpId=295&tqId=1499549&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 704
+[704.binary-search_二分查找](leetcode/704.binary-search_二分查找.md)
 
 ### BM18 二维数组中的查找
-[二维数组中的查找](https://www.nowcoder.com/practice/abc3fe2ce8e146608e868a70efebf62e?tpId=295&tqId=23256&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 240 [[240.Search_a_2D_Matrix_II_搜索二维矩阵_II]]
+[二维数组中的查找](https://www.nowcoder.com/practice/abc3fe2ce8e146608e868a70efebf62e?tpId=295&tqId=23256&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 240
+[240.search-a-2d-matrix-ii_搜索二维矩阵II](leetcode/240.search-a-2d-matrix-ii_搜索二维矩阵II.md)
 
 ### BM19 寻找峰值
-[寻找峰值](https://www.nowcoder.com/practice/fcf87540c4f347bcb4cf720b5b350c76?tpId=295&tqId=2227748&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 162 [[162.Find_Peak_Element_寻找峰值]]
+[寻找峰值](https://www.nowcoder.com/practice/fcf87540c4f347bcb4cf720b5b350c76?tpId=295&tqId=2227748&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 162
+[162.find-peak-element_寻找峰值](leetcode/162.find-peak-element_寻找峰值.md)
 
 ### BM20 数组中的逆序对
-[数组中的逆序对](https://www.nowcoder.com/practice/96bd6684e04a44eb80e6a68efc0ec6c5?tpId=295&tqId=23260&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) [[051.J_reversePairs_数组中的逆序对]]
+[数组中的逆序对](https://www.nowcoder.com/practice/96bd6684e04a44eb80e6a68efc0ec6c5?tpId=295&tqId=23260&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[051.J_reversePairs_数组中的逆序对](leetcode/051.J_reversePairs_数组中的逆序对.md)
 
 
 ### BM21 旋转数组的最小数字
-[旋转数组的最小数字](https://www.nowcoder.com/practice/9f3231a991af4f55b95579b44b7a01ba?tpId=295&tqId=23269&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 153/154 [[153.Find_Minimum_in_Rotated_Sorted_Array_寻找旋转排序数组中的最小值]] [[154.Find_Minimum_in_Rotated_Sorted_Array_II_寻找旋转排序数组中的最小值_II]]
+[旋转数组的最小数字](https://www.nowcoder.com/practice/9f3231a991af4f55b95579b44b7a01ba?tpId=295&tqId=23269&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 153/154
+[153.find-minimum-in-rotated-sorted-array_寻找旋转排序数组中的最小值](leetcode/153.find-minimum-in-rotated-sorted-array_寻找旋转排序数组中的最小值.md)
+[154.find-minimum-in-rotated-sorted-array-ii_寻找旋转排序数组中的最小值II](leetcode/154.find-minimum-in-rotated-sorted-array-ii_寻找旋转排序数组中的最小值II.md)
 
 ### BM22 比较版本号
-[比较版本号](https://www.nowcoder.com/practice/2b317e02f14247a49ffdbdba315459e7?tpId=295&tqId=1024572&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 165 [[165.Compare_Version_Numbers_比较版本号]]
+[比较版本号](https://www.nowcoder.com/practice/2b317e02f14247a49ffdbdba315459e7?tpId=295&tqId=1024572&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295) 165 [165.Compare_Version_Numbers_比较版本号](leetcode/165.Compare_Version_Numbers_比较版本号.md)
 
 ## 二叉树
 
@@ -84,6 +103,7 @@
 
 ### BM24二叉树的中序遍历
 [二叉树的中序遍历](https://www.nowcoder.com/practice/0bf071c135e64ee2a027783b80bf781d?tpId=295&tqId=1512964&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[094.binary-tree-inorder-traversal_二叉树的中序遍历](leetcode/094.binary-tree-inorder-traversal_二叉树的中序遍历.md)
 -   step 1：优先判断树是否为空，空树不遍历。
 -   step 2：准备辅助栈，当二叉树节点为空了且栈中没有节点了，我们就停止访问。
 -   step 3：从根节点开始，每次优先进入每棵的子树的最左边一个节点，我们将其不断加入栈中，用来保存父问题。
@@ -161,6 +181,7 @@ public:
 ### BM26求二叉树的层序遍历
 
 [求二叉树的层序遍历](https://www.nowcoder.com/practice/04a5560e43e24e9db4595865dc9c63a3?tpId=295&tqId=644&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[102.binary-tree-level-order-traversal_二叉树的层序遍历](leetcode/102.binary-tree-level-order-traversal_二叉树的层序遍历.md)
 队列
 ```cpp
 
@@ -216,10 +237,13 @@ public:
 
 [二叉树的最大深度](https://www.nowcoder.com/practice/8a2b2bf6c19b4f23a9bdb9b233eefa73?tpId=295&tqId=642&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
 层序遍历／递归+1
+[104.maximum-depth-of-binary-tree_二叉树的最大深度](leetcode/104.maximum-depth-of-binary-tree_二叉树的最大深度.md)
 
 ### BM29二叉树中和为某一值的路径(一)
 
 [二叉树中和为某一值的路径(一)](https://www.nowcoder.com/practice/508378c0823c423baa723ce448cbfd0c?tpId=295&tqId=634&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[112.path-sum_路径总和](leetcode/112.path-sum_路径总和.md)
+[113.path-sum-ii_路径总和II](leetcode/113.path-sum-ii_路径总和II.md)
 dfs
 ```cpp
 class Solution {
@@ -241,26 +265,27 @@ public:
 
 [二叉搜索树与双向链表](https://www.nowcoder.com/practice/947f6eb80d944a84850b0538bf0ec3a5?tpId=295&tqId=23253&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
 递归中序遍历
+[094.binary-tree-inorder-traversal_二叉树的中序遍历](leetcode/094.binary-tree-inorder-traversal_二叉树的中序遍历.md)
 ```cpp
 class Solution {
 public:
     //返回的第一个指针，即为最小值，先定为NULL
-    TreeNode* head = NULL; 
+    TreeNode* head = NULL;
     //中序遍历当前值的上一位，初值为最小值，先定为NULL
-    TreeNode* pre = NULL;  
+    TreeNode* pre = NULL;
     TreeNode* Convert(TreeNode* pRootOfTree) {
         if(pRootOfTree == NULL)
             //中序递归，叶子为空则返回
-            return NULL;    
-        //首先递归到最左最小值  
+            return NULL;
+        //首先递归到最左最小值
         Convert(pRootOfTree->left);
         //找到最小值，初始化head与pre
-        if(pre == NULL){      
+        if(pre == NULL){
             head = pRootOfTree;
             pre = pRootOfTree;
         }
         //当前节点与上一节点建立连接，将pre设置为当前值
-        else{      
+        else{
             pre->right = pRootOfTree;
             pRootOfTree->left = pre;
             pre = pRootOfTree;
@@ -286,19 +311,19 @@ public:
         bool isFirst = true;
         while(pRootOfTree != NULL || !s.empty()){
             //直到没有左节点
-            while(pRootOfTree != NULL){  
+            while(pRootOfTree != NULL){
                 s.push(pRootOfTree);
                 pRootOfTree = pRootOfTree->left;
             }
             pRootOfTree = s.top();
             s.pop();
             //首位
-            if(isFirst){ 
+            if(isFirst){
                 head = pRootOfTree;
                 pre = head;
                 isFirst = false;
             //当前节点与上一节点建立连接，将pre设置为当前值
-            }else{         
+            }else{
                 pre->right = pRootOfTree;
                 pRootOfTree->left = pre;
                 pre = pRootOfTree;
@@ -343,6 +368,7 @@ public class Solution {
 ### BM31对称的二叉树
 
 [对称的二叉树](https://www.nowcoder.com/practice/ff05d44dfdb04e1d83bdbdab320efbcb?tpId=295&tqId=23452&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[101.symmetric-tree_对称二叉树](leetcode/101.symmetric-tree_对称二叉树.md)
 递归：
 分别判断left和right，value是否相同
 ```cpp
@@ -441,7 +467,7 @@ public:
         queue<TreeNode*> q1;
         queue<TreeNode*> q2;
         q.push(head);
-        q1.push(t1); 
+        q1.push(t1);
         q2.push(t2);
         while (!q1.empty() && !q2.empty()) {
             TreeNode *node = q.front(), *node1 = q1.front(), *node2 = q2.front();
@@ -474,7 +500,7 @@ public:
                     q1.push(right1);
                     q2.push(right2);
                 //只连接一个节点
-                } else if (right1) 
+                } else if (right1)
                     node->right = right1;
                   else
                     node->right = right2;
@@ -487,6 +513,7 @@ public:
 ### BM33二叉树的镜像
 
 [二叉树的镜像](https://www.nowcoder.com/practice/a9d0ecbacef9410ca97463e4a5c83be7?tpId=295&tqId=1374963&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[226.invert-binary-tree_翻转二叉树](leetcode/226.invert-binary-tree_翻转二叉树.md)
 递归：分别调用递归左边右边
 ```cpp
 class Solution {
@@ -513,7 +540,7 @@ class Solution {
 public:
     TreeNode* Mirror(TreeNode* pRoot) {
         //空树
-        if(pRoot == NULL) 
+        if(pRoot == NULL)
             return NULL;
         //辅助栈
         stack<TreeNode*> s;
@@ -526,7 +553,7 @@ public:
             if (node->left != NULL) s.push(node->left);
             if (node->right != NULL) s.push(node->right);
             //交换左右
-            TreeNode* temp = node->left; 
+            TreeNode* temp = node->left;
             node->left = node->right;
             node->right = temp;
         }
@@ -537,6 +564,7 @@ public:
 ### BM34判断是不是二叉搜索树
 
 [判断是不是二叉搜索树](https://www.nowcoder.com/practice/a69242b39baf45dea217815c7dedb52b?tpId=295&tqId=2288088&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[098.validate-binary-search-tree_验证二叉搜索树](leetcode/098.validate-binary-search-tree_验证二叉搜索树.md)
 使用中序递归遍历。只要之前的节点是二叉树搜索树，那么如果当前的节点小于上一个节点值那么就可以向下判断。_只不过在过程中我们要求反退出_。比如一个链表1->2->3->4，只要for循环遍历如果中间有不是递增的直接返回false即可。
 递归：
 -   step 1：首先递归到最左，初始化maxLeft与pre。
@@ -558,9 +586,9 @@ public:
         if(root->val <= pre)
             return false;
         //更新最值
-        pre = root->val; 
+        pre = root->val;
         //再进入右子树
-        if(!isValidBST(root->right)) 
+        if(!isValidBST(root->right))
             return false;
         return true;
     }
@@ -678,7 +706,7 @@ public:
         path.push_back(node->val);
         return path;
     }
-   
+
     int lowestCommonAncestor(TreeNode* root, int p, int q) {
         //求根节点到两个节点的路径
         vector<int> path_p = getPath(root, p);
@@ -742,6 +770,7 @@ public int lowestCommonAncestor (TreeNode root, int p, int q) {
 ### BM38在二叉树中找到两个节点的最近公共祖先
 
 [在二叉树中找到两个节点的最近公共祖先](https://www.nowcoder.com/practice/e0cc33a83afe4530bcec46eba3325116?tpId=295&tqId=1024325&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[236.lowest-common-ancestor-of-a-binary-tree_二叉树的最近公共祖先](leetcode/236.lowest-common-ancestor-of-a-binary-tree_二叉树的最近公共祖先.md)
 
 保存两个节点的路径
 ```cpp
@@ -851,7 +880,7 @@ public:
         SerializeFunction(root->right, str);
     }
     char* Serialize(TreeNode *root) {
-        //处理空树  
+        //处理空树
         if(root == NULL)
             return "#";
         string res;
@@ -883,7 +912,7 @@ public:
         else
             (*str)++;
         //反序列化与序列化一致，都是前序
-        root->left = DeserializeFunction(str); 
+        root->left = DeserializeFunction(str);
         root->right = DeserializeFunction(str);
         return root;
     }
@@ -985,6 +1014,7 @@ public:
 ### BM40重建二叉树
 
 [重建二叉树](https://www.nowcoder.com/practice/8a19cbe657394eeaac2f6ea9b0f6fcf6?tpId=295&tqId=23282&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[105.construct-binary-tree-from-preorder-and-inorder-traversal_从前序与中序遍历序列构造二叉树](leetcode/105.construct-binary-tree-from-preorder-and-inorder-traversal_从前序与中序遍历序列构造二叉树.md)
 递归：
 ```cpp
 class Solution {
@@ -1001,7 +1031,7 @@ public:
             //找到中序遍历中的前序第一个元素
             if(pre[0] == vin[i]){
                 //左子树的前序遍历
-                vector<int> leftpre(pre.begin() + 1, pre.begin() + i + 1); 
+                vector<int> leftpre(pre.begin() + 1, pre.begin() + i + 1);
                 //左子树的中序遍历
                 vector<int> leftvin(vin.begin(), vin.begin() + i);
                 //构建左子树
@@ -1027,10 +1057,10 @@ public:
 ### BM41输出二叉树的右视图
 
 [输出二叉树的右视图](https://www.nowcoder.com/practice/c9480213597e45f4807880c763ddd5f0?tpId=295&tqId=1073834&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
-
-**哈希表优化的递归建树+层次遍历** 
-**具体做法：** 
-对于方法一中每次要寻找中序遍历中的根节点很浪费时间，我们可以利用一个哈希表直接将中序遍历的元素与下标做一个映射，后续查找中序根结点便可以直接访问了。 
+[199.binary-tree-right-side-view_二叉树的右视图](leetcode/199.binary-tree-right-side-view_二叉树的右视图.md)
+**哈希表优化的递归建树+层次遍历**
+**具体做法：**
+对于方法一中每次要寻找中序遍历中的根节点很浪费时间，我们可以利用一个哈希表直接将中序遍历的元素与下标做一个映射，后续查找中序根结点便可以直接访问了。
 同时除了深度优先搜索可以找最右结点，我们也可以利用层次遍历，借助队列，找到每一层的最右。值得注意的是：**每进入一层，队列中的元素个数就是该层的结点数。**因为在上一层他们的父节点将它们加入队列中的，父节点访问完之后，刚好就是这一层的所有结点。因此我们可以用一个size变量，每次进入一层的时候记录当前队列大小，等到size为0时，便到了最右边，记录下该结点元素。
 ```cpp
 class Solution {
@@ -1062,7 +1092,7 @@ public:
             while(size--)
             {
                 TreeNode* temp = q.front();
-                q.pop();             
+                q.pop();
                 if(temp->left)
                     q.push(temp->left);
                 if(temp->right)
@@ -1094,7 +1124,7 @@ public:
 ### BM42用两个栈实现队列
 
 [用两个栈实现队列](https://www.nowcoder.com/practice/54275ddae22f475981afa2244dd448c6?tpId=295&tqId=23281&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
-**1、**当插入时，直接插入 stack1
+**1、** 当插入时，直接插入 stack1
 
 2、当弹出时，当 stack2 不为空，弹出 stack2 栈顶元素，如果 stack2 为空，将 stack1 中的全部数逐个出栈入栈 stack2，再弹出 stack2 栈顶元素
 
@@ -1135,7 +1165,7 @@ private:
 ### BM43包含min函数的栈
 
 [包含min函数的栈](https://www.nowcoder.com/practice/4c776177d2c04c2494f2555c9fcc1e49?tpId=295&tqId=23268&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
-
+[155.min-stack_最小栈](leetcode/155.min-stack_最小栈.md)
 增加一个栈保存最小值，如果当前push比min小则插入新min，
 
 or 插入时插入包含min的元组pair
@@ -1143,7 +1173,7 @@ or 插入时插入包含min的元组pair
 ### BM44有效括号序列
 
 [有效括号序列](https://www.nowcoder.com/practice/37548e94a270412c8b9fb85643c8ccc2?tpId=295&tqId=726&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
-
+[020.valid-parentheses_有效的括号](leetcode/020.valid-parentheses_有效的括号.md)
 
 1.通过栈，当遇到`{([`时入栈，期待遇到对应的}，判断栈顶是否为对应右}
 ```cpp
@@ -1156,7 +1186,7 @@ bool isValid(string s) {
             case '{':
                 stk.push(s[i]);     //当前字符为'(','{','['时，元素入栈
                 break;
-            case ')':       
+            case ')':
                 if(stk.empty() || stk.top() != '(')    //栈空或者括号栈顶字符与当前字符不匹配，则序列为不合法序列
                     return false;
                 stk.pop();                   //匹配的栈顶元素出栈
@@ -1201,6 +1231,7 @@ bool isValid(string s) {
 
 [滑动窗口的最大值](https://www.nowcoder.com/practice/1624bc35a45c42c0bc17d17fa0cba788?tpId=295&tqId=23458&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
 [239. 滑动窗口最大值](https://leetcode.cn/problems/sliding-window-maximum/)
+[239.sliding-window-maximum_滑动窗口最大值](leetcode/239.sliding-window-maximum_滑动窗口最大值.md)
 #### 优先队列
 ```cpp
 class Solution {
@@ -1253,7 +1284,7 @@ public:
             while(!que.empty() && i - que.front() + 1 > size)  que.pop_front();
             //保证队列的单调性
             while(!que.empty() && num[que.back()] <= num[i])  que.pop_back();
-            //新元素入队   
+            //新元素入队
             que.push_back(i);
             //当前遍历的长度大于等于窗口窗口长度才开始存储答案
             if(size && i >= size - 1)  ans.push_back(num[que.front()]);
@@ -1276,7 +1307,7 @@ public:
         vector<int> ret;
         if (k==0 || k>input.size()) return ret;
         sort(input.begin(), input.end());
-        return vector<int>({input.begin(), input.begin()+k});  
+        return vector<int>({input.begin(), input.begin()+k});
     }
 };
 ```
@@ -1315,7 +1346,8 @@ public:
 
 ### BM47寻找第K大215
 
-[寻找第K大](https://www.nowcoder.com/practice/e016ad9b7f0b45048c58a9f27ba618bf?tpId=295&tqId=44581&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)[[215.Kth_Largest_Element_in_an_Array 数组中的第K个最大元素]]
+[寻找第K大](https://www.nowcoder.com/practice/e016ad9b7f0b45048c58a9f27ba618bf?tpId=295&tqId=44581&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[215.kth-largest-element-in-an-array_数组中的第K个最大元素](leetcode/215.kth-largest-element-in-an-array_数组中的第K个最大元素.md)
 #### 快速排序
 -   step 1：进行一次快排，大元素在左，小元素在右，得到的中轴p点。
 -   step 2：如果 p - low + 1 = k ，那么p点就是第K大。
@@ -1446,7 +1478,7 @@ class Solution {
 ### BM48数据流中的中位数
 
 [数据流中的中位数](https://www.nowcoder.com/practice/9be0172896bd43948f8a32fb954e1be1?tpId=295&tqId=23457&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
-
+[295.find-median-from-data-stream_数据流的中位数](leetcode/295.find-median-from-data-stream_数据流的中位数.md)
 ```cpp
 class Solution {
 public:
@@ -1500,25 +1532,30 @@ public:
 ### BM49表达式求值227
 
 [表达式求值](https://www.nowcoder.com/practice/c215ba61c8b1443b996351df929dc4d4?tpId=295&tqId=1076787&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
-
+[227.basic-calculator-ii_基本计算器II](leetcode/227.basic-calculator-ii_基本计算器II.md)
 
 ## 哈希
 
 ### BM50
 
-[两数之和](https://www.nowcoder.com/practice/20ef0972485e41019e39543e8e895b7f?tpId=295&tqId=745&ru=%2Fpractice%2F345e2ed5f81d4017bbb8cc6055b0b711&qru=%2Fta%2Fformat-top101%2Fquestion-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)[
-
+[两数之和](https://www.nowcoder.com/practice/20ef0972485e41019e39543e8e895b7f?tpId=295&tqId=745&ru=%2Fpractice%2F345e2ed5f81d4017bbb8cc6055b0b711&qru=%2Fta%2Fformat-top101%2Fquestion-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[001.two-sum_两数之和](leetcode/001.two-sum_两数之和.md)
 ### BM51
 
-[数组中出现次数超过一半的数字](https://www.nowcoder.com/practice/e8a1b01a2df14cb2b228b30ee6a92163?tpId=295&tqId=23271&ru=%2Fpractice%2F345e2ed5f81d4017bbb8cc6055b0b711&qru=%2Fta%2Fformat-top101%2Fquestion-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)[
+[数组中出现次数超过一半的数字](https://www.nowcoder.com/practice/e8a1b01a2df14cb2b228b30ee6a92163?tpId=295&tqId=23271&ru=%2Fpractice%2F345e2ed5f81d4017bbb8cc6055b0b711&qru=%2Fta%2Fformat-top101%2Fquestion-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[169.majority-element_多数元素](leetcode/169.majority-element_多数元素.md)
 
 ### BM52
 
-[数组中只出现一次的两个数字](https://www.nowcoder.com/practice/389fc1c3d3be4479a154f63f495abff8?tpId=295&tqId=1375231&ru=%2Fpractice%2F345e2ed5f81d4017bbb8cc6055b0b711&qru=%2Fta%2Fformat-top101%2Fquestion-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)[
-
+[数组中只出现一次的两个数字](https://www.nowcoder.com/practice/389fc1c3d3be4479a154f63f495abff8?tpId=295&tqId=1375231&ru=%2Fpractice%2F345e2ed5f81d4017bbb8cc6055b0b711&qru=%2Fta%2Fformat-top101%2Fquestion-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[136.single-number_只出现一次的数字](leetcode/136.single-number_只出现一次的数字.md)
+[137.single-number-ii_只出现一次的数字II](leetcode/137.single-number-ii_只出现一次的数字II.md)
+[260.single-number-iii_只出现一次的数字III](leetcode/260.single-number-iii_只出现一次的数字III.md)
 ### BM53
-[缺失的第一个正整数](https://www.nowcoder.com/practice/50ec6a5b0e4e45348544348278cdcee5?tpId=295&tqId=2188893&ru=%2Fpractice%2F345e2ed5f81d4017bbb8cc6055b0b711&qru=%2Fta%2Fformat-top101%2Fquestion-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)[
+[缺失的第一个正整数](https://www.nowcoder.com/practice/50ec6a5b0e4e45348544348278cdcee5?tpId=295&tqId=2188893&ru=%2Fpractice%2F345e2ed5f81d4017bbb8cc6055b0b711&qru=%2Fta%2Fformat-top101%2Fquestion-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[041.first-missing-positive_缺失的第一个正数](leetcode/041.first-missing-positive_缺失的第一个正数.md)
 
 ### BM54
 
 [三数之和](https://www.nowcoder.com/practice/345e2ed5f81d4017bbb8cc6055b0b711?tpId=295&tqId=731&ru=%2Fpractice%2F345e2ed5f81d4017bbb8cc6055b0b711&qru=%2Fta%2Fformat-top101%2Fquestion-ranking&sourceUrl=%2Fexam%2Foj%3Fpage%3D1%26tab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)
+[015.3sum_三数之和](leetcode/015.3sum_三数之和.md)
