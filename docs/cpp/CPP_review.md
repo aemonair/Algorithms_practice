@@ -9498,3 +9498,100 @@ CreateThread(NULL, 16 * 1024 * 1024, func, NULL, STACK_SIZE_PARAM_IS_A_RESERVATI
 
 ### **5.20.5 总结**
 程序可通过系统调用（如 `getrlimit`）、编译器扩展或操作系统工具查询堆栈限制。调整方法包括运行时设置、编译选项或系统配置。实际开发中需结合平台特性选择合适方案，避免堆栈溢出。
+## 5.21 指针数组初始化
+### **5.21.1 原生数组 `WordDictionary* next[26]`**
+
+直接在构造函数初始化列表中用 `{}` 初始化：
+
+```cpp
+class WordDictionary {
+    WordDictionary* next[26];  // 原生数组
+
+public:
+    // C++11 及以上：初始化列表直接置空
+    WordDictionary() : next{} {}
+};
+```
+- **原理**：`next{}` 会对数组进行**值初始化**，指针类型默认初始化为 `nullptr`。
+- **优点**：简洁高效，无额外开销。
+---
+
+### **5.21.2. 使用 `std::vector<WordDictionary*>`**
+
+在构造函数初始化列表中直接初始化 `vector`：
+```cpp
+#include <vector>
+
+class WordDictionary {
+    std::vector<WordDictionary*> next;  // vector容器
+
+public:
+    // 直接在初始化列表中初始化（推荐）
+    WordDictionary() : next(26, nullptr) {}
+};
+```
+
+**替代方法（不推荐）**
+在构造函数内用 `resize`：
+```cpp
+WordDictionary() {
+    next.resize(26, nullptr);  // 先构造空vector，再调整大小
+}
+```
+
+- **缺点**：多了一次默认构造和扩容操作，效率较低。
+
+---
+
+### **5.21.3. 使用 `std::array<WordDictionary*, 26>`**
+
+在构造函数初始化列表中用 `{}` 初始化：
+
+```cpp
+#include <array>
+
+class WordDictionary {
+    std::array<WordDictionary*, 26> next;  // array容器
+
+public:
+    // 初始化列表统一初始化（推荐）
+    WordDictionary() : next{} {}
+};
+```
+
+**替代方法（构造函数内填充）**
+
+在构造函数体内用 `fill`：
+
+```cpp
+WordDictionary() {
+    next.fill(nullptr);  // 构造函数内显式填充
+}
+```
+
+- **注意**：`std::array` 是固定大小的容器，必须在初始化时确定大小，但 `fill` 可以在构造函数内调用。
+
+---
+
+### 5.21.4 **三种方式的对比**
+
+|**特性**|原生数组 `T*[N]`|`std::vector<T*>`|`std::array<T*, N>`|
+|---|---|---|---|
+|**内存分配**|栈上（固定大小）|堆上（动态大小）|栈上（固定大小）|
+|**初始化简洁性**|⭐⭐⭐⭐|⭐⭐⭐|⭐⭐⭐⭐|
+|**灵活性**|⭐⭐|⭐⭐⭐⭐⭐|⭐⭐|
+|**推荐初始化方式**|`: next{}`|`: next(N, nullptr)`|`: next{}`|
+|**是否支持运行时调整大小**|否|是|否|
+
+- **优先选择原生数组或 `std::array`**：如果大小固定（如 26 个子节点），原生数组和 `std::array` 在性能和内存布局上更优。
+- **需要动态调整大小时用 `std::vector`**：例如子节点数量可能变化（但 Trie 树场景通常固定为 26）。
+**代码验证**
+无论用哪种方式，初始化后均可验证指针是否为空：
+```cpp
+WordDictionary node;
+for (int i = 0; i < 26; ++i) {
+    assert(node.next[i] == nullptr);  // 所有指针应为 nullptr
+}
+```
+
+选择最适合你的场景的容器和初始化方式即可！
