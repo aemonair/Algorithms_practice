@@ -640,6 +640,84 @@ int main() {
 }
 ```
 在上述示例中，如果尝试使用 emplace_back 添加元素，编译器会报错。因为指针类型无法直接构造，而类 MyClass 没有默认构造函数，只能通过拷贝构造函数添加到容器中。
+### 1.5.11 vector的resize和reverse的区别？
+
+`std::vector` 的 `resize` 和 `reserve` 是两个常用的成员函数，但它们的功能和行为有显著区别。以下是它们的详细对比：
+
+---
+
+### **1.5.11 `vector::resize`**
+
+#### **1.5.11.1 resize功能**
+
+- 改变 `vector` 的 **大小（size）**，即实际存储的元素数量。
+- 如果新的大小大于当前大小，会添加新元素（默认初始化或指定值初始化）。
+- 如果新的大小小于当前大小，会删除多余的元素。
+
+
+```cpp
+void resize(size_type n);
+void resize(size_type n, const value_type& val);
+```
+
+#### **1.5.11.2 resize示例**
+
+
+```cpp
+std::vector<int> vec = {1, 2, 3};
+vec.resize(5);       // 大小变为 5，新增元素默认初始化为 0
+vec.resize(2);       // 大小变为 2，删除多余的元素
+```
+
+#### **1.5.11.3 resize特点**
+
+- 影响 `size()` 的返回值。
+- 可能触发内存重新分配（如果新大小超过 `capacity()`）。
+
+---
+
+### **1.5.12 `vector::reserve`**
+
+#### **1.5.12.1 reverse功能**
+
+- 改变 `vector` 的 **容量（capacity）**，即预分配的内存空间。
+- 不会改变 `vector` 的大小，也不会添加或删除元素。
+- 主要用于避免频繁的内存重新分配。
+
+#### **1.5.12.2 reverse语法**
+
+```cpp
+void reserve(size_type n);
+```
+
+#### **1.5.12.3 reverse示例**
+
+```cpp
+std::vector<int> vec;
+vec.reserve(100);     // 预分配 100 个元素的内存空间
+vec.push_back(1);     // 添加元素，不会触发内存重新分配
+```
+
+#### **1.5.12.4 reverse特点**
+
+- 不影响 `size()` 的返回值。
+- 如果 `n` 大于当前 `capacity()`，会触发内存重新分配。
+
+---
+
+### **1.5.13 reverse/resize 对比总结 使用建议**
+
+| 特性         |  `resize`    |  `reserve`              |     |
+| ---------- | ------------ | ----------------------- | --- |
+|  **功能**    | 改变 `size()`  | 改变 `capacity()`         |     |
+|  **影响元素**  | 可能添加或删除元素    | 不添加或删除元素                |     |
+|  **内存分配**  | 可能触发内存重新分配   | 仅在 `n > capacity()` 时触发 |     |
+|  **适用场景**  | 需要改变元素数量时    | 预分配内存以避免频繁重新分配          |     |
+- 使用 `resize` 当需要改变 `vector` 的实际元素数量时。
+- 使用 `reserve` 当需要预分配内存以避免频繁重新分配时（例如，已知 `vector` 最终大小的情况下）。
+
+通过合理使用 `resize` 和 `reserve`，可以优化 `std::vector` 的性能和内存使用。
+
 ## 1.6 list
 ### 1.6.0 list
 list对于vector对空间运用更精准 动态存储分配一次开辟一个 不会造成浪费和溢出
@@ -1427,3 +1505,359 @@ return std::visit([&](std::variant<T1,T2> const &t1,
 > 无限递归问题: 在 lambda 函数内部，ret = t1 + t2; 实际上又调用了你正在定义的 operator+。因为 t1 和 t2 本身是 std::variant 类型，这就导致了无限递归。
 代码试图对 `std::variant<T1, T2>` 对象进行加法操作，这在 `std::visit` 的 lambda 函数中完成。然而，在你的 lambda 函数内部，你又执行了 t1 + t2。而在这个上下文中，t1 和 t2 是 `std::variant<T1, T2>` 类型。因此，t1 + t2 事实上又在调用你正在定义的 `operator+`，这导致了无限递归。
 为了避免这个问题，你需要确保 std::visit 的 lambda 函数对 std::variant 存储的实际值（即 T1 或 T2 类型）进行操作，而不是对 `std::variant` 本身进行操作。这就是为什么在修改后的代码中，我们使用 auto 关键字让编译器推断 t1 和 t2 的实际类型，而不是显式地声明它们为 `std::variant<T1, T2>` 类型。
+
+## 1.18 C++ 中的 **SFINAE**
+
+C++ 中的 **SFINAE**（Substitution Failure Is Not An Error，替换失败并非错误）是模板元编程中的核心原则之一，它允许编译器在模板重载解析过程中“优雅地”忽略某些不符合条件的模板特化，而不是直接报错。SFINAE 是实现编译时条件判断、类型检查和模板特化的关键技术。
+
+---
+
+### 1.18.1 **SFINAE 的核心机制**
+1. **模板替换过程**：  
+   在模板实例化时，编译器会尝试将所有可能的模板参数替换到模板中，生成具体的函数或类。
+2. **替换失败的处理**：  
+   - 如果在替换过程中**语法或语义错误**（如无效的类型操作），编译器不会直接报错，而是**静默忽略该模板候选**，继续尝试其他重载版本。
+   - 若所有候选均失败，才会最终报错。
+
+---
+
+### 1.18.2 **SFINAE 的典型应用场景**
+#### 1.18.2.1 **条件启用模板函数**
+通过 SFINAE 控制特定模板的可见性，仅在满足条件时启用。常用 `std::enable_if` 或返回类型推导实现。
+
+```cpp
+#include <type_traits>
+
+// 仅对整数类型生效
+template <typename T>
+auto func(T x) -> typename std::enable_if<std::is_integral<T>::value, void>::type {
+    // 处理整数
+}
+
+// 仅对浮点类型生效
+template <typename T>
+auto func(T x) -> typename std::enable_if<std::is_floating_point<T>::value, void>::type {
+    // 处理浮点数
+}
+
+int main() {
+    func(42);      // 调用整数版本
+    func(3.14);    // 调用浮点数版本
+    // func("hello"); // 编译错误：无匹配版本
+}
+```
+
+#### 1.18.2.2 **检查类型是否具有某成员**
+利用 SFINAE 检测类型是否包含特定成员函数或属性。
+
+```cpp
+#include <iostream>
+
+// 检查类型 T 是否有成员函数 `void foo()`
+template <typename T>
+class HasFoo {
+    template <typename U>
+    static auto test(int) -> decltype(std::declval<U>().foo(), std::true_type{});
+
+    template <typename U>
+    static std::false_type test(...);
+
+public:
+    static constexpr bool value = decltype(test<T>(0))::value;
+};
+
+struct A { void foo() {} };
+struct B {};
+
+int main() {
+    std::cout << HasFoo<A>::value; // 输出 1（true）
+    std::cout << HasFoo<B>::value; // 输出 0（false）
+}
+```
+
+#### 1.18.2.3 **选择不同实现策略**
+根据类型特性选择不同的算法实现。
+
+```cpp
+template <typename T>
+void process(T data) {
+    if constexpr (std::is_pointer_v<T>) {
+        // 指针类型的处理
+    } else {
+        // 非指针类型的处理
+    }
+}
+```
+
+---
+
+### 1.18.3 **SFINAE 的实现原理**
+#### 1.18.3.1 实现关键点：
+- **替换失败**发生在模板参数推导阶段，而非实例化阶段。
+- 替换失败的原因需是**直接依赖模板参数的无效表达式**（如访问不存在的成员、无效的类型转换）。
+
+#### 1.18.3.2 SFINAE示例解析：
+```cpp
+template <typename T>
+void foo(T x, typename T::type* = nullptr) {  // 若 T 没有 `type` 成员，替换失败
+    // 实现 A
+}
+
+template <typename T>
+void foo(T x) {  // 通用实现 B
+    // 实现 B
+}
+
+int main() {
+    struct X { using type = int; };
+    foo(X{});   // 调用实现 A（T::type 存在）
+    foo(42);    // 调用实现 B（T::type 不存在，SFINAE 忽略实现 A）
+}
+```
+
+---
+
+### 1.18.4 **SFINAE 的演进与替代**
+- **C++11**：引入 `std::enable_if` 和类型特征库（`<type_traits>`），简化 SFINAE 的使用。
+- **C++17**：`if constexpr` 允许在编译时分支中直接禁用代码块，减少对 SFINAE 的依赖。
+- **C++20**：**概念（Concepts）** 通过 `requires` 子句直接约束模板参数，取代复杂的 SFINAE 技巧。
+
+#### 1.18.4.1使用 Concepts（C++20）替代 SFINAE：
+```cpp
+template <typename T>
+requires std::integral<T>  // 直接约束 T 为整数类型
+void func(T x) { /* 处理整数 */ }
+
+template <typename T>
+requires std::floating_point<T>  // 约束 T 为浮点类型
+void func(T x) { /* 处理浮点数 */ }
+```
+
+---
+
+### 1.18.5 **总结**
+- **SFINAE** 是 C++ 模板元编程的基石，用于在编译时根据类型特性选择代码分支。
+- 核心价值：通过模板替换失败机制实现条件编译和类型检查。
+- 现代替代：优先使用 `if constexpr` 和 Concepts 简化代码，但理解 SFINAE 仍是掌握模板机制的关键。
+
+## 1.19 concepts
+**Concepts（概念）** 是 C++20 引入的核心特性之一，用于对模板参数施加明确的约束，取代传统基于 **SFINAE** 或 **`std::enable_if`** 的复杂类型检查逻辑。它的目标是让模板代码更简洁、可读性更强，同时提供更友好的编译错误信息。
+
+---
+
+### 1.19.1 **Concepts 的核心作用**
+1. **约束模板参数**：定义模板参数必须满足的条件（例如“必须是整数类型”或“必须支持某种操作”）。
+2. **简化代码**：用直观的语法替代冗长的 SFINAE 技巧。
+3. **提升错误信息**：编译器能明确提示“约束不满足”，而非复杂的模板实例化错误。
+
+---
+
+### 1.19.2 Concept**基本语法**
+#### 1.19.2.1 **定义 Concept**
+通过 `concept` 关键字定义约束条件：
+```cpp
+template <typename T>
+concept Integral = std::is_integral_v<T>;  // 约束 T 必须是整数类型
+
+template <typename T>
+concept Addable = requires(T a, T b) {
+    { a + b } -> std::same_as<T>;  // 约束 T 必须支持 + 操作，且结果类型为 T
+};
+```
+
+#### 1.19.2.2 **使用 Concept 约束模板**
+在模板参数列表中通过 `requires` 或直接附加约束：
+```cpp
+// 方法 1：直接约束模板参数
+template <Integral T>
+void func(T x) { /* 仅接受整数类型 */ }
+
+// 方法 2：使用 requires 子句
+template <typename T>
+requires Addable<T>
+T add(T a, T b) { return a + b; }
+
+// 方法 3：结合 auto 简化函数签名
+auto add(Addable auto a, Addable auto b) { return a + b; }
+```
+
+#### 1.19.2.3 **组合约束**
+通过逻辑运算符组合多个 Concept：
+```cpp
+template <typename T>
+concept Numeric = Integral<T> || std::is_floating_point_v<T>;  // 整数或浮点数
+
+template <Numeric T>
+void process(T x) { /* ... */ }
+```
+
+---
+
+### 1.19.3 **Concepts 的典型场景**
+#### 1.19.3.1 **约束容器元素类型**
+```cpp
+#include <vector>
+#include <concepts>
+
+template <std::integral T>  // 使用标准库预定义的 integral concept
+void sum(const std::vector<T>& vec) { /* 求和 */ }
+
+sum(std::vector<int>{1, 2, 3});     // 合法
+sum(std::vector<double>{1.0, 2.0}); // 编译错误：不满足约束
+```
+
+#### 1.19.3.2 **要求类型支持特定操作**
+```cpp
+template <typename T>
+concept Printable = requires(const T& t) {
+    { std::cout << t } -> std::same_as<std::ostream&>;  // 必须支持流输出
+};
+
+template <Printable T>
+void log(const T& msg) { std::cout << msg << std::endl; }
+
+log(42);       // 合法
+log(std::vector<int>{}); // 编译错误：vector 不支持直接输出
+```
+
+#### 1.19.3.3 **替代 SFINAE 实现重载**
+传统 SFINAE 代码：
+```cpp
+template <typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
+void oldFunc(T x) { /* ... */ }
+```
+使用 Concepts：
+```cpp
+template <std::integral T>
+void newFunc(T x) { /* 更简洁 */ }
+```
+
+---
+
+### 1.19.4 **Concepts 的核心优势**
+| 特性                | 传统 SFINAE                           | Concepts                          |
+|---------------------|---------------------------------------|-----------------------------------|
+| **可读性**          | 复杂、依赖晦涩的模板元编程            | 直观的约束表达式                  |
+| **编译错误信息**    | 冗长的模板实例化失败信息              | 明确提示“约束不满足”              |
+| **代码维护**        | 难以修改和扩展                        | 逻辑集中，易于组合和复用          |
+| **语法简洁性**      | 需要 `enable_if` 或特化技巧           | 直接通过 `requires` 或 `concept`  |
+
+---
+
+### 1.19.5 **预定义的标准库 Concepts**
+C++20 标准库已内置常用 Concepts，位于 `<concepts>` 头文件：
+- **类型约束**：`std::integral`, `std::floating_point`, `std::same_as`, `std::derived_from`
+- **操作约束**：`std::movable`, `std::copyable`, `std::invocable`
+- **容器约束**：`std::ranges::range`, `std::contiguous_iterator`
+
+示例：
+```cpp
+#include <concepts>
+
+template <std::movable T>  // 要求 T 可移动
+void moveExample(T&& obj) { /* ... */ }
+```
+
+---
+
+### 1.19.6 **如何逐步应用 Concepts？**
+1. **替换简单 SFINAE**：  
+   将 `std::enable_if` 替换为 `requires` 或直接约束。
+2. **定义领域特定约束**：  
+   针对项目需求自定义 Concepts（如 `DatabaseConnectable`）。
+3. **与 `auto` 结合**：  
+   简化泛型 lambda 或函数签名：
+   ```cpp
+   auto printIfPrintable(const auto& obj) requires Printable<decltype(obj)> {
+       std::cout << obj << std::endl;
+   }
+   ```
+4. **约束类模板**：  
+   对类模板的成员函数或整个类施加约束：
+   ```cpp
+   template <std::regular T>  // 要求 T 是“正则类型”（可默认构造、可拷贝等）
+   class Container { /* ... */ };
+   ```
+
+---
+
+### 1.19.7 **Concepts总结**
+- **Concepts 是模板编程的革命性改进**：通过声明式约束替代过程式类型检查。
+- **核心价值**：提升代码可读性、简化错误调试、增强模板设计意图的表达。
+- **适用场景**：所有需要模板参数约束的场合，尤其是替代传统 SFINAE 的复杂逻辑。
+
+建议在支持 C++20 的环境中优先使用 Concepts，它能让模板代码更接近“自然语言”，同时大幅降低维护成本。
+
+## 1.20 std::sort的底层原理？是快速排序么？
+
+`std::sort` 是 C++ 标准库中的一个排序算法，它的底层实现并不是简单的快速排序，而是一种混合排序算法，结合了多种排序算法的优点。以下是 `std::sort` 的底层原理和实现细节：
+
+---
+
+### **1.20.1 std::sort底层原理**
+
+`std::sort` 的底层实现通常基于 **Introsort**（内省排序），这是一种混合排序算法，结合了以下三种排序算法的优点：
+
+1. **快速排序（Quick Sort）**：
+    - 在大多数情况下，`std::sort` 使用快速排序作为主要排序算法。
+    - 快速排序的平均时间复杂度为 (O(n \log n))，但在最坏情况下会退化为 (O(n^2))。
+2. **堆排序（Heap Sort）**：
+    - 当递归深度超过一定阈值时，`std::sort` 会切换到堆排序。
+    - 堆排序的时间复杂度为 (O(n \log n))，且不会出现最坏情况。
+3. **插入排序（Insertion Sort）**：
+    - 当待排序的元素数量较少时（通常小于某个阈值），`std::sort` 会使用插入排序。
+    - 插入排序在小数据量下性能优异，时间复杂度为 (O(n^2))，但常数因子较小。
+
+---
+
+### **1.20.2 Introsort 的工作流程**
+
+1. **快速排序阶段**：
+    - 使用快速排序对数组进行分区和递归排序。
+    - 如果递归深度超过 (2 \log n)（(n) 为元素数量），则切换到堆排序。
+2. **堆排序阶段**：
+    - 对当前分区进行堆排序，确保在最坏情况下时间复杂度仍为 (O(n \log n))。
+3. **插入排序阶段**：
+    - 当分区中的元素数量较少时，使用插入排序进行最终排序。
+
+---
+
+### **1.20.3 为什么使用 Introsort？**
+
+- **避免快速排序的最坏情况**：通过切换到堆排序，避免快速排序在特定情况下退化为 (O(n^2))。
+- **优化小数据量性能**：在小数据量下，插入排序的性能优于快速排序和堆排序。
+- **平衡性能和稳定性**：Introsort 在大多数情况下保持了快速排序的高性能，同时通过堆排序和插入排序避免了最坏情况。
+
+---
+
+### **1.20.4 示例代码**
+
+以下是一个使用 `std::sort` 的简单示例：
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    std::vector<int> vec = {5, 2, 9, 1, 5, 6};
+    std::sort(vec.begin(), vec.end());
+
+    for (int num : vec) {
+        std::cout << num << " ";
+    }
+    return 0;
+}
+```
+
+---
+
+### **1.20.5 std::sort总结**
+
+`std::sort` 的底层实现基于 **Introsort**，结合了快速排序、堆排序和插入排序的优点。它通过以下方式确保高效和稳定的排序：
+
+1. 在大多数情况下使用快速排序。
+2. 在递归深度过大时切换到堆排序，避免最坏情况。
+3. 在小数据量下使用插入排序，优化性能。
+
+这种混合排序算法使得 `std::sort` 在大多数场景下都能提供高效的排序性能。
