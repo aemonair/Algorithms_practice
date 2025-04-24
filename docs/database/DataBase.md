@@ -3983,26 +3983,12 @@ MySQL 的 **Change Buffer**（变更缓冲区）是一种优化技术，主要�
 
 - **innodb_change_buffer_max_size**：  
     控制 Change Buffer 的最大大小，默认为 25%（即占用缓冲池的 25%）。
-    
-    ![](https://file+.vscode-resource.vscode-cdn.net/Users/air/.vscode/extensions/marscode.marscode-extension-1.2.0/resource/images/languageIcon/plaintext.svg)
-    
-    sql
-    
-    Apply
-    
     ```sql
     SET GLOBAL innodb_change_buffer_max_size = 30;
     ```
     
 - **innodb_change_buffering**：  
     控制 Change Buffer 的启用范围，可选值包括 `all`（所有操作）、`none`（禁用）、`inserts`（仅插入）、`deletes`（仅删除）、`changes`（插入和删除）、`purges`（仅删除标记）。
-    
-    ![](https://file+.vscode-resource.vscode-cdn.net/Users/air/.vscode/extensions/marscode.marscode-extension-1.2.0/resource/images/languageIcon/plaintext.svg)
-    
-    sql
-    
-    Apply
-    
     ```sql
     SET GLOBAL innodb_change_buffering = 'all';
     ```
@@ -5363,23 +5349,48 @@ RIGHT JOIN TableB B ON A.id = B.id;
 
 ### **15.16.5 JOIN示例数据**
 
+
+
 假设有以下两个表：
 
-**TableA** | id | name | |-----|-------| | 1 | Alice | | 2 | Bob | | 3 | Carol |
+**TableA** 
 
-**TableB** | id | age | |-----|------| | 1 | 25 | | 2 | 30 | | 4 | 35 |
+| id | name | 
+|-----|-------| 
+| 1 | Alice | 
+| 2 | Bob | 
+| 3 | Carol |
+
+**TableB** 
+
+| id | age | 
+|-----|------| 
+| 1 | 25 | 
+| 2 | 30 | 
+| 4 | 35 |
 
 #### **15.16.5.1 示例`INNER JOIN` 结果**
 
-| id | name | age | |-----|-------|------| | 1 | Alice | 25 | | 2 | Bob | 30 |
+| id  | name  | age |     |
+| --- | ----- | --- | --- |
+| 1   | Alice | 25  |     |
+| 2   | Bob   | 30  |     |
 
 #### **15.16.5.2 示例`LEFT JOIN` 结果**
 
-| id | name | age | |-----|-------|------| | 1 | Alice | 25 | | 2 | Bob | 30 | | 3 | Carol | NULL |
+| id  | name  | age  |     |
+| --- | ----- | ---- | --- |
+| 1   | Alice | 25   |     |
+| 2   | Bob   | 30   |     |
+| 3   | Carol | NULL |     |
 
 #### **15.16.5.3 示例`RIGHT JOIN` 结果**
 
-| id | name | age | |-----|-------|------| | 1 | Alice | 25 | | 2 | Bob | 30 | | 4 | NULL | 35 |
+| id  | name  | age |     |
+| --- | ----- | --- | --- |
+| 1   | Alice | 25  |     |
+| 2   | Bob   | 30  |     |
+| 4   | NULL  | 35  |     |
 
 ---
 
