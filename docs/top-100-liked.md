@@ -35,7 +35,7 @@
 
 [053.maximum-subarray_最大子数组和](leetcode/053.maximum-subarray_最大子数组和.md)
 
-[056.merge-intervals-合并区间](leetcode/056.merge-intervals-合并区间.md)
+[056.merge-intervals_合并区间](leetcode/056.merge-intervals_合并区间.md)
 
 [189.rotate-array_轮转数组](leetcode/189.rotate-array_轮转数组.md)
 
@@ -226,7 +226,7 @@
 
 [169.majority-element_多数元素](leetcode/169.majority-element_多数元素.md)
 
-[075.sort-colors-颜色分类](leetcode/075.sort-colors-颜色分类.md)
+[075.sort-colors_颜色分类](leetcode/075.sort-colors_颜色分类.md)
 
 [031.next-permutation_下一个排列](leetcode/031.next-permutation_下一个排列.md)
 

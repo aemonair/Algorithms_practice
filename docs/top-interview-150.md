@@ -6,7 +6,7 @@
 
 [027.remove-element_移除元素](leetcode/027.remove-element_移除元素.md)
 
-[026.remove-duplicates-from-sorted-array-删除有序数组中的重复项](leetcode/026.remove-duplicates-from-sorted-array-删除有序数组中的重复项.md)
+[026.remove-duplicates-from-sorted-array_删除有序数组中的重复项](leetcode/026.remove-duplicates-from-sorted-array_删除有序数组中的重复项.md)
 
 [080.remove-duplicates-from-sorted-array-ii_删除有序数组中的重复项II](leetcode/080.remove-duplicates-from-sorted-array-ii_删除有序数组中的重复项II.md)
 
@@ -98,7 +98,7 @@
 
 [001.two-sum_两数之和](leetcode/001.two-sum_两数之和.md)
 
-[202.happy-number-快乐数](leetcode/202.happy-number-快乐数.md)
+[202.happy-number_快乐数](leetcode/202.happy-number_快乐数.md)
 
 [219.contains-duplicate-ii_存在重复元素II](leetcode/219.contains-duplicate-ii_存在重复元素II.md)
 
@@ -108,9 +108,9 @@
 
 [228.summary-ranges_汇总区间](leetcode/228.summary-ranges_汇总区间.md)
 
-[056.merge-intervals-合并区间](leetcode/056.merge-intervals-合并区间.md)
+[056.merge-intervals_合并区间](leetcode/056.merge-intervals_合并区间.md)
 
-[057.insert-interval-插入区间](leetcode/057.insert-interval-插入区间.md)
+[057.insert-interval_插入区间](leetcode/057.insert-interval_插入区间.md)
 
 [452.minimum-number-of-arrows-to-burst-balloons_用最少数量的箭引爆气球](leetcode/452.minimum-number-of-arrows-to-burst-balloons_用最少数量的箭引爆气球.md)
 
