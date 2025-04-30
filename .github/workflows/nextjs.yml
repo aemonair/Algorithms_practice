@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  contents: write  # 新增写权限
   pages: write
   id-token: write
 
