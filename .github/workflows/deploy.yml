@@ -1,0 +1,33 @@
+name: Deploy Markdown Docs
+
+on:
+  push:
+    branches: ["master"]
+  workflow_dispatch:
+
+permissions:
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Docsify
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: '0.4.25'  # 文档生成工具
+
+      - name: Build
+        run: |
+          mkdir -p ./public
+          echo '# 算法实践文档' > ./public/index.md
+          cp -r docs/* ./public/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
